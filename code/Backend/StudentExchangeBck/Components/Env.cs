@@ -12,6 +12,8 @@ namespace StudentExchangeBck
         public static string _emailSalt { get; private set; } = null!;
         // Password Encryption
         public static string _passSalt { get; private set; } = null!;
+        // IP Encryption
+        public static string _ipSalt { get; private set; } = null!;
 
         // When the Access token expires
         public static readonly TimeSpan _tokenExpiry = new TimeSpan(21, 0, 0, 0);
@@ -43,6 +45,7 @@ namespace StudentExchangeBck
             _appAccess = d["_appAccess"];
             _emailSalt = d["_emailSalt"];
             _passSalt = d["_passSalt"];
+            _ipSalt = d["_ipSalt"];
 
             // Validate Members
             if (_tokenExpiry.TotalDays <= 1)
