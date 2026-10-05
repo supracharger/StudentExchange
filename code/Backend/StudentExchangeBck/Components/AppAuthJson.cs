@@ -38,9 +38,10 @@ namespace StudentExchangeBck
         /// <param name="access">Object containing info</param>
         /// <param name="userId">RETURNED userid corisponding to access token</param>
         /// <returns>No Authorized or null</returns>
-        public static IActionResult? ValidateWithToken(ControllerBase this_, AppAuthJson access, HttpContext ctx, out object userId)
+        public static IActionResult? ValidateWithToken(ControllerBase this_, AppAuthJson access, HttpContext ctx, out object userId, out bool isadmin)
         {
             userId = null!;
+            isadmin = false;
             try
             {
                 // Validate Application Password
@@ -55,7 +56,10 @@ namespace StudentExchangeBck
                     });
 
                 // Find coresponding userid for Access token
-                var result = Sql.Read("SELECT [user_id] FROM Access_Token WHERE [token]=@token AND [expiry]>@date",
+                var result = Sql.Read("SELECT T.[user_id] user_id, (A.[user_id] IS NOT NULL) isAdmin " +
+                                    "FROM Access_Token T " +
+                                    "LEFT JOIN Admins A ON T.[user_id]=A.[user_id] " +
+                                    "WHERE T.[token]=@token AND T.[expiry]>@date",
                                 new Dictionary<string, object>
                                 {
                                 {"@token", access.access_token },
@@ -66,6 +70,7 @@ namespace StudentExchangeBck
                     throw new ArgumentException("The Access Token may have expired.");
 
                 userId = result["user_id"][0];
+                isadmin = (long)result["isAdmin"][0] != 0;
                 return null;                    // Success
             }
             catch (ArgumentException e)
