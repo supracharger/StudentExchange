@@ -16,9 +16,11 @@ namespace StudentExchangeBck
         public static string _ipSalt { get; private set; } = null!;
 
         // When the Access token expires
-        public static readonly TimeSpan _tokenExpiry = new TimeSpan(21, 0, 0, 0);
+        public static readonly TimeSpan _tokenExpiry = new TimeSpan(days: 21, 0, 0, 0);
+        // When the Admin Access token expires
+        public static readonly TimeSpan _tokenExpiryAdmin = new TimeSpan(days: 3, 0, 0, 0);
         // After unsuccessfull attemps, timeout client is blocked
-        public static readonly TimeSpan _blockedAccessTimeOut = new TimeSpan(0, 5, 0);
+        public static readonly TimeSpan _blockedAccessTimeOut = new TimeSpan(0, minutes: 5, 0);
         // Number of unsuccessfull attemps before blocked timeout.
         public static readonly int _accessAttemps = 10;
 
