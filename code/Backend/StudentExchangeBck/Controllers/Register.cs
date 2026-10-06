@@ -39,7 +39,7 @@ namespace StudentExchangeBck
         public IActionResult Post(Info request)
         {
             // Validate Application Access
-            var msg = AppAuthJson.Validate(request, HttpContext);
+            var msg = AppAuthJson.ValidateApp(request, HttpContext);
             // Exit if no auth
             if (msg != null) return msg;
 

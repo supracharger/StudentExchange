@@ -18,7 +18,7 @@ namespace StudentExchangeBck
         /// </summary>
         /// <param name="access">Object containing app_access</param>
         /// <returns>Not Authorized or null</returns>
-        public static IActionResult? Validate(AppAuthJson access, HttpContext ctx)
+        public static IActionResult? ValidateApp(AppAuthJson access, HttpContext ctx)
         {
             //var clientIp = ctx.Connection.RemoteIpAddress?.ToString();
             if (access.app_access == null || access.app_access != Env._appAccess)
@@ -38,15 +38,11 @@ namespace StudentExchangeBck
         /// <param name="access">Object containing info</param>
         /// <param name="userId">RETURNED userid corisponding to access token</param>
         /// <returns>No Authorized or null</returns>
-        public static IActionResult? ValidateWithToken(ControllerBase this_, AppAuthJson access, HttpContext ctx, out object userId)
+        public static IActionResult? ValidateToken(ControllerBase this_, AppAuthJson access, out object userId)
         {
             userId = null!;
             try
             {
-                // Validate Application Password
-                var msg = Validate(access, ctx);
-                if (msg != null) return msg;
-
                 // If Access token is empty
                 if (string.IsNullOrWhiteSpace(access.access_token))
                     return new UnauthorizedObjectResult(new
@@ -82,6 +78,33 @@ namespace StudentExchangeBck
                     Message = $"An internal server error occurred: {e}"
                 });
             }
+        }
+
+
+
+        /// <summary>
+        /// Validates Access Token
+        /// </summary>
+        /// <param name="this_">Controller base</param>
+        /// <param name="access">Object containing info</param>
+        /// <param name="ctx">Http Context</param>
+        /// <param name="userId">RETURNED userid corisponding to access token</param>
+        /// <returns>No Authorized or null</returns>
+        /// <summary>
+        public static IActionResult? ValidateWithToken(ControllerBase this_, AppAuthJson access, HttpContext ctx, out object userId)
+        {
+            userId = null!;
+            
+            // Validate Application Password
+            var msg = ValidateApp(access, ctx);
+            if (msg != null) return msg;
+
+            // Validate Access Token
+            msg = ValidateToken(this_, access, out userId);
+            if (msg != null) return msg;
+
+            // Success
+            return null;
         }
     }
 }
