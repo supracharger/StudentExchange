@@ -52,7 +52,7 @@ namespace StudentExchangeBck
         public IActionResult Post(Info data)
         {
             // Validate Application Access
-            var msg = AppAuthJson.ValidateApp(data, HttpContext);
+            var msg = AppAuthJson.ValidateApp(data, HttpContext, this, out var ipid);
             // If no Auth: return no auth
             if (msg != null) return msg;
 
@@ -96,6 +96,10 @@ namespace StudentExchangeBck
                 var first_name = result["first_name"][0];
                 var isadmin = (long)result["isAdmin"][0] != 0;
                 object token;
+
+                // Add relation of user to IP: if not there
+                if (ipid >= 0)
+                    IP.TrackIPToUser(ipid, id);
 
                 // Mutex lock on user
                 var ulock = GetUserLock(id);
@@ -177,12 +181,12 @@ namespace StudentExchangeBck
         public IActionResult Delete(AppAuthJson data)
         {
             // Validate Application Access
-            var msg = AppAuthJson.ValidateApp(data, HttpContext);
+            var msg = AppAuthJson.ValidateApp(data, HttpContext, this, out var ipid);
             // Exit: No Auth
             if (msg != null) return msg;
 
             // Validate Application Access & Access Token
-            msg = AppAuthJson.ValidateToken(this, data, out var userId);
+            msg = AppAuthJson.ValidateToken(this, data, ipid, out var userId);
             // Exit if invalid: No need to show an error.
             if (msg != null) return Ok(new
             {
@@ -320,8 +324,10 @@ namespace StudentExchangeBck
                     // If gone to next section: increase timeout more.
                     if (count % Env._accessAttemps == 0 && count > Env._accessAttemps)
                     {
+                        // Exponential increase: if continueing to access
+                        var wait = Env._blockedAccessTimeOut * Math.Max(count / Env._accessAttemps - 2, 1);
                         // Increase timeout
-                        expiry = new[] { expiry, Utilz.ToMtn() }.Max().Add(Env._blockedAccessTimeOut);
+                        expiry = new[] { expiry, Utilz.ToMtn() }.Max() + wait;
                         // Be sure to update it in sql
                         update.Add("expiry", expiry.ToString("s"));
                     }

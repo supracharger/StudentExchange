@@ -21,8 +21,12 @@ namespace StudentExchangeBck
         public static readonly TimeSpan _tokenExpiryAdmin = new TimeSpan(days: 3, 0, 0, 0);
         // After unsuccessfull attemps, timeout client is blocked
         public static readonly TimeSpan _blockedAccessTimeOut = new TimeSpan(0, minutes: 5, 0);
+        // After unsuccessfull attemps by IP, timeout client is blocked
+        public static readonly TimeSpan _blockedAccessTimeOutIP = new TimeSpan(0, minutes: 5, 0);
         // Number of unsuccessfull attemps before blocked timeout.
         public static readonly int _accessAttemps = 10;
+        // Number of unsuccessfull IP attemps before blocked timeout.
+        public static readonly int _accessAttempsIP = 10;
 
         /// <summary>
         /// Get Enviroment from file

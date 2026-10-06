@@ -18,16 +18,29 @@ namespace StudentExchangeBck
         /// </summary>
         /// <param name="access">Object containing app_access</param>
         /// <returns>Not Authorized or null</returns>
-        public static IActionResult? ValidateApp(AppAuthJson access, HttpContext ctx)
+        public static IActionResult? ValidateApp(AppAuthJson access, HttpContext ctx, ControllerBase this_, out long ipid)
         {
-            //var clientIp = ctx.Connection.RemoteIpAddress?.ToString();
-            if (access.app_access == null || access.app_access != Env._appAccess)
+            // Condition if access is invalid
+            var invalidAccess = access.app_access == null || access.app_access != Env._appAccess;
+
+            // Add IP to DB if not there
+            var msg = IP.UpdateByIP(ctx, this_, out ipid);
+            // Exit: There is a message to client
+            if (msg != null) return msg;
+            // Validates IP Address Blocking
+            msg = IP.IncInvalidForIP(invalidAccess, this_, ipid);
+            // Exit: There is a message to client
+            if (msg != null) return msg;
+
+            // No Auth: Message to Client
+            if (invalidAccess)
             {
                 return new UnauthorizedObjectResult(new
                 {
                     Message = "Not authorized."
                 });
             }
+            // Success
             else return null;
         }
 
@@ -38,7 +51,7 @@ namespace StudentExchangeBck
         /// <param name="access">Object containing info</param>
         /// <param name="userId">RETURNED userid corisponding to access token</param>
         /// <returns>No Authorized or null</returns>
-        public static IActionResult? ValidateToken(ControllerBase this_, AppAuthJson access, out object userId)
+        public static IActionResult? ValidateToken(ControllerBase this_, AppAuthJson access, long ipid, out object userId)
         {
             userId = null!;
             try
@@ -61,8 +74,15 @@ namespace StudentExchangeBck
                 if (result.Count == 0)
                     throw new ArgumentException("The Access Token may have expired.");
 
+                // Get User ID
                 userId = result["user_id"][0];
-                return null;                    // Success
+
+                // Add relation of user to IP: if not there
+                if (ipid >= 0)
+                    IP.TrackIPToUser(ipid, (long)userId);
+
+                // Success
+                return null;                    
             }
             catch (ArgumentException e)
             {
@@ -91,16 +111,16 @@ namespace StudentExchangeBck
         /// <param name="userId">RETURNED userid corisponding to access token</param>
         /// <returns>No Authorized or null</returns>
         /// <summary>
-        public static IActionResult? ValidateWithToken(ControllerBase this_, AppAuthJson access, HttpContext ctx, out object userId)
+        public static IActionResult? ValidateWithToken(ControllerBase this_, AppAuthJson access, HttpContext ctx, out object userId, out long ipid)
         {
             userId = null!;
             
             // Validate Application Password
-            var msg = ValidateApp(access, ctx);
+            var msg = ValidateApp(access, ctx, this_, out ipid);
             if (msg != null) return msg;
 
             // Validate Access Token
-            msg = ValidateToken(this_, access, out userId);
+            msg = ValidateToken(this_, access, ipid, out userId);
             if (msg != null) return msg;
 
             // Success
