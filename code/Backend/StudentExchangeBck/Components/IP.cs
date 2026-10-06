@@ -273,12 +273,13 @@ namespace StudentExchangeBck
 
         public struct Data
         {
-            public long id { get; set; }
-            public bool forwarded { get; set; }
+            public readonly long id = -1;
+            public bool forwarded;
 
-            public Data()
+            public Data(long id, bool forwarded = false)
             {
-                this.id = -1;
+                this.id = id;
+                this.forwarded = forwarded;
             }
         }
     }

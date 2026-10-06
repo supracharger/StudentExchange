@@ -104,7 +104,7 @@ namespace StudentExchangeBck
         public IActionResult Get(AppAuthJson request)
         {
             // Validate Application Access & Access Token
-            var msg = AppAuthJson.ValidateWithToken(this, request, HttpContext, out var userId, out var ip);
+            var msg = AppAuthJson.ValidateWithToken(this, request, HttpContext, out var user, out var ip);
             // Exit if invalid
             if (msg != null) return msg;
 
@@ -117,7 +117,7 @@ namespace StudentExchangeBck
                                         "U.[school_id]=S.[id]",
                                         new Dictionary<string, object>
                                         {
-                                            {"@id", userId },
+                                            {"@id", user.id },
                                         });
                 if (result.Count == 0)
                     throw new Exception("There should have been a result for this user id, but there was none?");
@@ -155,7 +155,7 @@ namespace StudentExchangeBck
         public IActionResult Patch(Info info)
         {
             // Validate Application Access & Access Token
-            var msg = AppAuthJson.ValidateWithToken(this, info, HttpContext, out var userId, out var ip);
+            var msg = AppAuthJson.ValidateWithToken(this, info, HttpContext, out var user, out var ip);
             // Exit if invalid
             if (msg != null) return msg;
 
@@ -202,7 +202,7 @@ namespace StudentExchangeBck
                                             "U.[school_id]=S.[id]",
                                             new Dictionary<string, object>
                                             {
-                                                {"@id", userId },
+                                                {"@id", user.id },
                                             });
                     if (result.Count == 0)
                         throw new Exception("There should have been a result for this user id, but there was none?");
@@ -239,7 +239,7 @@ namespace StudentExchangeBck
                 try
                 {
                     var ku = update.Keys.ToList();
-                    update.Add("id", userId);
+                    update.Add("id", user.id);
                     // Add updated info to database
                     Sql.Write($"UPDATE User SET {string.Join(", ", ku.Select(k => $"[{k}]=@{k}"))} " +
                                 "WHERE [id]=@id", update.ToDictionary(s => "@" + s.Key, s => s.Value), 1);

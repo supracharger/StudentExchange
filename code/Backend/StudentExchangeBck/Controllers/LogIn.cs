@@ -199,7 +199,7 @@ namespace StudentExchangeBck
             if (msg != null) return msg;
 
             // Validate Application Access & Access Token
-            msg = AppAuthJson.ValidateToken(this, data, ip.id, out var userId);
+            msg = AppAuthJson.ValidateToken(this, data, ip.id, out var user);
             // Exit if invalid: No need to show an error.
             if (msg != null) return Ok(new
             {
@@ -210,7 +210,7 @@ namespace StudentExchangeBck
             {
                 // Delete All Access Tokens for user id
                 Sql.Write("DELETE FROM Access_Token WHERE [user_id]=@userid",
-                            new Dictionary<string, object> { { @"userid", userId } }, -2);
+                            new Dictionary<string, object> { { @"userid", user.id } }, -2);
 
                 // Success
                 return Ok(new
