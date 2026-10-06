@@ -86,19 +86,19 @@ namespace StudentExchangeBck
                 // If has result: Check if Blocked.
                 // If not has result: incremement invalid access attemps & Check if it needs to block.
                 msg = IncInvalidForUser_Email(noresults, this, emailCrypt);
-                // If it needs to block user
-                if (msg != null) return msg;
 
                 // Block IP for timeout if too many access attemps
                 // incremement invalid access attemps & Check if it needs to block.
                 if (noresults && ip.forwarded)
                 {
                     // Potentially Block IP
-                    msg = IP.IncInvalidForIP(true, this, ip.id);
+                    var msg2 = IP.IncInvalidForIP(true, this, ip.id);
                     // If it needs to block user
-                    if (msg != null) return msg;
+                    if (msg2 != null) return msg2;
                 }
 
+                // If it needs to block user
+                if (msg != null) return msg;
 
                 // Invalid Email or Password
                 if (noresults)
