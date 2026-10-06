@@ -19,13 +19,22 @@ namespace StudentExchangeBck
         /// <param name="ipid">Returned IP Address ID</param>
         /// <returns>Message to client</returns>
         public static IActionResult? UpdateByIP(HttpContext ctx, ControllerBase this_, out long ipid)
+            => UpdateByIP(ctx.Connection.RemoteIpAddress?.ToString(), this_, out ipid);
+
+        /// <summary>
+        /// Add Check IP Address is in db
+        /// </summary>
+        /// <param name="clientip">IP Address</param>
+        /// <param name="this_">Countroller Base</param>
+        /// <param name="ipid">Returned IP Address ID</param>
+        /// <returns>Message to client</returns>
+        public static IActionResult? UpdateByIP(string? clientip, ControllerBase this_, out long ipid)
         {
             ipid = -1;
 
             try
             {
                 // Get IP Address
-                var clientip = ctx.Connection.RemoteIpAddress?.ToString();
                 if (string.IsNullOrWhiteSpace(clientip)) return null;
                 // Encrypt IP Address
                 clientip = DeterministicEncryption.Encrypt(clientip, Env._ipSalt);
@@ -259,6 +268,17 @@ namespace StudentExchangeBck
                 var now = DateTime.Now;
                 foreach (var s in _ipLock.Where(s => now > s.Value.dt))
                     _ipLock.Remove(s.Key);
+            }
+        }
+
+        public struct Data
+        {
+            public long id { get; set; }
+            public bool forwarded { get; set; }
+
+            public Data()
+            {
+                this.id = -1;
             }
         }
     }

@@ -52,7 +52,7 @@ namespace StudentExchangeBck
         public IActionResult Post(Info data)
         {
             // Validate Application Access
-            var msg = AppAuthJson.ValidateApp(data, HttpContext, this, out var ipid);
+            var msg = AppAuthJson.ValidateApp(data, HttpContext, this, out var ip);
             // If no Auth: return no auth
             if (msg != null) return msg;
 
@@ -80,15 +80,28 @@ namespace StudentExchangeBck
                                     {"@pass", passCrypt }
                                 });
 
-                // Block user for timeout if to many access attemps
+                var noresults = result.Count == 0;
+
+                // Block user for timeout if too many access attemps
                 // If has result: Check if Blocked.
                 // If not has result: incremement invalid access attemps & Check if it needs to block.
-                msg = IncInvalidForUser_Email(result.Count == 0, this, emailCrypt);
+                msg = IncInvalidForUser_Email(noresults, this, emailCrypt);
                 // If it needs to block user
                 if (msg != null) return msg;
 
+                // Block IP for timeout if too many access attemps
+                // incremement invalid access attemps & Check if it needs to block.
+                if (noresults && ip.forwarded)
+                {
+                    // Potentially Block IP
+                    msg = IP.IncInvalidForIP(true, this, ip.id);
+                    // If it needs to block user
+                    if (msg != null) return msg;
+                }
+
+
                 // Invalid Email or Password
-                if (result.Count == 0)
+                if (noresults)
                     throw new ArgumentException("Invalid Email or Password.");
 
                 // Get id & first_name
@@ -98,8 +111,8 @@ namespace StudentExchangeBck
                 object token;
 
                 // Add relation of user to IP: if not there
-                if (ipid >= 0)
-                    IP.TrackIPToUser(ipid, id);
+                if (ip.id >= 0)
+                    IP.TrackIPToUser(ip.id, id);
 
                 // Mutex lock on user
                 var ulock = GetUserLock(id);
@@ -181,12 +194,12 @@ namespace StudentExchangeBck
         public IActionResult Delete(AppAuthJson data)
         {
             // Validate Application Access
-            var msg = AppAuthJson.ValidateApp(data, HttpContext, this, out var ipid);
+            var msg = AppAuthJson.ValidateApp(data, HttpContext, this, out var ip);
             // Exit: No Auth
             if (msg != null) return msg;
 
             // Validate Application Access & Access Token
-            msg = AppAuthJson.ValidateToken(this, data, ipid, out var userId);
+            msg = AppAuthJson.ValidateToken(this, data, ip.id, out var userId);
             // Exit if invalid: No need to show an error.
             if (msg != null) return Ok(new
             {

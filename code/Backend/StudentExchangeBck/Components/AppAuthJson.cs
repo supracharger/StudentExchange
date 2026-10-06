@@ -13,24 +13,44 @@ namespace StudentExchangeBck
         // Access Token for user info
         public string? access_token { get; set; }
 
+        // IP Forwarding
+        public string? ip { get; set; }
+        // Admin Token
+        // Only used for ip forwarding
+        public string? admin_token { get; set; }
+
         /// <summary>
         /// Validate Application access password
         /// </summary>
         /// <param name="access">Object containing app_access</param>
         /// <returns>Not Authorized or null</returns>
-        public static IActionResult? ValidateApp(AppAuthJson access, HttpContext ctx, ControllerBase this_, out long ipid)
+        public static IActionResult? ValidateApp(AppAuthJson access, HttpContext ctx, ControllerBase this_, out IP.Data ip)
         {
+            ip = new IP.Data();
+
             // Condition if access is invalid
             var invalidAccess = access.app_access == null || access.app_access != Env._appAccess;
+            var invalidAdmin = access.admin_token != null && access.admin_token != Env._adminToken;
 
             // Add IP to DB if not there
-            var msg = IP.UpdateByIP(ctx, this_, out ipid);
+            var msg = IP.UpdateByIP(ctx, this_, out var ipid);
+            ip.id = ipid;
             // Exit: There is a message to client
             if (msg != null) return msg;
             // Validates IP Address Blocking
-            msg = IP.IncInvalidForIP(invalidAccess, this_, ipid);
+            msg = IP.IncInvalidForIP(invalidAccess || invalidAdmin, this_, ipid);
             // Exit: There is a message to client
             if (msg != null) return msg;
+
+            // Forward the actual IP Address
+            // ipid: Now equals forwarded ip address.
+            if (!string.IsNullOrWhiteSpace(access.ip) && !invalidAdmin && access.admin_token != null)
+            {
+                msg = IP.UpdateByIP(access.ip, this_, out ipid);
+                ip.id = ipid;
+                ip.forwarded = true;
+                if (msg != null) return msg;
+            }
 
             // No Auth: Message to Client
             if (invalidAccess)
@@ -111,16 +131,16 @@ namespace StudentExchangeBck
         /// <param name="userId">RETURNED userid corisponding to access token</param>
         /// <returns>No Authorized or null</returns>
         /// <summary>
-        public static IActionResult? ValidateWithToken(ControllerBase this_, AppAuthJson access, HttpContext ctx, out object userId, out long ipid)
+        public static IActionResult? ValidateWithToken(ControllerBase this_, AppAuthJson access, HttpContext ctx, out object userId, out IP.Data ip)
         {
             userId = null!;
             
             // Validate Application Password
-            var msg = ValidateApp(access, ctx, this_, out ipid);
+            var msg = ValidateApp(access, ctx, this_, out ip);
             if (msg != null) return msg;
 
             // Validate Access Token
-            msg = ValidateToken(this_, access, ipid, out userId);
+            msg = ValidateToken(this_, access, ip.id, out userId);
             if (msg != null) return msg;
 
             // Success
