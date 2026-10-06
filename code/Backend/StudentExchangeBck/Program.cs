@@ -8,6 +8,7 @@ Env.GetEnv();
 Action Schedule = () =>
 {
     LogIn.CleanUp();
+    Users.CleanUp();
     IP.CleanUp();
 };
 // Run Clean up at program start

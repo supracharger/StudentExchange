@@ -18,6 +18,8 @@ namespace StudentExchangeBck
         // Admin Token
         // Only used for ip forwarding
         public string? admin_token { get; set; }
+        // User Forwarding
+        public string? to_user { get; set; }
 
         /// <summary>
         /// Validate Application access password
@@ -68,9 +70,9 @@ namespace StudentExchangeBck
         /// <param name="access">Object containing info</param>
         /// <param name="userId">RETURNED userid corisponding to access token</param>
         /// <returns>No Authorized or null</returns>
-        public static IActionResult? ValidateToken(ControllerBase this_, AppAuthJson access, long ipid, out User.Data user)
+        public static IActionResult? ValidateToken(ControllerBase this_, AppAuthJson access, long ipid, out Users.Data user)
         {
-            user = new User.Data();
+            user = new Users.Data();
             try
             {
                 // If Access token is empty
@@ -81,7 +83,10 @@ namespace StudentExchangeBck
                     });
 
                 // Find coresponding userid for Access token
-                var result = Sql.Read("SELECT [user_id] FROM Access_Token WHERE [token]=@token AND [expiry]>@date",
+                var result = Sql.Read("SELECT T.[user_id], (A.[user_id] IS NOT NULL) isAdmin " +
+                                    "FROM Access_Token T " +
+                                    "LEFT JOIN Admins A ON T.[user_id]=A.[user_id] " +
+                                    "WHERE [token]=@token AND [expiry]>@date",
                                 new Dictionary<string, object>
                                 {
                                 {"@token", access.access_token },
@@ -92,11 +97,52 @@ namespace StudentExchangeBck
                     throw new ArgumentException("The Access Token may have expired.");
 
                 // Get User ID
-                user = new User.Data((long)result["user_id"][0]);
+                user = new Users.Data((long)result["user_id"][0], 
+                                    ((long)result["isAdmin"][0]) != 0);
 
                 // Add relation of user to IP: if not there
                 if (ipid >= 0)
                     IP.TrackIPToUser(ipid, user.id);
+
+                // Admin Privlage forward to different user
+                if (access.to_user != null)
+                {
+                    // if main user is not admin
+                    if (!user.isAdmin)
+                    {
+                        // Increment Block IP
+                        var msg = IP.IncInvalidForIP(true, this_, ipid);
+                        // Block IP
+                        if (msg != null)
+                        {
+                            user = new Users.Data();
+                            return msg;
+                        }
+
+                        // Not Authorized, Not Admin
+                        return new UnauthorizedObjectResult(new
+                        {
+                            Message = "Not authorized."
+                        });
+                    }
+
+                    // Check for blank
+                    if (string.IsNullOrWhiteSpace(access.to_user))
+                        throw new ArgumentException("to_user cannot be blank");
+
+                    // Get user id from db
+                    result = Sql.Read("SELECT [id] FROM User WHERE [email]=@email",
+                            new Dictionary<string, object>
+                            {
+                                { "@email", DeterministicEncryption.Encrypt(access.to_user, Env._emailSalt) }
+                            });
+                    // Could not find user
+                    if (result.Count == 0)
+                        throw new ArgumentException("to_user is not found in the Data Base.");
+                    
+                    // Success
+                    user = new Users.Data((long)result["id"][0], forwarded: true);
+                }
 
                 // Success
                 return null;                    
@@ -128,13 +174,13 @@ namespace StudentExchangeBck
         /// <param name="userId">RETURNED userid corisponding to access token</param>
         /// <returns>No Authorized or null</returns>
         /// <summary>
-        public static IActionResult? ValidateWithToken(ControllerBase this_, AppAuthJson access, HttpContext ctx, out User.Data user, out IP.Data ip)
+        public static IActionResult? ValidateWithToken(ControllerBase this_, AppAuthJson access, HttpContext ctx, out Users.Data user, out IP.Data ip)
         {
             // Validate Application Password
             var msg = ValidateApp(access, ctx, this_, out ip);
             if (msg != null)
             { 
-                user = new User.Data();
+                user = new Users.Data();
                 return msg; 
             }
 
