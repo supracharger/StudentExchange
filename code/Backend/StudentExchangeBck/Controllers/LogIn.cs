@@ -70,7 +70,10 @@ namespace StudentExchangeBck
                 passCrypt = DeterministicEncryption.Encrypt(data.password.Trim(), Env._passSalt);
 
                 // Find results for Email & Password given
-                var result = Sql.Read("SELECT [id],[first_name] FROM User WHERE [email]=@email AND [password]=@pass",
+                var result = Sql.Read("SELECT U.[id],U.[first_name], (A.[user_id] IS NOT NULL) isAdmin " +
+                                    "FROM User U " +
+                                    "LEFT JOIN Admins A ON U.[id]=A.[user_id] " +
+                                    "WHERE U.[email]=@email AND U.[password]=@pass",
                                 new Dictionary<string, object>
                                 {
                                     {"@email", emailCrypt },
@@ -91,6 +94,7 @@ namespace StudentExchangeBck
                 // Get id & first_name
                 var id = (long)result["id"][0];
                 var first_name = result["first_name"][0];
+                var isadmin = (long)result["isAdmin"][0] != 0;
                 object token;
 
                 // Mutex lock on user
@@ -126,7 +130,7 @@ namespace StudentExchangeBck
                                     {
                                     { "@user", id },
                                     { "@token", token },
-                                    { "@expiry", Utilz.ToMtn(DateTime.UtcNow.Add(Env._tokenExpiry)).ToString("s") }
+                                    { "@expiry", Utilz.ToMtn(DateTime.UtcNow.Add(isadmin ? Env._tokenExpiryAdmin : Env._tokenExpiry)).ToString("s") }
                                     }, 1);
                                 break;  // Success Break
                             }
