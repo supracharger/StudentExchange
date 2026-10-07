@@ -56,7 +56,7 @@ namespace StudentExchangeBck
 
                 // Run Task
                 try { _RunTask(); }
-                catch { }
+                catch (Exception e) { Console.WriteLine(e); }
             }
         }
 
