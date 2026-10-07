@@ -202,12 +202,14 @@ namespace StudentExchangeBck
         {
             public readonly long id = -1;
             public readonly bool isAdmin, forwarded;
+            public readonly int adminLvl = -1;
 
-            public Data(long id, bool isAdmin = false, bool forwarded = false)
+            public Data(long id, bool isAdmin = false, bool forwarded = false, int adminLvl = -1)
             {
                 this.id = id;
                 this.isAdmin = isAdmin;
                 this.forwarded = forwarded;
+                this.adminLvl = adminLvl;
             }
         }
     }

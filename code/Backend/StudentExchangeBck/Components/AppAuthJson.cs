@@ -82,7 +82,7 @@ namespace StudentExchangeBck
                     });
 
                 // Find coresponding userid for Access token
-                var result = Sql.Read("SELECT T.[user_id], (A.[user_id] IS NOT NULL) isAdmin " +
+                var result = Sql.Read("SELECT T.[user_id], A.[level], (A.[user_id] IS NOT NULL) isAdmin " +
                                     "FROM Access_Token T " +
                                     "LEFT JOIN Admins A ON T.[user_id]=A.[user_id] " +
                                     "WHERE [token]=@token AND [expiry]>@date",
@@ -95,9 +95,13 @@ namespace StudentExchangeBck
                 if (result.Count == 0)
                     throw new ArgumentException("The Access Token may have expired.");
 
+                int adminLvl = -1;
+                var isadmin = ((long)result["isAdmin"][0]) != 0;
+                if (isadmin)
+                    adminLvl = (int)(long)result["level"][0];
                 // Get User ID
                 user = new Users.Data((long)result["user_id"][0], 
-                                    ((long)result["isAdmin"][0]) != 0);
+                                    isAdmin: isadmin, adminLvl: adminLvl);
 
                 // Add relation of user to IP: if not there
                 if (ipid >= 0)
