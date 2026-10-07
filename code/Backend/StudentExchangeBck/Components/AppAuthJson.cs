@@ -42,6 +42,13 @@ namespace StudentExchangeBck
             // Exit: There is a message to client
             if (msg != null) return msg;
 
+            // No Auth: Message to Client
+            if (invalidAccess)
+                return new UnauthorizedObjectResult(new
+                {
+                    Message = "Not authorized."
+                });
+            
             // Forward the actual IP Address
             // ipid: Now equals forwarded ip address.
             if (!string.IsNullOrWhiteSpace(access.ip) && !invalidAdmin && access.admin_token != null)
@@ -51,16 +58,8 @@ namespace StudentExchangeBck
                 if (msg != null) return msg;
             }
 
-            // No Auth: Message to Client
-            if (invalidAccess)
-            {
-                return new UnauthorizedObjectResult(new
-                {
-                    Message = "Not authorized."
-                });
-            }
             // Success
-            else return null;
+            return null;
         }
 
         /// <summary>
