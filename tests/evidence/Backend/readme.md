@@ -16,4 +16,4 @@
 
 ![Logout Postman Test](./img/Logout_Postman_Test.png)
 
-There is no longer a link to a Postman collection without subscription.
+NOTE!: There is no longer a link to a Postman collection without subscription.
