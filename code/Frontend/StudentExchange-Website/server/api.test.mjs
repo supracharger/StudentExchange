@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { createWebsiteServer } from './app.mjs'
 
 const APP_KEY = 'fixture-application-key'
+const ADMIN_KEY = 'fixture-forwarding-key'
 const USER_TOKEN = 'fixture-user-token'
 const initialProfile = {
   email: 'jane@example.com',
@@ -12,7 +13,7 @@ const initialProfile = {
   last_name: 'Doe',
   school: 'University of Colorado Denver',
 }
-let upstreamServer, website, base, calls, profile, failure
+let upstreamServer, website, base, calls, profile, failure, expectedIp
 
 async function listen(server) {
   server.listen(0, '127.0.0.1')
@@ -24,6 +25,7 @@ beforeEach(async () => {
   calls = []
   profile = { ...initialProfile }
   failure = null
+  expectedIp = '127.0.0.1'
   // A real HTTP fixture checks wire behavior, especially the GET body browsers cannot send.
   upstreamServer = http.createServer(async (request, response) => {
     const chunks = []
@@ -62,7 +64,11 @@ beforeEach(async () => {
       )
       return
     }
-    if (body?.app_access !== APP_KEY) {
+    if (
+      body?.app_access !== APP_KEY ||
+      body?.admin_token !== ADMIN_KEY ||
+      body?.ip !== expectedIp
+    ) {
       response.writeHead(401)
       response.end(JSON.stringify({ message: 'Not authorized.' }))
       return
@@ -105,6 +111,7 @@ beforeEach(async () => {
   website = createWebsiteServer({
     backend: `${upstreamBase}/service`,
     appAccess: APP_KEY,
+    adminToken: ADMIN_KEY,
     production: false,
     timeoutMs: 500,
   })
@@ -174,7 +181,12 @@ describe('same-origin backend adapter', () => {
     expect(calls[1]).toEqual({
       method: 'GET',
       path: '/service/Register',
-      body: { app_access: APP_KEY, access_token: USER_TOKEN },
+      body: {
+        app_access: APP_KEY,
+        access_token: USER_TOKEN,
+        admin_token: ADMIN_KEY,
+        ip: '127.0.0.1',
+      },
     })
     expect(
       (await (await call('/api/profile', 'GET', undefined, cookie)).json())
@@ -191,6 +203,8 @@ describe('same-origin backend adapter', () => {
       first_name: 'Alice',
       app_access: APP_KEY,
       access_token: USER_TOKEN,
+      admin_token: ADMIN_KEY,
+      ip: '127.0.0.1',
     })
     const logout = await call('/api/logout', 'POST', {}, cookie)
     expect(logout.status).toBe(200)
@@ -198,7 +212,12 @@ describe('same-origin backend adapter', () => {
     expect(calls.at(-1)).toEqual({
       method: 'DELETE',
       path: '/service/LogIn',
-      body: { app_access: APP_KEY, access_token: USER_TOKEN },
+      body: {
+        app_access: APP_KEY,
+        access_token: USER_TOKEN,
+        admin_token: ADMIN_KEY,
+        ip: '127.0.0.1',
+      },
     })
     expect((await call('/api/profile', 'GET', undefined, cookie)).status).toBe(
       401,
@@ -278,7 +297,7 @@ describe('same-origin backend adapter', () => {
     failure = {
       path: '/service/LogIn',
       status: 400,
-      body: { message: `Rejected ${APP_KEY} Fixture!123` },
+      body: { message: `Rejected ${APP_KEY} ${ADMIN_KEY} Fixture!123` },
     }
     const response = await call('/api/login', 'POST', {
       email: initialProfile.email,
@@ -287,6 +306,7 @@ describe('same-origin backend adapter', () => {
     expect(response.status).toBe(400)
     const text = await response.text()
     expect(text).not.toContain(APP_KEY)
+    expect(text).not.toContain(ADMIN_KEY)
     expect(text).not.toContain('Fixture!123')
     expect(text).toContain('[redacted]')
   })
@@ -404,6 +424,7 @@ describe('same-origin backend adapter', () => {
     const secure = createWebsiteServer({
       backend: `http://127.0.0.1:${upstreamServer.address().port}/service/`,
       appAccess: APP_KEY,
+      adminToken: ADMIN_KEY,
       production: true,
     })
     const secureBase = await listen(secure)
@@ -448,6 +469,114 @@ describe('same-origin backend adapter', () => {
     } finally {
       noSecret.closeAllConnections()
       await new Promise((resolve) => noSecret.close(resolve))
+    }
+  })
+
+  it('forwards the trusted Render visitor IP and admin token on every account call, never Schools', async () => {
+    expectedIp = '198.51.100.9'
+    const render = createWebsiteServer({
+      backend: `http://127.0.0.1:${upstreamServer.address().port}/service/`,
+      appAccess: APP_KEY,
+      adminToken: ADMIN_KEY,
+      renderProxy: true,
+      production: false,
+    })
+    const renderBase = await listen(render)
+    let cookie
+    async function renderCall(path, method = 'GET', body) {
+      const response = await fetch(`${renderBase}/api/${path}`, {
+        method,
+        headers: {
+          Origin: renderBase,
+          'Content-Type': 'application/json',
+          'cf-connecting-ip': expectedIp,
+          'x-forwarded-for': '203.0.113.66, 192.0.2.10',
+          ...(cookie ? { Cookie: cookie } : {}),
+        },
+        body: body === undefined ? undefined : JSON.stringify(body),
+      })
+      expect(response.ok).toBe(true)
+      if (response.headers.get('set-cookie'))
+        cookie = response.headers.get('set-cookie').split(';')[0]
+      return response.json()
+    }
+    try {
+      await renderCall('schools')
+      await renderCall('register', 'POST', {
+        ...initialProfile,
+        password: 'Fixture!123',
+      })
+      await renderCall('login', 'POST', {
+        email: initialProfile.email,
+        password: 'Fixture!123',
+      })
+      await renderCall('profile')
+      await renderCall('profile', 'PATCH', { first_name: 'Alice' })
+      await renderCall('logout', 'POST', {})
+      expect(calls[0]).toEqual({
+        method: 'GET',
+        path: '/service/Schools',
+        body: undefined,
+      })
+      expect(calls.slice(1)).toHaveLength(7)
+      for (const outgoing of calls.slice(1)) {
+        expect(outgoing.body).toMatchObject({
+          ip: expectedIp,
+          admin_token: ADMIN_KEY,
+          app_access: APP_KEY,
+        })
+      }
+      const before = calls.length
+      const absent = await fetch(`${renderBase}/api/login`, {
+        method: 'POST',
+        headers: { Origin: renderBase, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: initialProfile.email,
+          password: 'Fixture!123',
+        }),
+      })
+      expect(absent.status).toBe(400)
+      expect(calls).toHaveLength(before)
+    } finally {
+      render.closeAllConnections()
+      await new Promise((resolve) => render.close(resolve))
+    }
+  })
+
+  it('refuses browser-supplied IP and forwarding credentials', async () => {
+    for (const extra of [{ ip: '203.0.113.99' }, { admin_token: 'attacker' }]) {
+      expect(
+        (
+          await call('/api/login', 'POST', {
+            email: initialProfile.email,
+            password: 'Fixture!123',
+            ...extra,
+          })
+        ).status,
+      ).toBe(400)
+    }
+    expect(calls).toHaveLength(0)
+  })
+
+  it('requires admin_token for account writes while leaving public Schools available', async () => {
+    const noAdmin = createWebsiteServer({
+      backend: `http://127.0.0.1:${upstreamServer.address().port}/service/`,
+      appAccess: APP_KEY,
+      production: false,
+    })
+    const localBase = await listen(noAdmin)
+    try {
+      expect((await fetch(`${localBase}/api/schools`)).status).toBe(200)
+      const response = await fetch(`${localBase}/api/login`, {
+        method: 'POST',
+        headers: { Origin: localBase, 'Content-Type': 'application/json' },
+        body: '{}',
+      })
+      expect(response.status).toBe(503)
+      expect(calls).toHaveLength(1)
+    } finally {
+      noAdmin.closeAllConnections()
+      await new Promise((resolve) => noAdmin.close(resolve))
     }
   })
 

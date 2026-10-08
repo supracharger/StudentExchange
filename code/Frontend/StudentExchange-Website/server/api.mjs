@@ -1,6 +1,7 @@
 import { randomBytes } from 'node:crypto'
 import http from 'node:http'
 import https from 'node:https'
+import { clientIp } from './client-ip.mjs'
 
 const SESSION_COOKIE = 'se_session'
 const SESSION_LIFETIME = 12 * 60 * 60 * 1000
@@ -220,6 +221,8 @@ function upstream(base, route, method, body, timeoutMs) {
 export function createApiHandler({
   backend,
   appAccess,
+  adminToken,
+  renderProxy = false,
   production = false,
   timeoutMs = 15000,
 } = {}) {
@@ -304,18 +307,38 @@ export function createApiHandler({
         setCookie(response)
         throw new ApiError(401, 'Please log in to continue.')
       }
-      if (!base || (path !== '/api/schools' && !appAccess?.trim())) {
+      if (
+        !base ||
+        (path !== '/api/schools' && (!appAccess?.trim() || !adminToken?.trim()))
+      ) {
         throw new ApiError(
           503,
           'Accounts are temporarily unavailable. Please try again later.',
         )
+      }
+      // The adapter owns the security envelope for every authenticated request,
+      // including GET /Register and follow-up profile reads after login/PATCH.
+      let forwarding
+      if (path !== '/api/schools') {
+        let ip
+        try {
+          ip = clientIp(request, { renderProxy })
+        } catch {
+          throw new ApiError(
+            400,
+            'Unable to verify your network address. Please try again.',
+          )
+        }
+        forwarding = { ip, admin_token: adminToken }
       }
       const call = (route, verb, fields) =>
         upstream(
           base,
           route,
           verb,
-          fields ? { ...fields, app_access: appAccess } : undefined,
+          fields
+            ? { ...fields, app_access: appAccess, ...forwarding }
+            : undefined,
           timeoutMs,
         )
       const credentials = session ? { access_token: session.token } : {}

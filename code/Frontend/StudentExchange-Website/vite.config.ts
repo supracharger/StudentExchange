@@ -7,7 +7,11 @@ export default defineConfig(({ mode }) => {
   // Read server settings without exposing them through Vite's public VITE_* prefix.
   const env = { ...loadEnv(mode, process.cwd(), ''), ...process.env }
   const accountApi = () =>
-    createApiHandler({ backend: env.backend, appAccess: env.app_access })
+    createApiHandler({
+      backend: env.backend,
+      appAccess: env.app_access,
+      adminToken: env.admin_token,
+    })
   return {
     plugins: [
       react(),

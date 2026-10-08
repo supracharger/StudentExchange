@@ -1,0 +1,2 @@
+>> Looks Great! However, I want the website to forward the users ip for security. So for all requests except the Schools/ path, add "ip": [users ip] to the json body. Also, you will need the "admin_token" added to the body as well. The admin_token allows the client to forward the ip address.
+Remember this will be deployed in Render so make sure it send the right IP address.
