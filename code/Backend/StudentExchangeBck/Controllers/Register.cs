@@ -108,6 +108,13 @@ namespace StudentExchangeBck
             // Exit if invalid
             if (msg != null) return msg;
 
+            if (user.forwarded && user.adminLvl < 1)
+                // Not Authorized, Admin level too low
+                return new UnauthorizedObjectResult(new
+                {
+                    Message = "Not authorized."
+                });
+
             try
             {
                 // Get Registered info from db
@@ -158,6 +165,13 @@ namespace StudentExchangeBck
             var msg = AppAuthJson.ValidateWithToken(this, info, HttpContext, out var user, out var ip);
             // Exit if invalid
             if (msg != null) return msg;
+
+            if (user.forwarded && user.adminLvl < 1)
+                // Not Authorized, Admin level too low
+                return new UnauthorizedObjectResult(new
+                {
+                    Message = "Not authorized."
+                });
 
             try
             {
