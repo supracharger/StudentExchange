@@ -54,7 +54,7 @@ namespace StudentExchangeBck
             if (!string.IsNullOrWhiteSpace(access.ip) && !invalidAdmin && access.admin_token != null)
             {
                 msg = IP.UpdateByIP(access.ip, this_, out ipid);
-                ip = new IP.Data(ipid, forwarded: true);
+                ip = new IP.Data(ipid, forwarded: true, sudo_id: ip.id);
                 if (msg != null) return msg;
             }
 
@@ -103,10 +103,6 @@ namespace StudentExchangeBck
                 user = new Users.Data((long)result["user_id"][0], 
                                     isAdmin: isadmin, adminLvl: adminLvl);
 
-                // Add relation of user to IP: if not there
-                if (ipid >= 0)
-                    IP.TrackIPToUser(ipid, user.id);
-
                 // Admin Privlage forward to different user
                 if (access.to_user != null)
                 {
@@ -144,8 +140,12 @@ namespace StudentExchangeBck
                         throw new ArgumentException("to_user is not found in the Data Base.");
                     
                     // Success
-                    user = new Users.Data((long)result["id"][0], forwarded: true);
+                    user = new Users.Data((long)result["id"][0], forwarded: true, sudo_id: user.id, adminLvl:user.adminLvl);
                 }
+
+                // Add relation of user to IP: if not there
+                if (ipid >= 0)
+                    IP.TrackIPToUser(ipid, user.id);
 
                 // Success
                 return null;                    

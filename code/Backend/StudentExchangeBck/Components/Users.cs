@@ -201,12 +201,14 @@ namespace StudentExchangeBck
         public struct Data
         {
             public readonly long id = -1;
+            public readonly long sudo_id = -1;
             public readonly bool isAdmin, forwarded;
             public readonly int adminLvl = -1;
 
-            public Data(long id, bool isAdmin = false, bool forwarded = false, int adminLvl = -1)
+            public Data(long id, bool isAdmin = false, bool forwarded = false, int adminLvl = -1, long sudo_id = -1)
             {
                 this.id = id;
+                this.sudo_id = sudo_id;
                 this.isAdmin = isAdmin;
                 this.forwarded = forwarded;
                 this.adminLvl = adminLvl;

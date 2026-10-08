@@ -274,11 +274,13 @@ namespace StudentExchangeBck
         public struct Data
         {
             public readonly long id = -1;
+            public readonly long sudo_id = -1;
             public bool forwarded;
 
-            public Data(long id, bool forwarded = false)
+            public Data(long id, bool forwarded = false, long sudo_id = -1)
             {
                 this.id = id;
+                this.sudo_id = sudo_id;
                 this.forwarded = forwarded;
             }
         }
