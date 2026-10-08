@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: student-exchange-website
+    runtime: node
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /healthz
+    numInstances: 1
+    envVars:
+      - key: NODE_VERSION
+        value: 24.19.0
+      - key: NODE_ENV
+        value: production
+      - key: backend
+        value: https://studentexchangebck-fpdnfpcqe4bje2eh.westus-01.azurewebsites.net
+      - key: app_access
+        sync: false
