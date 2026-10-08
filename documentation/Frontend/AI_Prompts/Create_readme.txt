@@ -1,0 +1,1 @@
+>> Now I want you to create a readme-doc.md file. This will contain developer info to get up and running with the website and know the details. The developers are early developers who are still in school pursuing their bachelors degree.
