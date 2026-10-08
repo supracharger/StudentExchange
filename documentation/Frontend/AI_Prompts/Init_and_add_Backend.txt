@@ -1,0 +1,7 @@
+>> Initialize the REACT website to be deployed in Render. Visual Studio code will be used to test it locally.
+
+>> Integrate the Backend into the website. Do your best work! Make sure you comment your code.
+
+>> Go ahead and test. I added the network secrets to the environment.
+
+>> Fix any issues also.
