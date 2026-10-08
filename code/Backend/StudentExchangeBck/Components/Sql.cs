@@ -58,14 +58,15 @@ namespace StudentExchangeBck
                     var ls = new List<List<object>>();
 
                     // Read data
-                    var reader = com.ExecuteReader();
-                    while (reader.Read())
+                    using (var reader = com.ExecuteReader())
                     {
-                        if (keys == null)
-                            keys = Enumerable.Range(0, reader.FieldCount).Select(reader.GetName).ToList();
-                        ls.Add(keys.Select(k => reader[k]).ToList());
+                        while (reader.Read())
+                        {
+                            if (keys == null)
+                                keys = Enumerable.Range(0, reader.FieldCount).Select(reader.GetName).ToList();
+                            ls.Add(keys.Select(k => reader[k]).ToList());
+                        }
                     }
-                    reader.Close();
 
                     // If nothing return empty dictionary
                     if (keys == null) return new Dictionary<string, List<object>>();
@@ -85,7 +86,7 @@ namespace StudentExchangeBck
         /// <param name="args">Args in sql statement</param>
         /// <param name="updatedRows">Check number of rows. Specified:: -1: rows>0, -2: don't check rows</param>
         /// <exception cref="ArgumentException"></exception>
-        public static void Write(string sql, Dictionary<string, object>? args = null, int updatedRows = -1)
+        public static int Write(string sql, Dictionary<string, object>? args = null, int updatedRows = -1)
         {
             // Validate Write Sql statement
             if (!_validWrite.IsMatch(sql.Trim().ToLower()))
@@ -124,6 +125,8 @@ namespace StudentExchangeBck
                     // Transaction Commit: if 1+ rows affectted
                     if (cnt != 0)
                         trans.Commit();
+
+                    return cnt;
                 }
             }
             catch

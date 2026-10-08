@@ -14,7 +14,7 @@ Action Schedule = () =>
 // Run Clean up at program start
 Schedule();
 // Schedule Clean up each day at time.
-var schedule = new Maitenance(324, Schedule);
+using var schedule = new Maitenance(324, Schedule);
 
 // ==================== Created by Visual Studio 2022 ============================
 
