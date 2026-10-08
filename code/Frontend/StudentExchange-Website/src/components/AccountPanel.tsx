@@ -24,6 +24,8 @@ export default function AccountPanel({
 }) {
   const [mode, setMode] = useState<'login' | 'register'>('login')
   const [fields, setFields] = useState<Registration>(EMPTY)
+  // Confirmation stays in UI state and is never part of the backend payload.
+  const [confirmPassword, setConfirmPassword] = useState('')
   const heading = useRef<HTMLHeadingElement>(null)
   useEffect(() => {
     heading.current?.focus()
@@ -31,6 +33,7 @@ export default function AccountPanel({
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (mode === 'register' && fields.password !== confirmPassword) return
     if (mode === 'login') {
       const succeeded = await account.login(fields.email, fields.password)
       // Clear passwords after every attempt, including failed logins.
@@ -40,6 +43,7 @@ export default function AccountPanel({
       setFields({ ...EMPTY, email: fields.email })
       setMode('login')
     } else setFields((current) => ({ ...current, password: '' }))
+    setConfirmPassword('')
   }
 
   return (
@@ -96,6 +100,7 @@ export default function AccountPanel({
               disabled={account.busy}
               onClick={() => {
                 setMode('login')
+                setConfirmPassword('')
                 setFields((current) => ({ ...current, password: '' }))
                 account.clearMessages()
               }}
@@ -108,6 +113,7 @@ export default function AccountPanel({
               disabled={account.busy}
               onClick={() => {
                 setMode('register')
+                setConfirmPassword('')
                 setFields((current) => ({ ...current, password: '' }))
                 account.clearMessages()
               }}
@@ -167,6 +173,14 @@ export default function AccountPanel({
                   setFields((current) => ({ ...current, password: value }))
                 }
               />
+              {mode === 'register' && (
+                <ConfirmPasswordField
+                  password={fields.password}
+                  value={confirmPassword}
+                  required
+                  onChange={setConfirmPassword}
+                />
+              )}
               {mode === 'register' && (
                 <SchoolSelect
                   value={fields.school}
@@ -272,6 +286,52 @@ function PasswordField({
   )
 }
 
+/** Use native form validity plus an inline message; compare exact, untrimmed passwords. */
+function ConfirmPasswordField({
+  password,
+  value,
+  required,
+  onChange,
+}: {
+  password: string
+  value: string
+  required: boolean
+  onChange: (value: string) => void
+}) {
+  const input = useRef<HTMLInputElement>(null)
+  const mismatch = Boolean(value) && value !== password
+  useEffect(() => {
+    input.current?.setCustomValidity(mismatch ? 'Passwords do not match.' : '')
+  }, [mismatch])
+  return (
+    <div className="password-field">
+      <label htmlFor="confirm-password">Confirm Password</label>
+      <input
+        ref={input}
+        id="confirm-password"
+        name="confirm_password"
+        type="password"
+        autoComplete="new-password"
+        maxLength={50}
+        required={required}
+        value={value}
+        aria-invalid={mismatch || undefined}
+        aria-describedby={mismatch ? 'confirm-password-error' : undefined}
+        onChange={(event) => onChange(event.target.value)}
+      />
+      {mismatch && (
+        <small
+          id="confirm-password-error"
+          className="account-error"
+          role="alert"
+        >
+          Passwords do not match.
+        </small>
+      )}
+    </div>
+  )
+}
+
 function SchoolSelect({
   value,
   onChange,
@@ -354,9 +414,11 @@ function ProfileForm({
     password: '',
   })
   const [savedLocally, setSavedLocally] = useState(false)
+  const [confirmPassword, setConfirmPassword] = useState('')
   useEffect(() => {
     setFields({ ...profile, password: '' })
     setSavedLocally(false)
+    setConfirmPassword('')
   }, [profile])
   // Send only changed fields; never re-send an unchanged password or overwrite omitted values.
   const changes: ProfileUpdate = Object.fromEntries(
@@ -368,8 +430,10 @@ function ProfileForm({
   )
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (fields.password && fields.password !== confirmPassword) return
     const succeeded = await account.update(changes)
     setFields((current) => ({ ...current, password: '' }))
+    setConfirmPassword('')
     setSavedLocally(succeeded)
   }
   return (
@@ -431,7 +495,14 @@ function ProfileForm({
             onChange={(value) => {
               setSavedLocally(false)
               setFields((current) => ({ ...current, password: value }))
+              if (!value) setConfirmPassword('')
             }}
+          />
+          <ConfirmPasswordField
+            password={fields.password}
+            value={confirmPassword}
+            required={Boolean(fields.password)}
+            onChange={setConfirmPassword}
           />
           <div className="account-actions">
             <button

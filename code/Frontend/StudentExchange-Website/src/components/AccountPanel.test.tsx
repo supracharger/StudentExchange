@@ -47,6 +47,16 @@ describe('account UI', () => {
     )
     await user.selectOptions(screen.getByLabelText('School'), profile.school)
     await user.click(screen.getByRole('button', { name: 'Register' }))
+    expect(register).not.toHaveBeenCalled()
+    await user.type(screen.getByLabelText('Confirm Password'), 'Fixture!124')
+    await user.click(screen.getByRole('button', { name: 'Register' }))
+    expect(register).not.toHaveBeenCalled()
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'Passwords do not match.',
+    )
+    await user.clear(screen.getByLabelText('Confirm Password'))
+    await user.type(screen.getByLabelText('Confirm Password'), 'Fixture!123')
+    await user.click(screen.getByRole('button', { name: 'Register' }))
     expect(register).toHaveBeenCalledWith({
       ...profile,
       password: 'Fixture!123',
@@ -56,6 +66,7 @@ describe('account UI', () => {
     ).toBeVisible()
     expect(screen.getByLabelText('Password', { exact: true })).toHaveValue('')
     expect(login).not.toHaveBeenCalled()
+    expect(screen.queryByLabelText('Confirm Password')).not.toBeInTheDocument()
     await user.type(
       screen.getByLabelText('Password', { exact: true }),
       'Fixture!123',
@@ -99,6 +110,72 @@ describe('account UI', () => {
       'Incorrect email or password.',
     )
     expect(screen.getByLabelText('Password', { exact: true })).toHaveValue('')
+  })
+
+  it('requires an exact confirmation for password changes and rechecks edits to either field', async () => {
+    vi.mocked(accounts.profile).mockResolvedValue({ profile })
+    const update = vi.spyOn(accounts, 'update').mockResolvedValue({
+      profile,
+      message: 'Profile updated.',
+    })
+    const user = userEvent.setup()
+    render(<App />)
+    await user.click(await screen.findByRole('button', { name: 'My account' }))
+    const password = screen.getByLabelText('New password (optional)')
+    const confirmation = screen.getByLabelText('Confirm Password')
+    expect(confirmation).not.toBeRequired()
+    await user.type(password, 'Changed!123')
+    expect(confirmation).toBeRequired()
+    await user.click(screen.getByRole('button', { name: 'Save changes' }))
+    expect(update).not.toHaveBeenCalled()
+    await user.type(confirmation, 'changed!123')
+    expect(confirmation).toHaveAttribute('aria-invalid', 'true')
+    await user.click(screen.getByRole('button', { name: 'Save changes' }))
+    expect(update).not.toHaveBeenCalled()
+    await user.clear(confirmation)
+    await user.type(confirmation, 'Changed!123')
+    expect(confirmation).toBeValid()
+    await user.type(password, '4')
+    expect(confirmation).toBeInvalid()
+    await user.click(screen.getByRole('button', { name: 'Save changes' }))
+    expect(update).not.toHaveBeenCalled()
+    await user.type(confirmation, '4')
+    await user.click(screen.getByRole('button', { name: 'Save changes' }))
+    expect(update).toHaveBeenCalledExactlyOnceWith({ password: 'Changed!1234' })
+    expect(password).toHaveValue('')
+    expect(confirmation).toHaveValue('')
+  })
+
+  it('clears both password fields after a failed registration and when switching forms', async () => {
+    const register = vi
+      .spyOn(accounts, 'register')
+      .mockRejectedValue(new AccountApiError(400, 'Email already registered.'))
+    const user = userEvent.setup()
+    render(<App />)
+    await user.click(screen.getByRole('button', { name: 'Log in / Join' }))
+    await user.click(
+      await screen.findByRole('button', { name: 'Create account' }),
+    )
+    await user.type(screen.getByLabelText('First name'), profile.first_name)
+    await user.type(screen.getByLabelText('Last name'), profile.last_name)
+    await user.type(screen.getByLabelText('Email'), profile.email)
+    await user.selectOptions(screen.getByLabelText('School'), profile.school)
+    await user.type(
+      screen.getByLabelText('Password', { exact: true }),
+      'Fixture!123',
+    )
+    await user.type(screen.getByLabelText('Confirm Password'), 'Fixture!123')
+    await user.click(screen.getByRole('button', { name: 'Register' }))
+    expect(register).toHaveBeenCalledOnce()
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      'Email already registered.',
+    )
+    expect(screen.getByLabelText('Password', { exact: true })).toHaveValue('')
+    expect(screen.getByLabelText('Confirm Password')).toHaveValue('')
+    await user.type(screen.getByLabelText('Confirm Password'), 'Another!123')
+    await user.click(screen.getByRole('button', { name: 'Log in' }))
+    await user.click(screen.getByRole('button', { name: 'Create account' }))
+    expect(screen.getByLabelText('Confirm Password')).toHaveValue('')
   })
 
   it('restores the session and returns to login when the service confirms expiry', async () => {
