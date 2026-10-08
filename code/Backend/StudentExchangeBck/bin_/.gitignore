@@ -1,2 +1,4 @@
 .env
+server-all.env
+client.env
 Data.db
