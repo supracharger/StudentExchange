@@ -1,5 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
+/* Users:
+   IncInvalidForUser_Email():
+   IncInvalidForUser_Token():
+   IncInvalidForUser():
+        Checks for too many access attemps to a user. 
+        Will block user for a timeout of too many invalid access attemps.
+
+   GetUserLock():
+        Gets the mutex lock for each user id
+
+   CleanUp():
+        Occasionally should be used to clean up resources
+ */
+
 namespace StudentExchangeBck
 {
     public class Users
