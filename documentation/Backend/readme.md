@@ -1,6 +1,6 @@
 # StudentExchangeBck
 
-ASP.NET Core (.NET 9) REST API for student registration, login/logout, profile management, and school lookup, backed by SQLite. Authentication uses application credentials and user tokens in JSON request bodies.
+ASP.NET Core (.NET 9) REST API for student registration, login/logout, profile management, school lookup, and admin user/block management, backed by SQLite. Authentication uses application credentials and user tokens in JSON request bodies.
 
 - [REST API reference and request examples](#use-the-rest-api)
 - [Local setup and configuration](#local-setup-and-configuration)
@@ -10,21 +10,26 @@ ASP.NET Core (.NET 9) REST API for student registration, login/logout, profile m
 
 Requests and responses use JSON. Send `Content-Type: application/json` for
 requests with a body. The current API uses credentials in the **JSON body**,
-including for `GET /Register`; it does not implement Bearer-header or cookie
+including for authenticated GET routes; it does not implement Bearer-header or cookie
 authentication.
 
 | Method | Route | Credentials | Success |
 | --- | --- | --- | --- |
-| GET | `/Schools` | None | `200` with `Schools` array. |
+| GET | `/Schools` | None | `200` with `schools` and `short_names` arrays. |
 | POST | `/Register` | `app_access` | `201` with registration confirmation and normalized email. |
 | POST | `/LogIn` | `app_access`, email, password | `201` with user token and first name. |
 | GET | `/Register` | `app_access`, `access_token` | `200` with current user's profile. |
 | PATCH | `/Register` | `app_access`, `access_token` | `200` with update confirmation and email. |
 | DELETE | `/LogIn` | `app_access`, `access_token` | `200` with logout confirmation; deletes all tokens for the user. |
+| GET | `/Admin` | `app_access`, `access_token` | `200` with `is_admin`; includes `level` for admins. |
+| GET | `/Users` | `app_access`, admin `access_token` (level ≥ 1) | `200` with user columns inside `body`. |
+| DELETE | `/Register` | `app_access`, admin `access_token` (level ≥ 1), `email` | `200` with deletion confirmation, email, and row count. |
+| GET | `/Blocked` | `app_access`, admin `access_token` (level ≥ 2) | `200` with `blockedUsers` and `blockedIPs` arrays. |
+| DELETE | `/Blocked` | `app_access`, admin `access_token` (level ≥ 2), exactly one of `email` or `ip_addr` | `200` with unblock confirmation and row count. |
 
 `app_access` is the shared application password. `access_token` identifies an
 individual logged-in user. Registration does not issue a token: log in afterward.
-Logout is described below. There is no account deletion, password-reset, or school-management endpoint.
+Logout is described below. Account deletion requires an admin; there is no self-service deletion, password-reset, school-management, or admin-management endpoint.
 
 Development also exposes the generated **[OpenAPI document](http://localhost:5239/openapi/v1.json)** at `/openapi/v1.json`. There is no configured Swagger UI. The examples here describe controller behavior, including response fields and authentication rules that the generated document may not fully express.
 
@@ -40,15 +45,15 @@ Example response (actual names depend on the database):
 
 ```json
 {
-  "Schools": [
+  "schools": [
     "Metropolitan State University of Denver",
     "University of Colorado Denver"
-  ]
+  ],
+  "short_names": ["MSU Denver", "CU Denver"]
 }
 ```
 
-The `Schools` dictionary key retains its capital `S`; other response examples use
-ASP.NET Core's camel-case property serialization. Names are sorted by school name. An empty table currently causes a server error because the controller indexes a missing result key. Select a returned name for registration.
+Response properties use ASP.NET Core's default camel-case serialization: the C# property `Schools` becomes `schools`. Both arrays share the same row order, sorted by full school name; `short_names` comes from the database's `short_name` column. Select a full name from `schools` for registration, not its abbreviation. An empty table currently causes a server error because the controller indexes missing result keys.
 
 ### 2. Register an account
 
@@ -164,7 +169,129 @@ Success is **200 OK**:
 {"message":"You have been logged out."}
 ```
 
-A valid token deletes **all** access tokens for that user, including tokens used by other sessions. After application/IP validation passes, missing or invalid tokens also return the same `200` confirmation. The controller masks any token-validation error with this confirmation; it does not guarantee that a token was found or deleted. A wrong application password or IP block still fails before this step.
+A valid token deletes **all** access tokens for that user, including tokens used by other sessions. With admin user forwarding (`to_user`, described below), logout instead deletes all tokens for the selected user. After application/IP validation passes, missing or invalid tokens also return the same `200` confirmation. The controller masks any token-validation error with this confirmation; it does not guarantee that a token was found or deleted. A wrong application password or IP block still fails before this step.
+
+### Admin access and user forwarding
+
+Admin membership and permissions come from `Admins.user_id` and `Admins.level`, not from the body field `admin_token`. Any admin membership qualifies for the shorter admin token lifetime; specific actions require the levels in the route table. There is no API for assigning levels: provision them directly in a development database or through your team's database-management process.
+
+Use your own login token to check membership:
+
+```sh
+curl -i --request GET http://localhost:5239/Admin \
+  -H 'Content-Type: application/json' \
+  --data '{"app_access":"YOUR_APP_ACCESS","access_token":"YOUR_RETURNED_TOKEN"}'
+```
+
+Success is `200` with `{"is_admin":false}` for a regular user, or, for example, `{"is_admin":true,"level":2}` for an admin.
+
+Token-authenticated bodies optionally accept `to_user`, the email of a user to act as. Omit it for ordinary requests. The token must belong to an admin, and an admin target must have a strictly lower level than the caller. Unlike registration/login, `to_user` is **not trimmed or lowercased** before lookup; supply the exact stored normalized email. A blank or unknown target returns `400`, and a regular caller or an admin target at an equal/higher level returns `401`.
+
+`GET /Register` and `PATCH /Register` allow forwarding only for callers at level ≥ 1. For example, a level-1-or-higher admin can read a regular user's profile with:
+
+```sh
+curl -i --request GET http://localhost:5239/Register \
+  -H 'Content-Type: application/json' \
+  --data '{"app_access":"YOUR_APP_ACCESS","access_token":"YOUR_ADMIN_TOKEN","to_user":"jane@example.com"}'
+```
+
+The same `to_user` field selects the target of a profile PATCH. `DELETE /LogIn` also honors it, subject to the shared admin/target checks, but has no additional minimum-level check. `GET /Admin`, `GET /Users`, `DELETE /Register`, and both `/Blocked` actions reject user forwarding even when the caller is an admin. Their target email/IP fields, where applicable, are separate from `to_user`. Body IP forwarding (`ip`, `admin_token`) is an independent feature. `YOUR_ADMIN_TOKEN` in these examples means a login-issued **access token belonging to an admin**, not the configured `_adminToken` secret.
+
+### List users (admin level ≥ 1)
+
+```sh
+curl -i --request GET http://localhost:5239/Users \
+  -H 'Content-Type: application/json' \
+  --data '{"app_access":"YOUR_APP_ACCESS","access_token":"YOUR_ADMIN_TOKEN"}'
+```
+
+Example `200` response:
+
+```json
+{
+  "body": {
+    "email": ["jane@example.com"],
+    "name": ["Doe, Jane"],
+    "school": ["CU Denver"],
+    "datetime": ["2026-10-09T12:00:00"]
+  }
+}
+```
+
+This response contains parallel column arrays, ordered by registration `datetime` descending. Emails are decrypted, names use `Last, First`, and school labels use `short_name`, falling back to the full name when the abbreviation is SQL `NULL`. With no matching rows, the response is `{"body":{}}`.
+
+### Delete an account (admin level ≥ 1)
+
+This deletes the matching `User` row. Use disposable accounts when trying it:
+
+```sh
+curl -i --request DELETE http://localhost:5239/Register \
+  -H 'Content-Type: application/json' \
+  --data '{"app_access":"YOUR_APP_ACCESS","access_token":"YOUR_ADMIN_TOKEN","email":"jane@example.com"}'
+```
+
+Example `200` response:
+
+```json
+{"message":"Successfully deleted user.","email":"jane@example.com","deleted_Rows":1}
+```
+
+`email` must be nonblank and exactly match the stored normalized address; it is not trimmed or lowercased here. An unknown email returns `400`. Omit `first_name`, `last_name`, `password`, and `school`: any non-null value, including an empty string, is rejected. The action checks the caller's admin level but does **not** compare it with the target's level; an eligible caller can target an admin account too. It issues only a `DELETE FROM User`, with no explicit deletion of related tokens, admin rows, lockout rows, or IP relationships. Related-row cleanup depends on the database's actual constraints/triggers; the supplied schema notes do not define cascading deletes.
+
+### Inspect and clear attempt records (admin level ≥ 2)
+
+```sh
+curl -i --request GET http://localhost:5239/Blocked \
+  -H 'Content-Type: application/json' \
+  --data '{"app_access":"YOUR_APP_ACCESS","access_token":"YOUR_ADMIN_TOKEN"}'
+```
+
+Example `200` response (values depend on recent requests):
+
+```json
+{
+  "blockedUsers": [
+    {"name":"Doe, Jane","email":"jane@example.com","expiry":"2026-10-09T12:05:00","count":10}
+  ],
+  "blockedIPs": [
+    {"ip":"192.0.2.10","name":"Doe, Jane","email":"jane@example.com","expiry":"2026-10-09T12:05:00","count":10}
+  ]
+}
+```
+
+These are arrays of row objects, ordered by `Last, First`; emails and IPs are decrypted. Empty results are `[]`. The queries do not filter by count or expiry, so results may include attempts below the blocking threshold and expired records awaiting cleanup. IP results require a tracked user/IP relationship: an IP with no associated user is omitted, and one associated with multiple users may appear multiple times.
+
+Clear a user's attempt records with:
+
+```sh
+curl -i --request DELETE http://localhost:5239/Blocked \
+  -H 'Content-Type: application/json' \
+  --data '{"app_access":"YOUR_APP_ACCESS","access_token":"YOUR_ADMIN_TOKEN","email":"jane@example.com"}'
+```
+
+Example `200` response:
+
+```json
+{"message":"Successfully unblocked user.","email":"jane@example.com","deleted_Rows":1}
+```
+
+To clear IP attempt records, use:
+
+```sh
+curl -i --request DELETE http://localhost:5239/Blocked \
+  -H 'Content-Type: application/json' \
+  --data '{"app_access":"YOUR_APP_ACCESS","access_token":"YOUR_ADMIN_TOKEN","ip_addr":"192.0.2.10"}'
+```
+
+Example `200` response:
+
+```json
+{"message":"Successfully unblocked IP Address.","ip":"192.0.2.10","deleted_Rows":1}
+```
+
+Supply exactly one nonblank selector; neither or both returns `400`. Selectors are not normalized, so use the exact email or IP string stored by the application. Unknown targets or targets with no attempt rows return `400`. Deletion clears all matching attempt rows, including expired/below-threshold rows, and does not restore tokens deleted by a user lockout. Clearing a user's records does not clear its IP records, or vice versa.
+
+Insufficient admin level on `/Users`, account deletion, or `/Blocked` increments the current request IP's failure count and returns `401`, or `400` if that IP becomes blocked. Forwarded-user requests return `400` on `/Admin`, account deletion, and `DELETE /Blocked`; they return `401` on `/Users` and `GET /Blocked`.
 
 ### Optional IP forwarding fields
 
@@ -193,7 +320,7 @@ convenience and keep server validation authoritative.
 | Status | Typical cause |
 | --- | --- |
 | `400` | Invalid fields, wrong email/password, expired or unknown token, lockout, or an empty update. |
-| `401` | Missing/wrong application password, or missing/blank token on a profile request. |
+| `401` | Missing/wrong application password, missing/blank token, insufficient admin permission, or disallowed user forwarding (route-dependent). |
 | `409` | Registration or profile update would duplicate an email. |
 | `500` | Database/configuration failure or another unexpected server error. Inspect server logs. |
 
@@ -242,26 +369,38 @@ The database must contain these tables and the columns used by the implementatio
 
 | Table | Required columns |
 | --- | --- |
-| `Schools` | `id`, `name` |
+| `Schools` | `id`, `name`, `short_name` |
 | `User` | `id`, `email`, `first_name`, `last_name`, `password`, `school_id`, `datetime` |
 | `Access_Token` | `id`, `user_id`, `token`, `expiry` |
 | `Blocked_Users` | `id`, `user_id`, `count`, `expiry` |
-| `Admins` | `user_id` |
+| `Admins` | `user_id`, `level` |
 | `IP` | `id`, `ip`, `datetime` |
 | `User_Has_IPs` | `user_id`, `ip_id` |
 | `Blocked_IPs` | `id`, `ip_id`, `count`, `expiry` |
 
-This is a column inventory, not a migration script. Preserve compatible primary keys and uniqueness constraints, especially unique `User.email` and `Access_Token.token`. Seed at least one school. There is no automatic schema initialization, EF Core model, or migration system, and this checkout does not include a database. SQLite can create an empty file, but startup then fails on missing tables.
+This is a column inventory, not a migration script. [DB_Schema.txt](DB_Schema.txt) includes table/index definitions and a relationship sketch, but is not directly executable SQL as a whole and its `Schools` definition is missing `short_name`. When preparing a database from those definitions, add that column before calling `/Schools` or `/Users`:
+
+```sql
+-- Only for a database whose Schools table does not already have this column.
+ALTER TABLE Schools ADD COLUMN short_name TEXT;
+```
+
+Set abbreviations as needed; `/Users` falls back to full names for SQL `NULL` abbreviations. `Admins.level` is an integer and defaults to `0` in the schema notes; that level does not grant user-list/profile-forwarding/deletion or block-management permissions.
+
+Preserve compatible primary keys and uniqueness constraints, especially unique `User.email` and `Access_Token.token`. Seed at least one school. There is no automatic schema initialization, EF Core model, or migration system, and this checkout does not include a database. SQLite can create an empty file, but startup then fails on missing tables.
 
 ## Project map and development
 
 | Source | Responsibility |
 | --- | --- |
 | [Program.cs](StudentExchangeBck/Program.cs) | Configuration, startup/daily cleanup, forwarded headers, OpenAPI, HTTP pipeline. |
-| [Register.cs](StudentExchangeBck/Controllers/Register.cs) | Registration, profile reads/updates, field validation. |
-| [LogIn.cs](StudentExchangeBck/Controllers/LogIn.cs) | Login/logout, token issuance, user blocking and cleanup. |
-| [Schools.cs](StudentExchangeBck/Controllers/Schools.cs) | Public school list. |
-| [AppAuthJson.cs](StudentExchangeBck/Components/AppAuthJson.cs) | Body credentials, application and token validation. |
+| [Register.cs](StudentExchangeBck/Controllers/Register.cs) | Registration, profile reads/updates, admin account deletion, field validation. |
+| [LogIn.cs](StudentExchangeBck/Controllers/LogIn.cs) | Login/logout, token issuance and token cleanup. |
+| [Schools.cs](StudentExchangeBck/Controllers/Schools.cs) | Public full-name and abbreviation lists. |
+| [Admin.cs](StudentExchangeBck/Controllers/Admin.cs) | Current user's admin membership and level. |
+| [Blocked.cs](StudentExchangeBck/Controllers/Blocked.cs) | Admin attempt-record listing and unblocking. |
+| [Users.cs](StudentExchangeBck/Components/Users.cs) | Admin `/Users` controller, user blocking/cleanup, per-user locks. |
+| [AppAuthJson.cs](StudentExchangeBck/Components/AppAuthJson.cs) | Body credentials, application/token validation, admin user forwarding. |
 | [IP.cs](StudentExchangeBck/Components/IP.cs) | IP tracking, user/IP relationships, IP blocking and cleanup. |
 | [Env.cs](StudentExchangeBck/Components/Env.cs) | Encrypted configuration and authentication policy. |
 | [Sql.cs](StudentExchangeBck/Components/Sql.cs) | Parameterized SQLite reads/writes and process-local synchronization. |
@@ -270,23 +409,23 @@ This is a column inventory, not a migration script. Preserve compatible primary 
 | [DeterministicEncryption.cs](StudentExchangeBck/Components/DeterministicEncryption.cs) | Reversible encryption. |
 | [Utilz.cs](StudentExchangeBck/Components/Utilz.cs) | Name formatting and Mountain-time conversion. |
 
-Runtime package versions are defined in [StudentExchangeBck.csproj](StudentExchangeBck/StudentExchangeBck.csproj): OpenAPI 9.0.12, Microsoft.Data.Sqlite 10.0.12, and Newtonsoft.Json 13.0.4. The solution currently contains only the API project; **no automated test project is included**. Verify changes with a build and the REST workflow above against disposable development data. The existing `.http` file targets an Azure address and has incomplete requests.
+Runtime package versions are defined in [StudentExchangeBck.csproj](StudentExchangeBck/StudentExchangeBck.csproj): OpenAPI 9.0.12, Microsoft.Data.Sqlite 10.0.12, and Newtonsoft.Json 13.0.4. The solution currently contains only the API project; **no automated test project is included**. Verify changes with a build and the REST workflow above against disposable development data. The existing `.http` file targets localhost, with an optional commented Azure address, and lists routes without required JSON bodies; complete the requests before use.
 
-`Sql.Read` returns column names mapped to value lists; zero rows return an empty dictionary. `Sql.Write` accepts parameterized INSERT/UPDATE/DELETE statements. A nonnegative expected row count requires an exact match; `-1` requires at least one row, and `-2` allows any count. Each write uses its own transaction; separate calls do not share one. SQLite foreign-key enforcement is not explicitly enabled in the connection string. User/IP locks and reader/writer synchronization are process-local; they do not coordinate multiple API instances.
+`Sql.Read` returns column names mapped to value lists; zero rows return an empty dictionary. `Sql.Write` accepts parameterized INSERT/UPDATE/DELETE statements and returns the affected row count. A nonnegative expected row count requires an exact match; `-1` requires at least one row, and `-2` allows any count. Each write uses its own transaction; separate calls do not share one. SQLite foreign-key enforcement is not explicitly enabled in the connection string. User/IP locks and reader/writer synchronization are process-local; they do not coordinate multiple API instances.
 
 ### Current implementation considerations
 
 Passwords, emails, and IP addresses use deterministic, reversible encryption. Passwords are not stored with a dedicated password hash. The `.env` wrapper's default key is present in source. Protect configuration/data files and use HTTPS for deployed traffic. Some `500` response messages include full exception details; consumers should handle them as errors rather than depend on their text.
 
-Authentication is checked inside controllers; `UseAuthorization()` does not implement these body credential checks. There is no configured CORS policy. Browser clients need to account for both cross-origin access and the GET-body profile contract.
+Authentication is checked inside controllers; `UseAuthorization()` does not implement these body credential checks. There is no configured CORS policy. Browser clients need to account for both cross-origin access and the authenticated GET-body contract.
 
 ### Troubleshooting
 
 | Symptom | Check |
 | --- | --- |
 | Failure before HTTP startup | Working directory, encrypted `.env`, all five configuration keys, database tables required by startup cleanup. |
-| Login returns `500` | Database includes `Admins` and IP tracking tables as well as account/token tables. |
-| School lookup fails | Seed `Schools`; an empty result currently causes an error. |
+| Login or token-authenticated requests return `500` | Database includes `Admins.level` and IP tracking tables as well as account/token tables. |
+| School lookup or `/Users` fails | Ensure `Schools.short_name` exists; seed `Schools` because an empty school list currently causes an error. |
 | Profile fails after login | Send both body credentials; verify token expiry and IP blocking. |
 | Browser cannot read profile | `fetch` disallows GET bodies; current endpoint requires a transport that supports them. |
 | Existing accounts fail after key changes | Restore matching encryption keys or migrate stored records. |
