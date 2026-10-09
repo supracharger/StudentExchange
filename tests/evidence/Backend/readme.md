@@ -16,4 +16,16 @@
 
 ![Logout Postman Test](./img/Logout_Postman_Test.png)
 
-NOTE!: There is no longer a link to a Postman collection without subscription.
+***NOTE!:*** There is no longer a link to a Postman collection without subscription.
+
+## Admin Postman Tests
+
+![Admin Postman Tests](./img/Admin_Postman_Tests.png)
+
+## Blocked Postman Tests
+
+![Blocked Postman Tests](./img/Blocked_Postman_Tests.png)
+
+## Users Postman Tests
+
+![Users Postman Tests](./img/Users_Postman_Tests.png)
