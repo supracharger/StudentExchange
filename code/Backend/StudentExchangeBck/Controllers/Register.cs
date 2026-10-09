@@ -310,25 +310,18 @@ namespace StudentExchangeBck
         /// <summary>
         /// Deletes user
         /// </summary>
-        /// <param name="info">Input: {'app_access', 'access_token', 'email'}</param>
+        /// <param name="info">Input: {'app_access', 'access_token', 'to_user'}</param>
         /// <returns>Output: on success: {'Message', 'Email', 'Deleted_Rows'}</returns>
         [HttpDelete]
-        public IActionResult Delete(Info info)
+        public IActionResult Delete(AppAuthJson auth)
         {
             // Validate Application Access & Access Token
-            var msg = AppAuthJson.ValidateWithToken(this, info, HttpContext, out var user, out var ip);
+            var msg = AppAuthJson.ValidateWithToken(this, auth, HttpContext, out var user, out var ip);
             // Exit if invalid
             if (msg != null) return msg;
 
-            // Not Authorized: User can't be forwarded
-            if (user.forwarded)
-                return new BadRequestObjectResult(new
-                {
-                    Message = "User cannot be forwarded."
-                });
-
-            // Not Authorized: Not Admin or Admin level too low
-            if (!user.isAdmin || user.adminLvl < 1)
+            // Not Authorized: Admin level too low
+            if (user.adminLvl < 1)
             {
                 // IP Blocking & Tracking
                 var msg2 = IP.IncInvalidForIP(true, this, ip.id);
@@ -340,26 +333,19 @@ namespace StudentExchangeBck
                 });
             }
 
+            // Not Authorized: User needs to be forwarded
+            if (!user.forwarded)
+                return new BadRequestObjectResult(new
+                {
+                    Message = "User needs to be forwarded."
+                });
+
             try
             {
-                // Make sure not blank
-                if (string.IsNullOrWhiteSpace(info.email))
-                    throw new ArgumentException("There needs to be an email.");
-
-                // Make sure these fields are blank
-                if (info.first_name != null)
-                    throw new ArgumentException("There should not be a first_name field.");
-                if (info.last_name != null)
-                    throw new ArgumentException("There should not be a last_name field.");
-                if (info.password != null)
-                    throw new ArgumentException("There should not be a password field.");
-                if (info.school != null)
-                    throw new ArgumentException("There should not be a school field.");
-
                 // Delete user from DB
-                var cnt = Sql.Write("DELETE FROM User WHERE [email]=@email;", new Dictionary<string, object>
+                var cnt = Sql.Write("DELETE FROM User WHERE [id]=@id;", new Dictionary<string, object>
                 {
-                    { "@email", DeterministicEncryption.Encrypt(info.email!, Env._emailSalt) }
+                    { "@id", user.id }
                 }, -2);
                 // Nothing in table
                 if (cnt == 0)
@@ -369,7 +355,7 @@ namespace StudentExchangeBck
                 return Ok(new
                 {
                     Message = "Successfully deleted user.",
-                    Email = info.email,
+                    Email = auth.to_user,
                     Deleted_Rows = cnt
                 });
             }
