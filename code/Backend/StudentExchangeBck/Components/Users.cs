@@ -1,6 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
 /* Users:
+  
+   GET Get():
+        GET Users table from DB
+        Input: {app_access, access_token}
+        Output: On Success: { body: {email:[...], name:[...], school:[...], datetime:[...]} }
+
+   ==========================================================================
+
    IncInvalidForUser_Email():
    IncInvalidForUser_Token():
    IncInvalidForUser():
@@ -16,7 +24,9 @@
 
 namespace StudentExchangeBck
 {
-    public class Users
+    [ApiController]
+    [Route("[controller]")]
+    public class Users : ControllerBase
     {
         /// <summary>
         /// Locks based on userid.
@@ -24,6 +34,76 @@ namespace StudentExchangeBck
         /// </summary>
         static readonly Dictionary<long, (object lck, DateTime dt)> _userLock
             = new Dictionary<long, (object, DateTime)>();
+
+        /// <summary>
+        /// GET User info from DB
+        /// </summary>
+        /// <param name="auth">Input: {app_access, access_token}</param>
+        /// <returns>On Success: { body: {email:[...], name:[...], school:[...], datetime:[...]} }</returns>
+        [HttpGet]
+        public IActionResult Get(AppAuthJson auth)
+        {
+            // Validate Application Access & Access Token
+            var msg = AppAuthJson.ValidateWithToken(this, auth, HttpContext, out var user, out var ip);
+            // Exit if invalid
+            if (msg != null) return msg;
+
+            // Not Authorized: User can't be forwarded
+            if (user.forwarded)
+                return new UnauthorizedObjectResult(new
+                {
+                    Message = "User cannot be forwarded."
+                });
+
+            // Not Authorized: Not Admin or Admin level too low
+            if (!user.isAdmin || user.adminLvl < 1)
+            {
+                // IP Blocking & Tracking
+                var msg2 = IP.IncInvalidForIP(true, this, ip.id);
+                if (msg2 != null) return msg2;
+
+                return new UnauthorizedObjectResult(new
+                {
+                    Message = "Not authorized."
+                });
+            }
+
+            try
+            {
+                // Get users info from DB
+                var users = Sql.Read("SELECT U.[email], (U.[last_name] || ', ' || U.[first_name]) name, " +
+                                        "COALESCE(S.[short_name], S.[name]) school, " +
+                                        "U.[datetime] " +
+                                        "FROM User U, Schools S " +
+                                        "WHERE S.[id]=U.[school_id] " +
+                                        "ORDER BY U.[datetime] DESC;");
+
+                // Decrypt Email
+                if (users.TryGetValue("email", out var emails))
+                    users["email"] = emails.Select(e => (object)DeterministicEncryption.Decrypt((string)e, Env._emailSalt)).ToList();
+
+
+                // Success
+                return Ok(new
+                {
+                    body = users,
+                });
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(new
+                {
+                    Message = e.Message
+                });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new
+                {
+                    Message = $"An internal server error occurred: {e}"
+                });
+            }
+        }
 
         /// <summary>
         /// Checks for to many access attemps to a user. 

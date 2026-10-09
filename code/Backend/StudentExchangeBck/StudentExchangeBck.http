@@ -27,6 +27,14 @@ Accept: application/json
 GET {{StudentExchangeBck_HostAddress}}/Schools/
 Accept: application/json
 
+# GET Users table from DB
+GET {{StudentExchangeBck_HostAddress}}/Users/
+Accept: application/json
+
+# Get if Admin
+GET {{StudentExchangeBck_HostAddress}}/Admin/
+Accept: application/json
+
 # Get Blocked IPs and Users
 GET {{StudentExchangeBck_HostAddress}}/Blocked/
 Accept: application/json
