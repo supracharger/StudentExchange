@@ -23,4 +23,12 @@ Accept: application/json
 # Get all valid schools
 GET {{StudentExchangeBck_HostAddress}}/Schools/
 Accept: application/json
+
+# Get Blocked IPs and Users
+GET {{StudentExchangeBck_HostAddress}}/Blocked/
+Accept: application/json
+
+# Delete Blocked IPs or Users
+DELETE {{StudentExchangeBck_HostAddress}}/Blocked/
+Accept: application/json
 ###

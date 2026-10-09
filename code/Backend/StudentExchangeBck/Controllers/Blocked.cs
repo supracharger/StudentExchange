@@ -1,0 +1,243 @@
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+
+/* Blocked Users & IP
+ 
+   GET Get():
+        Get Blocked Users & IPs
+        Input: {app_access, access_token}
+        Output: On Success {blockedUsers: [], blockedIPs: []}
+
+   DELETE Delete():
+        Delete Blocked User or IP
+        Input: {app_access, access_token, email || ip_addr}
+        Output: On Success {Message, Email || IP, Deleted_Rows}
+ */
+
+namespace StudentExchangeBck
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class Blocked : ControllerBase
+    {
+        /// <summary>
+        /// Get Blocked Users & IPs
+        /// </summary>
+        /// <param name="auth">Input: {app_access, access_token}</param>
+        /// <returns>Output: On Success {blockedUsers: [], blockedIPs: []}</returns>
+        [HttpGet]
+        public IActionResult Get(AppAuthJson auth)
+        {
+            // Validate Application Access & Access Token
+            var msg = AppAuthJson.ValidateWithToken(this, auth, HttpContext, out var user, out var ip);
+            // Exit if invalid
+            if (msg != null) return msg;
+
+            // Not Authorized: User can't be forwarded
+            if (user.forwarded)
+                return new UnauthorizedObjectResult(new
+                {
+                    Message = "User cannot be forwarded."
+                });
+
+            // Not Authorized: Not Admin or Admin level too low
+            if (!user.isAdmin || user.adminLvl < 2)
+                return new UnauthorizedObjectResult(new
+                {
+                    Message = "Not authorized."
+                });
+
+            try
+            {
+                // Get Blocked users info from DB
+                var bldUsers = Sql.Read("SELECT (U.[last_name] || ', ' || U.[first_name]) name, " +
+                                        "U.[email], B.[expiry], B.[count] " +
+                                        "FROM Blocked_Users B, User U " +
+                                        "WHERE B.[user_id]=U.[id] " +
+                                        "ORDER BY name;");
+
+                // Get Blocked IP info from DB
+                var bldIP = Sql.Read("SELECT P.[ip], (U.[last_name] || ', ' || U.[first_name]) name, " +
+                                    "U.[email], B.[expiry], B.[count] " +
+                                    "FROM Blocked_Ips B, IP P, User_Has_IPs H, User U " +
+                                    "WHERE B.[ip_id]=H.[ip_id] AND U.[id]=H.[user_id] AND P.[id]=B.[ip_id] " +
+                                    "ORDER BY name;");
+
+                // Format Rows of Columns
+                Func<Dictionary<string, List<object>>, List<Dictionary<string, object?>>> Format = b =>
+                {
+                    var blk = new List<Dictionary<string, object?>>();
+                    // Exit: nothing
+                    if (b.Count == 0) return blk;
+
+                    // Decrypt email
+                    b["email"] = b["email"].Select(e => (object)DeterministicEncryption.Decrypt((string)e, Env._emailSalt)).ToList();
+
+                    // Get Rows of Columns
+                    var keys = b.Keys.ToList();
+                    var dta = Utilz.Transpose(keys.Select(k => b[k]).ToList()).ToList();
+
+                    // Create List of Dictionary key value pairs
+                    foreach(var row in dta)
+                    {
+                        var d = new Dictionary<string, object?>();
+                        blk.Add(d);
+                        for (int i = 0; i < keys.Count; i++)
+                            d.Add(keys[i], row[i]);
+                    }
+
+                    return blk;
+                };
+
+                // Decrypt IP
+                if (bldIP.TryGetValue("ip", out var pls))
+                    bldIP["ip"] = pls.Select(p => (object)DeterministicEncryption.Decrypt((string)p, Env._ipSalt)).ToList();
+
+                // Success
+                return Ok(new
+                {
+                    blockedUsers = Format(bldUsers),
+                    blockedIPs = Format(bldIP)
+                });
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(new
+                {
+                    Message = e.Message
+                });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new
+                {
+                    Message = $"An internal server error occurred: {e}"
+                });
+            }
+        }
+
+        /// <summary>
+        /// Delete Blocked User or IP
+        /// </summary>
+        /// <param name="info">Input: {app_access, access_token, email || ip_addr}</param>
+        /// <returns>Output: On Success {Message, Email || IP, Deleted_Rows}</returns>
+        [HttpDelete]
+        public IActionResult Delete(Info info)
+        {
+            // Validate Application Access & Access Token
+            var msg = AppAuthJson.ValidateWithToken(this, info, HttpContext, out var user, out var ip);
+            // Exit if invalid
+            if (msg != null) return msg;
+
+            // Not Authorized: User can't be forwarded
+            if (user.forwarded)
+                return new BadRequestObjectResult(new
+                {
+                    Message = "User cannot be forwarded."
+                });
+
+            // Not Authorized: Not Admin or Admin level too low
+            if (!user.isAdmin || user.adminLvl < 2)
+                return new UnauthorizedObjectResult(new
+                {
+                    Message = "Not authorized."
+                });
+
+            try
+            {
+                // If has value
+                var hasEmail = !string.IsNullOrWhiteSpace(info.email);
+                var hasIP = !string.IsNullOrWhiteSpace(info.ip_addr);
+
+                // If both blank
+                if (!hasEmail && !hasIP)
+                    throw new ArgumentException("You need to specify and email or ip_addr.");
+                // If both have the same flag
+                if (hasEmail == hasIP)
+                    throw new ArgumentException("You cannot specify both email and ip_addr.");
+
+                // Delete blocked user
+                if (hasEmail)
+                {
+                    // Get user id
+                    var result = Sql.Read("SELECT [id] FROM User WHERE [email]=@email;", new Dictionary<string, object>
+                    {
+                        { "@email", DeterministicEncryption.Encrypt(info.email!, Env._emailSalt) }
+                    });
+                    // Unknown
+                    if (result.Count == 0)
+                        throw new ArgumentException("Unknown email: " + info.email);
+
+                    // Make user no longer blocked
+                    var cnt = Sql.Write("DELETE FROM Blocked_Users WHERE [user_id]=@userid;", new Dictionary<string, object>
+                    {
+                        { "@userid", result["id"][0] }
+                    }, -2);
+                    // Nothing in table
+                    if (cnt == 0)
+                        throw new ArgumentException("That email is not blocked.");
+
+                    // Success
+                    return Ok(new
+                    {
+                        Message = "Successfully unblocked user.",
+                        Email = info.email,
+                        Deleted_Rows = cnt
+                    });
+                }
+
+                // Delete blocked ip
+                if (hasIP)
+                {
+                    // Find ip id
+                    var result = Sql.Read("SELECT [id] FROM IP WHERE [ip]=@ip;", new Dictionary<string, object>
+                    {
+                        { "@ip", DeterministicEncryption.Encrypt(info.ip_addr!, Env._ipSalt) }
+                    });
+                    // Unknown
+                    if (result.Count == 0)
+                        throw new ArgumentException("Unknown IP Address: " + info.ip_addr);
+
+                    // Delete blocked ip
+                    var cnt = Sql.Write("DELETE FROM Blocked_IPs WHERE [ip_id]=@ipid;", new Dictionary<string, object>
+                    {
+                        { "@ipid", result["id"][0] }
+                    }, -2);
+                    // Nothing in table
+                    if (cnt == 0)
+                        throw new ArgumentException("That IP Address is not blocked.");
+
+                    // Success
+                    return Ok(new
+                    {
+                        Message = "Successfully unblocked IP Address.",
+                        IP = info.ip_addr,
+                        Deleted_Rows = cnt
+                    });
+                }
+
+                throw new Exception("Function should have exited before here.");
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(new
+                {
+                    Message = e.Message
+                });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new
+                {
+                    Message = $"An internal server error occurred: {e}"
+                });
+            }
+        }
+
+        public class Info : AppAuthJson
+        {
+            public string? email { get; set; }
+            public string? ip_addr { get; set; }
+        }
+    }
+}
