@@ -130,7 +130,11 @@ namespace StudentExchangeBck
                         throw new ArgumentException("to_user cannot be blank");
 
                     // Get user id from db
-                    result = Sql.Read("SELECT [id] FROM User WHERE [email]=@email",
+                    result = Sql.Read("SELECT U.[id], A.[level], " +
+                                    "(A.[user_id] IS NOT NULL) isAdmin " +
+                                    "FROM User U " +
+                                    "LEFT JOIN Admins A ON U.[id]=A.[user_id] " +
+                                    "WHERE U.[email]=@email;",
                             new Dictionary<string, object>
                             {
                                 { "@email", DeterministicEncryption.Encrypt(access.to_user, Env._emailSalt) }
@@ -138,7 +142,21 @@ namespace StudentExchangeBck
                     // Could not find user
                     if (result.Count == 0)
                         throw new ArgumentException("to_user is not found in the Data Base.");
-                    
+
+                    var isAdmin = (long)result["isAdmin"][0] != 0;
+                    if (isAdmin)
+                    {
+                        var level = (int)(long)result["level"][0];
+                        if (level >= user.adminLvl)
+                        {
+                            user = new Users.Data();
+                            return new UnauthorizedObjectResult(new
+                            {
+                                Message = "Cannot forward user Admin with equal or greater admin level."
+                            });
+                        }
+                    }
+
                     // Success
                     user = new Users.Data((long)result["id"][0], forwarded: true, sudo_id: user.id, adminLvl:user.adminLvl);
                 }
