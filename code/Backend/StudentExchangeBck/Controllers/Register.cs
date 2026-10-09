@@ -114,11 +114,17 @@ namespace StudentExchangeBck
             if (msg != null) return msg;
 
             if (user.forwarded && user.adminLvl < 1)
+            {
+                // IP Blocking & Tracking
+                var msg2 = IP.IncInvalidForIP(true, this, ip.id);
+                if (msg2 != null) return msg2;
+
                 // Not Authorized, Admin level too low
                 return new UnauthorizedObjectResult(new
                 {
                     Message = "Not authorized."
                 });
+            }
 
             try
             {
@@ -172,11 +178,17 @@ namespace StudentExchangeBck
             if (msg != null) return msg;
 
             if (user.forwarded && user.adminLvl < 1)
+            {
+                // IP Blocking & Tracking
+                var msg2 = IP.IncInvalidForIP(true, this, ip.id);
+                if (msg2 != null) return msg2;
+
                 // Not Authorized, Admin level too low
                 return new UnauthorizedObjectResult(new
                 {
                     Message = "Not authorized."
                 });
+            }
 
             try
             {
@@ -317,10 +329,16 @@ namespace StudentExchangeBck
 
             // Not Authorized: Not Admin or Admin level too low
             if (!user.isAdmin || user.adminLvl < 1)
+            {
+                // IP Blocking & Tracking
+                var msg2 = IP.IncInvalidForIP(true, this, ip.id);
+                if (msg2 != null) return msg2;
+
                 return new UnauthorizedObjectResult(new
                 {
                     Message = "Not authorized."
                 });
+            }
 
             try
             {
