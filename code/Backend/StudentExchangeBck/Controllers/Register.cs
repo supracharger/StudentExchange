@@ -18,6 +18,11 @@ using System.Text.RegularExpressions;
         Input: { 'email'?, 'first_name'?, 'last_name'?, 'password'?, 'school'?, 'app_access', 'access_token' }
         Returns: On Success: {'Message', 'Email'}
 
+   DELETE Delete():
+        Deletes user
+        Input: {'app_access', 'access_token', 'email'}
+        Output: on success: {'Message', 'Email', 'Deleted_Rows'}
+
    ====================================================================================================
 
    ValidateFormatInfo():
@@ -272,6 +277,82 @@ namespace StudentExchangeBck
                 {
                     Message = $"Successfully updated: {string.Join(", ", updateKeys)}.",
                     email = info.email
+                });
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(new
+                {
+                    Message = e.Message
+                });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new
+                {
+                    Message = $"An internal server error occurred: {e}"
+                });
+            }
+        }
+
+        /// <summary>
+        /// Deletes user
+        /// </summary>
+        /// <param name="info">Input: {'app_access', 'access_token', 'email'}</param>
+        /// <returns>Output: on success: {'Message', 'Email', 'Deleted_Rows'}</returns>
+        [HttpDelete]
+        public IActionResult Delete(Info info)
+        {
+            // Validate Application Access & Access Token
+            var msg = AppAuthJson.ValidateWithToken(this, info, HttpContext, out var user, out var ip);
+            // Exit if invalid
+            if (msg != null) return msg;
+
+            // Not Authorized: User can't be forwarded
+            if (user.forwarded)
+                return new BadRequestObjectResult(new
+                {
+                    Message = "User cannot be forwarded."
+                });
+
+            // Not Authorized: Not Admin or Admin level too low
+            if (!user.isAdmin || user.adminLvl < 1)
+                return new UnauthorizedObjectResult(new
+                {
+                    Message = "Not authorized."
+                });
+
+            try
+            {
+                // Make sure not blank
+                if (string.IsNullOrWhiteSpace(info.email))
+                    throw new ArgumentException("There needs to be an email.");
+
+                // Make sure these fields are blank
+                if (info.first_name != null)
+                    throw new ArgumentException("There should not be a first_name field.");
+                if (info.last_name != null)
+                    throw new ArgumentException("There should not be a last_name field.");
+                if (info.password != null)
+                    throw new ArgumentException("There should not be a password field.");
+                if (info.school != null)
+                    throw new ArgumentException("There should not be a school field.");
+
+                // Delete user from DB
+                var cnt = Sql.Write("DELETE FROM User WHERE [email]=@email;", new Dictionary<string, object>
+                {
+                    { "@email", DeterministicEncryption.Encrypt(info.email!, Env._emailSalt) }
+                }, -2);
+                // Nothing in table
+                if (cnt == 0)
+                    throw new ArgumentException("Unknown email: not found in data base.");
+
+                // Success
+                return Ok(new
+                {
+                    Message = "Successfully deleted user.",
+                    Email = info.email,
+                    Deleted_Rows = cnt
                 });
             }
             catch (ArgumentException e)
