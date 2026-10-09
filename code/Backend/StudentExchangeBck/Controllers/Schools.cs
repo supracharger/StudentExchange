@@ -5,7 +5,7 @@
    GET Get():
         Get List of used Schools.
         Input: {}
-        RETURNS: { "Schools": [...] }
+        RETURNS: { Schools: [...], short_names: [...] }
  */
 
 namespace StudentExchangeBck
@@ -18,16 +18,17 @@ namespace StudentExchangeBck
         /// Get List of used Schools.
         /// Input: {}
         /// </summary>
-        /// <returns>{ "Schools": [...] }</returns>
+        /// <returns>{ Schools: [...], short_names: [...] }</returns>
         [HttpGet]
-        public Dictionary<string, object> Get()
+        public IActionResult Get()
         {
             // Get Schools from db
-            List<object> schools = Sql.Read("SELECT [name] FROM Schools ORDER BY [name]")["name"];
-            return new Dictionary<string, object>
+            var result = Sql.Read("SELECT [name],[short_name] FROM Schools ORDER BY [name]");
+            return new OkObjectResult(new
             {
-                { "Schools", schools }
-            };
+                Schools = result["name"],
+                short_names = result["short_name"]
+            });
         }
     }
 }
