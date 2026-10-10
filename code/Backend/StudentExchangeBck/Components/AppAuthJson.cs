@@ -227,6 +227,7 @@ namespace StudentExchangeBck
                     if (id == user.id)
                         throw new ArgumentException("You are forwarding yourself as a user.");
 
+                    // If locked admin & level is too low
                     if ((long)result["locked"][0] != 0 && user.adminLvl < 30)
                     {
                         user = new Users.Data();
