@@ -59,15 +59,23 @@ namespace StudentExchangeBck
                 var bldUsers = Sql.Read("SELECT (U.[last_name] || ', ' || U.[first_name]) name, " +
                                         "U.[email], B.[expiry], B.[count] " +
                                         "FROM Blocked_Users B, User U " +
-                                        "WHERE B.[user_id]=U.[id] " +
-                                        "ORDER BY name;");
+                                        "WHERE B.[user_id]=U.[id] AND " +
+                                        "B.[expiry]>@now " +
+                                        "ORDER BY B.[expiry] DESC, name;", new Dictionary<string, object>
+                                        {
+                                            { "@now", Utilz.ToMtn().ToString("s") }
+                                        });
 
                 // Get Blocked IP info from DB
                 var bldIP = Sql.Read("SELECT P.[ip], (U.[last_name] || ', ' || U.[first_name]) name, " +
                                     "U.[email], B.[expiry], B.[count] " +
                                     "FROM Blocked_Ips B, IP P, User_Has_IPs H, User U " +
-                                    "WHERE B.[ip_id]=H.[ip_id] AND U.[id]=H.[user_id] AND P.[id]=B.[ip_id] " +
-                                    "ORDER BY name;");
+                                    "WHERE B.[ip_id]=H.[ip_id] AND U.[id]=H.[user_id] AND P.[id]=B.[ip_id] AND " +
+                                    "B.[expiry]>@now " +
+                                    "ORDER BY B.[expiry] DESC, name;", new Dictionary<string, object>
+                                    {
+                                        { "@now", Utilz.ToMtn().ToString("s") }
+                                    });
 
                 // Format Rows of Columns
                 Func<Dictionary<string, List<object>>, List<Dictionary<string, object?>>> Format = b =>
