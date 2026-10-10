@@ -1,5 +1,7 @@
 \# Student Exchange developer guide
 
+Administrator console: see [docs/administration.md](docs/administration.md) for available tools, permission levels, backend route coverage, and visitor IP forwarding.
+
 
 
 This guide is for students joining the project who have some JavaScript experience and are learning React, TypeScript, and web APIs. Start with the local setup, then follow a request through the code before making your first change.
@@ -192,7 +194,7 @@ Confirm that the homepage renders, search/filter controls work, and the account 
 
 
 
-Do not repeatedly register accounts on the live backend just to check startup. Registration creates persistent records, and the documented API has no account deletion endpoint. Coordinate live test accounts with the maintainer.
+Do not repeatedly register accounts on the live backend just to check startup. Registration creates persistent records. Administrator account deletion uses `DELETE /Register` with the exact target email in `to_user`; see [the administrator guide](docs/administration.md). Coordinate live test accounts with the maintainer.
 
 
 
@@ -294,7 +296,7 @@ HTTP methods describe the operation: GET reads data, POST submits an action or c
 
 | -------------------- | --------------------------------------- | ------------------------------------------------------------------------- |
 
-| `GET /api/schools`   | `GET /Schools`                          | Converts upstream `Schools` into `schools`; sends no body or credentials. |
+| `GET /api/schools`   | `GET /Schools`                          | Maps lowercase `schools`; forwards the visitor IP and configured server credentials. |
 
 | `POST /api/register` | `POST /Register`                        | Creates an account; the user must then log in separately.                 |
 
@@ -332,7 +334,7 @@ Sessions last up to 12 hours; backend expiry may invalidate them sooner. Restart
 
 
 
-Every upstream account request includes server-generated `app\_access`, `admin\_token`, and `ip` in its JSON body, including profile GET requests. `/Schools` is the exception. These shared credentials and Azure tokens must never be returned to the browser or placed in browser storage. User passwords necessarily pass through the login/registration form, but are not retained in browser storage or server sessions. Do not log request bodies, cookies, passwords, or tokens while debugging.
+Every upstream account request includes server-generated `app\_access`, `admin\_token`, and `ip` in its JSON body, including profile GET requests. The public `/Schools` request also carries the trusted visitor IP; its current parameterless backend controller does not consume it. These shared credentials and Azure tokens must never be returned to the browser or placed in browser storage. User passwords necessarily pass through the login/registration form, but are not retained in browser storage or server sessions. Do not log request bodies, cookies, passwords, or tokens while debugging.
 
 
 
@@ -406,7 +408,7 @@ Vitest is the test runner. React Testing Library exercises the interface through
 
 
 
-The latest recorded application verification had 38 passing tests and a successful production build. Live Azure account workflows also passed. See \[the validation report](docs/live-validation.md) for scope. Actual visitor IP attribution through a deployed Render service still needs a deployment check.
+The current automated suite has 43 passing offline tests and a successful production build. Live Azure account workflows also passed. See \[the validation report](docs/live-validation.md) for scope. Actual visitor IP attribution through a deployed Render service still needs a deployment check.
 
 
 

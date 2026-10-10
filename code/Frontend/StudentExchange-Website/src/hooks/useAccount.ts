@@ -69,6 +69,10 @@ export function useAccount() {
     error,
     notice,
     clearMessages,
+    expire: () => {
+      setProfile(null)
+      setError('Your session has expired. Please log in again.')
+    },
     login: (email: string, password: string) =>
       perform(async () => {
         const data = await accounts.login(email, password)

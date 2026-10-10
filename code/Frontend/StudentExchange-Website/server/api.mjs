@@ -2,6 +2,13 @@ import { randomBytes } from 'node:crypto'
 import http from 'node:http'
 import https from 'node:https'
 import { clientIp } from './client-ip.mjs'
+import {
+  adminStatus,
+  adminUsers,
+  attemptRecords,
+  adminFields,
+  actionResult,
+} from './admin.mjs'
 
 const SESSION_COOKIE = 'se_session'
 const SESSION_LIFETIME = 12 * 60 * 60 * 1000
@@ -106,7 +113,7 @@ function publicProfile(value) {
 }
 
 /** Node's HTTP client supports the API's GET body; browser fetch and Node fetch do not. */
-function upstream(base, route, method, body, timeoutMs) {
+export function upstream(base, route, method, body, timeoutMs = 15000) {
   const destination = new URL(route, base)
   const data = body ? JSON.stringify(body) : undefined
   const signal = AbortSignal.timeout(timeoutMs)
@@ -203,7 +210,9 @@ function upstream(base, route, method, body, timeoutMs) {
               /(?:token.*(?:expired|invalid|unknown|not found|not valid)|(?:expired|invalid|unknown|not found|not valid).*token)/i.test(
                 safeMessage,
               )
-            reject(new ApiError(expired ? 401 : status, safeMessage))
+            const error = new ApiError(expired ? 401 : status, safeMessage)
+            error.sessionExpired = Boolean(expired)
+            reject(error)
           } else resolve(value)
         })
       },
@@ -213,20 +222,8 @@ function upstream(base, route, method, body, timeoutMs) {
   })
 }
 
-/**
- * Same-origin adapter for the documented ASP.NET API.
- * Tokens stay in memory on this server; the browser receives only an opaque HttpOnly cookie.
- * A restart logs users out. Use a shared session store before running multiple instances.
- */
-export function createApiHandler({
-  backend,
-  appAccess,
-  adminToken,
-  renderProxy = false,
-  production = false,
-  timeoutMs = 15000,
-} = {}) {
-  const sessions = new Map()
+/** Validate the fixed destination before sending server credentials. */
+export function backendUrl(backend) {
   let base
   if (backend) {
     try {
@@ -248,6 +245,25 @@ export function createApiHandler({
       )
     }
   }
+
+  return base
+}
+
+/**
+ * Same-origin adapter for the documented ASP.NET API.
+ * Tokens stay in memory on this server; the browser receives only an opaque HttpOnly cookie.
+ * A restart logs users out. Use a shared session store before running multiple instances.
+ */
+export function createApiHandler({
+  backend,
+  appAccess,
+  adminToken,
+  renderProxy = false,
+  production = false,
+  timeoutMs = 15000,
+} = {}) {
+  const sessions = new Map()
+  const base = backendUrl(backend)
 
   function setCookie(response, id = '', lifetime = 0) {
     response.setHeader(
@@ -277,6 +293,11 @@ export function createApiHandler({
       '/api/login': ['POST'],
       '/api/profile': ['GET', 'PATCH'],
       '/api/logout': ['POST'],
+      '/api/admin': ['GET'],
+      '/api/admin/users': ['GET', 'DELETE'],
+      '/api/admin/profile': ['GET', 'PATCH'],
+      '/api/admin/sessions': ['DELETE'],
+      '/api/admin/blocked': ['GET', 'DELETE'],
     }
     if (!routes[path]) {
       send(response, 404, { message: 'API route not found.' })
@@ -303,7 +324,12 @@ export function createApiHandler({
         send(response, 200, { message: 'You have been logged out.' })
         return
       }
-      if ((path === '/api/profile' || path === '/api/logout') && !session) {
+      if (
+        (path === '/api/profile' ||
+          path === '/api/logout' ||
+          path.startsWith('/api/admin')) &&
+        !session
+      ) {
         setCookie(response)
         throw new ApiError(401, 'Please log in to continue.')
       }
@@ -316,10 +342,10 @@ export function createApiHandler({
           'Accounts are temporarily unavailable. Please try again later.',
         )
       }
-      // The adapter owns the security envelope for every authenticated request,
-      // including GET /Register and follow-up profile reads after login/PATCH.
+      // The adapter owns the security envelope for EVERY backend request,
+      // including the public Schools lookup and authenticated GET bodies.
       let forwarding
-      if (path !== '/api/schools') {
+      {
         let ip
         try {
           ip = clientIp(request, { renderProxy })
@@ -329,25 +355,161 @@ export function createApiHandler({
             'Unable to verify your network address. Please try again.',
           )
         }
-        forwarding = { ip, admin_token: adminToken }
+        forwarding = { ip, ...(adminToken ? { admin_token: adminToken } : {}) }
       }
       const call = (route, verb, fields) =>
         upstream(
           base,
           route,
           verb,
-          fields
-            ? { ...fields, app_access: appAccess, ...forwarding }
-            : undefined,
+          {
+            ...fields,
+            ...(appAccess ? { app_access: appAccess } : {}),
+            ...forwarding,
+          },
           timeoutMs,
         )
       const credentials = session ? { access_token: session.token } : {}
 
-      if (path === '/api/schools') {
+      if (path.startsWith('/api/admin')) {
+        // Read membership afresh for every operation so a demotion takes effect immediately.
+        const status = adminStatus(await call('Admin', 'GET', credentials))
+        if (path === '/api/admin') {
+          send(response, 200, status)
+          return
+        }
+        const permission =
+          path === '/api/admin/blocked'
+            ? 'blocked'
+            : path === '/api/admin/sessions'
+              ? 'endSessions'
+              : path === '/api/admin/profile'
+                ? 'profiles'
+                : method === 'DELETE'
+                  ? 'deleteUsers'
+                  : 'users'
+        if (!status.permissions[permission])
+          throw new ApiError(
+            403,
+            'Your administrator access does not permit this action.',
+          )
+        const adminCall = async (route, verb, fields) => {
+          try {
+            return await call(route, verb, { ...fields, ...credentials })
+          } catch (error) {
+            // A target of equal/higher rank is forbidden, not a lost caller session.
+            if (
+              error instanceof ApiError &&
+              error.status === 401 &&
+              !error.sessionExpired
+            )
+              throw new ApiError(
+                403,
+                'Your administrator access does not permit this action for this user.',
+              )
+            throw error
+          }
+        }
+        if (path === '/api/admin/users' && method === 'GET') {
+          send(response, 200, {
+            users: adminUsers(await adminCall('Users', 'GET', {})),
+          })
+        } else if (path === '/api/admin/users') {
+          const fields = adminFields(
+            await readBody(request),
+            ['to_user'],
+            ['to_user'],
+          )
+          const data = await adminCall('Register', 'DELETE', fields)
+          send(response, 200, actionResult(data, 'Account deleted.'))
+        } else if (path === '/api/admin/profile') {
+          const url = new URL(request.url, 'http://website.local')
+          const selectors = Object.fromEntries(url.searchParams)
+          const { email } = adminFields(selectors, ['email'], ['email'])
+          if (method === 'GET') {
+            send(response, 200, {
+              profile: publicProfile(
+                await adminCall('Register', 'GET', { to_user: email }),
+              ),
+            })
+          } else {
+            const fields = formFields(
+              await readBody(request),
+              EDITABLE_FIELDS,
+              [],
+            )
+            const updated = await adminCall('Register', 'PATCH', {
+              ...fields,
+              to_user: email,
+            })
+            // Preserve write success if a follow-up read fails. Never repeat a password write.
+            let profile = null
+            try {
+              const target =
+                typeof updated?.email === 'string'
+                  ? updated.email
+                  : fields.email?.toLowerCase() || email
+              profile = publicProfile(
+                await adminCall('Register', 'GET', { to_user: target }),
+              )
+            } catch {
+              /* The saved result still needs to reach the caller. */
+            }
+            send(response, 200, {
+              profile,
+              message: profile
+                ? 'Profile updated.'
+                : 'Changes saved. Reload the directory to see the latest details.',
+            })
+          }
+        } else if (path === '/api/admin/sessions') {
+          const { email } = adminFields(
+            await readBody(request),
+            ['email'],
+            ['email'],
+          )
+          // DELETE /LogIn masks target/token validation failures with HTTP 200.
+          // Where profile reads are permitted, verify eligibility immediately before logout.
+          if (status.permissions.profiles)
+            publicProfile(
+              await adminCall('Register', 'GET', { to_user: email }),
+            )
+          await adminCall('LogIn', 'DELETE', { to_user: email })
+          send(response, 200, {
+            message: status.permissions.profiles
+              ? 'Session sign-out requested for this user.'
+              : 'Sign-out request sent. The service does not confirm whether sessions were ended.',
+          })
+        } else if (method === 'GET') {
+          send(
+            response,
+            200,
+            attemptRecords(await adminCall('Blocked', 'GET', {})),
+          )
+        } else {
+          const fields = adminFields(
+            await readBody(request),
+            ['email', 'ip_addr'],
+            [],
+          )
+          if (Object.keys(fields).length !== 1)
+            throw new ApiError(400, 'Choose exactly one email or IP address.')
+          send(
+            response,
+            200,
+            actionResult(
+              await adminCall('Blocked', 'DELETE', fields),
+              'Attempt records cleared.',
+            ),
+          )
+        }
+      } else if (path === '/api/schools') {
         const data = await call('Schools', 'GET')
+        // Follow the current backend schema exactly: lowercase schools is required.
+        const schools = data?.schools
         if (
-          !Array.isArray(data?.Schools) ||
-          !data.Schools.every(
+          !Array.isArray(schools) ||
+          !schools.every(
             (school) => typeof school === 'string' && school.trim(),
           )
         ) {
@@ -356,7 +518,7 @@ export function createApiHandler({
             'The school list could not be loaded. Please try again.',
           )
         }
-        send(response, 200, { schools: [...new Set(data.Schools)] })
+        send(response, 200, { schools: [...new Set(schools)] })
       } else if (path === '/api/register') {
         const fields = formFields(await readBody(request), EDITABLE_FIELDS)
         const data = await call('Register', 'POST', fields)
@@ -433,14 +595,17 @@ export function createApiHandler({
         send(response, 200, { message: 'You have been logged out.' })
       }
     } catch (error) {
-      const status = error instanceof ApiError ? error.status : 500
+      const status =
+        error instanceof ApiError || error.name === 'AdminContractError'
+          ? error.status
+          : 500
       if (status === 401 && session) {
         sessions.delete(session.id)
         setCookie(response)
       }
       send(response, status, {
         message:
-          error instanceof ApiError
+          error instanceof ApiError || error.name === 'AdminContractError'
             ? error.message
             : 'Unable to complete this request. Please try again.',
       })

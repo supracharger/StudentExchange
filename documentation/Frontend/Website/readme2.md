@@ -68,7 +68,7 @@ The Node server serves `dist/`, handles `/api/*`, and falls back to `index.html`
 
 | Browser request      | Backend request                         | Behavior                                                            |
 | -------------------- | --------------------------------------- | ------------------------------------------------------------------- |
-| `GET /api/schools`   | `GET /Schools`                          | Maps `Schools` to `schools`; no credentials sent.                   |
+| `GET /api/schools`   | `GET /Schools`                          | Maps `schools`; forwards the visitor IP and configured server credentials.                   |
 | `POST /api/register` | `POST /Register`                        | Registration requires a separate login.                             |
 | `POST /api/login`    | `POST /LogIn`, then `GET /Register`     | Stores the returned user token server-side and returns the profile. |
 | `GET /api/profile`   | `GET /Register` with JSON body          | Uses the cookie session's token; browser requests have no GET body. |
@@ -79,7 +79,7 @@ The browser receives an opaque, HttpOnly, SameSite=Lax cookie with a 12-hour lif
 
 Sessions are deliberately kept in memory: restarting/redeploying the Node server logs users out. Use a shared server-side session store before scaling beyond one instance. Backend token expiry can invalidate a session earlier. Logout revokes all backend tokens for that user, matching the documented API.
 
-Every upstream request except `/Schools` includes server-generated `ip`, `admin_token`, and `app_access` in its JSON body, including upstream GET profile requests. Browser-supplied body fields cannot override these values. Secrets stay on the Node server.
+Every upstream request includes server-generated `ip`, `admin_token`, and `app_access` in its JSON body, including upstream GET profile requests. Browser-supplied body fields cannot override these values. Secrets stay on the Node server.
 
 On Render, the automatically supplied `RENDER=true` flag enables reading the single visitor address from `CF-Connecting-IP` at its public Cloudflare edge. The adapter ignores `X-Forwarded-For` and rejects missing or invalid edge IPs instead of forwarding a proxy address. Local development uses the socket address (usually `127.0.0.1` or `::1`) and ignores forwarding headers. Do not set `RENDER=true` locally or expose a bypass route to this server behind an untrusted proxy. This trust mode assumes requests arrive through Render's public edge; private-network callers must also be trusted. See [Render's environment flags](https://render.com/docs/environment-variables), [Render's Cloudflare provider information](https://render.com/docs/custom-domains), and [Cloudflare's visitor IP header contract](https://developers.cloudflare.com/fundamentals/reference/http-headers/#cf-connecting-ip).
 

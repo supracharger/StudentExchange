@@ -235,19 +235,21 @@ function TextField({
   )
 }
 
-function PasswordField({
+export function PasswordField({
   registration,
   optional = false,
   value,
   onChange,
+  idPrefix = '',
 }: {
   registration: boolean
   optional?: boolean
   value: string
   onChange: (value: string) => void
+  idPrefix?: string
 }) {
   const [visible, setVisible] = useState(false)
-  const id = optional ? 'new-password' : 'account-password'
+  const id = `${idPrefix}${optional ? 'new-password' : 'account-password'}`
   return (
     <div className="password-field">
       <label htmlFor={id}>
@@ -287,28 +289,31 @@ function PasswordField({
 }
 
 /** Use native form validity plus an inline message; compare exact, untrimmed passwords. */
-function ConfirmPasswordField({
+export function ConfirmPasswordField({
   password,
   value,
   required,
   onChange,
+  idPrefix = '',
 }: {
   password: string
   value: string
   required: boolean
   onChange: (value: string) => void
+  idPrefix?: string
 }) {
   const input = useRef<HTMLInputElement>(null)
+  const id = `${idPrefix}confirm-password`
   const mismatch = Boolean(value) && value !== password
   useEffect(() => {
     input.current?.setCustomValidity(mismatch ? 'Passwords do not match.' : '')
   }, [mismatch])
   return (
     <div className="password-field">
-      <label htmlFor="confirm-password">Confirm Password</label>
+      <label htmlFor={id}>Confirm Password</label>
       <input
         ref={input}
-        id="confirm-password"
+        id={id}
         name="confirm_password"
         type="password"
         autoComplete="new-password"
@@ -316,15 +321,11 @@ function ConfirmPasswordField({
         required={required}
         value={value}
         aria-invalid={mismatch || undefined}
-        aria-describedby={mismatch ? 'confirm-password-error' : undefined}
+        aria-describedby={mismatch ? `${id}-error` : undefined}
         onChange={(event) => onChange(event.target.value)}
       />
       {mismatch && (
-        <small
-          id="confirm-password-error"
-          className="account-error"
-          role="alert"
-        >
+        <small id={`${id}-error`} className="account-error" role="alert">
           Passwords do not match.
         </small>
       )}
@@ -332,13 +333,16 @@ function ConfirmPasswordField({
   )
 }
 
-function SchoolSelect({
+export function SchoolSelect({
   value,
   onChange,
+  idPrefix = '',
 }: {
   value: string
   onChange: (value: string) => void
+  idPrefix?: string
 }) {
+  const id = `${idPrefix}account-school`
   const [schools, setSchools] = useState<string[]>([])
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
@@ -372,9 +376,9 @@ function SchoolSelect({
     value && !schools.includes(value) ? [value, ...schools] : schools
   return (
     <div className="school-field">
-      <label htmlFor="account-school">School</label>
+      <label htmlFor={id}>School</label>
       <select
-        id="account-school"
+        id={id}
         name="school"
         required
         disabled={loading || Boolean(error)}

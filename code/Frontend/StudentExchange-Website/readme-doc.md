@@ -95,7 +95,7 @@ Open the address printed by Vite, normally `http://localhost:5173`. Keep the ter
 
 Confirm that the homepage renders, search/filter controls work, and the account panel can load schools. An initial `401` response from `/api/profile` is expected when you have not logged in: the app checks whether an existing session can be restored.
 
-Do not repeatedly register accounts on the live backend just to check startup. Registration creates persistent records, and the documented API has no account deletion endpoint. Coordinate live test accounts with the maintainer.
+Do not repeatedly register accounts on the live backend just to check startup. Registration creates persistent records. Administrator account deletion uses `DELETE /Register` with the exact target email in `to_user`; see [the administrator guide](docs/administration.md). Coordinate live test accounts with the maintainer.
 
 ## Understand the architecture
 
@@ -146,7 +146,7 @@ HTTP methods describe the operation: GET reads data, POST submits an action or c
 
 | Browser request      | Adapter's upstream request              | Important behavior                                                        |
 | -------------------- | --------------------------------------- | ------------------------------------------------------------------------- |
-| `GET /api/schools`   | `GET /Schools`                          | Converts upstream `Schools` into `schools`; sends no body or credentials. |
+| `GET /api/schools`   | `GET /Schools`                          | Maps lowercase `schools`; forwards the visitor IP and configured server credentials. |
 | `POST /api/register` | `POST /Register`                        | Creates an account; the user must then log in separately.                 |
 | `POST /api/login`    | `POST /LogIn`, then `GET /Register`     | Retrieves a backend token and profile, then creates the website session.  |
 | `GET /api/profile`   | `GET /Register` with JSON body          | Reads the profile using the token held by the server.                     |
@@ -165,7 +165,7 @@ After login, the browser gets an opaque `se_session` cookie: a random identifier
 
 Sessions last up to 12 hours; backend expiry may invalidate them sooner. Restarting or redeploying the Node server loses its in-memory sessions and logs users out. Run one Render instance until a shared session store is implemented. Logout revokes all backend tokens for that user, including sessions on other devices.
 
-Every upstream account request includes server-generated `app_access`, `admin_token`, and `ip` in its JSON body, including profile GET requests. `/Schools` is the exception. These shared credentials and Azure tokens must never be returned to the browser or placed in browser storage. User passwords necessarily pass through the login/registration form, but are not retained in browser storage or server sessions. Do not log request bodies, cookies, passwords, or tokens while debugging.
+Every upstream account request includes server-generated `app_access`, `admin_token`, and `ip` in its JSON body, including profile GET requests. The public `/Schools` request also carries the trusted visitor IP; its current parameterless backend controller does not consume it. These shared credentials and Azure tokens must never be returned to the browser or placed in browser storage. User passwords necessarily pass through the login/registration form, but are not retained in browser storage or server sessions. Do not log request bodies, cookies, passwords, or tokens while debugging.
 
 Visitor IP selection depends on where the server runs:
 
@@ -202,7 +202,25 @@ Run `npm run build` before preview or start. Preview is a local inspection tool;
 
 Vitest is the test runner. React Testing Library exercises the interface through user-visible controls. Server tests use disposable local HTTP fixtures: small fake backends with synthetic credentials. They can test failures and forwarding rules without creating live accounts. A passing fixture test does not prove that a deployed backend's credentials are valid.
 
-The latest recorded application verification had 38 passing tests and a successful production build. Live Azure account workflows also passed. See [the validation report](docs/live-validation.md) for scope. Actual visitor IP attribution through a deployed Render service still needs a deployment check.
+The current automated suite has 43 passing offline tests and a successful production build. Live Azure account workflows also passed. See [the validation report](docs/live-validation.md) for scope. Actual visitor IP attribution through a deployed Render service still needs a deployment check.
+
+### Live integration tests and account cleanup
+
+Routine `npm test` uses local fixtures, not Azure. Any successful registration in the server fixtures is tracked and removed in `afterEach`, including when an assertion fails. UI tests mock account calls and create no database records.
+
+To run the real Azure registration/login/deletion test, supply `backend`, `app_access`, `admin_token`, and the server-only secrets `sudo_user` and `sudo_pass` through your environment. The sudo username is sent as the login `email`; `sudo_pass` is sent as `password`. Do not add these privileged credentials to browser code or Render's normal website settings: they are needed only by the live test runner.
+
+On macOS/Linux or a bash terminal:
+
+```sh
+RUN_LIVE_API_TESTS=1 npm test -- server/live.test.mjs
+```
+
+In PowerShell, set `$env:RUN_LIVE_API_TESTS = "1"`, run `npm test -- server/live.test.mjs`, then remove the flag with `Remove-Item Env:RUN_LIVE_API_TESTS`.
+
+Run this live test only after the backend `to_user` deletion update is deployed. The live test authenticates sudo before registration, creates a unique `codex.live.*@example.com` account, and runs `DELETE /Register` in `finally`. Deletion sends `app_access`, the sudo `access_token`, and the target email in `to_user`, plus the normal `admin_token`/`ip` forwarding fields. A final login attempt verifies the deleted account cannot authenticate. Cleanup failures fail the test and report the generated email for repair; they are never silently ignored. If the process is forcibly killed or the backend is unreachable, `finally` cannot guarantee deletion, so the backend maintainer must remove the leftover test record.
+
+`server/test-account-cleanup.mjs` limits targets to designated `codex.test`, `codex.browser`, `codex.forward`, and `codex.live` addresses under `example.com`. It exposes no browser route. It does not log out sudo because backend logout revokes every session belonging to that shared administrator. The short-lived token remains only in runner memory and expires under backend policy.
 
 When intentionally adding a dependency, use npm so both `package.json` and `package-lock.json` are updated, review the changes, and commit both. Use `npm ci` for routine installation.
 

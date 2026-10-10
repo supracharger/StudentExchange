@@ -18,11 +18,12 @@ export class AccountApiError extends Error {
 }
 
 /** The browser talks only to this site's adapter; shared credentials and tokens stay server-side. */
-async function request<T>(
+export async function request<T>(
   path: string,
   method = 'GET',
   body?: unknown,
   signal?: AbortSignal,
+  timeoutMs = 20000,
 ): Promise<T> {
   let response: Response
   try {
@@ -31,8 +32,8 @@ async function request<T>(
       credentials: 'same-origin',
       cache: 'no-store',
       signal: signal
-        ? AbortSignal.any([signal, AbortSignal.timeout(20000)])
-        : AbortSignal.timeout(20000),
+        ? AbortSignal.any([signal, AbortSignal.timeout(timeoutMs)])
+        : AbortSignal.timeout(timeoutMs),
       headers:
         body === undefined ? undefined : { 'Content-Type': 'application/json' },
       body: body === undefined ? undefined : JSON.stringify(body),

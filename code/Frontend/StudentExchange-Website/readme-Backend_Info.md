@@ -1,5 +1,7 @@
 # StudentExchangeBck
 
+Administrator API additions and the updated deletion contract are documented in [docs/administration.md](docs/administration.md). `DELETE /Register` selects its target using `to_user`, not `email`. The account examples below otherwise describe the older backend snapshot.
+
 ASP.NET Core (.NET 9) REST API for student registration, login/logout, profile management, and school lookup, backed by SQLite. Authentication uses application credentials and user tokens in JSON request bodies.
 
 - [REST API reference and request examples](#use-the-rest-api)
@@ -15,16 +17,17 @@ authentication.
 
 | Method | Route | Credentials | Success |
 | --- | --- | --- | --- |
-| GET | `/Schools` | None | `200` with `Schools` array. |
+| GET | `/Schools` | None | `200` with lowercase `schools` array and `short_names` metadata. |
 | POST | `/Register` | `app_access` | `201` with registration confirmation and normalized email. |
 | POST | `/LogIn` | `app_access`, email, password | `201` with user token and first name. |
 | GET | `/Register` | `app_access`, `access_token` | `200` with current user's profile. |
 | PATCH | `/Register` | `app_access`, `access_token` | `200` with update confirmation and email. |
+| DELETE | `/Register` | `app_access`, admin `access_token`, `to_user` | `200` with account deletion confirmation. |
 | DELETE | `/LogIn` | `app_access`, `access_token` | `200` with logout confirmation; deletes all tokens for the user. |
 
 `app_access` is the shared application password. `access_token` identifies an
 individual logged-in user. Registration does not issue a token: log in afterward.
-Logout is described below. There is no account deletion, password-reset, or school-management endpoint.
+Logout is described below. Administrator account deletion uses `DELETE /Register` with `to_user`. There is no password-reset or school-management endpoint.
 
 Development also exposes the generated **[OpenAPI document](http://localhost:5239/openapi/v1.json)** at `/openapi/v1.json`. There is no configured Swagger UI. The examples here describe controller behavior, including response fields and authentication rules that the generated document may not fully express.
 
@@ -40,15 +43,18 @@ Example response (actual names depend on the database):
 
 ```json
 {
-  "Schools": [
+  "schools": [
     "Metropolitan State University of Denver",
     "University of Colorado Denver"
   ]
 }
 ```
 
-The `Schools` dictionary key retains its capital `S`; other response examples use
-ASP.NET Core's camel-case property serialization. Names are sorted by school name. An empty table currently causes a server error because the controller indexes a missing result key. Select a returned name for registration.
+The deployed response uses lowercase `schools` and also includes `short_names`. The website requires the lowercase `schools` field. Names are sorted by school name. An empty table currently causes a server error because the controller indexes a missing result key. Select a returned name for registration.
+
+### Privileged test-account deletion (updated October 9, 2026)
+
+Log in via `POST /LogIn` with a sudo user's email/password, then send `DELETE /Register` with `app_access`, the returned sudo `access_token`, and the target email in `to_user` (upcoming backend contract). Include `admin_token` and `ip` when forwarding a visitor address, as for other account calls. A regular user's token does not grant this privilege. The website provides this operation in the permission-checked administrator console and its server-side test cleanup helper. Deleting an unknown email currently returns `400` with an unknown-email message.
 
 ### 2. Register an account
 

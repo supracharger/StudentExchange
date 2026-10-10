@@ -24,7 +24,7 @@ The initial browser workflow passed before IP forwarding was added. After the fo
 
 Automated fixtures verify that all account calls (including follow-up GET reads) include the selected IP and admin credential, while `/Schools` has no body or credentials. They cover Render `CF-Connecting-IP`, spoofed forwarding headers, IPv4/IPv6, missing or malformed edge headers, browser body injection, and missing admin configuration. Production build/type checking passed after this change. No actual Render deployment or public-edge smoke test was performed.
 
-## Test data remaining
+## Earlier test data
 
 These clearly named test accounts were created as part of the authorized live tests:
 
@@ -32,4 +32,16 @@ These clearly named test accounts were created as part of the authorized live te
 - `codex.browser.d422866342@example.com` — first name Codex, last name Browser.
 - `codex.forward.dc777f4fad@example.com` — first name Codex, last name Forwarding.
 
-Temporary name/school changes were restored, and all three accounts were logged out. The browser account's password was changed during verification. Passwords were generated in memory and were not retained. Account records remain because the documented API provides no deletion endpoint; a backend administrator can remove these records if desired.
+Temporary name/school changes were restored, and all three accounts were logged out. The browser account's password was changed during verification. Passwords were generated in memory and were not retained. These accounts were originally left behind before a deletion endpoint was available. On October 9, 2026, sudo-authorized deletion attempts for all three returned `400` with "Unknown email: not found in data base." They were already absent; no deletion was needed.
+
+## Updated backend contract and cleanup — October 9, 2026
+
+The live `/Schools` response now contains `schools` and `short_names`, with two school names. The adapter requires lowercase `schools`; the obsolete uppercase field is rejected.
+
+The updated offline suite covers sudo login, privileged DELETE request fields, cleanup failures, and afterEach deletion of successful fixture registrations. The opt-in live test creates a unique test account, logs in, and deletes it in finally using the securely bound sudo credentials. Sudo is not logged out because that backend operation revokes all of the administrator's sessions. No privileged credentials are exposed to the website browser or saved to source files.
+
+After the update, 43 offline tests and the production build passed. The separately enabled live test also passed registration, login, sudo-authorized deletion, and verification that the deleted account can no longer log in. No new test accounts remain from these successful live runs.
+
+## Subsequent administrator integration
+
+The administrator console and test-cleanup helper now prepare `DELETE /Register` using `to_user`, following the upcoming backend contract. Deploy that backend change before using either deletion workflow against live data. Every adapter backend request now carries the trusted visitor IP, including `/Schools`; its parameterless controller does not consume the forwarded body. Earlier validation results above describe the backend contract at the time of those runs.

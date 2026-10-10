@@ -1,0 +1,8 @@
+>> The GET request for Schools is not working. I think the json variable "Schools" is now "schools".
+Also, Register now has a DELETE path to delete a user. the json body would be {'app_access', 'access_token', 'email'}. 'email' would be the user to delete. 
+You will have to login before the DELETE as a sudo user to have this privilege that is why I added the secrets sudo_user (user with admin privileges) and sudo_pass (password for the sudo_user).
+Make sure in npm test that if a test user is Registered, it is then deleted later.
+
+>> Don't do this: "while retaining compatibility with the older response." for this case.
+
+>> I made a change in the DELETE Register path instead of specifying 'email' specify 'to_user' instead. It works better on the backend side. Make the change in all areas this applies in this project.
