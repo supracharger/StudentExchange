@@ -139,7 +139,7 @@ namespace StudentExchangeBck
             {
                 // If Access token is empty
                 if (string.IsNullOrWhiteSpace(access.access_token))
-                    return new UnauthorizedObjectResult(new
+                    return this_.Unauthorized(new
                     {
                         Message = "Not authorized."
                     });
@@ -182,7 +182,7 @@ namespace StudentExchangeBck
                         }
 
                         // Not Authorized, Not Admin
-                        return new UnauthorizedObjectResult(new
+                        return this_.Unauthorized(new
                         {
                             Message = "Not authorized."
                         });
@@ -194,7 +194,8 @@ namespace StudentExchangeBck
 
                     // Get user id from db
                     result = Sql.Read("SELECT U.[id], A.[level], " +
-                                    "(A.[user_id] IS NOT NULL) isAdmin " +
+                                    "(A.[user_id] IS NOT NULL) isAdmin, " +
+                                    "A.locked " +
                                     "FROM User U " +
                                     "LEFT JOIN Admins A ON U.[id]=A.[user_id] " +
                                     "WHERE U.[email]=@email;",
@@ -220,8 +221,23 @@ namespace StudentExchangeBck
                         }
                     }
 
+                    var id = (long)result["id"][0];
+
+                    // Cannot forward yourself
+                    if (id == user.id)
+                        throw new ArgumentException("You are forwarding yourself as a user.");
+
+                    if ((long)result["locked"][0] != 0 && user.adminLvl < 3)
+                    {
+                        user = new Users.Data();
+                        return this_.Unauthorized(new
+                        {
+                            Message = "The user you are forwarding is a locked admin."
+                        });
+                    }
+
                     // Success
-                    user = new Users.Data((long)result["id"][0], forwarded: true, sudo_id: user.id, adminLvl:user.adminLvl);
+                    user = new Users.Data(id, forwarded: true, sudo_id: user.id, adminLvl:user.adminLvl);
                 }
 
                 // Add relation of user to IP: if not there
@@ -233,6 +249,7 @@ namespace StudentExchangeBck
             }
             catch (ArgumentException e)
             {
+                user = new Users.Data();
                 return this_.BadRequest(new
                 {
                     Message = e.Message
@@ -240,6 +257,7 @@ namespace StudentExchangeBck
             }
             catch (Exception e)
             {
+                user = new Users.Data();
                 return this_.StatusCode(500, new
                 {
                     Message = $"An internal server error occurred: {e}"
