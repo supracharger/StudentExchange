@@ -29,3 +29,7 @@
 ## Users Postman Tests
 
 ![Users Postman Tests](./img/Users_Postman_Tests.png)
+
+## Schools Postman Tests
+
+![Schools Postman Tests](./img/Schools_Postman_Tests.png)
