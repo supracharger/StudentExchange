@@ -107,11 +107,57 @@ namespace StudentExchangeBck
                 if (bldIP.TryGetValue("ip", out var pls))
                     bldIP["ip"] = pls.Select(p => (object)DeterministicEncryption.Decrypt((string)p, Env._ipSalt)).ToList();
 
+                var bkIPs = Format(bldIP);
+
+                // Get users inside of IP Row
+                var bkip = new Dictionary<string, object>();
+                // User cells
+                var userdta = new[] { "name", "email" };
+                // Loop joined ip & users
+                foreach(var p in bkIPs)
+                {
+                    // IP
+                    var ipp = (string)p["ip"]!;
+                    // Get User data
+                    var usr = new Dictionary<string, object>();
+                    foreach (var k in userdta)
+                        usr.Add(k, p[k]!);
+                    // If same ip
+                    if (bkip.TryGetValue(ipp, out var row_))
+                    {
+                        // Add user
+                        var users = (List<Dictionary<string, object>>)((Dictionary<string, object?>)row_)["users"]!;
+                        users.Add(usr);
+                    }
+                    // if new ip
+                    else
+                    {
+                        // IP Row without user data
+                        var d2 = p.ToDictionary(s => s.Key, s => s.Value);
+                        foreach (var k in userdta)
+                            d2.Remove(k);
+                        // Add user data
+                        d2.Add("users", new List<Dictionary<string, object>> { usr });
+                        // Add to map
+                        bkip.Add(ipp, d2);
+                    }
+                    
+                }
+
+                var bkIPs2 = bkip.Values.ToList();
+
+                // Sort users by name
+                foreach(var b in bkIPs2)
+                {
+                    var dd = (Dictionary<string, object?>)b;
+                    dd["users"] = ((List<Dictionary<string, object>>)dd["users"]!).OrderBy(s => (string)s["name"]).ToList();
+                }
+
                 // Success
                 return Ok(new
                 {
                     blockedUsers = Format(bldUsers),
-                    blockedIPs = Format(bldIP)
+                    blockedIPs = bkIPs2
                 });
             }
             catch (ArgumentException e)
