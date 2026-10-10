@@ -5,7 +5,8 @@ const production = process.env.NODE_ENV === 'production'
 const server = createWebsiteServer({
   backend: process.env.backend,
   appAccess: process.env.app_access,
-  adminToken: process.env.admin_token,
+  user: process.env.user,
+  userPass: process.env.user_pass,
   // Render supplies this server-side flag; local clients cannot turn header trust on.
   renderProxy: process.env.RENDER === 'true',
   production,
@@ -18,10 +19,11 @@ server.listen(port, '0.0.0.0', () => {
   if (
     !process.env.backend ||
     !process.env.app_access ||
-    !process.env.admin_token
+    !process.env.user ||
+    !process.env.user_pass
   )
     console.warn(
-      'Account service is not configured. Set backend, app_access, and admin_token on the server.',
+      'Account service is not configured. Set backend, app_access, user, and user_pass on the server.',
     )
 })
 

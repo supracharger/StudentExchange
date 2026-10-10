@@ -1,0 +1,4 @@
+>> You will notice IP forwarding has changed. Now admin_token no longer accepts a password, but a admin access token from login. So at the website start login using the env secrets user and user_pass. Keep the access token from login in global memory to reuse. Additionally, insert that access token into admin_token when IP forwarding. Note: the access token can expire. So you may need to send the request, access token happened to expire, re-login using user & user_pass, then resend the request. AppAuthJson.cs is a good reference to operation.
+Also, the updates to the backend have not been deployed yet, user & user_pass have not been specified yet, and the secret 'user' does not have admin access yet.
+
+>> If you look at the Schools Path in backend there is now POST: Add a school, and DELETE: Delete a school. Add those two paths to the admin page on the website.

@@ -18,7 +18,8 @@ const TYPES = {
 export function createWebsiteServer({
   backend,
   appAccess,
-  adminToken,
+  user,
+  userPass,
   renderProxy = false,
   production = true,
   timeoutMs,
@@ -27,7 +28,8 @@ export function createWebsiteServer({
   const api = createApiHandler({
     backend,
     appAccess,
-    adminToken,
+    user,
+    userPass,
     renderProxy,
     production,
     timeoutMs,
@@ -66,7 +68,7 @@ export function createWebsiteServer({
         response.end(
           JSON.stringify({
             status: 'ok',
-            accountsConfigured: Boolean(backend && appAccess && adminToken),
+            accountsConfigured: Boolean(backend && appAccess && user && userPass),
           }),
         )
         return

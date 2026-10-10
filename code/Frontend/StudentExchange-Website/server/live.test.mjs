@@ -4,7 +4,7 @@ import { once } from 'node:events'
 import { expect, it } from 'vitest'
 import { createWebsiteServer } from './app.mjs'
 import { createTestAccountCleaner } from './test-account-cleanup.mjs'
-import { backendUrl, upstream } from './api.mjs'
+import { createForwardingClient } from './api.mjs'
 
 // Routine npm test stays offline. Explicit opt-in is required to create live records.
 it.skipIf(process.env.RUN_LIVE_API_TESTS !== '1')(
@@ -13,7 +13,8 @@ it.skipIf(process.env.RUN_LIVE_API_TESTS !== '1')(
     const config = {
       backend: process.env.backend,
       appAccess: process.env.app_access,
-      adminToken: process.env.admin_token,
+      user: process.env.user,
+      userPass: process.env.user_pass,
       sudoUser: process.env.sudo_user,
       sudoPass: process.env.sudo_pass,
     }
@@ -72,13 +73,10 @@ it.skipIf(process.env.RUN_LIVE_API_TESTS !== '1')(
     // A successful DELETE response alone is insufficient: the removed user must
     // no longer authenticate with the password created by this test.
     await expect(
-      upstream(backendUrl(config.backend), 'LogIn', 'POST', {
-        app_access: config.appAccess,
-        admin_token: config.adminToken,
-        ip: '127.0.0.1',
+      createForwardingClient(config).call('LogIn', 'POST', {
         email,
         password,
-      }),
+      }, '127.0.0.1'),
     ).rejects.toMatchObject({ status: 400 })
   },
   120000,

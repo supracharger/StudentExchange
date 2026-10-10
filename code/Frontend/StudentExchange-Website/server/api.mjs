@@ -8,6 +8,9 @@ import {
   attemptRecords,
   adminFields,
   actionResult,
+  schoolFields,
+  schoolDirectory,
+  schoolAction,
 } from './admin.mjs'
 
 const SESSION_COOKIE = 'se_session'
@@ -211,7 +214,10 @@ export function upstream(base, route, method, body, timeoutMs = 15000) {
                 safeMessage,
               )
             const error = new ApiError(expired ? 401 : status, safeMessage)
-            error.sessionExpired = Boolean(expired)
+            error.forwardingExpired =
+              status === 400 &&
+              (value?.expired === true || value?.Expired === true)
+            error.sessionExpired = Boolean(expired) && !error.forwardingExpired
             reject(error)
           } else resolve(value)
         })
@@ -249,6 +255,92 @@ export function backendUrl(backend) {
   return base
 }
 
+/** One service token per adapter, shared by all visitors and kept only in server memory. */
+export function createForwardingClient({
+  backend,
+  appAccess,
+  user,
+  userPass,
+  timeoutMs = 15000,
+}) {
+  const base = backendUrl(backend)
+  const configured = Boolean(base && appAccess?.trim() && user?.trim() && userPass?.trim())
+  let token
+  let loginPending
+  const unavailable = () => new ApiError(503, 'Accounts are temporarily unavailable. Please try again later.')
+
+  function login(rejectedToken) {
+    // Another request may already have replaced the rejected token.
+    if (token && token !== rejectedToken) return Promise.resolve(token)
+    if (loginPending) return loginPending
+    loginPending = (async () => {
+      try {
+        // Bootstrap uses the connection IP: forwarding requires a token we don't have yet.
+        const result = await upstream(
+          base, 'LogIn', 'POST',
+          { app_access: appAccess, email: user, password: userPass },
+          timeoutMs,
+        )
+        if (
+          typeof result?.access_token !== 'string' ||
+          !result.access_token.trim()
+        ) throw unavailable()
+        const membership = await upstream(
+          base, 'Admin', 'GET',
+          { app_access: appAccess, access_token: result.access_token },
+          timeoutMs,
+        )
+        if (membership?.is_admin !== true) throw unavailable()
+        token = result.access_token
+        return token
+      } catch {
+        // Service-account errors must never reveal its credentials or clear a visitor session.
+        throw unavailable()
+      } finally {
+        loginPending = undefined
+      }
+    })()
+    return loginPending
+  }
+
+  // Start login at website initialization; handle failures so static pages remain available.
+  if (configured) void login().catch(() => {})
+  return {
+    async call(route, method, fields, ip) {
+      if (!configured) {
+        if (route !== 'Schools') throw unavailable()
+        return upstream(
+          base, route, method,
+          { ...fields, ...(appAccess ? { app_access: appAccess } : {}), ip },
+          timeoutMs,
+        )
+      }
+      const current = await login()
+      const send = (adminToken) => upstream(
+        base, route, method,
+        { ...fields, app_access: appAccess, ip, admin_token: adminToken },
+        timeoutMs,
+      )
+      try {
+        return await send(current)
+      } catch (error) {
+        if (!error.forwardingExpired) throw error
+        // AppAuthJson rejects forwarding expiry before any operation is performed.
+        const fresh = await login(current)
+        try {
+          return await send(fresh)
+        } catch (retryError) {
+          if (retryError.forwardingExpired) {
+            if (token === fresh) token = undefined
+            throw unavailable()
+          }
+          throw retryError
+        }
+      }
+    },
+  }
+}
+
 /**
  * Same-origin adapter for the documented ASP.NET API.
  * Tokens stay in memory on this server; the browser receives only an opaque HttpOnly cookie.
@@ -257,13 +349,17 @@ export function backendUrl(backend) {
 export function createApiHandler({
   backend,
   appAccess,
-  adminToken,
+  user,
+  userPass,
   renderProxy = false,
   production = false,
   timeoutMs = 15000,
 } = {}) {
   const sessions = new Map()
   const base = backendUrl(backend)
+  const service = createForwardingClient({
+    backend, appAccess, user, userPass, timeoutMs,
+  })
 
   function setCookie(response, id = '', lifetime = 0) {
     response.setHeader(
@@ -298,6 +394,7 @@ export function createApiHandler({
       '/api/admin/profile': ['GET', 'PATCH'],
       '/api/admin/sessions': ['DELETE'],
       '/api/admin/blocked': ['GET', 'DELETE'],
+      '/api/admin/schools': ['GET', 'POST', 'DELETE'],
     }
     if (!routes[path]) {
       send(response, 404, { message: 'API route not found.' })
@@ -335,7 +432,7 @@ export function createApiHandler({
       }
       if (
         !base ||
-        (path !== '/api/schools' && (!appAccess?.trim() || !adminToken?.trim()))
+        (path !== '/api/schools' && (!appAccess?.trim() || !user?.trim() || !userPass?.trim()))
       ) {
         throw new ApiError(
           503,
@@ -344,31 +441,13 @@ export function createApiHandler({
       }
       // The adapter owns the security envelope for EVERY backend request,
       // including the public Schools lookup and authenticated GET bodies.
-      let forwarding
-      {
-        let ip
-        try {
-          ip = clientIp(request, { renderProxy })
-        } catch {
-          throw new ApiError(
-            400,
-            'Unable to verify your network address. Please try again.',
-          )
-        }
-        forwarding = { ip, ...(adminToken ? { admin_token: adminToken } : {}) }
+      let ip
+      try {
+        ip = clientIp(request, { renderProxy })
+      } catch {
+        throw new ApiError(400, 'Unable to verify your network address. Please try again.')
       }
-      const call = (route, verb, fields) =>
-        upstream(
-          base,
-          route,
-          verb,
-          {
-            ...fields,
-            ...(appAccess ? { app_access: appAccess } : {}),
-            ...forwarding,
-          },
-          timeoutMs,
-        )
+      const call = (route, verb, fields) => service.call(route, verb, fields, ip)
       const credentials = session ? { access_token: session.token } : {}
 
       if (path.startsWith('/api/admin')) {
@@ -379,15 +458,17 @@ export function createApiHandler({
           return
         }
         const permission =
-          path === '/api/admin/blocked'
-            ? 'blocked'
-            : path === '/api/admin/sessions'
-              ? 'endSessions'
-              : path === '/api/admin/profile'
-                ? 'profiles'
-                : method === 'DELETE'
-                  ? 'deleteUsers'
-                  : 'users'
+          path === '/api/admin/schools'
+            ? 'schools'
+            : path === '/api/admin/blocked'
+              ? 'blocked'
+              : path === '/api/admin/sessions'
+                ? 'endSessions'
+                : path === '/api/admin/profile'
+                  ? 'profiles'
+                  : method === 'DELETE'
+                    ? 'deleteUsers'
+                    : 'users'
         if (!status.permissions[permission])
           throw new ApiError(
             403,
@@ -405,12 +486,23 @@ export function createApiHandler({
             )
               throw new ApiError(
                 403,
-                'Your administrator access does not permit this action for this user.',
+                path === '/api/admin/schools'
+                  ? 'Your administrator access does not permit this action.'
+                  : 'Your administrator access does not permit this action for this user.',
               )
             throw error
           }
         }
-        if (path === '/api/admin/users' && method === 'GET') {
+        if (path === '/api/admin/schools') {
+          if (method === 'GET') {
+            send(response, 200, { schools: schoolDirectory(await adminCall('Schools', 'GET', {})) })
+          } else {
+            const adding = method === 'POST'
+            const fields = schoolFields(await readBody(request), adding)
+            const result = await adminCall('Schools', method, fields)
+            send(response, adding ? 201 : 200, schoolAction(result, adding))
+          }
+        } else if (path === '/api/admin/users' && method === 'GET') {
           send(response, 200, {
             users: adminUsers(await adminCall('Users', 'GET', {})),
           })

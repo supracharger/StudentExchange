@@ -9,7 +9,7 @@ The implementation follows [SoftwareEngineerTemp/readme.md](https://github.com/s
 | Admin access | Visible tools |
 | --- | --- |
 | Any administrator, including level 0 | Overview, own membership/level, end an eligible user's sessions |
-| Level 1+ | User directory, search, school filter, pagination, eligible profile reads/updates, account deletion |
+| Level 1+ | User directory, search, school filter, pagination, eligible profile reads/updates, account deletion, school directory/add/delete |
 | Level 2+ | User/IP attempt records, search, pagination, clear user or IP records |
 
 Navigation and controls outside the administrator's permissions are omitted, rather than disabled. Disabled states are only used for temporary loading, missing confirmation, or pagination boundaries.
@@ -19,6 +19,9 @@ Navigation and controls outside the administrator's permissions are omitted, rat
 | Website adapter | Backend request | Required level |
 | --- | --- | --- |
 | `GET /api/admin` | `GET /Admin` | Logged-in user |
+| `GET /api/admin/schools` | `GET /Schools` with name/short-name pairing | 1+ |
+| `POST /api/admin/schools` | `POST /Schools` with `name` and `short_name` | 1+ |
+| `DELETE /api/admin/schools` | `DELETE /Schools` with `name`, `short_name`, or both | 1+ |
 | `GET /api/admin/users` | `GET /Users` | 1+ |
 | `GET /api/admin/profile?email=...` | `GET /Register` with `to_user` | 1+, eligible target |
 | `PATCH /api/admin/profile?email=...` | `PATCH /Register` with `to_user` | 1+, eligible target |
@@ -27,7 +30,7 @@ Navigation and controls outside the administrator's permissions are omitted, rat
 | `GET /api/admin/blocked` | `GET /Blocked` | 2+ |
 | `DELETE /api/admin/blocked` | `DELETE /Blocked` with exactly one of `email` or `ip_addr` | 2+ |
 
-Existing account registration, own-profile read/update, login/logout, and school lookup remain available. The backend provides no school-management or admin-level-assignment API, so those controls are not present.
+Existing account registration, own-profile read/update, login/logout, and school lookup remain available. The Schools section follows [Schools.cs](https://github.com/supracharger/SoftwareEngineerTemp/blob/5ba9a9332d0b08a23740dc10b635ce6fc5aac1fd/StudentExchangeBck/Controllers/Schools.cs). Level 1+ administrators can add a school with its name and short name, then delete a listed school after confirmation. Deletion sends both stored values; the backend combines them with AND. A successful mutation refreshes the directory without repeating the mutation if the read fails. The delete response uses `row_count`, rather than `deleted_Rows`. The backend still provides no admin-level-assignment API.
 
 ## Target permissions and backend limitations
 
@@ -43,7 +46,7 @@ Attempt records can contain counts below the blocking threshold, expired rows, o
 
 Every admin operation re-reads `GET /Admin` on the server before calling the protected backend route. A demotion blocks the next action even if the browser has stale UI. Expired tokens clear the local session; a forbidden forwarded target returns `403` without logging out the administrator.
 
-Every outbound backend request now has a JSON body containing the server-verified visitor `ip`, including `/Schools`. Configured `admin_token` and `app_access` are added server-side. Authenticated operations require both shared credentials; public Schools lookup remains available without them. `Schools.Get()` is parameterless and does not consume the body or record the forwarded IP; changing that backend behavior would require a backend change. The adapter nevertheless sends the IP on that request as requested.
+Every visitor backend request now has a JSON body containing the server-verified visitor `ip`, including `/Schools`. The service account logs in without forwarding at startup using server-only `user`, `user_pass`, and `app_access`; `GET /Admin` verifies its membership. The returned access token is cached in server memory and inserted as `admin_token`. A forwarding-expiry response (`400`, `expired: true`) triggers a shared re-login and one retry; visitor-token expiry continues to clear the visitor session. Public Schools lookup remains available when service credentials are absent. `Schools.Get()` is parameterless and does not consume the body or record the forwarded IP; changing that backend behavior would require a backend change. The adapter nevertheless sends the IP on that request as requested.
 
 On Render, `RENDER=true` enables trust in the edge's single `CF-Connecting-IP` address. Missing/invalid edge data fails closed. Outside Render, the socket peer is used and forwarding headers are ignored. Browser-supplied IPs, tokens, `to_user`, and application credentials cannot override the adapter's envelope. GET bodies are sent with Node's HTTP client because browser fetch cannot send them.
 

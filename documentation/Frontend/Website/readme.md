@@ -136,7 +136,9 @@ The following names are case-sensitive:
 
 | `app\_access`  | Shared credential that identifies this website to the backend. | Account requests.           |
 
-| `admin\_token` | Shared credential allowing the server to forward a visitor IP. | Account requests.           |
+| `user` | Service account email with backend admin membership. | Account requests. |
+
+| `user\_pass` | Service account login password (server-only secret). | Account requests. |
 
 
 
@@ -152,7 +154,7 @@ https://studentexchangebck-fpdnfpcqe4bje2eh.westus-01.azurewebsites.net
 
 
 
-Ask the project maintainer for approved access to the two credentials through the team's secure channel. Their values are deliberately absent from this guide and `.env.example`.
+Ask the project maintainer for approved access to the service account credentials and application credential through the team's secure channel. Their values are deliberately absent from this guide and `.env.example`.
 
 
 
@@ -334,7 +336,9 @@ Sessions last up to 12 hours; backend expiry may invalidate them sooner. Restart
 
 
 
-Every upstream account request includes server-generated `app\_access`, `admin\_token`, and `ip` in its JSON body, including profile GET requests. The public `/Schools` request also carries the trusted visitor IP; its current parameterless backend controller does not consume it. These shared credentials and Azure tokens must never be returned to the browser or placed in browser storage. User passwords necessarily pass through the login/registration form, but are not retained in browser storage or server sessions. Do not log request bodies, cookies, passwords, or tokens while debugging.
+The server logs in to `POST /LogIn` at startup using server-only `user` (sent as `email`), `user_pass` (sent as `password`), and `app_access`, without forwarding fields. It verifies admin membership via an unforwarded `GET /Admin`, caches the returned access token in server memory, and uses it as `admin_token` for visitor requests. An HTTP 400 response with `expired: true` triggers one shared re-login and one retry of the original request. Ordinary visitor-token expiry never triggers service login. No password is sent as `admin_token`.
+
+Every visitor upstream account request includes server-generated `app\_access`, `admin\_token`, and `ip` in its JSON body, including profile GET requests. The public `/Schools` request also carries the trusted visitor IP; its current parameterless backend controller does not consume it. The application credential, service account credentials, and Azure tokens must never be returned to the browser or placed in browser storage. User passwords necessarily pass through the login/registration form, but are not retained in browser storage or server sessions. Do not log request bodies, cookies, passwords, or tokens while debugging.
 
 
 
@@ -492,7 +496,7 @@ After deployment, check the HTTPS homepage and `/healthz`, load schools, and use
 
 | Port 5173 or 4173 is already in use.                | Stop the earlier server you started. These Vite ports are fixed; F5 may have started a background task.                                     |
 
-| Account service unavailable (`503`).                | Check all three server settings, exact spelling, and whether you restarted after changes. Check connectivity; do not print secret values.   |
+| Account service unavailable (`503`).                | Check all four server settings, exact spelling, and whether you restarted after changes. Check connectivity; do not print secret values.   |
 
 | School lookup fails.                                | Check `backend`, network access, and Azure availability. School lookup does not need account secrets.                                       |
 

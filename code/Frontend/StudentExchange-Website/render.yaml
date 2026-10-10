@@ -15,5 +15,7 @@ services:
         value: https://studentexchangebck-fpdnfpcqe4bje2eh.westus-01.azurewebsites.net
       - key: app_access
         sync: false
-      - key: admin_token
+      - key: user
+        sync: false
+      - key: user_pass
         sync: false

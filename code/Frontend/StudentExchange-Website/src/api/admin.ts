@@ -22,12 +22,17 @@ export interface AdminAccess {
   is_admin: boolean
   level: number | null
   permissions: {
+    schools: boolean
     users: boolean
     profiles: boolean
     deleteUsers: boolean
     blocked: boolean
     endSessions: boolean
   }
+}
+export interface AdminSchool {
+  name: string
+  short_name: string
 }
 export interface AdminUser {
   email: string
@@ -47,6 +52,12 @@ export interface Attempts {
   blockedIPs: AttemptRecord[]
 }
 export const admin = {
+  schools: (signal?: AbortSignal) =>
+    request<{ schools: AdminSchool[] }>('admin/schools', 'GET', undefined, signal),
+  addSchool: (school: AdminSchool) =>
+    request<{ message: string }>('admin/schools', 'POST', school),
+  deleteSchool: (selector: { name?: string; short_name?: string }) =>
+    request<{ message: string }>('admin/schools', 'DELETE', selector),
   access: (signal?: AbortSignal) =>
     request<AdminAccess>('admin', 'GET', undefined, signal),
   users: (signal?: AbortSignal) =>

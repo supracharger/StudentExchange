@@ -25,9 +25,10 @@ Before starting, supply these **server-only** settings in your process environme
 | ------------- | ------------------------------------------------------------------------------------------------------ |
 | `backend`     | `https://studentexchangebck-fpdnfpcqe4bje2eh.westus-01.azurewebsites.net`                              |
 | `app_access`  | The shared application credential, entered securely; never commit it or put it in a `VITE_*` variable. |
-| `admin_token` | The IP forwarding credential, entered securely on the server; never expose it to the browser.          |
+| `user` | Service account email with backend admin membership; server-only secret. |
+| `user_pass` | Service account login password; server-only secret. |
 
-`.env.example` lists the settings and contains no credential value. If you choose to manage your own local settings in an ignored `.env.local`, both Vite and `npm start` read that file. Setup does not create it or store a credential. Restart the server after changing settings. School lookup needs only `backend`; account requests need all three settings. Missing configuration leaves browsing available and returns a clear account-unavailable message.
+`.env.example` lists the settings and contains no credential value. If you choose to manage your own local settings in an ignored `.env.local`, both Vite and `npm start` read that file. Setup does not create it or store a credential. Restart the server after changing settings. School lookup needs only `backend`; account requests need all four settings. Missing configuration leaves browsing available and returns a clear account-unavailable message.
 
 For breakpoints, install Google Chrome and press **F5**, selecting **Debug Student Exchange in Chrome**. The included launch configuration starts Vite through a background task. If Vite is already running in another terminal, stop that instance first; the port is intentionally fixed. Stop the server using Ctrl+C or VS Code's **Tasks: Terminate Task** command when finished.
 
@@ -57,10 +58,10 @@ Commit and push the application files to GitHub. In Render, create a **Blueprint
 | Build command         | `npm ci && npm run build`                                                                                                             |
 | Start command         | `npm start`                                                                                                                           |
 | Health check path     | `/healthz`                                                                                                                            |
-| Environment variables | `NODE_VERSION=24.19.0`, `NODE_ENV=production`, `backend` as above, and both `app_access` and `admin_token` entered securely in Render |
+| Environment variables | `NODE_VERSION=24.19.0`, `NODE_ENV=production`, `backend` as above, and `app_access`, `user`, and `user_pass` entered securely in Render |
 | Instances             | `1` (sessions are stored in the Node process)                                                                                         |
 
-The Node server serves `dist/`, handles `/api/*`, and falls back to `index.html` for extensionless client-side page routes. Missing assets and unknown API routes return 404. A Static Site alone cannot run the account adapter. The Blueprint includes the backend URL and requests `app_access` and `admin_token` through Render's secure settings; it contains no secret value. No Render service has been deployed by this work.
+The Node server serves `dist/`, handles `/api/*`, and falls back to `index.html` for extensionless client-side page routes. Missing assets and unknown API routes return 404. A Static Site alone cannot run the account adapter. The Blueprint includes the backend URL and requests `app_access`, `user`, and `user_pass` through Render's secure settings; it contains no secret value. No Render service has been deployed by this work.
 
 ## Backend integration
 
@@ -79,7 +80,9 @@ The browser receives an opaque, HttpOnly, SameSite=Lax cookie with a 12-hour lif
 
 Sessions are deliberately kept in memory: restarting/redeploying the Node server logs users out. Use a shared server-side session store before scaling beyond one instance. Backend token expiry can invalidate a session earlier. Logout revokes all backend tokens for that user, matching the documented API.
 
-Every upstream request includes server-generated `ip`, `admin_token`, and `app_access` in its JSON body, including upstream GET profile requests. Browser-supplied body fields cannot override these values. Secrets stay on the Node server.
+The server logs in to `POST /LogIn` at startup using server-only `user` (sent as `email`), `user_pass` (sent as `password`), and `app_access`, without forwarding fields. It verifies admin membership via an unforwarded `GET /Admin`, caches the returned access token in server memory, and uses it as `admin_token` for visitor requests. An HTTP 400 response with `expired: true` triggers one shared re-login and one retry of the original request. Ordinary visitor-token expiry never triggers service login. No password is sent as `admin_token`.
+
+Every visitor upstream request includes server-generated `ip`, `admin_token`, and `app_access` in its JSON body, including upstream GET profile requests. Browser-supplied body fields cannot override these values. Secrets stay on the Node server.
 
 On Render, the automatically supplied `RENDER=true` flag enables reading the single visitor address from `CF-Connecting-IP` at its public Cloudflare edge. The adapter ignores `X-Forwarded-For` and rejects missing or invalid edge IPs instead of forwarding a proxy address. Local development uses the socket address (usually `127.0.0.1` or `::1`) and ignores forwarding headers. Do not set `RENDER=true` locally or expose a bypass route to this server behind an untrusted proxy. This trust mode assumes requests arrive through Render's public edge; private-network callers must also be trusted. See [Render's environment flags](https://render.com/docs/environment-variables), [Render's Cloudflare provider information](https://render.com/docs/custom-domains), and [Cloudflare's visitor IP header contract](https://developers.cloudflare.com/fundamentals/reference/http-headers/#cf-connecting-ip).
 

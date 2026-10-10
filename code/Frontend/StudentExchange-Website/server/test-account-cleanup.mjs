@@ -1,5 +1,5 @@
 import { isIP } from 'node:net'
-import { backendUrl, upstream } from './api.mjs'
+import { backendUrl, createForwardingClient } from './api.mjs'
 
 /**
  * Test-only privileged cleanup. No browser route imports this module.
@@ -8,26 +8,26 @@ import { backendUrl, upstream } from './api.mjs'
 export function createTestAccountCleaner({
   backend,
   appAccess,
-  adminToken,
+  user,
+  userPass,
   sudoUser,
   sudoPass,
   ip = '127.0.0.1',
 }) {
   const base = backendUrl(backend)
-  if (!base || !appAccess || !adminToken || !sudoUser || !sudoPass || !isIP(ip))
+  if (!base || !appAccess || !user || !userPass || !sudoUser || !sudoPass || !isIP(ip))
     throw new Error(
-      'Test cleanup requires backend, app_access, admin_token, sudo_user, sudo_pass, and a valid IP.',
+      'Test cleanup requires backend, app_access, user, user_pass, sudo_user, sudo_pass, and a valid IP.',
     )
-  const envelope = { app_access: appAccess, admin_token: adminToken, ip }
+  const service = createForwardingClient({ backend, appAccess, user, userPass })
   let token
   return {
     async login() {
       try {
-        const result = await upstream(base, 'LogIn', 'POST', {
-          ...envelope,
+        const result = await service.call('LogIn', 'POST', {
           email: sudoUser,
           password: sudoPass,
-        })
+        }, ip)
         if (typeof result?.access_token !== 'string' || !result.access_token)
           throw new Error()
         token = result.access_token
@@ -48,11 +48,10 @@ export function createTestAccountCleaner({
         throw new Error('Cleanup can delete only designated test accounts.')
       if (!token) await this.login()
       try {
-        await upstream(base, 'Register', 'DELETE', {
-          ...envelope,
+        await service.call('Register', 'DELETE', {
           access_token: token,
           to_user: email,
-        })
+        }, ip)
       } catch (error) {
         throw new Error(
           `Test-account deletion failed (status ${error.status ?? 'unknown'}).`,

@@ -51,14 +51,30 @@ beforeEach(async () => {
     const chunks = []
     for await (const chunk of request) chunks.push(chunk)
     const body = JSON.parse(Buffer.concat(chunks).toString())
+    response.setHeader('Content-Type', 'application/json')
+    if (request.url === '/LogIn' && body.email === 'service@example.com') {
+      response.writeHead(201)
+      response.end(JSON.stringify({ access_token: keys.admin_token }))
+      return
+    }
+    if (request.url === '/Admin' && !body.ip) {
+      response.end(JSON.stringify({ is_admin: true, level: 0 }))
+      return
+    }
     calls.push({ method: request.method, path: request.url, body })
     response.setHeader('Content-Type', 'application/json')
     const send = (status, value) => {
       response.writeHead(status)
       response.end(JSON.stringify(value))
     }
-    if (request.url === '/Schools')
-      return send(200, { schools: ['Campus'], short_names: ['C'] })
+    if (request.url === '/Schools') {
+      if (request.method === 'GET') return send(200,
+        badSchema === 'schools' ? { schools: ['Campus'], short_names: [] } :
+        { schools: ['Campus'], short_names: ['C'], password: 'secret' })
+      if (request.method === 'POST') return send(201,
+        badSchema === 'school-add' ? {} : { name: body.name, short_name: body.short_name, password: 'secret' })
+      return send(200, badSchema === 'school-delete' ? { row_count: '1' } : { row_count: 1, password: 'secret' })
+    }
     if (request.url === '/LogIn' && request.method === 'POST')
       return send(201, { access_token: keys.access_token })
     if (expired)
@@ -155,7 +171,8 @@ beforeEach(async () => {
   website = createWebsiteServer({
     backend: url,
     appAccess: keys.app_access,
-    adminToken: keys.admin_token,
+    user: 'service@example.com',
+    userPass: 'Service!123',
     renderProxy: true,
     production: false,
   })
@@ -290,6 +307,54 @@ describe('administrator wire contract and permissions', () => {
       access_token: keys.access_token,
     })
     expect(calls.at(-1).body).not.toHaveProperty('email')
+  })
+  it('lists, adds, and deletes schools with visitor credentials and the Schools response schema', async () => {
+    const cookie = await login()
+    level = 1
+    const directory = await call('admin/schools', 'GET', undefined, cookie)
+    expect(await directory.json()).toEqual({ schools: [{ name: 'Campus', short_name: 'C' }] })
+    const school = { name: 'New Campus', short_name: ' NC ' }
+    const added = await call('admin/schools', 'POST', school, cookie)
+    expect(added.status).toBe(201)
+    expect(await added.json()).toEqual({ message: 'School added.', ...school })
+    expect(calls.at(-1)).toEqual({ path: '/Schools', method: 'POST', body: {
+      ...school, access_token: keys.access_token, admin_token: keys.admin_token, app_access: keys.app_access, ip: visitor,
+    } })
+    for (const selector of [school, { name: school.name }, { short_name: school.short_name }]) {
+      const removed = await call('admin/schools', 'DELETE', selector, cookie)
+      expect(await removed.json()).toEqual({ message: 'School deleted.', deletedRows: 1 })
+      expect(calls.at(-1).body).toMatchObject(selector)
+    }
+  })
+  it('blocks school mutations for level 0, demoted callers, and injected or blank fields', async () => {
+    expect((await call('admin/schools', 'POST', { name: 'Campus', short_name: 'C' })).status).toBe(401)
+    const cookie = await login()
+    level = 0
+    for (const method of ['GET', 'POST', 'DELETE']) {
+      const before = calls.length
+      expect((await call('admin/schools', method, method === 'GET' ? undefined : { name: 'Campus', short_name: 'C' }, cookie)).status).toBe(403)
+      expect(calls.slice(before).map(item => item.path)).toEqual(['/Admin'])
+    }
+    level = 1
+    for (const [method, body] of [
+      ['POST', { name: 'Campus' }], ['POST', { name: ' ', short_name: 'C' }],
+      ['POST', { name: 'Campus', short_name: 3 }], ['DELETE', {}],
+      ['DELETE', { name: null }], ['DELETE', { name: 'Campus', admin_token: 'evil' }],
+      ['POST', { name: 'Campus', short_name: 'C', access_token: 'evil' }],
+    ]) {
+      const before = calls.length
+      expect((await call('admin/schools', method, body, cookie)).status).toBe(400)
+      expect(calls.slice(before).map(item => item.path)).toEqual(['/Admin'])
+    }
+    isAdmin = false
+    expect((await call('admin/schools', 'DELETE', { name: 'Campus' }, cookie)).status).toBe(403)
+  })
+  it('rejects malformed school directory and action responses', async () => {
+    const cookie = await login()
+    for (const [schema, method] of [['schools', 'GET'], ['school-add', 'POST'], ['school-delete', 'DELETE']]) {
+      badSchema = schema
+      expect((await call('admin/schools', method, method === 'GET' ? undefined : { name: 'Campus', short_name: 'C' }, cookie)).status).toBe(502)
+    }
   })
   it('reports exact level permissions and rechecks demotions before protected upstream actions', async () => {
     const cookie = await login()

@@ -12,7 +12,8 @@ export function upstream(
 export function createApiHandler(config?: {
   backend?: string
   appAccess?: string
-  adminToken?: string
+  user?: string
+  userPass?: string
   renderProxy?: boolean
   production?: boolean
   timeoutMs?: number

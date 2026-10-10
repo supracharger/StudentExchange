@@ -45,3 +45,10 @@ After the update, 43 offline tests and the production build passed. The separate
 ## Subsequent administrator integration
 
 The administrator console and test-cleanup helper now prepare `DELETE /Register` using `to_user`, following the upcoming backend contract. Deploy that backend change before using either deletion workflow against live data. Every adapter backend request now carries the trusted visitor IP, including `/Schools`; its parameterless controller does not consume the forwarded body. Earlier validation results above describe the backend contract at the time of those runs.
+
+
+## Service-token forwarding migration (October 10, 2026)
+
+The website now uses `user` and `user_pass` to obtain an admin access token at startup and sends that token as `admin_token`. The former `admin_token` environment secret is no longer read. Local HTTP fixtures cover startup, reuse, concurrent refresh, a single retry, visitor-token expiry, and unavailable/non-admin service accounts. Earlier live results above used the former shared-secret contract and do not validate this migration.
+
+Deployment prerequisites: deploy the updated backend, configure server-only `user` and `user_pass`, and grant that account membership in the backend `Admins` table. Until these are ready, account operations remain unavailable; no live migration test or deployment has been performed. The process health endpoint reports configuration presence, not authentication readiness.

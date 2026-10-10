@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { admin } from '../api/admin'
+import SchoolsPanel from './SchoolsPanel'
 import type {
   AdminAccess,
   AdminUser,
@@ -17,7 +18,7 @@ import {
   ConfirmPasswordField,
 } from './AccountPanel'
 
-type Section = 'overview' | 'users' | 'blocked' | 'sessions'
+type Section = 'overview' | 'users' | 'blocked' | 'sessions' | 'schools'
 type Confirmation = {
   title: string
   description: string
@@ -352,6 +353,7 @@ function Console({
     visible: boolean
   }[] = [
     { id: 'overview', icon: '◈', label: 'Overview', visible: true },
+    { id: 'schools', icon: '▤', label: 'Schools', visible: permissions.schools },
     { id: 'users', icon: '♧', label: 'Users', visible: permissions.users },
     {
       id: 'blocked',
@@ -424,20 +426,24 @@ function Console({
           <h1 id="admin-title" ref={heading} tabIndex={-1}>
             {section === 'overview'
               ? `Welcome back, ${account.profile?.first_name}.`
-              : section === 'users'
-                ? 'Your student community'
-                : section === 'blocked'
-                  ? 'Login attempts'
-                  : 'End user sessions'}
+              : section === 'schools'
+                ? 'Manage schools'
+                : section === 'users'
+                  ? 'Your student community'
+                  : section === 'blocked'
+                    ? 'Login attempts'
+                    : 'End user sessions'}
           </h1>
           <p>
             {section === 'overview'
               ? 'A clear view of your community, with the tools to keep it running smoothly.'
-              : section === 'users'
-                ? 'Find students, keep profiles up to date, and manage account access.'
-                : section === 'blocked'
-                  ? 'Review user and IP attempt records and help students regain access.'
-                  : 'Sign an eligible user out of all active sessions.'}
+              : section === 'schools'
+                ? 'Keep the school list available to students up to date.'
+                : section === 'users'
+                  ? 'Find students, keep profiles up to date, and manage account access.'
+                  : section === 'blocked'
+                    ? 'Review user and IP attempt records and help students regain access.'
+                    : 'Sign an eligible user out of all active sessions.'}
           </p>
         </header>
         {error && (
@@ -594,6 +600,7 @@ function Console({
                         <li>User directory and eligible profiles</li>
                       )}
                       {permissions.deleteUsers && <li>Account deletion</li>}
+                      {permissions.schools && <li>Add and delete schools</li>}
                       {permissions.blocked && (
                         <li>User and IP attempt records</li>
                       )}
@@ -885,6 +892,22 @@ function Console({
                   setPage={setPage}
                 />
               </div>
+            )}
+            {section === 'schools' && permissions.schools && (
+              <SchoolsPanel
+                onError={handleError}
+                onAdded={(result) => {
+                  setError('')
+                  setNotice(result)
+                }}
+                onDelete={(school) => setConfirmation({
+                  title: 'Delete this school?',
+                  description: `Remove ${school.name} (${school.short_name}) from the school list?`,
+                  label: 'Delete school',
+                  danger: true,
+                  run: () => admin.deleteSchool(school),
+                })}
+              />
             )}
             {section === 'sessions' && permissions.endSessions && (
               <div className="admin-card admin-session-card">

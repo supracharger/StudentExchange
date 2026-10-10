@@ -66,7 +66,8 @@ The following names are case-sensitive:
 | ------------- | -------------------------------------------------------------- | --------------------------- |
 | `backend`     | Base URL of the separate account API.                          | School lookup and accounts. |
 | `app_access`  | Shared credential that identifies this website to the backend. | Account requests.           |
-| `admin_token` | Shared credential allowing the server to forward a visitor IP. | Account requests.           |
+| `user` | Service account email with backend admin membership. | Account requests. |
+| `user_pass` | Service account login password (server-only secret). | Account requests. |
 
 The current backend URL is:
 
@@ -74,11 +75,11 @@ The current backend URL is:
 https://studentexchangebck-fpdnfpcqe4bje2eh.westus-01.azurewebsites.net
 ```
 
-Ask the project maintainer for approved access to the two credentials through the team's secure channel. Their values are deliberately absent from this guide and `.env.example`.
+Ask the project maintainer for approved access to the service account credentials and application credential through the team's secure channel. Their values are deliberately absent from this guide and `.env.example`.
 
 Prefer supplying credentials through your development environment's secret settings. If your team permits a local credential file, create `.env.local` in the project root using `.env.example` as its template, and fill in the blank values privately. Git ignores `.env.local`; do not force-add it, share screenshots of it, or paste its contents into issues. Neither this guide nor the setup creates a credential file for you.
 
-Both Vite and `npm start` read `.env.local`. Existing process environment variables take precedence in the Vite configuration. Restart the server whenever you change settings. Never rename a credential to `VITE_app_access` or `VITE_admin_token`: Vite's `VITE_` prefix makes variables available to browser code.
+Both Vite and `npm start` read `.env.local`. Existing process environment variables take precedence in the Vite configuration. Restart the server whenever you change settings. Never rename a credential to `VITE_app_access` or `VITE_user` or `VITE_user_pass`: Vite's `VITE_` prefix makes variables available to browser code.
 
 Without account credentials, you can still work on the homepage. With `backend` alone, school lookup works; account operations report that the service is unavailable. Automated tests use fake local services and do not require real credentials.
 
@@ -165,7 +166,9 @@ After login, the browser gets an opaque `se_session` cookie: a random identifier
 
 Sessions last up to 12 hours; backend expiry may invalidate them sooner. Restarting or redeploying the Node server loses its in-memory sessions and logs users out. Run one Render instance until a shared session store is implemented. Logout revokes all backend tokens for that user, including sessions on other devices.
 
-Every upstream account request includes server-generated `app_access`, `admin_token`, and `ip` in its JSON body, including profile GET requests. The public `/Schools` request also carries the trusted visitor IP; its current parameterless backend controller does not consume it. These shared credentials and Azure tokens must never be returned to the browser or placed in browser storage. User passwords necessarily pass through the login/registration form, but are not retained in browser storage or server sessions. Do not log request bodies, cookies, passwords, or tokens while debugging.
+The server logs in to `POST /LogIn` at startup using server-only `user` (sent as `email`), `user_pass` (sent as `password`), and `app_access`, without forwarding fields. It verifies admin membership via an unforwarded `GET /Admin`, caches the returned access token in server memory, and uses it as `admin_token` for visitor requests. An HTTP 400 response with `expired: true` triggers one shared re-login and one retry of the original request. Ordinary visitor-token expiry never triggers service login. No password is sent as `admin_token`.
+
+Every visitor upstream account request includes server-generated `app_access`, `admin_token`, and `ip` in its JSON body, including profile GET requests. The public `/Schools` request also carries the trusted visitor IP; its current parameterless backend controller does not consume it. The application credential, service account credentials, and Azure tokens must never be returned to the browser or placed in browser storage. User passwords necessarily pass through the login/registration form, but are not retained in browser storage or server sessions. Do not log request bodies, cookies, passwords, or tokens while debugging.
 
 Visitor IP selection depends on where the server runs:
 
@@ -208,7 +211,7 @@ The current automated suite has 43 passing offline tests and a successful produc
 
 Routine `npm test` uses local fixtures, not Azure. Any successful registration in the server fixtures is tracked and removed in `afterEach`, including when an assertion fails. UI tests mock account calls and create no database records.
 
-To run the real Azure registration/login/deletion test, supply `backend`, `app_access`, `admin_token`, and the server-only secrets `sudo_user` and `sudo_pass` through your environment. The sudo username is sent as the login `email`; `sudo_pass` is sent as `password`. Do not add these privileged credentials to browser code or Render's normal website settings: they are needed only by the live test runner.
+To run the real Azure registration/login/deletion test, supply `backend`, `app_access`, `user`, `user_pass`, and the server-only secrets `sudo_user` and `sudo_pass` through your environment. The sudo username is sent as the login `email`; `sudo_pass` is sent as `password`. Do not add these privileged credentials to browser code or Render's normal website settings: they are needed only by the live test runner.
 
 On macOS/Linux or a bash terminal:
 
@@ -247,7 +250,7 @@ Create a **Node Web Service**, using the repository's `render.yaml` as a Bluepri
 | Node version   | `NODE_VERSION=24.19.0`                                                               |
 | Runtime mode   | `NODE_ENV=production`                                                                |
 | Backend URL    | `backend` set to the Azure URL above.                                                |
-| Credentials    | Enter `app_access` and `admin_token` in Render's environment settings.               |
+| Credentials    | Enter `app_access`, `user`, and `user_pass` in Render's environment settings.               |
 | Instances      | One until sessions use a shared store.                                               |
 
 The build explicitly includes development dependencies because TypeScript, Vite, and React type declarations are needed during compilation, even with `NODE_ENV=production`. Keep production mode enabled for the running server.
@@ -264,7 +267,7 @@ After deployment, check the HTTPS homepage and `/healthz`, load schools, and use
 | npm cannot find `package.json`.                     | Open the repository root and run commands from that folder.                                                                                 |
 | Install/build reports an unsupported engine.        | Check `node --version`; use the project's supported Node 24 range.                                                                          |
 | Port 5173 or 4173 is already in use.                | Stop the earlier server you started. These Vite ports are fixed; F5 may have started a background task.                                     |
-| Account service unavailable (`503`).                | Check all three server settings, exact spelling, and whether you restarted after changes. Check connectivity; do not print secret values.   |
+| Account service unavailable (`503`).                | Check all four server settings, exact spelling, and whether you restarted after changes. Check connectivity; do not print secret values.   |
 | School lookup fails.                                | Check `backend`, network access, and Azure availability. School lookup does not need account secrets.                                       |
 | `/api/profile` returns `401` before login.          | Normal session-restoration behavior. Log in to obtain a session.                                                                            |
 | Logged out after restarting or redeploying.         | Expected with the current in-memory session store.                                                                                          |

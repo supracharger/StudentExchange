@@ -18,6 +18,8 @@ authentication.
 | Method | Route | Credentials | Success |
 | --- | --- | --- | --- |
 | GET | `/Schools` | None | `200` with lowercase `schools` array and `short_names` metadata. |
+| POST | `/Schools` | `app_access`, admin `access_token`, `name`, `short_name` | Admin level 1+; `201` with `name` and `short_name`. |
+| DELETE | `/Schools` | `app_access`, admin `access_token`, `name` and/or `short_name` | Admin level 1+; `200` with `row_count`. Both selectors use AND. |
 | POST | `/Register` | `app_access` | `201` with registration confirmation and normalized email. |
 | POST | `/LogIn` | `app_access`, email, password | `201` with user token and first name. |
 | GET | `/Register` | `app_access`, `access_token` | `200` with current user's profile. |
@@ -27,7 +29,7 @@ authentication.
 
 `app_access` is the shared application password. `access_token` identifies an
 individual logged-in user. Registration does not issue a token: log in afterward.
-Logout is described below. Administrator account deletion uses `DELETE /Register` with `to_user`. There is no password-reset or school-management endpoint.
+Logout is described below. Administrator account deletion uses `DELETE /Register` with `to_user`. School management uses `POST /Schools` and `DELETE /Schools`, available in the website admin console. There is no password-reset endpoint.
 
 Development also exposes the generated **[OpenAPI document](http://localhost:5239/openapi/v1.json)** at `/openapi/v1.json`. There is no configured Swagger UI. The examples here describe controller behavior, including response fields and authentication rules that the generated document may not fully express.
 
@@ -174,9 +176,9 @@ A valid token deletes **all** access tokens for that user, including tokens used
 
 ### Optional IP forwarding fields
 
-Authenticated request bodies also accept `ip` and `admin_token`. Normal clients should omit them. A trusted intermediary can provide a nonblank `ip` and an `admin_token` matching configured `_adminToken` to record the forwarded address. This shared forwarding secret is separate from a user's access token and from membership in the `Admins` table.
+Authenticated request bodies also accept `ip` and `admin_token`. Normal clients should omit them. A trusted website intermediary supplies a nonblank `ip` and a valid, unexpired admin access token obtained from `POST /LogIn` in `admin_token`. The token must belong to a user in the `Admins` table; a password is no longer accepted. The visitor's `access_token` remains separate.
 
-Application validation tracks the connection IP and checks its block state. Incorrect `app_access` or a supplied incorrect `admin_token` increments that IP's failure count. An incorrect `admin_token` alone does not immediately reject a request with valid `app_access`; it disables body-based forwarding and may trigger an IP block. Forwarded addresses are recorded; body forwarding does not perform a separate block check for that address at this stage. Incorrect login credentials increment the forwarded IP's counter when forwarding is active. `Program.cs` also enables ASP.NET Core forwarded-header middleware; its proxy trust rules govern which headers are accepted.
+`AppAuthJson.ValidateApp` checks forwarding-token expiry before processing the operation. Missing or expired forwarding tokens return HTTP 400 with `{ "message": "The Access Token may have expired.", "expired": true }`; re-login without forwarding fields, then retry once. An expired visitor `access_token` has no `expired: true` flag and should end the visitor session instead. A token belonging to a non-admin increments the connection IP's failure count and disables forwarding; the website verifies service-account admin membership before forwarding. Application authorization and connection-IP blocking still apply. Forwarded addresses are recorded; incorrect visitor login credentials increment the forwarded IP's counter.
 
 ### Field validation
 
@@ -240,7 +242,7 @@ Debug uses `bin_/.env` and `bin_/Data.db` relative to the process working direct
 | `_emailSalt` | Deterministic email encryption/lookup key material. |
 | `_passSalt` | Deterministic password encryption/comparison key material. |
 | `_ipSalt` | Deterministic IP encryption key material. |
-| `_adminToken` | Shared secret enabling body-based IP forwarding. |
+| Website `user` / `user_pass` | Server-only admin login credentials used to obtain the IP forwarding token. |
 
 All five keys are read and values trimmed during loading. Use nonempty values; the current loader does not enforce nonempty secrets. Changing email/password/IP keys without migrating their stored values breaks corresponding lookups.
 

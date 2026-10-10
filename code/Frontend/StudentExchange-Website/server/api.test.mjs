@@ -44,6 +44,15 @@ beforeEach(async () => {
     for await (const chunk of request) chunks.push(chunk)
     const text = Buffer.concat(chunks).toString()
     const body = text ? JSON.parse(text) : undefined
+    if (request.url === '/service/LogIn' && body?.email === 'service@example.com') {
+      response.writeHead(201)
+      response.end(JSON.stringify({ access_token: ADMIN_KEY }))
+      return
+    }
+    if (request.url === '/service/Admin' && !body?.ip) {
+      response.end(JSON.stringify({ is_admin: true, level: 0 }))
+      return
+    }
     calls.push({ method: request.method, path: request.url, body })
     response.setHeader('Content-Type', 'application/json')
     if (
@@ -144,7 +153,8 @@ beforeEach(async () => {
   website = createWebsiteServer({
     backend: `${upstreamBase}/service`,
     appAccess: APP_KEY,
-    adminToken: ADMIN_KEY,
+    user: 'service@example.com',
+      userPass: 'Service!123',
     production: false,
     timeoutMs: 500,
   })
@@ -160,7 +170,8 @@ afterEach(async () => {
       const cleaner = createTestAccountCleaner({
         backend: `http://127.0.0.1:${upstreamServer.address().port}/service/`,
         appAccess: APP_KEY,
-        adminToken: ADMIN_KEY,
+        user: 'service@example.com',
+      userPass: 'Service!123',
         sudoUser: SUDO_USER,
         sudoPass: SUDO_PASS,
         ip: expectedIp,
@@ -237,7 +248,8 @@ describe('same-origin backend adapter', () => {
     const cleaner = createTestAccountCleaner({
       backend: `http://127.0.0.1:${upstreamServer.address().port}/service/`,
       appAccess: APP_KEY,
-      adminToken: ADMIN_KEY,
+      user: 'service@example.com',
+      userPass: 'Service!123',
       sudoUser: SUDO_USER,
       sudoPass: SUDO_PASS,
     })
@@ -276,7 +288,8 @@ describe('same-origin backend adapter', () => {
     const cleaner = createTestAccountCleaner({
       backend: `http://127.0.0.1:${upstreamServer.address().port}/service/`,
       appAccess: APP_KEY,
-      adminToken: ADMIN_KEY,
+      user: 'service@example.com',
+      userPass: 'Service!123',
       sudoUser: SUDO_USER,
       sudoPass: SUDO_PASS,
     })
@@ -575,7 +588,8 @@ describe('same-origin backend adapter', () => {
     const secure = createWebsiteServer({
       backend: `http://127.0.0.1:${upstreamServer.address().port}/service/`,
       appAccess: APP_KEY,
-      adminToken: ADMIN_KEY,
+      user: 'service@example.com',
+      userPass: 'Service!123',
       production: true,
     })
     const secureBase = await listen(secure)
@@ -628,7 +642,8 @@ describe('same-origin backend adapter', () => {
     const render = createWebsiteServer({
       backend: `http://127.0.0.1:${upstreamServer.address().port}/service/`,
       appAccess: APP_KEY,
-      adminToken: ADMIN_KEY,
+      user: 'service@example.com',
+      userPass: 'Service!123',
       renderProxy: true,
       production: false,
     })
@@ -709,7 +724,7 @@ describe('same-origin backend adapter', () => {
     expect(calls).toHaveLength(0)
   })
 
-  it('requires admin_token for account writes while leaving public Schools available', async () => {
+  it('requires service login credentials for account writes while leaving public Schools available', async () => {
     const noAdmin = createWebsiteServer({
       backend: `http://127.0.0.1:${upstreamServer.address().port}/service/`,
       appAccess: APP_KEY,

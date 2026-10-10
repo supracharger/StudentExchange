@@ -840,3 +840,11 @@ select:focus-visible {
 .admin-school-filter select {
   font-size: 12px;
 }
+
+.admin-schools {
+  display: grid;
+  gap: 24px;
+}
+.admin-schools .admin-session-card {
+  width: 100%;
+}

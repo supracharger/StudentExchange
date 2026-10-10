@@ -10,7 +10,8 @@ export default defineConfig(({ mode }) => {
     createApiHandler({
       backend: env.backend,
       appAccess: env.app_access,
-      adminToken: env.admin_token,
+      user: env.user,
+      userPass: env.user_pass,
     })
   return {
     plugins: [

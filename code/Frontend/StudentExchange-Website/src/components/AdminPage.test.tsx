@@ -26,6 +26,7 @@ function access(level: number, isAdmin = true): AdminAccess {
     is_admin: isAdmin,
     level: isAdmin ? level : null,
     permissions: {
+      schools: isAdmin && level >= 1,
       users: isAdmin && level >= 1,
       profiles: isAdmin && level >= 1,
       deleteUsers: isAdmin && level >= 1,
@@ -85,6 +86,9 @@ beforeEach(() => {
   vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
   window.history.replaceState(null, '', '/')
   vi.spyOn(admin, 'access').mockResolvedValue(access(2))
+  vi.spyOn(admin, 'schools').mockResolvedValue({ schools: [{ name: 'Campus', short_name: 'C' }] })
+  vi.spyOn(admin, 'addSchool').mockResolvedValue({ message: 'School added.' })
+  vi.spyOn(admin, 'deleteSchool').mockResolvedValue({ message: 'School deleted.' })
   vi.spyOn(admin, 'users').mockResolvedValue({
     users: [
       {
@@ -161,6 +165,8 @@ describe('admin interface', () => {
     expect(
       screen.queryByRole('button', { name: /Login attempts/ }),
     ).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Schools' })).not.toBeInTheDocument()
+    expect(admin.schools).not.toHaveBeenCalled()
     expect(admin.users).not.toHaveBeenCalled()
     expect(admin.blocked).not.toHaveBeenCalled()
     await user.click(screen.getByRole('button', { name: 'End user sessions' }))
@@ -173,6 +179,44 @@ describe('admin interface', () => {
       screen.queryByRole('button', { name: /Login attempts/ }),
     ).not.toBeInTheDocument()
     expect(admin.blocked).not.toHaveBeenCalled()
+  })
+  it('adds schools and requires confirmation before deleting the selected name and short name', async () => {
+    const user = userEvent.setup()
+    renderPage(1)
+    await waitFor(() => expect(screen.queryByText('Loading your workspace…')).not.toBeInTheDocument())
+    await user.click(screen.getByRole('button', { name: 'Schools' }))
+    expect(await screen.findByRole('button', { name: 'Delete school Campus' })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Add school' })).toBeDisabled()
+    await user.type(screen.getByRole('textbox', { name: 'School name' }), 'New Campus')
+    await user.type(screen.getByRole('textbox', { name: 'Short name' }), 'NC')
+    await user.click(screen.getByRole('button', { name: 'Add school' }))
+    await waitFor(() => expect(admin.addSchool).toHaveBeenCalledWith({ name: 'New Campus', short_name: 'NC' }))
+    expect(await screen.findByRole('status')).toHaveTextContent('School added.')
+    await waitFor(() => expect(screen.getByRole('textbox', { name: 'School name' })).toHaveValue(''))
+    await user.click(await screen.findByRole('button', { name: 'Delete school Campus' }))
+    expect(admin.deleteSchool).not.toHaveBeenCalled()
+    await user.click(screen.getByRole('button', { name: 'Cancel' }))
+    expect(admin.deleteSchool).not.toHaveBeenCalled()
+    await user.click(screen.getByRole('button', { name: 'Delete school Campus' }))
+    await user.click(screen.getByRole('button', { name: 'Delete school' }))
+    await waitFor(() => expect(admin.deleteSchool).toHaveBeenCalledWith({ name: 'Campus', short_name: 'C' }))
+    expect(await screen.findByRole('status')).toHaveTextContent('School deleted.')
+  })
+  it('keeps school form values after failure and shows list errors with a retry', async () => {
+    const user = userEvent.setup()
+    vi.mocked(admin.schools).mockRejectedValueOnce(new AccountApiError(502, 'School list unavailable.'))
+    vi.mocked(admin.addSchool).mockRejectedValueOnce(new AccountApiError(400, 'School already exists.'))
+    renderPage(1)
+    await waitFor(() => expect(screen.queryByText('Loading your workspace…')).not.toBeInTheDocument())
+    await user.click(screen.getByRole('button', { name: 'Schools' }))
+    expect(await screen.findByRole('alert')).toHaveTextContent('School list unavailable.')
+    await user.click(screen.getByRole('button', { name: 'Retry school list' }))
+    expect(await screen.findByRole('button', { name: 'Delete school Campus' })).toBeVisible()
+    await user.type(screen.getByRole('textbox', { name: 'School name' }), 'Campus')
+    await user.type(screen.getByRole('textbox', { name: 'Short name' }), 'C')
+    await user.click(screen.getByRole('button', { name: 'Add school' }))
+    expect(await screen.findByRole('alert')).toHaveTextContent('School already exists.')
+    expect(screen.getByRole('textbox', { name: 'School name' })).toHaveValue('Campus')
   })
   it('hides profile, session, and deletion controls for a forbidden forwarded target', async () => {
     const user = userEvent.setup()
