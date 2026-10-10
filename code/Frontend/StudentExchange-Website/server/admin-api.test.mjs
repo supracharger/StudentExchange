@@ -40,7 +40,7 @@ async function listen(server) {
 }
 beforeEach(async () => {
   calls = []
-  level = 2
+  level = 20
   isAdmin = true
   targetDenied = false
   expired = false
@@ -310,7 +310,7 @@ describe('administrator wire contract and permissions', () => {
   })
   it('lists, adds, and deletes schools with visitor credentials and the Schools response schema', async () => {
     const cookie = await login()
-    level = 1
+    level = 10
     const directory = await call('admin/schools', 'GET', undefined, cookie)
     expect(await directory.json()).toEqual({ schools: [{ name: 'Campus', short_name: 'C' }] })
     const school = { name: 'New Campus', short_name: ' NC ' }
@@ -335,7 +335,7 @@ describe('administrator wire contract and permissions', () => {
       expect((await call('admin/schools', method, method === 'GET' ? undefined : { name: 'Campus', short_name: 'C' }, cookie)).status).toBe(403)
       expect(calls.slice(before).map(item => item.path)).toEqual(['/Admin'])
     }
-    level = 1
+    level = 10
     for (const [method, body] of [
       ['POST', { name: 'Campus' }], ['POST', { name: ' ', short_name: 'C' }],
       ['POST', { name: 'Campus', short_name: 3 }], ['DELETE', {}],
@@ -361,21 +361,29 @@ describe('administrator wire contract and permissions', () => {
     for (const [rank, membership, expected] of [
       [0, false, [false, false, false]],
       [0, true, [false, false, true]],
-      [1, true, [true, false, true]],
-      [2, true, [true, true, true]],
+      [1, true, [false, false, true]],
+      [2, true, [false, false, true]],
+      [9, true, [false, false, true]],
+      [10, true, [true, false, true]],
+      [19, true, [true, false, true]],
+      [20, true, [true, true, true]],
     ]) {
       level = rank
       isAdmin = membership
       const status = await (
         await call('admin', 'GET', undefined, cookie)
       ).json()
+      expect(status.level).toBe(membership ? rank : null)
+      expect(status.permissions.schools).toBe(membership && rank >= 10)
+      expect(status.permissions.profiles).toBe(membership && rank >= 10)
+      expect(status.permissions.deleteUsers).toBe(membership && rank >= 10)
       expect([
         status.permissions.users,
         status.permissions.blocked,
         status.permissions.endSessions,
       ]).toEqual(expected)
     }
-    level = 1
+    level = 10
     const before = calls.length
     expect((await call('admin/blocked', 'GET', undefined, cookie)).status).toBe(
       403,
@@ -405,6 +413,30 @@ describe('administrator wire contract and permissions', () => {
       (await call('admin/sessions', 'DELETE', { email: target.email }, cookie))
         .status,
     ).toBe(403)
+  })
+  it('enforces the new thresholds immediately below levels 10 and 20', async () => {
+    const cookie = await login()
+    level = 9
+    for (const [path, method, body] of [
+      ['admin/users', 'GET', undefined],
+      ['admin/schools', 'POST', { name: 'Campus', short_name: 'C' }],
+      ['admin/schools', 'DELETE', { name: 'Campus' }],
+      ['admin/users', 'DELETE', { to_user: target.email }],
+      [`admin/profile?email=${target.email}`, 'GET', undefined],
+      [`admin/profile?email=${target.email}`, 'PATCH', { first_name: 'Sam' }],
+    ]) {
+      const before = calls.length
+      expect((await call(path, method, body, cookie)).status).toBe(403)
+      expect(calls.slice(before).map(item => item.path)).toEqual(['/Admin'])
+    }
+    level = 19
+    for (const method of ['GET', 'DELETE']) {
+      const before = calls.length
+      expect((await call('admin/blocked', method, method === 'GET' ? undefined : { email: target.email }, cookie)).status).toBe(403)
+      expect(calls.slice(before).map(item => item.path)).toEqual(['/Admin'])
+    }
+    level = 20
+    expect((await call('admin/blocked', 'GET', undefined, cookie)).status).toBe(200)
   })
   it('does not contact the backend when unsigned or when credentials/forwarding fields are injected', async () => {
     expect((await call('admin/users')).status).toBe(401)

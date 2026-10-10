@@ -1,0 +1,1 @@
+>> I changed the admin level permissions by a factor or 10. 0: still zero, 1 --> 10, 2 --> 20. The backend change is deployed to Azure. Update the permissions on the website.

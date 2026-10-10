@@ -24,11 +24,11 @@ export function adminStatus(data) {
     is_admin: data.is_admin,
     level,
     permissions: {
-      users: data.is_admin && level >= 1,
-      schools: data.is_admin && level >= 1,
-      profiles: data.is_admin && level >= 1,
-      deleteUsers: data.is_admin && level >= 1,
-      blocked: data.is_admin && level >= 2,
+      users: data.is_admin && level >= 10,
+      schools: data.is_admin && level >= 10,
+      profiles: data.is_admin && level >= 10,
+      deleteUsers: data.is_admin && level >= 10,
+      blocked: data.is_admin && level >= 20,
       endSessions: data.is_admin,
     },
   }

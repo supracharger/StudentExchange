@@ -18,8 +18,8 @@ authentication.
 | Method | Route | Credentials | Success |
 | --- | --- | --- | --- |
 | GET | `/Schools` | None | `200` with lowercase `schools` array and `short_names` metadata. |
-| POST | `/Schools` | `app_access`, admin `access_token`, `name`, `short_name` | Admin level 1+; `201` with `name` and `short_name`. |
-| DELETE | `/Schools` | `app_access`, admin `access_token`, `name` and/or `short_name` | Admin level 1+; `200` with `row_count`. Both selectors use AND. |
+| POST | `/Schools` | `app_access`, admin `access_token`, `name`, `short_name` | Admin level 10+; `201` with `name` and `short_name`. |
+| DELETE | `/Schools` | `app_access`, admin `access_token`, `name` and/or `short_name` | Admin level 10+; `200` with `row_count`. Both selectors use AND. |
 | POST | `/Register` | `app_access` | `201` with registration confirmation and normalized email. |
 | POST | `/LogIn` | `app_access`, email, password | `201` with user token and first name. |
 | GET | `/Register` | `app_access`, `access_token` | `200` with current user's profile. |

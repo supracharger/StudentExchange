@@ -1,6 +1,6 @@
 # Administrator console
 
-The `to_user` deletion change is prepared for an upcoming backend release and has not yet been deployed there. Deploy the backend contract update before deploying this website change. Validation of the new deletion request uses local HTTP fixtures.
+The backend permission update is deployed to Azure, as confirmed by the maintainer. Admin thresholds are now 0, 10, and 20: level 10 unlocks user/profile/school management and account deletion; level 20 unlocks attempt-record tools. Website permission checks and HTTP fixtures use these thresholds.
 
 The `/admin` page is available from **Admin console** in the header after an administrator logs in. Direct navigation requires a valid session and confirmed membership from `GET /Admin`. Regular users never see the admin link. Permission checks fail closed: an unavailable or malformed membership response does not grant access.
 
@@ -9,8 +9,8 @@ The implementation follows [SoftwareEngineerTemp/readme.md](https://github.com/s
 | Admin access | Visible tools |
 | --- | --- |
 | Any administrator, including level 0 | Overview, own membership/level, end an eligible user's sessions |
-| Level 1+ | User directory, search, school filter, pagination, eligible profile reads/updates, account deletion, school directory/add/delete |
-| Level 2+ | User/IP attempt records, search, pagination, clear user or IP records |
+| Level 10+ | User directory, search, school filter, pagination, eligible profile reads/updates, account deletion, school directory/add/delete |
+| Level 20+ | User/IP attempt records, search, pagination, clear user or IP records |
 
 Navigation and controls outside the administrator's permissions are omitted, rather than disabled. Disabled states are only used for temporary loading, missing confirmation, or pagination boundaries.
 
@@ -19,18 +19,18 @@ Navigation and controls outside the administrator's permissions are omitted, rat
 | Website adapter | Backend request | Required level |
 | --- | --- | --- |
 | `GET /api/admin` | `GET /Admin` | Logged-in user |
-| `GET /api/admin/schools` | `GET /Schools` with name/short-name pairing | 1+ |
-| `POST /api/admin/schools` | `POST /Schools` with `name` and `short_name` | 1+ |
-| `DELETE /api/admin/schools` | `DELETE /Schools` with `name`, `short_name`, or both | 1+ |
-| `GET /api/admin/users` | `GET /Users` | 1+ |
-| `GET /api/admin/profile?email=...` | `GET /Register` with `to_user` | 1+, eligible target |
-| `PATCH /api/admin/profile?email=...` | `PATCH /Register` with `to_user` | 1+, eligible target |
-| `DELETE /api/admin/users` | `DELETE /Register` with `to_user` | 1+ |
+| `GET /api/admin/schools` | `GET /Schools` with name/short-name pairing | 10+ |
+| `POST /api/admin/schools` | `POST /Schools` with `name` and `short_name` | 10+ |
+| `DELETE /api/admin/schools` | `DELETE /Schools` with `name`, `short_name`, or both | 10+ |
+| `GET /api/admin/users` | `GET /Users` | 10+ |
+| `GET /api/admin/profile?email=...` | `GET /Register` with `to_user` | 10+, eligible target |
+| `PATCH /api/admin/profile?email=...` | `PATCH /Register` with `to_user` | 10+, eligible target |
+| `DELETE /api/admin/users` | `DELETE /Register` with `to_user` | 10+ |
 | `DELETE /api/admin/sessions` | `DELETE /LogIn` with `to_user` | Any admin, eligible target |
-| `GET /api/admin/blocked` | `GET /Blocked` | 2+ |
-| `DELETE /api/admin/blocked` | `DELETE /Blocked` with exactly one of `email` or `ip_addr` | 2+ |
+| `GET /api/admin/blocked` | `GET /Blocked` | 20+ |
+| `DELETE /api/admin/blocked` | `DELETE /Blocked` with exactly one of `email` or `ip_addr` | 20+ |
 
-Existing account registration, own-profile read/update, login/logout, and school lookup remain available. The Schools section follows [Schools.cs](https://github.com/supracharger/SoftwareEngineerTemp/blob/5ba9a9332d0b08a23740dc10b635ce6fc5aac1fd/StudentExchangeBck/Controllers/Schools.cs). Level 1+ administrators can add a school with its name and short name, then delete a listed school after confirmation. Deletion sends both stored values; the backend combines them with AND. A successful mutation refreshes the directory without repeating the mutation if the read fails. The delete response uses `row_count`, rather than `deleted_Rows`. The backend still provides no admin-level-assignment API.
+Existing account registration, own-profile read/update, login/logout, and school lookup remain available. The Schools section follows [Schools.cs](https://github.com/supracharger/SoftwareEngineerTemp/blob/5ba9a9332d0b08a23740dc10b635ce6fc5aac1fd/StudentExchangeBck/Controllers/Schools.cs). Level 10+ administrators can add a school with its name and short name, then delete a listed school after confirmation. Deletion sends both stored values; the backend combines them with AND. A successful mutation refreshes the directory without repeating the mutation if the read fails. The delete response uses `row_count`, rather than `deleted_Rows`. The backend still provides no admin-level-assignment API.
 
 ## Target permissions and backend limitations
 
@@ -38,7 +38,7 @@ Existing account registration, own-profile read/update, login/logout, and school
 
 Profile forwarding and session termination cannot target an administrator of equal or higher rank. The backend enforces this again on the mutation. Account deletion now uses `to_user` and follows the shared forwarded-target checks. Its control appears only after successful profile-access verification, so equal/higher-rank targets have no profile, session, or deletion controls. Deletion requires typing the exact email into a confirmation dialog. The browser and adapter both send `{ "to_user": "student@example.com" }` as the deletion selector; the former `email` selector is rejected. The backend only deletes the `User` row; dependent-row cleanup is determined by its actual database configuration.
 
-Level 0 has no user-directory/profile-read permission and the backend has no separate nonmutating target-permission endpoint for logout. Its permitted session tool therefore accepts an exact email and relies on the backend to validate the target before ending sessions. No user/profile/block tools appear at this level. `DELETE /LogIn` masks token and forwarded-target validation failures with HTTP 200. Level 1+ session termination therefore rechecks profile eligibility immediately before sending the logout request. Level 0 cannot make this preflight read; the UI reports that the sign-out request was sent without claiming that sessions were ended.
+Level 0 has no user-directory/profile-read permission and the backend has no separate nonmutating target-permission endpoint for logout. Its permitted session tool therefore accepts an exact email and relies on the backend to validate the target before ending sessions. No user/profile/block tools appear at this level. `DELETE /LogIn` masks token and forwarded-target validation failures with HTTP 200. Level 10+ session termination therefore rechecks profile eligibility immediately before sending the logout request. Level 0 cannot make this preflight read; the UI reports that the sign-out request was sent without claiming that sessions were ended.
 
 Attempt records can contain counts below the blocking threshold, expired rows, or repeated IPs associated with different users. The UI describes them as attempt records, not as a definitive count of currently blocked accounts. Timestamps are displayed as their stored Mountain-local values without browser timezone conversion. Clearing user records and IP records are separate confirmed operations; neither restores revoked tokens.
 

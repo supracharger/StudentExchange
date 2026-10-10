@@ -26,11 +26,11 @@ function access(level: number, isAdmin = true): AdminAccess {
     is_admin: isAdmin,
     level: isAdmin ? level : null,
     permissions: {
-      schools: isAdmin && level >= 1,
-      users: isAdmin && level >= 1,
-      profiles: isAdmin && level >= 1,
-      deleteUsers: isAdmin && level >= 1,
-      blocked: isAdmin && level >= 2,
+      schools: isAdmin && level >= 10,
+      users: isAdmin && level >= 10,
+      profiles: isAdmin && level >= 10,
+      deleteUsers: isAdmin && level >= 10,
+      blocked: isAdmin && level >= 20,
       endSessions: isAdmin,
     },
   }
@@ -51,7 +51,7 @@ function account(): AccountState {
     logout: vi.fn(),
   }
 }
-function renderPage(level = 2, membership = true) {
+function renderPage(level = 20, membership = true) {
   const state = account()
   const refresh = vi.fn()
   const result = render(
@@ -85,7 +85,7 @@ beforeEach(() => {
   })
   vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
   window.history.replaceState(null, '', '/')
-  vi.spyOn(admin, 'access').mockResolvedValue(access(2))
+  vi.spyOn(admin, 'access').mockResolvedValue(access(20))
   vi.spyOn(admin, 'schools').mockResolvedValue({ schools: [{ name: 'Campus', short_name: 'C' }] })
   vi.spyOn(admin, 'addSchool').mockResolvedValue({ message: 'School added.' })
   vi.spyOn(admin, 'deleteSchool').mockResolvedValue({ message: 'School deleted.' })
@@ -148,7 +148,7 @@ beforeEach(() => {
 })
 
 describe('admin interface', () => {
-  it('hides navigation and avoids unauthorized API calls at levels 0 and 1', async () => {
+  it('hides navigation and avoids unauthorized API calls at levels 0 and 10', async () => {
     const user = userEvent.setup()
     const first = renderPage(0)
     expect(
@@ -172,7 +172,7 @@ describe('admin interface', () => {
     await user.click(screen.getByRole('button', { name: 'End user sessions' }))
     expect(screen.getByRole('textbox', { name: 'Account email' })).toBeVisible()
     first.unmount()
-    renderPage(1)
+    renderPage(10)
     await waitFor(() => expect(admin.users).toHaveBeenCalledTimes(1))
     expect(screen.getByRole('button', { name: /^Users/ })).toBeVisible()
     expect(
@@ -180,9 +180,29 @@ describe('admin interface', () => {
     ).not.toBeInTheDocument()
     expect(admin.blocked).not.toHaveBeenCalled()
   })
+  it.each([1, 2, 9])('hides level-10 and level-20 tools at admin level %i', async (level) => {
+    renderPage(level)
+    await waitFor(() =>
+      expect(screen.queryByText('Loading your workspace…')).not.toBeInTheDocument(),
+    )
+    for (const name of [/^Users/, /^Schools$/, /Login attempts/])
+      expect(screen.queryByRole('button', { name })).not.toBeInTheDocument()
+    expect(admin.users).not.toHaveBeenCalled()
+    expect(admin.schools).not.toHaveBeenCalled()
+    expect(admin.blocked).not.toHaveBeenCalled()
+    expect(screen.getByRole('button', { name: 'End user sessions' })).toBeVisible()
+  })
+  it('keeps level-10 tools available at level 19 while hiding level-20 tools', async () => {
+    renderPage(19)
+    await waitFor(() => expect(admin.users).toHaveBeenCalled())
+    expect(screen.getByRole('button', { name: /^Users/ })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Schools' })).toBeVisible()
+    expect(screen.queryByRole('button', { name: /Login attempts/ })).not.toBeInTheDocument()
+    expect(admin.blocked).not.toHaveBeenCalled()
+  })
   it('adds schools and requires confirmation before deleting the selected name and short name', async () => {
     const user = userEvent.setup()
-    renderPage(1)
+    renderPage(10)
     await waitFor(() => expect(screen.queryByText('Loading your workspace…')).not.toBeInTheDocument())
     await user.click(screen.getByRole('button', { name: 'Schools' }))
     expect(await screen.findByRole('button', { name: 'Delete school Campus' })).toBeVisible()
@@ -206,7 +226,7 @@ describe('admin interface', () => {
     const user = userEvent.setup()
     vi.mocked(admin.schools).mockRejectedValueOnce(new AccountApiError(502, 'School list unavailable.'))
     vi.mocked(admin.addSchool).mockRejectedValueOnce(new AccountApiError(400, 'School already exists.'))
-    renderPage(1)
+    renderPage(10)
     await waitFor(() => expect(screen.queryByText('Loading your workspace…')).not.toBeInTheDocument())
     await user.click(screen.getByRole('button', { name: 'Schools' }))
     expect(await screen.findByRole('alert')).toHaveTextContent('School list unavailable.')
@@ -220,7 +240,7 @@ describe('admin interface', () => {
   })
   it('hides profile, session, and deletion controls for a forbidden forwarded target', async () => {
     const user = userEvent.setup()
-    renderPage(1)
+    renderPage(10)
     await waitFor(() =>
       expect(
         screen.queryByText('Loading your workspace…'),
@@ -247,7 +267,7 @@ describe('admin interface', () => {
   })
   it('requires typed confirmation before permanent deletion and does not mutate on cancel', async () => {
     const user = userEvent.setup()
-    renderPage(1)
+    renderPage(10)
     await waitFor(() =>
       expect(
         screen.queryByText('Loading your workspace…'),
@@ -277,7 +297,7 @@ describe('admin interface', () => {
   })
   it('edits only changed profile fields and can end all target sessions with confirmation', async () => {
     const user = userEvent.setup()
-    renderPage(1)
+    renderPage(10)
     await waitFor(() =>
       expect(
         screen.queryByText('Loading your workspace…'),
@@ -356,7 +376,7 @@ describe('admin interface', () => {
     )
   })
   it('guards direct access for regular users and signed-out visitors', async () => {
-    const first = renderPage(2, false)
+    const first = renderPage(20, false)
     expect(
       screen.getByRole('heading', { name: 'Administrator access required' }),
     ).toBeVisible()
