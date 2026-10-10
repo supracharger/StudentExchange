@@ -113,7 +113,7 @@ namespace StudentExchangeBck
             // Exit if invalid
             if (msg != null) return msg;
 
-            if (user.forwarded && user.adminLvl < 1)
+            if (user.forwarded && user.adminLvl < 10)
             {
                 // IP Blocking & Tracking
                 var msg2 = IP.IncInvalidForIP(true, this, ip.id);
@@ -177,7 +177,7 @@ namespace StudentExchangeBck
             // Exit if invalid
             if (msg != null) return msg;
 
-            if (user.forwarded && user.adminLvl < 1)
+            if (user.forwarded && user.adminLvl < 10)
             {
                 // IP Blocking & Tracking
                 var msg2 = IP.IncInvalidForIP(true, this, ip.id);
@@ -321,7 +321,7 @@ namespace StudentExchangeBck
             if (msg != null) return msg;
 
             // Not Authorized: Admin level too low
-            if (user.adminLvl < 1)
+            if (user.adminLvl < 10)
             {
                 // IP Blocking & Tracking
                 var msg2 = IP.IncInvalidForIP(true, this, ip.id);

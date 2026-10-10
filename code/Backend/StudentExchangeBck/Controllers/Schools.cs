@@ -73,7 +73,7 @@ namespace StudentExchangeBck
             if (msg != null) return msg;
 
             // Not Authorized: Not Admin or Admin level too low
-            if (!user.isAdmin || user.adminLvl < 1)
+            if (!user.isAdmin || user.adminLvl < 10)
             {
                 // IP Blocking & Tracking
                 var msg2 = IP.IncInvalidForIP(true, this, ip.id);
@@ -144,7 +144,7 @@ namespace StudentExchangeBck
             if (msg != null) return msg;
 
             // Not Authorized: Not Admin or Admin level too low
-            if (!user.isAdmin || user.adminLvl < 1)
+            if (!user.isAdmin || user.adminLvl < 10)
             {
                 // IP Blocking & Tracking
                 var msg2 = IP.IncInvalidForIP(true, this, ip.id);
