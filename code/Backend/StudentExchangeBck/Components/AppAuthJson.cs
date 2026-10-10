@@ -224,11 +224,11 @@ namespace StudentExchangeBck
                     var id = (long)result["id"][0];
 
                     // Cannot forward yourself
-                    if (id == user.id)
+                    if (id == user.id && user.adminLvl < 30)
                         throw new ArgumentException("You are forwarding yourself as a user.");
 
                     // If locked admin & level is too low
-                    if ((long)result["locked"][0] != 0 && user.adminLvl < 30)
+                    if (isAdmin && (long)result["locked"][0] != 0 && user.adminLvl < 30)
                     {
                         user = new Users.Data();
                         return this_.Unauthorized(new
