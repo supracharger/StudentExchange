@@ -94,7 +94,8 @@ namespace StudentExchangeBck
                     throw new ArgumentException("short_name cannot be blank");
 
                 // First upper ignore stop words
-                info.name = Utilz.FirstUpper(info.name, ignoreStopWords: true);
+                info.name = Utilz.FirstUpper(info.name, ignoreStopWords: true).Trim();
+                info.short_name = info.short_name.Trim();
 
                 // Add School
                 var cnt = Sql.Write("INSERT INTO Schools ([name], [short_name]) VALUES (@name, @short);", new Dictionary<string, object>
