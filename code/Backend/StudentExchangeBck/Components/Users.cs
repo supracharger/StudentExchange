@@ -175,18 +175,15 @@ namespace StudentExchangeBck
                 // If no invalid access attemps lately
                 if (result.Count == 0)
                 {
-                    // If you want to increment invalid access attemps
-                    if (increment)
-                    {
-                        // Insert row of first invalid access attempt.
-                        Sql.Write("INSERT INTO Blocked_Users ([user_id],[count],[expiry]) VALUES " +
-                                    "(@userid,@count,@expiry)", new Dictionary<string, object>
-                                    {
-                                    {"@userid", userid },
-                                    {"@count", 1 },
-                                    {"@expiry", Utilz.ToMtn().Add(Env._blockedAccessTimeOut).ToString("s")}
-                                    }, 1);
-                    }
+                   
+                    // Insert row of first invalid access attempt.
+                    Sql.Write("INSERT INTO Blocked_Users ([user_id],[count],[expiry]) VALUES " +
+                                "(@userid,@count,@expiry)", new Dictionary<string, object>
+                                {
+                                {"@userid", userid },
+                                {"@count", 1 },
+                                {"@expiry", Utilz.ToMtn().Add(Env._blockedAccessTimeOut).ToString("s")}
+                                }, 1);
 
                     // EXIT
                     return null;
