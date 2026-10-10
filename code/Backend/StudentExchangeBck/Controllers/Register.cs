@@ -346,7 +346,7 @@ namespace StudentExchangeBck
                 var cnt = Sql.Write("DELETE FROM User WHERE [id]=@id;", new Dictionary<string, object>
                 {
                     { "@id", user.id }
-                }, -2);
+                }, 1);
                 // Nothing in table
                 if (cnt == 0)
                     throw new ArgumentException("Unknown email: not found in data base.");
