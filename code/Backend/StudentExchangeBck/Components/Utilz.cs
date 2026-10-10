@@ -12,6 +12,8 @@
     If no args: it uses current UTC time
  */
 
+using System.Collections.Immutable;
+
 namespace StudentExchangeBck
 {
     public static class Utilz
@@ -27,13 +29,17 @@ namespace StudentExchangeBck
             source.SelectMany(inner => inner.Select((item, index) => new { item, index }))
             .GroupBy(i => i.index, i => i.item).Select(g => g.ToList());
 
+        public static readonly IDictionary<string, string> _stopWords
+            = "a an the and or but in on at of to for is are was were be".Split()
+            .ToImmutableDictionary(s => FirstUpper(s), s => s.ToLower());
+
         /// <summary>
         /// Changes words in a sentenence (Split by ' ') to first upper.
         /// 'hello world' --> 'Hello World'
         /// </summary>
         /// <param name="txt">text to change</param>
         /// <returns>Changed text</returns>
-        public static string FirstUpper(string txt)
+        public static string FirstUpper(string txt, bool ignoreStopWords = false)
         {
             var split = txt.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < split.Length; i++)
@@ -44,6 +50,12 @@ namespace StudentExchangeBck
                 else if (w.Length == 1)
                     split[i] = w.ToUpper();
             }
+
+            if (ignoreStopWords)
+                for (int i = 0; i < split.Length; i++)
+                    if (_stopWords.TryGetValue(split[i], out var stop))
+                        split[i] = stop;
+
             return string.Join(' ', split);
         }
 
