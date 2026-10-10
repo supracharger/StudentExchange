@@ -17,6 +17,7 @@ namespace StudentExchangeBck
         public string? ip { get; set; }
         // Admin Token
         // Only used for ip forwarding
+        // IP frowarding is only used for the website. Do NOT use it with the mobile app!
         public string? admin_token { get; set; }
         // User Forwarding
         public string? to_user { get; set; }
@@ -30,7 +31,69 @@ namespace StudentExchangeBck
         {
             // Condition if access is invalid
             var invalidAccess = access.app_access == null || access.app_access != Env._appAccess;
-            var invalidAdmin = access.admin_token != null && access.admin_token != Env._adminToken;
+
+            var invalidAdmin = false;
+            var sudoIsAdmin = false;
+            // Validate Admin Token is for an Admin
+            if (access.admin_token != null)
+            {
+                // Not null or whitespace
+                invalidAdmin = string.IsNullOrWhiteSpace(access.admin_token);
+                // If still ok
+                if (!invalidAdmin)
+                {
+                    // Not null or whitespace
+                    if (!string.IsNullOrWhiteSpace(access.ip))
+                    {
+                        try
+                        {
+                            // Find coresponding userid for Access token
+                            var result = Sql.Read("SELECT T.[user_id], (A.[user_id] IS NOT NULL) isAdmin " +
+                                                "FROM Access_Token T " +
+                                                "LEFT JOIN Admins A ON T.[user_id]=A.[user_id] " +
+                                                "WHERE [token]=@token AND [expiry]>@date",
+                                            new Dictionary<string, object>
+                                            {
+                                            {"@token", access.admin_token },
+                                            {"@date", Utilz.ToMtn().ToString("s") }
+                                            });
+
+                            // Access token may have expired
+                            if (result.Count == 0)
+                            {
+                                ip = new IP.Data();
+                                return this_.BadRequest(new
+                                {
+                                    Message = "The Access Token may have expired.",
+                                    Expired = true
+                                });
+                            }
+
+                            // If Admin
+                            sudoIsAdmin = (long)result["isAdmin"][0] != 0;
+                            // If not admin: this is invalid admin
+                            if (!sudoIsAdmin)
+                                invalidAdmin = true;
+                        }
+                        catch (ArgumentException e)
+                        {
+                            ip = new IP.Data();
+                            return this_.BadRequest(new
+                            {
+                                Message = e.Message
+                            });
+                        }
+                        catch (Exception e)
+                        {
+                            ip = new IP.Data();
+                            return this_.StatusCode(500, new
+                            {
+                                Message = $"An internal server error occurred: {e}"
+                            });
+                        }
+                    }
+                }
+            }
 
             // Add IP to DB if not there
             var msg = IP.UpdateByIP(ctx, this_, out var ipid);
@@ -51,7 +114,7 @@ namespace StudentExchangeBck
             
             // Forward the actual IP Address
             // ipid: Now equals forwarded ip address.
-            if (!string.IsNullOrWhiteSpace(access.ip) && !invalidAdmin && access.admin_token != null)
+            if (!string.IsNullOrWhiteSpace(access.ip) && !invalidAdmin && sudoIsAdmin && access.admin_token != null)
             {
                 msg = IP.UpdateByIP(access.ip, this_, out ipid);
                 ip = new IP.Data(ipid, forwarded: true, sudo_id: ip.id);
