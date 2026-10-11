@@ -31,7 +31,7 @@ namespace StudentExchangeBck
         // Number of unsuccessfull IP attemps before blocked timeout.
         public static readonly int _accessAttempsIP = 10;
 
-        public static string _bin { get; private set; }
+        public static string _bin { get; private set; } = null!;
 
         /// <summary>
         /// Get Enviroment from file
