@@ -214,7 +214,7 @@ namespace StudentExchangeBck
                         if (level >= user.adminLvl)
                         {
                             user = new Users.Data();
-                            return new UnauthorizedObjectResult(new
+                            return this_.Unauthorized(new
                             {
                                 Message = "Cannot forward user Admin with equal or greater admin level."
                             });
@@ -238,7 +238,8 @@ namespace StudentExchangeBck
                     }
 
                     // Success
-                    user = new Users.Data(id, forwarded: true, sudo_id: user.id, adminLvl:user.adminLvl);
+                    user = new Users.Data(id, isAdmin: isAdmin, forwarded: true, 
+                                            sudo_id: user.id, adminLvl:user.adminLvl);
                 }
 
                 // Add relation of user to IP: if not there
