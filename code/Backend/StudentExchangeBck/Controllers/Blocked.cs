@@ -35,7 +35,7 @@ namespace StudentExchangeBck
 
             // Not Authorized: User can't be forwarded
             if (user.forwarded)
-                return new UnauthorizedObjectResult(new
+                return Unauthorized(new
                 {
                     Message = "User cannot be forwarded."
                 });
@@ -47,7 +47,7 @@ namespace StudentExchangeBck
                 var msg2 = IP.IncInvalidForIP(true, this, ip.id);
                 if (msg2 != null) return msg2;
 
-                return new UnauthorizedObjectResult(new
+                return Unauthorized(new
                 {
                     Message = "Not authorized."
                 });
@@ -191,7 +191,7 @@ namespace StudentExchangeBck
 
             // Not Authorized: User can't be forwarded
             if (user.forwarded)
-                return new BadRequestObjectResult(new
+                return BadRequest(new
                 {
                     Message = "User cannot be forwarded."
                 });
@@ -203,7 +203,7 @@ namespace StudentExchangeBck
                 var msg2 = IP.IncInvalidForIP(true, this, ip.id);
                 if (msg2 != null) return msg2;
 
-                return new UnauthorizedObjectResult(new
+                return Unauthorized(new
                 {
                     Message = "Not authorized."
                 });
