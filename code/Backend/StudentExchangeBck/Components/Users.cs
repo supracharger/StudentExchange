@@ -70,17 +70,20 @@ namespace StudentExchangeBck
 
             try
             {
+                var ishigh = user.adminLvl >= 30;
                 // Get users info from DB
                 var users = Sql.Read("SELECT U.[email], (U.[last_name] || ', ' || U.[first_name]) name, " +
                                         "COALESCE(S.[short_name], S.[name]) school, " +
                                         "U.[datetime], " +
                                         "(A.[user_id] IS NOT NULL) isAdmin, " +
                                         "(A.[locked] IS NOT NULL AND A.[locked] != 0) locked " +
-                                        (user.adminLvl >= 30 ? ", COALESCE(A.[level], -1) level " : "") +
+                                        (ishigh ? ", COALESCE(A.[level], -1) level " : "") +
                                         "FROM User U, Schools S " +
                                         "LEFT JOIN Admins A ON U.[id]=A.[user_id] " +
                                         "WHERE S.[id]=U.[school_id] " +
-                                        "ORDER BY U.[datetime] DESC;");
+                                        "ORDER BY " +
+                                        (ishigh ? "level DESC, " : "") +
+                                        "isAdmin DESC, U.[datetime] DESC;");
 
                 // Decrypt Email
                 if (users.TryGetValue("email", out var emails))
