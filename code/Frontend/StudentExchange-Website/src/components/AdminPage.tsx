@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { admin } from '../api/admin'
 import SchoolsPanel from './SchoolsPanel'
+import AdminAccessPanel from './AdminAccessPanel'
 import type {
   AdminAccess,
   AdminUser,
   AttemptRecord,
+  IPAttemptRecord,
   Attempts,
 } from '../api/admin'
 import { AccountApiError } from '../api/accounts'
@@ -18,7 +20,7 @@ import {
   ConfirmPasswordField,
 } from './AccountPanel'
 
-type Section = 'overview' | 'users' | 'blocked' | 'sessions' | 'schools'
+type Section = 'overview' | 'users' | 'blocked' | 'sessions' | 'schools' | 'adminAccess'
 type Confirmation = {
   title: string
   description: string
@@ -159,6 +161,7 @@ function Console({
   const [confirmation, setConfirmation] = useState<Confirmation | null>(null)
   const [busy, setBusy] = useState(false)
   const [targetEmail, setTargetEmail] = useState('')
+  const [adminTarget, setAdminTarget] = useState<AdminUser | null>(null)
   const permissions = access.permissions
   const heading = useRef<HTMLHeadingElement>(null)
 
@@ -232,7 +235,9 @@ function Console({
   const sourceRecords =
     recordType === 'users' ? attempts.blockedUsers : attempts.blockedIPs
   const filteredRecords = sourceRecords.filter((record) =>
-    `${record.name} ${record.email} ${record.ip || ''}`
+    ('ip' in record
+      ? `${record.ip} ${record.users.map(user => `${user.name} ${user.email}`).join(' ')}`
+      : `${record.name} ${record.email}`)
       .toLowerCase()
       .includes(query.trim().toLowerCase()),
   )
@@ -261,6 +266,7 @@ function Console({
     const check = async () => {
       const results: Record<string, Profile | null> = {}
       let index = 0
+      let firstError: unknown
       await Promise.all(
         Array.from({ length: Math.min(3, emails.length) }, async () => {
           while (index < emails.length && !controller.signal.aborted) {
@@ -273,13 +279,18 @@ function Console({
               if (controller.signal.aborted) return
               if (reason instanceof AccountApiError && reason.status === 403)
                 results[email] = null
-              else throw reason
+              else {
+                results[email] = null
+                firstError ??= reason
+              }
             }
           }
         }),
       )
-      if (!controller.signal.aborted)
+      if (!controller.signal.aborted) {
         setProfiles((current) => ({ ...current, ...results }))
+        if (firstError) handleError(firstError)
+      }
     }
     check()
       .catch((reason) => {
@@ -318,13 +329,13 @@ function Console({
       run: () => admin.endSessions(email),
     })
   }
-  function askClear(record: AttemptRecord) {
-    const selector = record.ip
+  function askClear(record: AttemptRecord | IPAttemptRecord) {
+    const selector = 'ip' in record
       ? { ip_addr: record.ip }
       : { email: record.email }
     setConfirmation({
       title: 'Clear attempt records?',
-      description: `Remove all login-attempt records for ${record.ip || record.email}. User and IP records are cleared separately. Previously revoked sessions stay revoked.`,
+      description: `Remove all login-attempt records for ${'ip' in record ? record.ip : record.email}. User and IP records are cleared separately. Previously revoked sessions stay revoked.`,
       label: 'Clear records',
       run: () => admin.clearAttempts(selector),
     })
@@ -339,6 +350,7 @@ function Console({
       setNotice(result.message)
       setConfirmation(null)
       setSelected(null)
+      setAdminTarget(null)
       setRevision((value) => value + 1)
     } catch (reason) {
       handleError(reason)
@@ -353,6 +365,7 @@ function Console({
     visible: boolean
   }[] = [
     { id: 'overview', icon: '◈', label: 'Overview', visible: true },
+    { id: 'adminAccess', icon: '◇', label: 'Admin access', visible: permissions.manageAdmins },
     { id: 'schools', icon: '▤', label: 'Schools', visible: permissions.schools },
     { id: 'users', icon: '♧', label: 'Users', visible: permissions.users },
     {
@@ -426,7 +439,9 @@ function Console({
           <h1 id="admin-title" ref={heading} tabIndex={-1}>
             {section === 'overview'
               ? `Welcome back, ${account.profile?.first_name}.`
-              : section === 'schools'
+              : section === 'adminAccess'
+                ? 'Manage admin access'
+                : section === 'schools'
                 ? 'Manage schools'
                 : section === 'users'
                   ? 'Your student community'
@@ -437,7 +452,9 @@ function Console({
           <p>
             {section === 'overview'
               ? 'A clear view of your community, with the tools to keep it running smoothly.'
-              : section === 'schools'
+              : section === 'adminAccess'
+                ? 'Grant, change, or remove admin access for eligible users.'
+                : section === 'schools'
                 ? 'Keep the school list available to students up to date.'
                 : section === 'users'
                   ? 'Find students, keep profiles up to date, and manage account access.'
@@ -601,6 +618,8 @@ function Console({
                       )}
                       {permissions.deleteUsers && <li>Account deletion</li>}
                       {permissions.schools && <li>Add and delete schools</li>}
+                      {permissions.manageAdmins && <li>Manage lower-ranked admin access</li>}
+                      {permissions.lockAdmins && <li>View admin levels and change locked status</li>}
                       {permissions.blocked && (
                         <li>User and IP attempt records</li>
                       )}
@@ -715,6 +734,7 @@ function Console({
                         <tr>
                           <th scope="col">Student</th>
                           <th scope="col">School</th>
+                          <th scope="col">Admin access</th>
                           <th scope="col">Joined · Mountain time</th>
                           <th scope="col">Actions</th>
                         </tr>
@@ -733,6 +753,11 @@ function Console({
                             </td>
                             <td>{user.school}</td>
                             <td>
+                              <strong>{user.isAdmin ? 'Admin' : 'Student'}</strong>
+                              {user.isAdmin && user.locked && <small>Locked</small>}
+                              {permissions.viewAdminLevels && user.level != null && <small>Level {user.level}</small>}
+                            </td>
+                            <td>
                               <Timestamp value={user.datetime} />
                             </td>
                             <td>
@@ -748,6 +773,15 @@ function Console({
                                     >
                                       Manage <span aria-hidden="true">↗</span>
                                     </button>
+                                  )}
+                                {permissions.manageAdmins && profiles[user.email] &&
+                                  user.email !== account.profile?.email &&
+                                  (!user.locked || permissions.lockAdmins) &&
+                                  (user.level == null || user.level < (access.level ?? 0)) && (
+                                    <button className="admin-button" aria-label={`Admin access for ${user.email}`} onClick={() => {
+                                      setAdminTarget(user)
+                                      go('adminAccess')
+                                    }}>Admin access…</button>
                                   )}
                                 {permissions.deleteUsers &&
                                   profiles[user.email] && (
@@ -783,9 +817,10 @@ function Console({
                   <span className="admin-caption">Mountain time</span>
                 </div>
                 <p className="admin-record-note">
-                  Includes attempts below the block threshold and expired
-                  records awaiting cleanup. IP records may repeat when an
-                  address is associated with multiple users.
+                  Failed access attempts only; successful logins do not add
+                  records here. Includes attempts below the block threshold and
+                  expired records awaiting cleanup. Each IP row lists its
+                  associated users.
                 </p>
                 <div
                   className="admin-record-tabs"
@@ -852,13 +887,20 @@ function Console({
                       </thead>
                       <tbody>
                         {pageRecords.map((record, index) => (
-                          <tr key={`${record.email}-${record.ip}-${index}`}>
+                          <tr key={`${'ip' in record ? record.ip : record.email}-${index}`}>
                             <td>
-                              <strong>{record.ip || record.name}</strong>
-                              <small>
-                                {record.ip && `${record.name} · `}
-                                {record.email}
-                              </small>
+                              {'ip' in record ? (
+                                <>
+                                  <strong>{record.ip}</strong>
+                                  {record.users.length ? record.users.map((user, index) => (
+                                    <small key={`${user.email}-${index}`}>
+                                      {user.name} · {user.email}
+                                    </small>
+                                  )) : <small>No associated users</small>}
+                                </>
+                              ) : (
+                                <><strong>{record.name}</strong><small>{record.email}</small></>
+                              )}
                             </td>
                             <td>
                               <span
@@ -874,7 +916,7 @@ function Console({
                               <button
                                 className="admin-button"
                                 onClick={() => askClear(record)}
-                                aria-label={`Clear records for ${record.ip || record.email}`}
+                                aria-label={`Clear records for ${'ip' in record ? record.ip : record.email}`}
                               >
                                 Clear records
                               </button>
@@ -892,6 +934,22 @@ function Console({
                   setPage={setPage}
                 />
               </div>
+            )}
+            {section === 'adminAccess' && permissions.manageAdmins && (
+              <AdminAccessPanel
+                key={adminTarget?.email || 'manual'}
+                access={access}
+                target={adminTarget}
+                onSubmit={(method, fields) => setConfirmation({
+                  title: method === 'POST' ? 'Grant admin access?' : method === 'PATCH' ? 'Update admin access?' : 'Remove admin access?',
+                  description: method === 'DELETE'
+                    ? `Remove administrator privileges from ${fields.to_user}? Their student account will remain.`
+                    : `Set admin level ${fields.level} for ${fields.to_user}${fields.locked == null ? '' : fields.locked ? ' and mark the admin locked' : ' and mark the admin unlocked'}?`,
+                  label: method === 'POST' ? 'Grant access' : method === 'PATCH' ? 'Update access' : 'Remove access',
+                  danger: method === 'DELETE',
+                  run: () => admin.assign(method, fields),
+                })}
+              />
             )}
             {section === 'schools' && permissions.schools && (
               <SchoolsPanel

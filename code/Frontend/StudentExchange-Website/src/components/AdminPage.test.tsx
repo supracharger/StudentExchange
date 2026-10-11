@@ -26,6 +26,9 @@ function access(level: number, isAdmin = true): AdminAccess {
     is_admin: isAdmin,
     level: isAdmin ? level : null,
     permissions: {
+      manageAdmins: isAdmin && level > 0,
+      lockAdmins: isAdmin && level >= 30,
+      viewAdminLevels: isAdmin && level >= 30,
       schools: isAdmin && level >= 10,
       users: isAdmin && level >= 10,
       profiles: isAdmin && level >= 10,
@@ -85,6 +88,7 @@ beforeEach(() => {
   })
   vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
   window.history.replaceState(null, '', '/')
+  vi.spyOn(admin, 'assign').mockResolvedValue({ message: 'Admin access updated.' })
   vi.spyOn(admin, 'access').mockResolvedValue(access(20))
   vi.spyOn(admin, 'schools').mockResolvedValue({ schools: [{ name: 'Campus', short_name: 'C' }] })
   vi.spyOn(admin, 'addSchool').mockResolvedValue({ message: 'School added.' })
@@ -92,12 +96,14 @@ beforeEach(() => {
   vi.spyOn(admin, 'users').mockResolvedValue({
     users: [
       {
+        isAdmin: false, locked: false,
         email: student.email,
         name: 'Student, Sam',
         school: 'Campus',
         datetime: '2026-10-09T12:00:00',
       },
       {
+        isAdmin: true, locked: true,
         email: 'senior@example.com',
         name: 'Senior, Admin',
         school: 'Another Campus',
@@ -116,8 +122,10 @@ beforeEach(() => {
     ],
     blockedIPs: [
       {
-        email: student.email,
-        name: 'Student, Sam',
+        users: [
+          { email: student.email, name: 'Student, Sam' },
+          { email: 'second@example.com', name: 'Student, Second' },
+        ],
         ip: '192.0.2.3',
         expiry: '2026-10-09T12:05:00',
         count: 3,
@@ -199,6 +207,76 @@ describe('admin interface', () => {
     expect(screen.getByRole('button', { name: 'Schools' })).toBeVisible()
     expect(screen.queryByRole('button', { name: /Login attempts/ })).not.toBeInTheDocument()
     expect(admin.blocked).not.toHaveBeenCalled()
+  })
+  it('grants lower-level admin access with confirmation and hides lock controls below 30', async () => {
+    const user = userEvent.setup()
+    renderPage(10)
+    await waitFor(() => expect(screen.queryByText('Loading your workspace…')).not.toBeInTheDocument())
+    await user.click(screen.getByRole('button', { name: 'Admin access' }))
+    expect(screen.queryByLabelText('Locked status')).not.toBeInTheDocument()
+    await user.type(screen.getByLabelText('Target account email'), student.email)
+    await user.type(screen.getByLabelText('Admin level'), '0')
+    await user.click(screen.getByRole('button', { name: 'Review change…' }))
+    expect(admin.assign).not.toHaveBeenCalled()
+    await user.click(screen.getByRole('button', { name: 'Grant access' }))
+    await waitFor(() => expect(admin.assign).toHaveBeenCalledWith('POST', { to_user: student.email, level: 0 }))
+  })
+  it('allows level-30 lock changes and confirms removal without deleting the user account', async () => {
+    const user = userEvent.setup()
+    renderPage(30)
+    await waitFor(() => expect(screen.queryByText('Loading your workspace…')).not.toBeInTheDocument())
+    await user.click(screen.getByRole('button', { name: 'Admin access' }))
+    await user.type(screen.getByLabelText('Target account email'), 'junior@example.com')
+    await user.selectOptions(screen.getByLabelText('Operation'), 'PATCH')
+    await user.type(screen.getByLabelText('Admin level'), '20')
+    await user.selectOptions(screen.getByLabelText('Locked status'), '1')
+    await user.click(screen.getByRole('button', { name: 'Review change…' }))
+    await user.click(screen.getByRole('button', { name: 'Update access' }))
+    await waitFor(() => expect(admin.assign).toHaveBeenCalledWith('PATCH', { to_user: 'junior@example.com', level: 20, locked: 1 }))
+    await waitFor(() => expect(screen.queryByText('Loading your workspace…')).not.toBeInTheDocument())
+    await user.selectOptions(screen.getByLabelText('Operation'), 'DELETE')
+    await user.click(screen.getByRole('button', { name: 'Review change…' }))
+    expect(screen.getByText(/Their student account will remain/)).toBeVisible()
+    await user.click(screen.getByRole('button', { name: 'Remove access' }))
+    await waitFor(() => expect(admin.assign).toHaveBeenCalledWith('DELETE', { to_user: 'junior@example.com' }))
+    expect(admin.deleteUser).not.toHaveBeenCalled()
+  })
+  it('hides admin management at level 0 and shows it to positive levels without directory access', async () => {
+    const first = renderPage(0)
+    expect(screen.queryByRole('button', { name: 'Admin access' })).not.toBeInTheDocument()
+    first.unmount()
+    renderPage(1)
+    expect(screen.getByRole('button', { name: 'Admin access' })).toBeVisible()
+    expect(screen.queryByRole('button', { name: /^Users/ })).not.toBeInTheDocument()
+  })
+  it.each([20, 30])('shows directory flags and gates levels and locked targets at caller level %i', async (level) => {
+    const user = userEvent.setup()
+    const row = {
+      isAdmin: true, locked: true, level: 10,
+      email: 'junior@example.com', name: 'Junior, Admin', school: 'Campus',
+      datetime: '2026-10-09T12:00:00',
+    }
+    vi.mocked(admin.users).mockResolvedValue({ users: [row, {
+      ...row, locked: false, level: 30, email: 'peer@example.com', name: 'Peer, Admin',
+    }] })
+    vi.mocked(admin.profile).mockImplementation(async email => ({ profile: { ...student, email } }))
+    renderPage(level)
+    await waitFor(() => expect(screen.queryByText('Loading your workspace…')).not.toBeInTheDocument())
+    await user.click(screen.getByRole('button', { name: /^Users/ }))
+    expect(screen.getByText('Locked')).toBeVisible()
+    await screen.findByRole('button', { name: 'Manage junior@example.com' })
+    if (level < 30) {
+      expect(screen.queryByText('Level 10')).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'Admin access for junior@example.com' })).not.toBeInTheDocument()
+    } else {
+      expect(screen.getByText('Level 10')).toBeVisible()
+      expect(screen.getByText('Level 30')).toBeVisible()
+      expect(screen.queryByRole('button', { name: 'Admin access for peer@example.com' })).not.toBeInTheDocument()
+      await user.click(screen.getByRole('button', { name: 'Admin access for junior@example.com' }))
+      expect(screen.getByLabelText('Operation')).toHaveValue('PATCH')
+      expect(screen.getByLabelText('Target account email')).toHaveValue('junior@example.com')
+      expect(screen.getByLabelText('Admin level')).toHaveValue(10)
+    }
   })
   it('adds schools and requires confirmation before deleting the selected name and short name', async () => {
     const user = userEvent.setup()
@@ -339,6 +417,49 @@ describe('admin interface', () => {
     await waitFor(() =>
       expect(admin.endSessions).toHaveBeenCalledWith(student.email),
     )
+  })
+  it('shows and searches every user nested under an IP without duplicating the IP row', async () => {
+    const user = userEvent.setup()
+    renderPage()
+    await waitFor(() => expect(screen.queryByText('Loading your workspace…')).not.toBeInTheDocument())
+    await user.click(screen.getByRole('button', { name: /Login attempts/ }))
+    await user.click(screen.getByRole('button', { name: 'IP addresses 1' }))
+    expect(screen.getByText('Student, Sam · sam@example.com')).toBeVisible()
+    expect(screen.getByText('Student, Second · second@example.com')).toBeVisible()
+    expect(screen.getAllByRole('button', { name: 'Clear records for 192.0.2.3' })).toHaveLength(1)
+    await user.type(screen.getByRole('searchbox'), 'SECOND@example.com')
+    expect(screen.getByText('192.0.2.3')).toBeVisible()
+    await user.clear(screen.getByRole('searchbox'))
+    await user.type(screen.getByRole('searchbox'), '192.0.2.3')
+    expect(screen.getByText('Student, Second · second@example.com')).toBeVisible()
+  })
+  it('shows IPs with no associated users and clears only the IP records', async () => {
+    const user = userEvent.setup()
+    vi.mocked(admin.blocked).mockResolvedValue({
+      blockedUsers: [],
+      blockedIPs: [{ ip: '192.0.2.10', expiry: '2026-10-10T12:00:00', count: 4, users: [] }],
+    })
+    renderPage()
+    await waitFor(() => expect(screen.queryByText('Loading your workspace…')).not.toBeInTheDocument())
+    await user.click(screen.getByRole('button', { name: /Login attempts/ }))
+    await user.click(screen.getByRole('button', { name: 'IP addresses 1' }))
+    expect(screen.getByText('No associated users')).toBeVisible()
+    await user.click(screen.getByRole('button', { name: 'Clear records for 192.0.2.10' }))
+    await user.click(screen.getByRole('button', { name: 'Clear records' }))
+    await waitFor(() => expect(admin.clearAttempts).toHaveBeenCalledWith({ ip_addr: '192.0.2.10' }))
+  })
+  it('preserves eligible user actions when another profile check fails', async () => {
+    const user = userEvent.setup()
+    vi.mocked(admin.profile).mockImplementation(async (email) => {
+      if (email === student.email) return { profile: student }
+      throw new AccountApiError(502, 'The account service is temporarily unavailable. Please try again.')
+    })
+    renderPage(10)
+    await waitFor(() => expect(screen.queryByText('Loading your workspace…')).not.toBeInTheDocument())
+    await user.click(screen.getByRole('button', { name: /^Users/ }))
+    expect(await screen.findByRole('button', { name: `Manage ${student.email}` })).toBeVisible()
+    expect(screen.getByRole('alert')).toHaveTextContent('temporarily unavailable')
+    expect(screen.queryByRole('button', { name: 'Manage senior@example.com' })).not.toBeInTheDocument()
   })
   it('clears IP and user records separately and labels the records as attempts', async () => {
     const user = userEvent.setup()

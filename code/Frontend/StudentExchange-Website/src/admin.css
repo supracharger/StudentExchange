@@ -662,7 +662,8 @@
   overflow-wrap: anywhere;
 }
 .admin-confirm-email input,
-.admin-session-card input {
+.admin-session-card input,
+.admin-session-card select {
   display: block;
   width: 100%;
   padding: 11px;

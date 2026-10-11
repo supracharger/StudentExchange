@@ -79,6 +79,10 @@ beforeEach(async () => {
       return send(201, { access_token: keys.access_token })
     if (expired)
       return send(400, { message: 'The Access Token may have expired.' })
+    if (request.url === '/Admin' && request.method !== 'GET') {
+      if (targetDenied) return send(401, { message: 'Target is forbidden.' })
+      return send(request.method === 'POST' ? 201 : 200, { email: body.to_user, access_token: 'secret' })
+    }
     if (request.url === '/Admin')
       return send(200, {
         is_admin: isAdmin,
@@ -92,6 +96,9 @@ beforeEach(async () => {
           ? { body: { email: ['x'] } }
           : {
               body: {
+                isAdmin: [0],
+                locked: [0],
+                ...(level >= 30 ? { level: [null] } : {}),
                 email: [target.email],
                 name: ['Student, Sam'],
                 school: ['C'],
@@ -155,8 +162,10 @@ beforeEach(async () => {
               blockedIPs: [
                 {
                   ip: '192.0.2.3',
-                  email: target.email,
-                  name: 'Student, Sam',
+                  users: [
+                    { email: target.email, name: 'Student, Sam', password: 'secret' },
+                    { email: 'second@example.com', name: 'Student, Second', access_token: 'secret' },
+                  ],
                   expiry: '2026-10-09T12:05:00',
                   count: 3,
                 },
@@ -356,6 +365,58 @@ describe('administrator wire contract and permissions', () => {
       expect((await call('admin/schools', method, method === 'GET' ? undefined : { name: 'Campus', short_name: 'C' }, cookie)).status).toBe(502)
     }
   })
+  it('grants, updates, and removes admin access using the visitor token and exact target selector', async () => {
+    const cookie = await login()
+    level = 30
+    for (const [method, fields] of [
+      ['POST', { to_user: 'Exact@Example.com', level: 10, locked: 1 }],
+      ['PATCH', { to_user: 'Exact@Example.com', level: 0, locked: 0 }],
+      ['DELETE', { to_user: 'Exact@Example.com' }],
+    ]) {
+      const response = await call('admin', method, fields, cookie)
+      expect(response.status).toBe(method === 'POST' ? 201 : 200)
+      expect(await response.json()).toEqual({ email: fields.to_user, message: method === 'POST' ? 'Admin access granted.' : method === 'PATCH' ? 'Admin access updated.' : 'Admin access removed.' })
+      expect(calls.at(-1)).toEqual({ path: '/Admin', method, body: {
+        ...fields, access_token: keys.access_token, admin_token: keys.admin_token, app_access: keys.app_access, ip: visitor,
+      } })
+    }
+  })
+  it('checks admin assignment bounds and locked privilege before sending mutations', async () => {
+    const cookie = await login()
+    level = 0
+    expect((await call('admin', 'POST', { to_user: target.email, level: 0 }, cookie)).status).toBe(403)
+    level = 1
+    expect((await call('admin', 'POST', { to_user: target.email, level: 0 }, cookie)).status).toBe(201)
+    level = 29
+    for (const fields of [
+      { to_user: target.email, level: 29 }, { to_user: target.email, level: -1 },
+      { to_user: target.email, level: 0.5 }, { to_user: target.email, level: '10' },
+      { to_user: target.email }, { to_user: target.email, level: 10, access_token: 'evil' },
+    ]) {
+      const before = calls.length
+      expect((await call('admin', 'PATCH', fields, cookie)).status).toBe(400)
+      expect(calls.slice(before).map(item => item.method)).toEqual(['GET'])
+    }
+    expect((await call('admin', 'PATCH', { to_user: target.email, level: 10, locked: 0 }, cookie)).status).toBe(403)
+    level = 30
+    expect((await call('admin', 'POST', { to_user: target.email, level: 10, locked: true }, cookie)).status).toBe(400)
+    expect((await call('admin', 'DELETE', { to_user: target.email, level: 10 }, cookie)).status).toBe(400)
+    targetDenied = true
+    expect((await call('admin', 'DELETE', { to_user: target.email }, cookie)).status).toBe(403)
+    expect((await call('admin', 'GET', undefined, cookie)).status).toBe(200)
+  })
+  it('shows directory flags at all permitted levels and reveals levels only at 30+', async () => {
+    const cookie = await login()
+    level = 20
+    const lower = await (await call('admin/users', 'GET', undefined, cookie)).json()
+    expect(lower.users[0]).toMatchObject({ isAdmin: false, locked: false })
+    expect(lower.users[0]).not.toHaveProperty('level')
+    level = 30
+    const higher = await (await call('admin/users', 'GET', undefined, cookie)).json()
+    expect(higher.users[0]).toHaveProperty('level', null)
+    const status = await (await call('admin', 'GET', undefined, cookie)).json()
+    expect(status.permissions).toMatchObject({ manageAdmins: true, lockAdmins: true, viewAdminLevels: true })
+  })
   it('reports exact level permissions and rechecks demotions before protected upstream actions', async () => {
     const cookie = await login()
     for (const [rank, membership, expected] of [
@@ -518,6 +579,7 @@ describe('administrator wire contract and permissions', () => {
     ).json()
     expect(users.users).toEqual([
       {
+        isAdmin: false, locked: false,
         email: target.email,
         name: 'Student, Sam',
         school: 'C',
@@ -528,6 +590,13 @@ describe('administrator wire contract and permissions', () => {
       await call('admin/blocked', 'GET', undefined, cookie)
     ).json()
     expect(records.blockedUsers[0]).not.toHaveProperty('password')
+    expect(records.blockedIPs).toEqual([{
+      ip: '192.0.2.3', expiry: '2026-10-09T12:05:00', count: 3,
+      users: [
+        { email: target.email, name: 'Student, Sam' },
+        { email: 'second@example.com', name: 'Student, Second' },
+      ],
+    }])
     badSchema = 'users'
     expect((await call('admin/users', 'GET', undefined, cookie)).status).toBe(
       502,

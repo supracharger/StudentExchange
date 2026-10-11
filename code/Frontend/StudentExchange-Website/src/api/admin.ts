@@ -22,6 +22,9 @@ export interface AdminAccess {
   is_admin: boolean
   level: number | null
   permissions: {
+    manageAdmins: boolean
+    lockAdmins: boolean
+    viewAdminLevels: boolean
     schools: boolean
     users: boolean
     profiles: boolean
@@ -35,6 +38,9 @@ export interface AdminSchool {
   short_name: string
 }
 export interface AdminUser {
+  isAdmin: boolean
+  locked: boolean
+  level?: number | null
   email: string
   name: string
   school: string
@@ -45,13 +51,20 @@ export interface AttemptRecord {
   name: string
   expiry: string
   count: number
-  ip?: string
+}
+export interface IPAttemptRecord {
+  ip: string
+  expiry: string
+  count: number
+  users: { name: string; email: string }[]
 }
 export interface Attempts {
   blockedUsers: AttemptRecord[]
-  blockedIPs: AttemptRecord[]
+  blockedIPs: IPAttemptRecord[]
 }
 export const admin = {
+  assign: (method: 'POST' | 'PATCH' | 'DELETE', fields: { to_user: string; level?: number; locked?: number }) =>
+    request<{ message: string }>('admin', method, fields),
   schools: (signal?: AbortSignal) =>
     request<{ schools: AdminSchool[] }>('admin/schools', 'GET', undefined, signal),
   addSchool: (school: AdminSchool) =>

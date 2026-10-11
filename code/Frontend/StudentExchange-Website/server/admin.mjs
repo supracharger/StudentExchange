@@ -24,6 +24,9 @@ export function adminStatus(data) {
     is_admin: data.is_admin,
     level,
     permissions: {
+      manageAdmins: data.is_admin && level > 0,
+      lockAdmins: data.is_admin && level >= 30,
+      viewAdminLevels: data.is_admin && level >= 30,
       users: data.is_admin && level >= 10,
       schools: data.is_admin && level >= 10,
       profiles: data.is_admin && level >= 10,
@@ -34,7 +37,7 @@ export function adminStatus(data) {
   }
 }
 
-export function adminUsers(data) {
+export function adminUsers(data, revealLevels = false) {
   const body = data?.body
   if (!body || typeof body !== 'object' || Array.isArray(body)) unexpected()
   if (!Object.keys(body).length) return []
@@ -49,32 +52,41 @@ export function adminUsers(data) {
     )
   )
     unexpected()
-  return body.email.map((_, index) =>
-    Object.fromEntries(keys.map((key) => [key, body[key][index]])),
-  )
+  const flag = value => value === true || value === 1 ? true : value === false || value === 0 ? false : unexpected()
+  for (const key of ['isAdmin', 'locked', ...(revealLevels ? ['level'] : [])])
+    if (!Array.isArray(body[key]) || body[key].length !== body.email.length) unexpected()
+  return body.email.map((_, index) => {
+    const isAdmin = flag(body.isAdmin[index])
+    const locked = flag(body.locked[index])
+    const result = { ...Object.fromEntries(keys.map(key => [key, body[key][index]])), isAdmin, locked }
+    if (revealLevels) {
+      const level = body.level[index]
+      if (isAdmin ? !Number.isInteger(level) || level < 0 : level != null) unexpected()
+      result.level = level
+    }
+    return result
+  })
 }
 
 export function attemptRecords(data) {
-  const project = (rows, ip = false) => {
-    if (!Array.isArray(rows)) unexpected()
-    const keys = ['name', 'email', 'expiry', ...(ip ? ['ip'] : [])]
-    return rows.map((row) => {
-      if (
-        !row ||
-        keys.some((key) => typeof row[key] !== 'string') ||
-        !Number.isInteger(row.count) ||
-        row.count < 0
-      )
-        unexpected()
-      return {
-        ...Object.fromEntries(keys.map((key) => [key, row[key]])),
-        count: row.count,
-      }
-    })
+  const identity = (user) => {
+    if (!user || typeof user.name !== 'string' || typeof user.email !== 'string')
+      unexpected()
+    return { name: user.name, email: user.email }
   }
+  const attempts = (row) => {
+    if (!row || typeof row.expiry !== 'string' ||
+      !Number.isInteger(row.count) || row.count < 0) unexpected()
+    return { expiry: row.expiry, count: row.count }
+  }
+  if (!Array.isArray(data?.blockedUsers) || !Array.isArray(data?.blockedIPs))
+    unexpected()
   return {
-    blockedUsers: project(data?.blockedUsers),
-    blockedIPs: project(data?.blockedIPs, true),
+    blockedUsers: data.blockedUsers.map(row => ({ ...identity(row), ...attempts(row) })),
+    blockedIPs: data.blockedIPs.map(row => {
+      if (!row || typeof row.ip !== 'string' || !Array.isArray(row.users)) unexpected()
+      return { ip: row.ip, ...attempts(row), users: row.users.map(identity) }
+    }),
   }
 }
 
@@ -140,4 +152,30 @@ export function schoolAction(data, adding) {
   return adding
     ? { message: 'School added.', name: data.name, short_name: data.short_name }
     : { message: 'School deleted.', deletedRows: data.row_count }
+}
+
+
+export function adminAssignment(body, method, status) {
+  const allowed = method === 'DELETE' ? ['to_user'] : ['to_user', 'level', 'locked']
+  if (Object.keys(body).some(key => !allowed.includes(key)))
+    throw new AdminContractError(400, 'The request contains an unsupported field.')
+  const fields = adminFields({ to_user: body.to_user }, ['to_user'], ['to_user'])
+  if (method !== 'DELETE') {
+    if (!Number.isInteger(body.level) || body.level < 0 || body.level >= status.level)
+      throw new AdminContractError(400, 'Assign a nonnegative integer level below your own.')
+    fields.level = body.level
+    if (Object.hasOwn(body, 'locked')) {
+      if (!status.permissions.lockAdmins)
+        throw new AdminContractError(403, 'Changing locked status requires admin level 30.')
+      if (![0, 1].includes(body.locked))
+        throw new AdminContractError(400, 'Locked must be 0 or 1.')
+      fields.locked = body.locked
+    }
+  }
+  return fields
+}
+
+export function adminAssignmentResult(data, method) {
+  if (typeof data?.email !== 'string' || !data.email.trim()) unexpected()
+  return { email: data.email, message: method === 'POST' ? 'Admin access granted.' : method === 'PATCH' ? 'Admin access updated.' : 'Admin access removed.' }
 }

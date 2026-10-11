@@ -11,6 +11,8 @@ import {
   schoolFields,
   schoolDirectory,
   schoolAction,
+  adminAssignment,
+  adminAssignmentResult,
 } from './admin.mjs'
 
 const SESSION_COOKIE = 'se_session'
@@ -389,7 +391,7 @@ export function createApiHandler({
       '/api/login': ['POST'],
       '/api/profile': ['GET', 'PATCH'],
       '/api/logout': ['POST'],
-      '/api/admin': ['GET'],
+      '/api/admin': ['GET', 'POST', 'PATCH', 'DELETE'],
       '/api/admin/users': ['GET', 'DELETE'],
       '/api/admin/profile': ['GET', 'PATCH'],
       '/api/admin/sessions': ['DELETE'],
@@ -453,12 +455,14 @@ export function createApiHandler({
       if (path.startsWith('/api/admin')) {
         // Read membership afresh for every operation so a demotion takes effect immediately.
         const status = adminStatus(await call('Admin', 'GET', credentials))
-        if (path === '/api/admin') {
+        if (path === '/api/admin' && method === 'GET') {
           send(response, 200, status)
           return
         }
         const permission =
-          path === '/api/admin/schools'
+          path === '/api/admin'
+            ? 'manageAdmins'
+            : path === '/api/admin/schools'
             ? 'schools'
             : path === '/api/admin/blocked'
               ? 'blocked'
@@ -493,7 +497,11 @@ export function createApiHandler({
             throw error
           }
         }
-        if (path === '/api/admin/schools') {
+        if (path === '/api/admin') {
+          const fields = adminAssignment(await readBody(request), method, status)
+          const result = await adminCall('Admin', method, fields)
+          send(response, method === 'POST' ? 201 : 200, adminAssignmentResult(result, method))
+        } else if (path === '/api/admin/schools') {
           if (method === 'GET') {
             send(response, 200, { schools: schoolDirectory(await adminCall('Schools', 'GET', {})) })
           } else {
@@ -504,7 +512,7 @@ export function createApiHandler({
           }
         } else if (path === '/api/admin/users' && method === 'GET') {
           send(response, 200, {
-            users: adminUsers(await adminCall('Users', 'GET', {})),
+            users: adminUsers(await adminCall('Users', 'GET', {}), status.permissions.viewAdminLevels),
           })
         } else if (path === '/api/admin/users') {
           const fields = adminFields(

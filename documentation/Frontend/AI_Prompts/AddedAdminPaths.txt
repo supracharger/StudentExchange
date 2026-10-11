@@ -1,0 +1,2 @@
+>> The backend was changed again and the GitHub backend is updated to current. The new backend is also deployed. The GET Users endpoint now has columns for isAdmin and locked. If user is high enough the admin 'level' will also be there. 
+Also, I added POST, PATCH, & DELETE paths to endpoint Admin. Make sure that is included in the admin page if that certain admin user has a high enough level.
