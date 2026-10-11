@@ -31,6 +31,8 @@ namespace StudentExchangeBck
         // Number of unsuccessfull IP attemps before blocked timeout.
         public static readonly int _accessAttempsIP = 10;
 
+        public static string _bin { get; private set; }
+
         /// <summary>
         /// Get Enviroment from file
         /// </summary>
@@ -38,11 +40,14 @@ namespace StudentExchangeBck
         /// <exception cref="Exception"></exception>
         public static void GetEnv(string salt = "tempPass!^74*")
         {
-#if DEBUG
-            string path = "bin_/.env";
-#else
-            string path = "/home/bin_/.env";
-#endif
+            // Get Bin Path to Files
+            _bin = File.ReadAllText("path.env").Split('\n', StringSplitOptions.RemoveEmptyEntries)
+                        .Select(s => s.Split('=')).Where(s => s.Length != 2)
+                        .ToDictionary(s => s[0].Trim(), s => s[1].Trim())
+                        ["path"];
+
+            string path = _bin + ".env";
+
             // Read in Encypted env
             var env = System.IO.File.ReadAllText(path);
             // Decrypt

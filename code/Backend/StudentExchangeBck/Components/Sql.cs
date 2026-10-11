@@ -125,6 +125,8 @@ namespace StudentExchangeBck
                     // Transaction Commit: if 1+ rows affectted
                     if (cnt != 0)
                         trans.Commit();
+                    else
+                        trans.Rollback();
 
                     return cnt;
                 }
@@ -140,11 +142,8 @@ namespace StudentExchangeBck
         }
 
         // SqLite Path
-#if DEBUG
-        public static readonly string _path = Path.GetFullPath("bin_/Data.db");
-#else
-        public static readonly string _path = Path.GetFullPath("/home/bin_/Data.db");
-#endif
+        public static readonly string _path = Path.GetFullPath(Env._bin + "Data.db");
+
         // SqLite Connection
         // !!! Needs to be a private method !!!
         static SqliteConnection SqLiteConnect()

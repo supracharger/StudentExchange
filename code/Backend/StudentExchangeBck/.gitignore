@@ -1,3 +1,5 @@
 .vs/
 bin/
 obj/
+path.env
+path.server.env
