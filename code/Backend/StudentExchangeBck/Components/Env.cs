@@ -42,7 +42,7 @@ namespace StudentExchangeBck
         {
             // Get Bin Path to Files
             _bin = File.ReadAllText("path.env").Split('\n', StringSplitOptions.RemoveEmptyEntries)
-                        .Select(s => s.Split('=')).Where(s => s.Length != 2)
+                        .Select(s => s.Split('=')).Where(s => s.Length == 2)
                         .ToDictionary(s => s[0].Trim(), s => s[1].Trim())
                         ["path"];
 
