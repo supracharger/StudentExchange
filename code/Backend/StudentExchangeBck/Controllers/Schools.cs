@@ -72,6 +72,13 @@ namespace StudentExchangeBck
             // Exit if invalid
             if (msg != null) return msg;
 
+            // Can't Forward user
+            if (user.forwarded)
+                return BadRequest(new
+                {
+                    Message = "user cannot be forwarded."
+                });
+
             // Not Authorized: Not Admin or Admin level too low
             if (!user.isAdmin || user.adminLvl < 10)
             {
@@ -79,7 +86,7 @@ namespace StudentExchangeBck
                 var msg2 = IP.IncInvalidForIP(true, this, ip.id);
                 if (msg2 != null) return msg2;
 
-                return new UnauthorizedObjectResult(new
+                return Unauthorized(new
                 {
                     Message = "Not authorized."
                 });
@@ -144,6 +151,13 @@ namespace StudentExchangeBck
             // Exit if invalid
             if (msg != null) return msg;
 
+            // Can't Forward user
+            if (user.forwarded)
+                return BadRequest(new
+                {
+                    Message = "user cannot be forwarded."
+                });
+
             // Not Authorized: Not Admin or Admin level too low
             if (!user.isAdmin || user.adminLvl < 10)
             {
@@ -151,7 +165,7 @@ namespace StudentExchangeBck
                 var msg2 = IP.IncInvalidForIP(true, this, ip.id);
                 if (msg2 != null) return msg2;
 
-                return new UnauthorizedObjectResult(new
+                return Unauthorized(new
                 {
                     Message = "Not authorized."
                 });
