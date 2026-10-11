@@ -40,6 +40,15 @@ Accept: application/json
 # Get if Admin
 GET {{StudentExchangeBck_HostAddress}}/Admin/
 Accept: application/json
+# Add Admin
+POST {{StudentExchangeBck_HostAddress}}/Admin/
+Accept: application/json
+# Update Admin
+PATCH {{StudentExchangeBck_HostAddress}}/Admin/
+Accept: application/json
+# Delete Admin
+DELETE {{StudentExchangeBck_HostAddress}}/Admin/
+Accept: application/json
 
 # Get Blocked IPs and Users
 GET {{StudentExchangeBck_HostAddress}}/Blocked/
