@@ -61,8 +61,8 @@ export function adminUsers(data, revealLevels = false) {
     const result = { ...Object.fromEntries(keys.map(key => [key, body[key][index]])), isAdmin, locked }
     if (revealLevels) {
       const level = body.level[index]
-      if (isAdmin ? !Number.isInteger(level) || level < 0 : level != null) unexpected()
-      result.level = level
+      if (isAdmin ? !Number.isInteger(level) || level < 0 : level !== -1 && level != null) unexpected()
+      result.level = isAdmin ? level : null
     }
     return result
   })

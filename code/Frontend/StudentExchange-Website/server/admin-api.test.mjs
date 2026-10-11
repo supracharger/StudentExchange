@@ -98,7 +98,7 @@ beforeEach(async () => {
               body: {
                 isAdmin: [0],
                 locked: [0],
-                ...(level >= 30 ? { level: [null] } : {}),
+                ...(level >= 30 ? { level: [-1] } : {}),
                 email: [target.email],
                 name: ['Student, Sam'],
                 school: ['C'],

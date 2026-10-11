@@ -76,7 +76,7 @@ namespace StudentExchangeBck
                                         "U.[datetime], " +
                                         "(A.[user_id] IS NOT NULL) isAdmin, " +
                                         "(A.[locked] IS NOT NULL AND A.[locked] != 0) locked " +
-                                        (user.adminLvl >= 30 ? ", A.[level] " : "") +
+                                        (user.adminLvl >= 30 ? ", COALESCE(A.[level], -1) level " : "") +
                                         "FROM User U, Schools S " +
                                         "LEFT JOIN Admins A ON U.[id]=A.[user_id] " +
                                         "WHERE S.[id]=U.[school_id] " +
