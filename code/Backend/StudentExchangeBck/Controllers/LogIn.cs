@@ -73,10 +73,10 @@ namespace StudentExchangeBck
 
                 // Block IP for timeout if too many access attemps
                 // incremement invalid access attemps & Check if it needs to block.
-                if (noresults && ip.forwarded)
+                if (ip.forwarded)
                 {
                     // Potentially Block IP
-                    var msg2 = IP.IncInvalidForIP(true, this, ip.id);
+                    var msg2 = IP.IncInvalidForIP(noresults, this, ip.id);
                     // If it needs to block user
                     if (msg2 != null) return msg2;
                 }
