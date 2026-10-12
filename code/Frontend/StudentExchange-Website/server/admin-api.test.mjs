@@ -155,7 +155,7 @@ beforeEach(async () => {
                   email: target.email,
                   name: 'Student, Sam',
                   expiry: '2026-10-09T12:05:00',
-                  count: 10,
+                  count: badSchema === 'successful-records' ? -1 : 10,
                   password: 'secret',
                 },
               ],
@@ -167,7 +167,7 @@ beforeEach(async () => {
                     { email: 'second@example.com', name: 'Student, Second', access_token: 'secret' },
                   ],
                   expiry: '2026-10-09T12:05:00',
-                  count: 3,
+                  count: badSchema === 'successful-records' ? -1 : 3,
                 },
               ],
             },
@@ -605,6 +605,18 @@ describe('administrator wire contract and permissions', () => {
     expect((await call('admin/blocked', 'GET', undefined, cookie)).status).toBe(
       502,
     )
+  })
+  it('returns successful user and IP records without rejecting or filtering them', async () => {
+    const cookie = await login()
+    badSchema = 'successful-records'
+    const response = await call('admin/blocked', 'GET', undefined, cookie)
+    expect(response.status).toBe(200)
+    const records = await response.json()
+    expect(records.blockedUsers).toHaveLength(1)
+    expect(records.blockedUsers[0].count).toBe(-1)
+    expect(records.blockedIPs).toHaveLength(1)
+    expect(records.blockedIPs[0].count).toBe(-1)
+    expect(records.blockedIPs[0].users).toHaveLength(2)
   })
   it('preserves exact selectors and reports successful writes even if the follow-up profile read fails', async () => {
     const cookie = await login()

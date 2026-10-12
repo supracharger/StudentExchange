@@ -76,7 +76,7 @@ export function attemptRecords(data) {
   }
   const attempts = (row) => {
     if (!row || typeof row.expiry !== 'string' ||
-      !Number.isInteger(row.count) || row.count < 0) unexpected()
+      !Number.isInteger(row.count) || row.count < -1) unexpected()
     return { expiry: row.expiry, count: row.count }
   }
   if (!Array.isArray(data?.blockedUsers) || !Array.isArray(data?.blockedIPs))

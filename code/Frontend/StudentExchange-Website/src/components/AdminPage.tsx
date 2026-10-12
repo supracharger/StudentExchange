@@ -817,8 +817,8 @@ function Console({
                   <span className="admin-caption">Mountain time</span>
                 </div>
                 <p className="admin-record-note">
-                  Failed access attempts only; successful logins do not add
-                  records here. Includes attempts below the block threshold and
+                  Successful access records are labeled Successful. Includes
+                  attempts below the block threshold and
                   expired records awaiting cleanup. Each IP row lists its
                   associated users.
                 </p>
@@ -880,7 +880,7 @@ function Console({
                               ? 'IP address / student'
                               : 'Student'}
                           </th>
-                          <th scope="col">Attempts</th>
+                          <th scope="col">Result / failed attempts</th>
                           <th scope="col">Expires · Mountain time</th>
                           <th scope="col">Actions</th>
                         </tr>
@@ -904,9 +904,9 @@ function Console({
                             </td>
                             <td>
                               <span
-                                className={`admin-pill ${record.count >= 10 ? 'amber' : ''}`}
+                                className={`admin-pill ${record.count === -1 ? '' : 'amber'}`}
                               >
-                                {record.count}
+                                {record.count === -1 ? 'Successful' : `${record.count} failed attempts`}
                               </span>
                             </td>
                             <td>

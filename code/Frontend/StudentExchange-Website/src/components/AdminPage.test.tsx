@@ -496,6 +496,35 @@ describe('admin interface', () => {
       }),
     )
   })
+  it('displays successful user and IP records alongside failures and keeps search and clearing available', async () => {
+    const user = userEvent.setup()
+    vi.mocked(admin.blocked).mockResolvedValue({
+      blockedUsers: [
+        { email: student.email, name: 'Student, Sam', expiry: '2026-10-12T12:00:00', count: -1 },
+        { email: 'failed@example.com', name: 'Failed, Student', expiry: '2026-10-12T12:00:00', count: 3 },
+      ],
+      blockedIPs: [
+        { ip: '192.0.2.3', users: [{ name: 'Student, Sam', email: student.email }], expiry: '2026-10-12T12:00:00', count: -1 },
+        { ip: '192.0.2.4', users: [], expiry: '2026-10-12T12:00:00', count: 10 },
+      ],
+    })
+    renderPage()
+    await waitFor(() => expect(screen.queryByText('Loading your workspace…')).not.toBeInTheDocument())
+    await user.click(screen.getByRole('button', { name: /Login attempts/ }))
+    expect(screen.getByText('Successful')).toBeVisible()
+    expect(screen.getByText('3 failed attempts')).toBeVisible()
+    expect(screen.queryByText('-1')).not.toBeInTheDocument()
+    await user.type(screen.getByRole('searchbox'), student.email)
+    expect(screen.getByText('Successful')).toBeVisible()
+    expect(screen.queryByText('3 failed attempts')).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'IP addresses 2' }))
+    expect(screen.getByText('Successful')).toBeVisible()
+    expect(screen.getByText('10 failed attempts')).toBeVisible()
+    expect(screen.getByText('Student, Sam · sam@example.com')).toBeVisible()
+    await user.click(screen.getByRole('button', { name: 'Clear records for 192.0.2.3' }))
+    await user.click(screen.getByRole('button', { name: 'Clear records' }))
+    await waitFor(() => expect(admin.clearAttempts).toHaveBeenCalledWith({ ip_addr: '192.0.2.3' }))
+  })
   it('guards direct access for regular users and signed-out visitors', async () => {
     const first = renderPage(20, false)
     expect(
