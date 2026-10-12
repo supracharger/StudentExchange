@@ -68,7 +68,7 @@ namespace StudentExchangeBck
 
                 // Get Blocked IP info from DB
                 var bldIP = Sql.Read("SELECT P.[ip], (U.[last_name] || ', ' || U.[first_name]) name, " +
-                                    "U.[email], B.[expiry], B.[count] " +
+                                    "U.[email], B.[expiry], B.[count], P.[id] ipid " +
                                     "FROM Blocked_Ips B, IP P, User_Has_IPs H, User U " +
                                     "WHERE B.[ip_id]=H.[ip_id] AND U.[id]=H.[user_id] AND P.[id]=B.[ip_id] AND " +
                                     "B.[expiry]>@now " +
@@ -103,27 +103,23 @@ namespace StudentExchangeBck
                     return blk;
                 };
 
-                // Decrypt IP
-                if (bldIP.TryGetValue("ip", out var pls))
-                    bldIP["ip"] = pls.Select(p => (object)DeterministicEncryption.Decrypt((string)p, Env._ipSalt)).ToList();
-
                 var bkIPs = Format(bldIP);
 
                 // Get users inside of IP Row
-                var bkip = new Dictionary<string, object>();
+                var bkip = new Dictionary<long, object>();
                 // User cells
                 var userdta = new[] { "name", "email" };
                 // Loop joined ip & users
                 foreach(var p in bkIPs)
                 {
                     // IP
-                    var ipp = (string)p["ip"]!;
+                    var ipid = (long)p["ipid"]!;
                     // Get User data
                     var usr = new Dictionary<string, object>();
                     foreach (var k in userdta)
                         usr.Add(k, p[k]!);
                     // If same ip
-                    if (bkip.TryGetValue(ipp, out var row_))
+                    if (bkip.TryGetValue(ipid, out var row_))
                     {
                         // Add user
                         var users = (List<Dictionary<string, object>>)((Dictionary<string, object?>)row_)["users"]!;
@@ -136,10 +132,13 @@ namespace StudentExchangeBck
                         var d2 = p.ToDictionary(s => s.Key, s => s.Value);
                         foreach (var k in userdta)
                             d2.Remove(k);
+                        if (d2.ContainsKey("ipid"))
+                            d2.Remove("ipid");
+                        d2["ip"] = DeterministicEncryption.Decrypt((string)d2["ip"]!, Env._ipSalt);
                         // Add user data
                         d2.Add("users", new List<Dictionary<string, object>> { usr });
                         // Add to map
-                        bkip.Add(ipp, d2);
+                        bkip.Add(ipid, d2);
                     }
                     
                 }
