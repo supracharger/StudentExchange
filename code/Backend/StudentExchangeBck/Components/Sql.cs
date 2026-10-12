@@ -142,7 +142,7 @@ namespace StudentExchangeBck
         }
 
         // SqLite Path
-        public static readonly string _path = Path.GetFullPath(Env._bin + "Data.db");
+        public static readonly string _path = Path.GetFullPath(Env._dbPath);
 
         // SqLite Connection
         // !!! Needs to be a private method !!!

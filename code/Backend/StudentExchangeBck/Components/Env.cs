@@ -32,6 +32,7 @@ namespace StudentExchangeBck
         public static readonly int _accessAttempsIP = 10;
 
         public static string _bin { get; private set; } = null!;
+        public static string _dbPath { get; private set; } = null!;
 
         /// <summary>
         /// Get Enviroment from file
@@ -41,10 +42,11 @@ namespace StudentExchangeBck
         public static void GetEnv(string salt = "tempPass!^74*")
         {
             // Get Bin Path to Files
-            _bin = File.ReadAllText("path.env").Split('\n', StringSplitOptions.RemoveEmptyEntries)
-                        .Select(s => s.Split('=')).Where(s => s.Length == 2)
-                        .ToDictionary(s => s[0].Trim(), s => s[1].Trim())
-                        ["path"];
+            _bin = ParseEnv("path.env")["path"];
+
+            // Get DB path
+            var db = ParseEnv(_bin + ".env2")["db"];
+            _dbPath = _bin + db;
 
             string path = _bin + ".env";
 
@@ -68,5 +70,10 @@ namespace StudentExchangeBck
             if (_accessAttemps <= 1)
                 throw new Exception("Login needs access attemps >1.");
         }
+
+        public static Dictionary<string, string> ParseEnv(string path)
+            => File.ReadAllText(path).Split('\n', StringSplitOptions.RemoveEmptyEntries)
+                        .Select(s => s.Trim().Split('=')).Where(s => s.Length == 2)
+                        .ToDictionary(s => s[0].Trim(), s => s[1].Trim());
     }
 }
