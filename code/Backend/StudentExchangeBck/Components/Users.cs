@@ -70,7 +70,7 @@ namespace StudentExchangeBck
 
             try
             {
-                var ishigh = user.adminLvl >= 30;
+                var ishigh = user.adminLvl >= 27;
                 // Get users info from DB
                 var users = Sql.Read("SELECT U.[email], (U.[last_name] || ', ' || U.[first_name]) name, " +
                                         "COALESCE(S.[short_name], S.[name]) school, " +
