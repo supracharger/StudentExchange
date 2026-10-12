@@ -188,7 +188,7 @@ namespace StudentExchangeBck
                                 "(@userid,@count,@expiry)", new Dictionary<string, object>
                                 {
                                 {"@userid", userid },
-                                {"@count", 1 },
+                                {"@count", increment ? 1 : -1 },
                                 {"@expiry", Utilz.ToMtn().Add(Env._blockedAccessTimeOut).ToString("s")}
                                 }, 1);
 
@@ -201,6 +201,7 @@ namespace StudentExchangeBck
                 var id = result["id"][0];
                 var count = (long)result["count"][0];
                 var expiry = DateTime.Parse((string)result["expiry"][0]);
+                if (count < 0) count = 0;
 
                 // If you want to increment invalid access attemps
                 if (increment || count >= Env._accessAttemps)
