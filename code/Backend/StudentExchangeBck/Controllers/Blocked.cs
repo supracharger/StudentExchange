@@ -77,6 +77,8 @@ namespace StudentExchangeBck
                                         { "@now", Utilz.ToMtn().ToString("s") }
                                     });
 
+                var fromCrypt = new Dictionary<string, object>();
+
                 // Format Rows of Columns
                 Func<Dictionary<string, List<object>>, List<Dictionary<string, object?>>> Format = b =>
                 {
@@ -84,8 +86,16 @@ namespace StudentExchangeBck
                     // Exit: nothing
                     if (b.Count == 0) return blk;
 
-                    // Decrypt email
-                    b["email"] = b["email"].Select(e => (object)DeterministicEncryption.Decrypt((string)e, Env._emailSalt)).ToList();
+                    // Decrypt email cached
+                    b["email"] = b["email"].Select(e =>
+                    {
+                        var s = (string)e;
+                        if (fromCrypt.TryGetValue(s, out var dcy))
+                            return dcy;
+                        dcy = (object)DeterministicEncryption.Decrypt((string)e, Env._emailSalt);
+                        fromCrypt.Add(s, dcy);
+                        return dcy;
+                    }).ToList();
 
                     // Get Rows of Columns
                     var keys = b.Keys.ToList();
