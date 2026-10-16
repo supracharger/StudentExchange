@@ -12,7 +12,7 @@ Action Schedule = () =>
     IP.CleanUp();
 };
 // Run Clean up at program start
-Schedule();
+var tsk = Task.Run(Schedule);
 // Schedule Clean up each day at time.
 using var schedule = new Maitenance(324, Schedule);
 
