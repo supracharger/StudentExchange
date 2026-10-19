@@ -7,11 +7,11 @@ namespace StudentExchangeBck.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ListingsController : ControllerBase
+    public class ListingController : ControllerBase
     {
         private readonly string _connectionString = "Data Source=../Data.db;";
 
-        // GET: api/listings
+        // GET: api/listing
         [HttpGet]
         public IActionResult GetListings([FromQuery] string? category = null)
         {
@@ -27,8 +27,7 @@ namespace StudentExchangeBck.Controllers
                     command.CommandText = @"
                         SELECT l.id, l.title, l.description, l.price, l.category, l.datetime, u.email, u.first_name, u.last_name 
                         FROM Listings l
-                        JOIN User u ON l.user_id = u.id
-                        ORDER BY l.id DESC;";
+                        JOIN User u ON l.user_id = u.id";
                 }
                 else
                 {
@@ -36,8 +35,7 @@ namespace StudentExchangeBck.Controllers
                         SELECT l.id, l.title, l.description, l.price, l.category, l.datetime, u.email, u.first_name, u.last_name 
                         FROM Listings l
                         JOIN User u ON l.user_id = u.id
-                        WHERE l.category = $category
-                        ORDER BY l.id DESC;";
+                        WHERE l.category = $category";
                     command.Parameters.AddWithValue("$category", category);
                 }
 
@@ -47,14 +45,15 @@ namespace StudentExchangeBck.Controllers
                     {
                         listings.Add(new
                         {
-                            Id = reader.GetInt32(0),
-                            Title = reader.GetString(1),
-                            Description = reader.IsDBNull(2) ? "" : reader.GetString(2),
-                            Price = reader.GetDecimal(3),
-                            Category = reader.GetString(4),
-                            Datetime = reader.IsDBNull(5) ? "" : reader.GetString(5),
-                            SellerEmail = reader.GetString(6),
-                            SellerName = $"{reader.GetString(7)} {reader.GetString(8)}"
+                            id = reader.GetInt32(0),
+                            title = reader.GetString(1),
+                            description = reader.GetString(2),
+                            price = reader.GetDecimal(3),
+                            category = reader.GetString(4),
+                            datetime = reader.GetString(5),
+                            email = reader.GetString(6),
+                            first_name = reader.GetString(7),
+                            last_name = reader.GetString(8)
                         });
                     }
                 }
@@ -63,44 +62,59 @@ namespace StudentExchangeBck.Controllers
             return Ok(listings);
         }
 
-        // POST: api/listings
+        // POST: api/listing
         [HttpPost]
-        public IActionResult CreateListing([FromBody] ListingCreateDto dto)
+        public IActionResult CreateListing([FromBody] ListingCreateModel model)
         {
-            if (string.IsNullOrWhiteSpace(dto.Title) || dto.Price <= 0 || string.IsNullOrWhiteSpace(dto.Category))
-            {
-                return BadRequest(new { error = "Title, a positive price, and category are required." });
-            }
-
             using (var connection = new SqliteConnection(_connectionString))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
                 command.CommandText = @"
-                    INSERT INTO Listings (user_id, title, description, price, category, datetime)
-                    VALUES ($userId, $title, $description, $price, $category, datetime('now'));
-                    SELECT last_insert_rowid();
-                ";
+                    INSERT INTO Listings (title, description, price, category, user_id, datetime)
+                    VALUES ($title, $description, $price, $category, $user_id, $datetime);";
+                
+                command.Parameters.AddWithValue("$title", model.Title);
+                command.Parameters.AddWithValue("$description", model.Description);
+                command.Parameters.AddWithValue("$price", model.Price);
+                command.Parameters.AddWithValue("$category", model.Category);
+                command.Parameters.AddWithValue("$user_id", model.UserId);
+                command.Parameters.AddWithValue("$datetime", DateTime.UtcNow.ToString("o"));
 
-                command.Parameters.AddWithValue("$userId", dto.UserId);
-                command.Parameters.AddWithValue("$title", dto.Title);
-                command.Parameters.AddWithValue("$description", dto.Description ?? "");
-                command.Parameters.AddWithValue("$price", dto.Price);
-                command.Parameters.AddWithValue("$category", dto.Category);
-
-                long newId = (long)command.ExecuteScalar()!;
-
-                return Ok(new { message = "Listing created successfully!", id = newId });
+                command.ExecuteNonQuery();
             }
+
+            return Ok(new { message = "Listing created successfully!" });
+        }
+
+        // DELETE: api/listing/{id}
+        [HttpDelete("{id}")]
+        public IActionResult DeleteListing(int id)
+        {
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "DELETE FROM Listings WHERE id = $id;";
+                command.Parameters.AddWithValue("$id", id);
+
+                int rowsAffected = command.ExecuteNonQuery();
+                if (rowsAffected == 0)
+                {
+                    return NotFound(new { message = "Listing not found." });
+                }
+            }
+
+            return Ok(new { message = "Listing deleted successfully!" });
         }
     }
 
-    public class ListingCreateDto
+    public class ListingCreateModel
     {
-        public int UserId { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public decimal Price { get; set; }
         public string Category { get; set; } = string.Empty;
+        public int UserId { get; set; }
     }
 }
