@@ -1,4 +1,4 @@
-# [Enter Project Name Here]
+# [Project:StudentExchange]
 
 > Intro to Software Engineering group project template
 
@@ -8,12 +8,12 @@ Replace every bracketed placeholder in this repository with information about yo
 
 | Field | Enter your information |
 | --- | --- |
-| Course | [Enter course number and section] |
-| Instructor | [Enter instructor name] |
-| Semester | [Enter semester and year] |
-| Project subject | [Enter the proposed subject] |
-| Approval status | [Pending / Approved on YYYY-MM-DD] |
-| Repository URL | [Enter repository URL] |
+| Course | CSCI 3508  |
+| Instructor | Dr. Salah Boukhris |
+| Semester | Fall 2026 |
+| Project subject | StudentExchange — Student Textbook & School Supply Marketplace |
+| Approval status | Approved 09/12/26 |
+| Repository URL | https://github.com/University-of-Colorado-Anschutz-Denver/CSCI-3508-Group-9.git |
 
 ## Team Members
 
@@ -21,20 +21,22 @@ This project must be completed by a group of four students. The group leader is 
 
 | Name | Role | Primary responsibilities | Contact |
 | --- | --- | --- | --- |
-| [Student 1] | Group Leader | [Enter responsibilities] | [Enter email] |
-| [Student 2] | Team Member | [Enter responsibilities] | [Enter email] |
-| [Student 3] | Team Member | [Enter responsibilities] | [Enter email] |
-| [Student 4] | Team Member | [Enter responsibilities] | [Enter email] |
-
+| Roa, Tristan | Group Leader | Project coordination, requirements, documentation, and team communication| TRISTAN.ROA@UCDENVER.EDU |
+| Pyankov, Alexander | Team Member | Web application development, UI design, and testing | alexander.pyankov@ucdenver.edu |
+| Quaife, Robert | Team Member | Backend/API development, integration, and testing| ROBERT.2.QUAIFE@UCDENVER.EDU |
+| Richardson, Robert | Team Member | Mobile application development, UI design, and testing | ROBERT.2.RICHARDSON@UCDENVER.EDU |
+| Phommarath, Thomas| Team Member | Database, deployment/DevOps, monitoring, and testing| THOMAS.PHOMMARATH@UCDENVER.EDU |
 ## Project Summary
 
-**Problem:** [What problem does this project solve?]
+**Problem:** The cost and waste associated with textbooks and school supplies.
 
-**Proposed solution:** [Summarize the system and its main features in 2-4 sentences.]
+**Proposed solution:** A website and mobile application that allows students and companies to resell their
+old or outdated books/supplies.
 
-**Target users:** [Who will use the system?]
+**Target users:** Students, teachers, and retailers
 
-**Course relevance:** [Explain how the subject relates to software engineering.]
+**Course relevance:** Teaches how to develop an website and application using Javascript, Data, and
+React. Developed in the Virtual Studio and Flutter environment it can finally come ot life.
 
 ## Repository Structure
 
