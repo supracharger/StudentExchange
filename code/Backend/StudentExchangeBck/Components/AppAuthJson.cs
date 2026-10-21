@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-/* Data Containing Application Password & Access Token:
- *      - Also, methods validate the two.
- */
+//files backend front door, checks that a request is allowed before anything happpens, does three checks
 
-namespace StudentExchangeBck
-{
-    public class AppAuthJson
-    {
+namespace StudentExchangeBck{
+    public class AppAuthJson{//match the JSON that the web or app sends with each request
         // Application Access Password
         public string? app_access { get; set; }
         // Access Token for user info
@@ -27,19 +23,18 @@ namespace StudentExchangeBck
         /// </summary>
         /// <param name="access">Object containing app_access</param>
         /// <returns>Not Authorized or null</returns>
-        public static IActionResult? ValidateApp(AppAuthJson access, HttpContext ctx, ControllerBase this_, out IP.Data ip)
-        {
-            // Condition if access is invalid
+        public static IActionResult? ValidateApp(AppAuthJson access, HttpContext ctx, ControllerBase this_, out IP.Data ip){//check app_access against stored password
+            //condition if action is invalid
             var invalidAccess = access.app_access == null || access.app_access != Env._appAccess;
 
             var invalidAdmin = false;
             var sudoIsAdmin = false;
-            // Validate Admin Token is for an Admin
+            // validate Admin Token is for an Admin
             if (access.admin_token != null)
             {
-                // Not null or whitespace
+                //not null or whitespace
                 invalidAdmin = string.IsNullOrWhiteSpace(access.admin_token);
-                // If still ok
+                //if still ok
                 if (!invalidAdmin)
                 {
                     // Not null or whitespace
@@ -132,8 +127,7 @@ namespace StudentExchangeBck
         /// <param name="access">Object containing info</param>
         /// <param name="userId">RETURNED userid corisponding to access token</param>
         /// <returns>No Authorized or null</returns>
-        public static IActionResult? ValidateToken(ControllerBase this_, AppAuthJson access, long ipid, out Users.Data user)
-        {
+        public static IActionResult? ValidateToken(ControllerBase this_, AppAuthJson access, long ipid, out Users.Data user){//answers which user is making the request
             user = new Users.Data();
             try
             {
@@ -278,8 +272,7 @@ namespace StudentExchangeBck
         /// <param name="userId">RETURNED userid corisponding to access token</param>
         /// <returns>No Authorized or null</returns>
         /// <summary>
-        public static IActionResult? ValidateWithToken(ControllerBase this_, AppAuthJson access, HttpContext ctx, out Users.Data user, out IP.Data ip)
-        {
+        public static IActionResult? ValidateWithToken(ControllerBase this_, AppAuthJson access, HttpContext ctx, out Users.Data user, out IP.Data ip){//method that the controllers call, chains the other two checks together
             // Validate Application Password
             var msg = ValidateApp(access, ctx, this_, out ip);
             if (msg != null)

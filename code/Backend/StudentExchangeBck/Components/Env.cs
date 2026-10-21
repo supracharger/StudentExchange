@@ -1,12 +1,10 @@
-﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+﻿using Microsoft.Extensions.Diagnostics.HealthChecks;//maybe delete later doesn't seem to be used anywhere
 using Newtonsoft.Json;
 
-/* Enviroment Object: containing secrets & Settings. */
+// project settings and secrets holder
 
-namespace StudentExchangeBck
-{
-    public static class Env
-    {
+namespace StudentExchangeBck{
+    public static class Env{
         // Application Access Password
         public static string _appAccess { get; private set; } = null!;
         // Email Password Encryption
@@ -39,8 +37,7 @@ namespace StudentExchangeBck
         /// </summary>
         /// <param name="salt">Temporary extra security password</param>
         /// <exception cref="Exception"></exception>
-        public static void GetEnv(string salt = "tempPass!^74*")
-        {
+        public static void GetEnv(string salt = "tempPass!^74*"){//find the files, read the encrypted secrets file, parse the result, check token
             // Get Bin Path to Files
             _bin = ParseEnv("path.env")["path"];
 

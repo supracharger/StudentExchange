@@ -36,7 +36,7 @@ old or outdated books/supplies.
 **Target users:** Students, teachers, and retailers
 
 **Course relevance:** Teaches how to develop an website and application using Javascript, Data, and
-React. Developed in the Virtual Studio and Flutter environment it can finally come ot life.
+React. Developed in the Virtual Studio and Flutter environment it can finally come to life.
 
 ## Repository Structure
 

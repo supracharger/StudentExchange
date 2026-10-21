@@ -1,26 +1,23 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-/* Deterministic Encryption: created by A.I. */
+//Deterministic Encryption: created by A.I.
+//lets the backend encrypt a value so that the same input always produces the same output, and decrypt later
 
-namespace StudentExchangeBck
-{
-    public static class DeterministicEncryption
-    {
-        public static string Encrypt(string text, string password)
-        {
+namespace StudentExchangeBck{
+    public static class DeterministicEncryption{
+        public static string Encrypt(string text, string password){//convert base64 back to bytes and check length, must be 32 bytes and multiples of 16 else invalid
             byte[] plainText = Encoding.UTF8.GetBytes(text);
 
-            // Derive a stable master key from the password.
+            //derive a stable master key from the password.
             byte[] passwordKey = SHA256.HashData(
                 Encoding.UTF8.GetBytes(password));
 
-            // Derive an IV deterministically from:
-            // password + plaintext
+            //derive an IV deterministically from:
+            //password + plaintext
             byte[] ivSource;
 
-            using (HMACSHA256 hmac = new HMACSHA256(passwordKey))
-            {
+            using (HMACSHA256 hmac = new HMACSHA256(passwordKey)){
                 ivSource = hmac.ComputeHash(plainText);
             }
 
@@ -29,16 +26,14 @@ namespace StudentExchangeBck
             // Derive a separate AES key.
             byte[] encryptionKey;
 
-            using (HMACSHA256 hmac = new HMACSHA256(passwordKey))
-            {
+            using (HMACSHA256 hmac = new HMACSHA256(passwordKey)){
                 encryptionKey = hmac.ComputeHash(
                     Encoding.UTF8.GetBytes("EncryptionKey"));
             }
 
             byte[] cipherText;
 
-            using (Aes aes = Aes.Create())
-            {
+            using (Aes aes = Aes.Create()){
                 aes.Key = encryptionKey;
                 aes.IV = iv;
                 aes.Mode = CipherMode.CBC;
@@ -70,8 +65,7 @@ namespace StudentExchangeBck
         }
 
 
-        public static string Decrypt(string encryptedText, string password)
-        {
+        public static string Decrypt(string encryptedText, string password){//decrypt simply reverses the steps of encrypt
             byte[] encryptedData =
                 Convert.FromBase64String(encryptedText);
 
@@ -86,16 +80,14 @@ namespace StudentExchangeBck
 
             byte[] encryptionKey;
 
-            using (HMACSHA256 hmac = new HMACSHA256(passwordKey))
-            {
+            using (HMACSHA256 hmac = new HMACSHA256(passwordKey)){
                 encryptionKey = hmac.ComputeHash(
                     Encoding.UTF8.GetBytes("EncryptionKey"));
             }
 
             byte[] plainText;
 
-            using (Aes aes = Aes.Create())
-            {
+            using (Aes aes = Aes.Create()){
                 aes.Key = encryptionKey;
                 aes.IV = iv;
                 aes.Mode = CipherMode.CBC;
