@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace StudentExchangeBck
-{
-    public static class IP
-    {
-        /// <summary>
+namespace StudentExchangeBck{
+    public static class IP{
         /// Locks based on IP Address.
         /// To keep Atomic nature usually imbetween sql calls
-        /// </summary>
         static readonly Dictionary<long, (object lck, DateTime dt)> _ipLock
             = new Dictionary<long, (object, DateTime)>();
 
@@ -21,19 +17,10 @@ namespace StudentExchangeBck
         public static IActionResult? UpdateByIP(HttpContext ctx, ControllerBase this_, out long ipid)
             => UpdateByIP(ctx.Connection.RemoteIpAddress?.ToString(), this_, out ipid);
 
-        /// <summary>
-        /// Add Check IP Address is in db
-        /// </summary>
-        /// <param name="clientip">IP Address</param>
-        /// <param name="this_">Countroller Base</param>
-        /// <param name="ipid">Returned IP Address ID</param>
-        /// <returns>Message to client</returns>
-        public static IActionResult? UpdateByIP(string? clientip, ControllerBase this_, out long ipid)
-        {
+        public static IActionResult? UpdateByIP(string? clientip, ControllerBase this_, out long ipid){//take caller IP address, encrypt, look up in IP table, return ID
             ipid = -1;
 
-            try
-            {
+            try{
                 // Get IP Address
                 if (string.IsNullOrWhiteSpace(clientip)) return null;
                 // Encrypt IP Address
@@ -41,18 +28,17 @@ namespace StudentExchangeBck
 
                 // Check if IP is in DB else Add it
                 Dictionary<string, List<object>> result = null!;
-                for (int i = 0; i < 2; i++)
-                {
-                    // Get info for IP
+                for (int i = 0; i < 2; i++){
+                    //get info for db
                     result = Sql.Read("SELECT [id],[datetime] FROM IP WHERE [ip]=@ip", new Dictionary<string, object>
                     {
                         { "@ip", clientip }
                     });
 
-                    // Has info, no need to add
+                    //has info no need to add
                     if (result.Count != 0) break;
 
-                    // Add info, not currently in DB
+                    //add info not in db
                     Sql.Write("INSERT INTO IP ([ip], [datetime]) VALUES (@ip, @datetime)", new Dictionary<string, object>
                     {
                         { "@ip", clientip },
@@ -67,9 +53,7 @@ namespace StudentExchangeBck
                 ipid = (long)result["id"][0];
                 var dt = DateTime.Parse((string)result["datetime"][0]);
 
-                // Update on an hourly basis when last accessed
-                if ((Utilz.ToMtn() - dt).TotalHours >= 1)
-                {
+                if ((Utilz.ToMtn() - dt).TotalHours >= 1){// Update on an hourly basis when last accessed
                     lock (GetIPLock(ipid))
                     {
                         Sql.Write("UPDATE IP SET [datetime]=@dt WHERE [id]=@id", new Dictionary<string, object>
@@ -99,21 +83,14 @@ namespace StudentExchangeBck
             }
         }
 
-        /// <summary>
-        /// Tracks Users to IP Addresses
-        /// </summary>
-        /// <param name="ip">IP Address ID</param>
-        /// <param name="user">User ID</param>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static void TrackIPToUser(in long ip, in long user)
-        {
-            // Validate
+        public static void TrackIPToUser(in long ip, in long user){//checks whether IP pair already exists in User_Has_IPs adds if not
+            //validate
             if (ip < 0) throw new ArgumentOutOfRangeException("ip < 0");
             if (user < 0) throw new ArgumentOutOfRangeException("user < 0");
 
             lock (GetIPLock(ip))
             {
-                // Look for Unique user_id, ip_id pairs
+                //look for Unique user_id, ip_id pairs
                 var result = Sql.Read("SELECT [user_id] FROM User_Has_IPs WHERE [user_id]=@userid AND [ip_id]=@ip",
                     new Dictionary<string, object>
                     {
@@ -121,10 +98,10 @@ namespace StudentExchangeBck
                     { "@ip", ip }
                     });
 
-                // Exit: Already has relationship
+                //exit: already has relationship
                 if (result.Count != 0) return;
 
-                // Add Relationship
+                //add Relationship
                 Sql.Write("INSERT INTO User_Has_IPs ([user_id],[ip_id]) VALUES (@userid,@ip)",
                     new Dictionary<string, object>
                     {
@@ -142,12 +119,11 @@ namespace StudentExchangeBck
         /// <param name="this_">Controller Base</param>
         /// <param name="userid_">(long) user id</param>
         /// <returns>If ok: null else NoAuth.</returns>
-        public static IActionResult? IncInvalidForIP(bool increment, ControllerBase this_, object ipid)
-        {
-            // Mutex lock on each IP Address
+        public static IActionResult? IncInvalidForIP(bool increment, ControllerBase this_, object ipid){//called with increment:true after a bad attempt or false to check if IP already blocked
+            //mutex lock on each IP Address
             lock (GetIPLock((long)ipid))
             {
-                // Try to find row for an lately invalid access attemps that have not expired.
+                //try to find row for an lately invalid access attemps that have not expired.
                 var result = Sql.Read("SELECT [id],[count],[expiry] FROM Blocked_IPs " +
                                         "WHERE [ip_id]=@ipid AND [expiry]>@date",
                                         new Dictionary<string, object>
@@ -156,9 +132,7 @@ namespace StudentExchangeBck
                                             { "@date", Utilz.ToMtn().ToString("s") }
                                         });
 
-                // If no invalid access attemps lately
-                if (result.Count == 0)
-                {
+                if (result.Count == 0){//if no invalid access attemps lately
                     // Insert row of first invalid access attempt.
                     Sql.Write("INSERT INTO Blocked_IPs ([ip_id],[count],[expiry]) VALUES " +
                                 "(@ipid,@count,@expiry)", new Dictionary<string, object>
@@ -179,16 +153,12 @@ namespace StudentExchangeBck
                 var expiry = DateTime.Parse((string)result["expiry"][0]);
                 if (count < 0) count = 0;
 
-                // If you want to increment invalid access attemps
-                if (increment || count >= Env._accessAttempsIP)
-                {
+                if (increment || count >= Env._accessAttempsIP){// If you want to increment invalid access attemps
                     count++;            // increment invalid access attempts
                     // columns to update
                     var update = new Dictionary<string, object> { { "count", count } };
 
-                    // If gone to next section: increase timeout more.
-                    if (count % Env._accessAttempsIP == 0 && count > Env._accessAttempsIP)
-                    {
+                    if (count % Env._accessAttempsIP == 0 && count > Env._accessAttempsIP){// If gone to next section: increase timeout more.
                         // Exponential increase: if continueing to access
                         var wait = Env._blockedAccessTimeOutIP * Math.Max(count / Env._accessAttempsIP - 2, 1);
                         // Increase timeout
@@ -216,13 +186,7 @@ namespace StudentExchangeBck
             }
         }
 
-        /// <summary>
-        /// Gets the mutex lock for each IP id
-        /// </summary>
-        /// <param name="userid">IP id to get the lock</param>
-        /// <returns>lock object</returns>
-        public static object GetIPLock(long ipid)
-        {
+        public static object GetIPLock(long ipid){//two requests from the same IP might run at the same moment, both could read and write losing an update so each P gets its own lock object
             if (ipid < 0) throw new Exception("Invalid IP ID.");
             object ulock;
             // Mutex lock on entire _ipLock collection
@@ -251,8 +215,7 @@ namespace StudentExchangeBck
         /// <summary>
         /// Occasionally should be used to clean up resources
         /// </summary>
-        public static void CleanUp()
-        {
+        public static void CleanUp(){//delete old data thats no longer needed
             // Clean up invalid accesses that have expired
             Sql.Write("DELETE FROM Blocked_IPs WHERE [expiry]<@date", new Dictionary<string, object>
             {

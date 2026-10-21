@@ -1,10 +1,7 @@
-﻿
-/* Run specified 'Action' every day at time. */
+﻿/* Daily alarm clock. you give it a time of day and a method, and it runs that method everyday at the time own its own background thread */
 
-namespace StudentExchangeBck
-{
-    public class Maitenance : IDisposable
-    {
+namespace StudentExchangeBck{
+    public class Maitenance : IDisposable{
         readonly AutoResetEvent _evt;
         readonly Thread _thread;
         volatile bool _abortThread;
@@ -13,21 +10,14 @@ namespace StudentExchangeBck
         // Task to run at time
         readonly Action _RunTask;
 
-        /// <summary>
-        /// Run specified 'Action' every day at time.
-        /// </summary>
-        /// <param name="time">Time to run every day</param>
-        /// <param name="Task">Task to run every day</param>
-        /// <exception cref="ArgumentException"></exception>
-        public Maitenance(int time, Action Task)
-        {
+    public Maitenance(int time, Action Task){//takes time in HHMM form, throws error if time is 0 or less 2400 or more. splits the num into hours and mins, creates the signal and the thread
             // Validate & save time
             if (time <= 0 || time >= 2400) throw new ArgumentException("time <= 0 || time >= 2400");
             (var hour, var min) = (time / 100, time % 100);
             if (min >= 60) throw new ArgumentException("min >= 60");
             _time = new TimeSpan(hour, min, 0);
 
-            // Async worker thread
+            //async worker thread
             _RunTask = Task;
             _evt = new AutoResetEvent(false);
             _thread = new Thread(Worker);
@@ -35,11 +25,7 @@ namespace StudentExchangeBck
             _thread.Start();
         }
 
-        /// <summary>
-        /// Async worker to run task every day at time.
-        /// </summary>
-        public void Worker()
-        {
+        public void Worker(){//gets the current MTN time and builds today the run time, if moment passed moved to tmrw, calc how long til then
             while (true)
             {
                 // Find time to wait until specified next time
@@ -60,11 +46,7 @@ namespace StudentExchangeBck
             }
         }
 
-        /// <summary>
-        /// Dispose: Stop worker thread.
-        /// </summary>
-        public void Dispose()
-        {
+        public void Dispose(){//sets _abourtThread to ture, and signals _evt so sleeping worker wakes up sees flag and exits
             _abortThread = true;
             _evt.Set();
         }
