@@ -18,6 +18,29 @@ export default function App() {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState<Category>('All items')
   const [accountOpen, setAccountOpen] = useState(false)
+  // Tracks which marketplace listing the user selected
+const [selectedListingId, setSelectedListingId] = useState<
+  (typeof listings)[number]['id'] | null
+>(null)
+
+// Controls the Make Offer popup
+const [offerOpen, setOfferOpen] = useState(false)
+
+const [messageOpen, setMessageOpen] = useState(false)
+
+// Stores the amount entered by the buyer
+const [offerAmount, setOfferAmount] = useState('')
+
+// Stores sample messages for the UI preview
+const [messages, setMessages] = useState<string[]>([])
+
+// Stores the message currently being typed
+const [messageInput, setMessageInput] = useState('')
+
+// Finds the selected listing
+const selectedListing = listings.find(
+  (listing) => listing.id === selectedListingId
+)
   const accountButton = useRef<HTMLButtonElement>(null)
   const account = useAccount()
   const administration = useAdmin(account.profile, account.expire)
@@ -33,8 +56,10 @@ export default function App() {
     window.history.pushState(null, '', open ? '/admin' : '/')
     setAdminPage(open)
     setAccountOpen(false)
+    setSelectedListingId(null)
+    setOfferOpen(false)
     window.scrollTo?.(0, 0)
-  }
+}
   const query = search.trim().toLowerCase()
   const visibleListings = listings.filter(
     (listing) =>
@@ -127,14 +152,263 @@ export default function App() {
             }}
           />
         )}
-        {adminPage ? (
-          <AdminPage
-            account={account}
-            administration={administration}
-            onLogin={() => setAccountOpen(true)}
-            onBack={() => navigateAdmin(false)}
-          />
-        ) : (
+{adminPage ? (
+  <AdminPage
+    account={account}
+    administration={administration}
+    onLogin={() => setAccountOpen(true)}
+    onBack={() => navigateAdmin(false)}
+  />
+) : selectedListing ? (
+
+  <section className="product-page">
+
+  <button
+    type="button"
+    className="product-back"
+    onClick={() => {
+      setSelectedListingId(null)
+      setMessageOpen(false)
+      setOfferOpen(false)
+    }}
+  >
+    ← Back to Listings
+  </button>
+
+  <div className="product-layout">
+
+    {/* LEFT SIDE — PRODUCT IMAGE */}
+    <div className="product-left">
+
+      <div className="product-image-container">
+        <div
+          className={`listing-art product-image ${selectedListing.cover}`}
+          aria-hidden="true"
+        >
+          <div className="item-cover">
+            <span>{selectedListing.label}</span>
+            <i />
+          </div>
+        </div>
+      </div>
+
+      <div className="product-seller-info">
+        <p><strong>Listed by:</strong> Seller information unavailable</p>
+        <p><strong>Condition:</strong> {selectedListing.condition}</p>
+      </div>
+
+    </div>
+
+    {/* RIGHT SIDE — PRODUCT INFORMATION */}
+    <div className="product-right">
+
+      <p className="eyebrow">THE CAMPUS COLLECTION</p>
+
+      <h1>{selectedListing.title}</h1>
+
+      <h2>{currency.format(selectedListing.price)}</h2>
+
+      <div className="product-information">
+        <p><strong>Category:</strong> {selectedListing.category}</p>
+        <p><strong>School:</strong> {selectedListing.school}</p>
+      </div>
+
+      <button
+        type="button"
+        className="product-message-button"
+        onClick={() => setMessageOpen(true)}
+      >
+        Message
+      </button>
+
+    </div>
+
+  </div>
+
+  {/* MESSAGE POPUP */}
+  {messageOpen && (
+
+    <div
+      className="message-overlay"
+      onClick={() => {
+        setMessageOpen(false)
+        setOfferOpen(false)
+      }}
+    >
+
+      <div
+        className="message-window"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Message seller"
+        onClick={(event) => event.stopPropagation()}
+      >
+
+        <div className="message-window-header">
+
+          <div>
+            <h2>Message Seller</h2>
+            <p>{selectedListing.title}</p>
+          </div>
+
+          <button
+            type="button"
+            className="message-close"
+            aria-label="Close messages"
+            onClick={() => {
+              setMessageOpen(false)
+              setOfferOpen(false)
+            }}
+          >
+            ×
+          </button>
+
+        </div>
+
+        <div className="message-window-body">
+
+          {messages.length === 0 && (
+            <p className="message-placeholder">
+              Start a conversation about this item.
+            </p>
+          )}
+
+          {messages.map((message, index) => (
+            <div className="message-bubble" key={index}>
+              {message}
+            </div>
+          ))}
+
+        </div>
+
+        <div className="message-window-footer">
+
+          <button
+            type="button"
+            className="send-offer-button"
+            onClick={() => setOfferOpen(true)}
+          >
+            Send Offer
+          </button>
+
+          <form
+            className="message-input-form"
+            onSubmit={(event) => {
+              event.preventDefault()
+
+              if (!messageInput.trim()) return
+
+              setMessages([...messages, messageInput.trim()])
+              setMessageInput('')
+            }}
+          >
+
+            <input
+              type="text"
+              placeholder="Type a message..."
+              aria-label="Type a message"
+              value={messageInput}
+              onChange={(event) => setMessageInput(event.target.value)}
+            />
+
+            <button type="submit">
+              Send
+            </button>
+
+          </form>
+
+        </div>
+
+        {/* OFFER POPUP — INSIDE MESSAGE WINDOW */}
+        {offerOpen && (
+
+          <div className="nested-offer-overlay">
+
+            <div
+              className="nested-offer-popup"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="offer-popup-title"
+            >
+
+              <h2 id="offer-popup-title">Make an Offer</h2>
+
+              <p>
+                Listed price: {currency.format(selectedListing.price)}
+              </p>
+
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault()
+
+                  const amount = Number(offerAmount)
+
+                  if (!Number.isFinite(amount) || amount <= 0) return
+
+                  setMessages([
+                    ...messages,
+                    `Offer: $${amount.toFixed(2)}`
+                  ])
+
+                  setOfferOpen(false)
+                  setOfferAmount('')
+                }}
+              >
+
+                <label htmlFor="offer-price">
+                  Your Offer
+                </label>
+
+                <div className="offer-price-input">
+                  <span>$</span>
+
+                  <input
+                    id="offer-price"
+                    type="number"
+                    min="0.01"
+                    step="1"
+                    required
+                    autoFocus
+                    value={offerAmount}
+                    onChange={(event) => setOfferAmount(event.target.value)}
+                    placeholder="0.00"
+                  />
+                </div>
+
+                <div className="offer-popup-actions">
+
+                  <button
+                    type="button"
+                    className="offer-cancel"
+                    onClick={() => setOfferOpen(false)}
+                  >
+                    Cancel
+                  </button>
+
+                  <button type="submit" className="offer-submit">
+                    Send Offer
+                  </button>
+
+                </div>
+
+              </form>
+
+
+            </div>
+
+          </div>
+
+        )}
+
+      </div>
+
+    </div>
+
+  )}
+
+</section>
+
+) : (
           <>
             <section className="hero" aria-labelledby="hero-title">
               <div className="hero-copy">
@@ -258,10 +532,30 @@ export default function App() {
                   : 'sample listings'}
               </p>
               {visibleListings.length > 0 ? (
-                <ul className="listing-grid" aria-label="Sample listings">
-                  {visibleListings.map((listing) => (
-                    <li key={listing.id}>
-                      <article className="listing-card">
+                <ul className="listing-grid">
+              {visibleListings.map((listing) => (
+                <li key={listing.id}>
+                  <article
+                    className="listing-card"
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => {
+                      setSelectedListingId(listing.id)
+                      setMessages([])
+                      setMessageInput('')
+                      window.scrollTo(0, 0)
+                    }}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault()
+                        setSelectedListingId(listing.id)
+                        setMessages([])
+                        setMessageInput('')
+                        window.scrollTo(0, 0)
+                      }
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  >
                         <div
                           className={`listing-art ${listing.cover}`}
                           aria-hidden="true"
