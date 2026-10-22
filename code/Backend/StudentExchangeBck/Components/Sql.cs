@@ -12,10 +12,8 @@ using System.Text.RegularExpressions;
     Async Write Sql Statement: 'INSERT', 'UPDATE', or 'DELETE' only
  */
 
-namespace StudentExchangeBck
-{
-    public static class Sql
-    {
+namespace StudentExchangeBck{
+    public static class Sql{//only doorway to the SQLite database
         // Reader Writer Lock to make SqLite Async
         static readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
         // Only 'Select' in Read()
@@ -23,15 +21,7 @@ namespace StudentExchangeBck
         // Only 'insert into', 'update', or 'delete from' allowed in write
         static readonly Regex _validWrite = new Regex(@"^(insert\s+into|update|delete\s+from)\b", RegexOptions.IgnoreCase);
 
-        /// <summary>
-        /// Async Read Sql Statement: 'SELECT' only
-        /// </summary>
-        /// <param name="sql">Read Sql Statement</param>
-        /// <param name="args">Args to input into sql statement</param>
-        /// <returns>Dictionary data[column][irows]</returns>
-        /// <exception cref="ArgumentException"></exception>
-        public static Dictionary<string, List<object>> Read(string sql, Dictionary<string, object>? args = null)
-        {
+        public static Dictionary<string, List<object>> Read(string sql, Dictionary<string, object>? args = null){//run a SELECT, get data back
             // Validate correct statement
             if (!_validRead.IsMatch(sql.Trim()))
                 throw new ArgumentException($"Only SELECT SQL statements are allowed in Sql.Read(): {sql}.");
@@ -79,16 +69,8 @@ namespace StudentExchangeBck
             finally { _lock.ExitReadLock(); }
         }
 
-        /// <summary>
-        /// Async Write Sql Statement: 'INSERT', 'UPDATE', or 'DELETE' only
-        /// </summary>
-        /// <param name="sql">Write Sql Statement</param>
-        /// <param name="args">Args in sql statement</param>
-        /// <param name="updatedRows">Check number of rows. Specified:: -1: rows>0, -2: don't check rows</param>
-        /// <exception cref="ArgumentException"></exception>
-        public static int Write(string sql, Dictionary<string, object>? args = null, int updatedRows = -1)
-        {
-            // Validate Write Sql statement
+        public static int Write(string sql, Dictionary<string, object>? args = null, int updatedRows = -1){//run an INSERT, UPDATE, or DELETE
+            // validate Write Sql statement
             if (!_validWrite.IsMatch(sql.Trim().ToLower()))
                 throw new ArgumentException($"Invalid SQL statement for Sql.Write(): {sql}.");
             SqliteTransaction? trans = null;        // Sql transaction

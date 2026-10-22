@@ -22,27 +22,15 @@
         Occasionally should be used to clean up resources
  */
 
-namespace StudentExchangeBck
-{
+namespace StudentExchangeBck{
     [ApiController]
     [Route("[controller]")]
-    public class Users : ControllerBase
-    {
-        /// <summary>
-        /// Locks based on userid.
-        /// To keep Atomic nature usually imbetween sql calls
-        /// </summary>
+    public class Users : ControllerBase{//and endpoint that returns a lists of users for admins, per-ser login blocking and locking keyed by user acc rather than IP compared to IP.cs
         static readonly Dictionary<long, (object lck, DateTime dt)> _userLock
             = new Dictionary<long, (object, DateTime)>();
 
-        /// <summary>
-        /// GET User info from DB
-        /// </summary>
-        /// <param name="auth">Input: {app_access, access_token}</param>
-        /// <returns>On Success: { body: {email:[...], name:[...], school:[...], datetime:[...]} }</returns>
         [HttpGet]
-        public IActionResult Get(AppAuthJson auth)
-        {
+        public IActionResult Get(AppAuthJson auth){//the endpoint lists all users
             // Validate Application Access & Access Token
             var msg = AppAuthJson.ValidateWithToken(this, auth, HttpContext, out var user, out var ip);
             // Exit if invalid
@@ -55,9 +43,7 @@ namespace StudentExchangeBck
                     Message = "User cannot be forwarded."
                 });
 
-            // Not Authorized: Not Admin or Admin level too low
-            if (!user.isAdmin || user.adminLvl < 10)
-            {
+            if (!user.isAdmin || user.adminLvl < 10){// Not Authorized: Not Admin or Admin level too low
                 // IP Blocking & Tracking
                 var msg2 = IP.IncInvalidForIP(true, this, ip.id);
                 if (msg2 != null) return msg2;
@@ -111,17 +97,8 @@ namespace StudentExchangeBck
                 });
             }
         }
-
-        /// <summary>
-        /// Checks for to many access attemps to a user. 
-        /// Will block user for a timeout of too many invalid access attemps.
-        /// </summary>
-        /// <param name="increment">true: increment invalid access attemps, false: just check if it needs to block.</param>
-        /// <param name="this_">Controller Base</param>
-        /// <param name="emailCrypt">Encrypted Email</param>
-        /// <returns>If ok || email not found: null else NoAuth.</returns>
-        public static IActionResult? IncInvalidForUser_Email(bool increment, ControllerBase this_, object emailCrypt)
-        {
+        //helper for when encrypted email during login, search user id, then call IncInvalidForUser. if email no exist, return null and do nothing, avoid telling if registered
+        public static IActionResult? IncInvalidForUser_Email(bool increment, ControllerBase this_, object emailCrypt){
             // Try to find userid for email
             var result = Sql.Read("SELECT [id] FROM User WHERE [email]=@email",
                                     new Dictionary<string, object> { { "@email", emailCrypt } });
@@ -133,16 +110,8 @@ namespace StudentExchangeBck
             // If increment=false: incremement invalid access attemps & Check if it needs to block.
             return IncInvalidForUser(increment, this_, result["id"][0]);
         }
-        /// <summary>
-        /// Checks for to many access attemps to a user. 
-        /// Will block user for a timeout of too many invalid access attemps.
-        /// </summary>
-        /// <param name="increment">true: increment invalid access attemps, false: just check if it needs to block.</param>
-        /// <param name="this_">Controller Base</param>
-        /// <param name="token">Access Token</param>
-        /// <returns>If ok || access token not found: null else NoAuth.</returns>
-        public static IActionResult? IncInvalidForUser_Token(bool increment, ControllerBase this_, object token)
-        {
+
+        public static IActionResult? IncInvalidForUser_Token(bool increment, ControllerBase this_, object token){//same as email one but w tokens instead
             // Try to find userid for access token
             var result = Sql.Read("SELECT [user_id] FROM Access_Token WHERE [token]=@token",
                                     new Dictionary<string, object> { { "@token", token } });
@@ -154,16 +123,8 @@ namespace StudentExchangeBck
             // If increment=false: incremement invalid access attemps & Check if it needs to block.
             return IncInvalidForUser(increment, this_, result["user_id"][0]);
         }
-        /// <summary>
-        /// Checks for to many access attemps to a user. 
-        /// Will block user for a timeout of too many invalid access attemps.
-        /// </summary>
-        /// <param name="increment">true: increment invalid access attemps, false: just check if it needs to block.</param>
-        /// <param name="this_">Controller Base</param>
-        /// <param name="userid_">(long) user id</param>
-        /// <returns>If ok: null else NoAuth.</returns>
-        public static IActionResult? IncInvalidForUser(bool increment, ControllerBase this_, object userid_)
-        {
+
+        public static IActionResult? IncInvalidForUser(bool increment, ControllerBase this_, object userid_){//the blocking logic
             var userid = (long)userid_;
 
             // Mutex lock on user
@@ -203,16 +164,12 @@ namespace StudentExchangeBck
                 var expiry = DateTime.Parse((string)result["expiry"][0]);
                 if (count < 0) count = 0;
 
-                // If you want to increment invalid access attemps
-                if (increment || count >= Env._accessAttemps)
-                {
+                if (increment || count >= Env._accessAttemps){// If you want to increment invalid access attemps
                     count++;            // increment invalid access attempts
                     // columns to update
                     var update = new Dictionary<string, object> { { "count", count } };
 
-                    // If gone to next section: increase timeout more.
-                    if (count % Env._accessAttemps == 0 && count > Env._accessAttemps)
-                    {
+                    if (count % Env._accessAttemps == 0 && count > Env._accessAttemps){// If gone to next section: increase timeout more.
                         // Exponential increase: if continueing to access
                         var wait = Env._blockedAccessTimeOut * Math.Max(count / Env._accessAttemps - 2, 1);
                         // Increase timeout
@@ -245,13 +202,7 @@ namespace StudentExchangeBck
             }
         }
 
-        /// <summary>
-        /// Gets the mutex lock for each user id
-        /// </summary>
-        /// <param name="userid">User id to get the lock</param>
-        /// <returns>lock object</returns>
-        public static object GetUserLock(long userid)
-        {
+        public static object GetUserLock(long userid){//reutnrs lock object for userid creating one if needed and pushing its expiry hour into the future, like GetIPLock
             if (userid < 0) throw new Exception("Invalid User ID.");
             object ulock;
             // Mutex lock on entire _userLock collection
@@ -259,15 +210,11 @@ namespace StudentExchangeBck
             {
                 // Expiry for clean up
                 var expiry = DateTime.Now.AddHours(1);
-                // If does Not have lock for userid
-                if (!_userLock.TryGetValue(userid, out var s))
-                {
+                if (!_userLock.TryGetValue(userid, out var s)){// If does Not have lock for userid
                     ulock = new object();                       // Create Lock object
                     _userLock.Add(userid, (ulock, expiry));     // Add to Map
                 }
-                // If found
-                else
-                {
+                else{// If found
                     ulock = s.lck;                              // Get the lock object
                     _userLock[userid] = (ulock, expiry);        // Update expiry
                 }
@@ -277,11 +224,7 @@ namespace StudentExchangeBck
             return ulock;
         }
 
-        /// <summary>
-        /// Occasionally should be used to clean up resources
-        /// </summary>
-        public static void CleanUp()
-        {
+        public static void CleanUp(){//deletes expired rows from Blocked_Users and drops unused locks from memory, user-side twin of IP.CleanUp
             // Clean up invalid accesses that have expired
             Sql.Write("DELETE FROM Blocked_Users WHERE [expiry]<@date", new Dictionary<string, object>
             {
@@ -297,15 +240,13 @@ namespace StudentExchangeBck
             }
         }
 
-        public struct Data
-        {
+        public struct Data{
             public readonly long id = -1;
             public readonly long sudo_id = -1;
             public readonly bool isAdmin, forwarded;
             public readonly int adminLvl = -1;
 
-            public Data(long id, bool isAdmin = false, bool forwarded = false, int adminLvl = -1, long sudo_id = -1)
-            {
+            public Data(long id, bool isAdmin = false, bool forwarded = false, int adminLvl = -1, long sudo_id = -1){
                 this.id = id;
                 this.sudo_id = sudo_id;
                 this.isAdmin = isAdmin;
