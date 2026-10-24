@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D07 | Request DTO inheritance</title>
+<desc>UML class view • nullable fields reflect the actual request types. admin_token is a login-issued admin token for IP forwarding; access_token identifies the acting user.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   CLASS DIAGRAM   /   D07</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Request DTO inheritance</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">UML class view • nullable fields reflect the actual request types.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">admin_token is a login-issued admin token for IP forwarding; access_token identifies the acting user.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: Backend/Components/AppAuthJson.cs; Controllers/{Register,LogIn,Admin,Schools,Blocked,Listing}.cs</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">10</text>
+<rect x="420" y="162" width="450" height="145" rx="0" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<rect x="420" y="162" width="450" height="35" rx="0" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="645.0" y="184.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">AppAuthJson</text>
+<text x="430" y="214.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ app_access : string?</text>
+<text x="430" y="234.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ access_token : string?</text>
+<text x="430" y="254.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ ip : string?</text>
+<text x="430" y="274.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ admin_token : string?</text>
+<text x="430" y="294.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ to_user : string?</text>
+<rect x="40" y="399" width="225" height="145" rx="0" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<rect x="40" y="399" width="225" height="35" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="152.5" y="421.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Register.Info</text>
+<text x="50" y="451.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ email : string?</text>
+<text x="50" y="471.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ first_name : string?</text>
+<text x="50" y="491.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ last_name : string?</text>
+<text x="50" y="511.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ password : string?</text>
+<text x="50" y="531.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ school : string?</text>
+<polyline points="152.5,399 152.5,367 645,367 645,307" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="645,307 650.0,317.0 640.0,317.0" fill="#FFFFFF" stroke="#65788A" stroke-width="1"/>
+<rect x="284" y="399" width="210" height="85" rx="0" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<rect x="284" y="399" width="210" height="35" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="389.0" y="421.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">LogIn.Info</text>
+<text x="294" y="451.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ email : string?</text>
+<text x="294" y="471.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ password : string?</text>
+<polyline points="389.0,399 389.0,367 645,367 645,307" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="645,307 650.0,317.0 640.0,317.0" fill="#FFFFFF" stroke="#65788A" stroke-width="1"/>
+<rect x="513" y="399" width="210" height="85" rx="0" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<rect x="513" y="399" width="210" height="35" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="618.0" y="421.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Admin.Info</text>
+<text x="523" y="451.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ level : int?</text>
+<text x="523" y="471.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ locked : int?</text>
+<polyline points="618.0,399 618.0,367 645,367 645,307" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="645,307 650.0,317.0 640.0,317.0" fill="#FFFFFF" stroke="#65788A" stroke-width="1"/>
+<rect x="742" y="399" width="225" height="85" rx="0" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<rect x="742" y="399" width="225" height="35" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="854.5" y="421.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Schools.Info</text>
+<text x="752" y="451.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ name : string?</text>
+<text x="752" y="471.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ short_name : string?</text>
+<polyline points="854.5,399 854.5,367 645,367 645,307" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="645,307 650.0,317.0 640.0,317.0" fill="#FFFFFF" stroke="#65788A" stroke-width="1"/>
+<rect x="986" y="399" width="250" height="85" rx="0" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<rect x="986" y="399" width="250" height="35" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1111.0" y="421.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Blocked.Info</text>
+<text x="996" y="451.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ email : string?</text>
+<text x="996" y="471.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ ip_addr : string?</text>
+<polyline points="1111.0,399 1111.0,367 645,367 645,307" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="645,307 650.0,317.0 640.0,317.0" fill="#FFFFFF" stroke="#65788A" stroke-width="1"/>
+<text x="602" y="599.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">Info types inherit the shared credential and forwarding fields.</text>
+</svg>

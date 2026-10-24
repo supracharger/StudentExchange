@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D01 | System context</title>
+<desc>Architecture context • the website includes both browser UI and a server-side adapter. Account and admin workflows reach SQLite through the adapter; marketplace previews remain in the browser.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   ARCHITECTURE CONTEXT   /   D01</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">System context</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Architecture context • the website includes both browser UI and a server-side adapter.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Account and admin workflows reach SQLite through the adapter; marketplace previews remain in the browser.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: Website/src/App.tsx; server/app.mjs, api.mjs; Backend/Program.cs; Controllers/Listing.cs</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">04</text>
+<ellipse cx="95.0" cy="279.0" rx="10.0" ry="10.0" fill="#FFFFFF" stroke="#18334B" stroke-width="1"/>
+<polyline points="95,289 95,324" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="75,301 115,301" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="77,346 95,324 113,346" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="95" y="365.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Visitor / student</text>
+<rect x="235" y="165" width="735" height="414" rx="6" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="255" y="192.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Student Exchange system boundary</text>
+<rect x="275" y="250" width="280" height="134" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="415.0" y="268.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«subsystem»</text>
+<text x="415.0" y="290.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Website</text>
+<text x="290" y="318.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">React UI + Node adapter</text>
+<text x="290" y="338.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Same-origin /api/* routes</text>
+<rect x="640" y="250" width="280" height="134" rx="5" fill="#F0ECFA" stroke="#9BB0C1" stroke-width="1"/>
+<text x="780.0" y="268.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«subsystem»</text>
+<text x="780.0" y="290.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Backend API</text>
+<text x="655" y="318.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">ASP.NET Core controllers</text>
+<text x="655" y="338.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Body-based authentication</text>
+<polyline points="115,310 275,310" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="265.0,315.0 275,310 265.0,305.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="190" y="294.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">HTTPS</text>
+<polyline points="555,310 640,310" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="630.0,315.0 640,310 630.0,305.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="597" y="294.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">JSON</text>
+<rect x="1010" y="247" width="220" height="141" rx="5" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1120.0" y="265.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«external storage»</text>
+<text x="1120.0" y="287.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">SQLite files</text>
+<text x="1025" y="315.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Accounts: Env._dbPath</text>
+<text x="1025" y="335.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Listings: ../Data.db</text>
+<polyline points="920,310 1010,310" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="1000.0,315.0 1010,310 1000.0,305.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="965" y="294.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">SQL</text>
+<rect x="276" y="425" width="644" height="112" rx="5" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="290" y="448.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Inside the browser</text>
+<text x="290" y="473.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Sample listings, search, category filters, message text and offer text use local React state. No</text>
+<text x="290" y="493.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">seller delivery or purchase transaction is implemented.</text>
+<ellipse cx="96.0" cy="463.0" rx="10.0" ry="10.0" fill="#FFFFFF" stroke="#18334B" stroke-width="1"/>
+<polyline points="96,473 96,508" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="76,485 116,485" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="78,530 96,508 114,530" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="96" y="549.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Administrator</text>
+<polyline points="115,495 235,495" fill="none" stroke="#65788A" stroke-width="1.5"/>
+</svg>

@@ -1,0 +1,4769 @@
+{
+  "version": 1,
+  "source_commit": "f91b923f4ec8f1072b3dda07070916459342d7a2",
+  "branch_base": "bea1e03b0cd36010ac61a4d400fb267a104a283a",
+  "reference": "DFD (1).pdf · 32 pages",
+  "nodes": {
+    "E1": {
+      "id": "E1",
+      "name": "Visitor / student",
+      "kind": "external",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "E2": {
+      "id": "E2",
+      "name": "Administrator",
+      "kind": "external",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "E3": {
+      "id": "E3",
+      "name": "Direct listing API client",
+      "kind": "external",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "G1": {
+      "id": "G1",
+      "name": "Marketplace preview records",
+      "kind": "store",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "G2": {
+      "id": "G2",
+      "name": "Account reference records",
+      "kind": "store",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "G3": {
+      "id": "G3",
+      "name": "Security records",
+      "kind": "store",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "G4": {
+      "id": "G4",
+      "name": "Website session records",
+      "kind": "store",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "G5": {
+      "id": "G5",
+      "name": "Runtime service records",
+      "kind": "store",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "G6": {
+      "id": "G6",
+      "name": "Listing records",
+      "kind": "store",
+      "group": null,
+      "physical": null,
+      "status": "incomplete"
+    },
+    "D1": {
+      "id": "D1",
+      "name": "Sample catalog",
+      "kind": "store",
+      "group": "G1",
+      "physical": "src/data/listings.ts · bundled constant",
+      "status": "preview"
+    },
+    "D2": {
+      "id": "D2",
+      "name": "Preview conversation",
+      "kind": "store",
+      "group": "G1",
+      "physical": "App.tsx · messages[] in browser memory",
+      "status": "preview"
+    },
+    "D3": {
+      "id": "D3",
+      "name": "School directory",
+      "kind": "store",
+      "group": "G2",
+      "physical": "SQLite Schools",
+      "status": "implemented"
+    },
+    "D4": {
+      "id": "D4",
+      "name": "User accounts",
+      "kind": "store",
+      "group": "G2",
+      "physical": "SQLite User",
+      "status": "implemented"
+    },
+    "D5": {
+      "id": "D5",
+      "name": "Admin memberships",
+      "kind": "store",
+      "group": "G3",
+      "physical": "SQLite Admins",
+      "status": "implemented"
+    },
+    "D6": {
+      "id": "D6",
+      "name": "Access tokens",
+      "kind": "store",
+      "group": "G3",
+      "physical": "SQLite Access_Token",
+      "status": "implemented"
+    },
+    "D7": {
+      "id": "D7",
+      "name": "User attempt records",
+      "kind": "store",
+      "group": "G3",
+      "physical": "SQLite Blocked_Users",
+      "status": "implemented"
+    },
+    "D8": {
+      "id": "D8",
+      "name": "IP registry",
+      "kind": "store",
+      "group": "G3",
+      "physical": "SQLite IP",
+      "status": "implemented"
+    },
+    "D9": {
+      "id": "D9",
+      "name": "User / IP links",
+      "kind": "store",
+      "group": "G3",
+      "physical": "SQLite User_Has_IPs",
+      "status": "implemented"
+    },
+    "D10": {
+      "id": "D10",
+      "name": "IP attempt records",
+      "kind": "store",
+      "group": "G3",
+      "physical": "SQLite Blocked_IPs",
+      "status": "implemented"
+    },
+    "D11": {
+      "id": "D11",
+      "name": "Website sessions",
+      "kind": "store",
+      "group": "G4",
+      "physical": "Node sessions Map · opaque ID → token / expiry",
+      "status": "implemented"
+    },
+    "D12": {
+      "id": "D12",
+      "name": "Service token cache",
+      "kind": "store",
+      "group": "G5",
+      "physical": "Node forwarding-client closure",
+      "status": "implemented"
+    },
+    "D13": {
+      "id": "D13",
+      "name": "Runtime settings",
+      "kind": "store",
+      "group": "G5",
+      "physical": "Server environment + backend Env policy / paths",
+      "status": "implemented"
+    },
+    "D14": {
+      "id": "D14",
+      "name": "Listing records",
+      "kind": "store",
+      "group": "G6",
+      "physical": "Listings table inferred from SQL; missing from DDL",
+      "status": "incomplete"
+    },
+    "D15": {
+      "id": "D15",
+      "name": "Lock metadata",
+      "kind": "store",
+      "group": "G5",
+      "physical": "Users._userLock and IP lock dictionaries",
+      "status": "implemented"
+    },
+    "1.0": {
+      "id": "1.0",
+      "name": "Present marketplace previews",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.0": {
+      "id": "2.0",
+      "name": "Manage accounts and sessions",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "3.0": {
+      "id": "3.0",
+      "name": "Manage administration",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "4.0": {
+      "id": "4.0",
+      "name": "Prepare and assess access",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "5.0": {
+      "id": "5.0",
+      "name": "Maintain security records",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "6.0": {
+      "id": "6.0",
+      "name": "Manage direct listings",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "0": {
+      "id": "0",
+      "name": "Student Exchange",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "1.1": {
+      "id": "1.1",
+      "name": "Filter sample catalog",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "1.2": {
+      "id": "1.2",
+      "name": "Prepare listing detail",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "1.3": {
+      "id": "1.3",
+      "name": "Append message preview",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "1.4": {
+      "id": "1.4",
+      "name": "Append offer preview",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.1": {
+      "id": "2.1",
+      "name": "Register account",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.2": {
+      "id": "2.2",
+      "name": "Authenticate and create session",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.3": {
+      "id": "2.3",
+      "name": "Retrieve profile",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.4": {
+      "id": "2.4",
+      "name": "Update profile and read back",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.5": {
+      "id": "2.5",
+      "name": "Revoke user sessions",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.6": {
+      "id": "2.6",
+      "name": "Publish school directory",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "3.1": {
+      "id": "3.1",
+      "name": "Assess caller permissions",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "3.2": {
+      "id": "3.2",
+      "name": "Manage target user records",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "3.3": {
+      "id": "3.3",
+      "name": "Manage school records",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "3.4": {
+      "id": "3.4",
+      "name": "Manage admin assignments",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "3.5": {
+      "id": "3.5",
+      "name": "Inspect and clear attempts",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "3.6": {
+      "id": "3.6",
+      "name": "Request target sign-out",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "4.1": {
+      "id": "4.1",
+      "name": "Prepare operation envelope",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "4.2": {
+      "id": "4.2",
+      "name": "Establish service identity",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "4.3": {
+      "id": "4.3",
+      "name": "Assess application and IP data",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "4.4": {
+      "id": "4.4",
+      "name": "Assess user and target data",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "4.5": {
+      "id": "4.5",
+      "name": "Publish access assessment",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "5.1": {
+      "id": "5.1",
+      "name": "Select expired token records",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "5.2": {
+      "id": "5.2",
+      "name": "Select expired user attempts",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "5.3": {
+      "id": "5.3",
+      "name": "Select expired IP attempts",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "5.4": {
+      "id": "5.4",
+      "name": "Select stale lock metadata",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "6.1": {
+      "id": "6.1",
+      "name": "Retrieve listing records",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "6.2": {
+      "id": "6.2",
+      "name": "Create listing record",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "6.3": {
+      "id": "6.3",
+      "name": "Delete listing record",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.1.1": {
+      "id": "2.1.1",
+      "name": "Assess registration access",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.1.2": {
+      "id": "2.1.2",
+      "name": "Normalize fields and resolve school",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.1.3": {
+      "id": "2.1.3",
+      "name": "Encode and store account",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.1.4": {
+      "id": "2.1.4",
+      "name": "Project registration outcome",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.2.1": {
+      "id": "2.2.1",
+      "name": "Compare credentials and admission",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.2.2": {
+      "id": "2.2.2",
+      "name": "Select or issue user token",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.2.3": {
+      "id": "2.2.3",
+      "name": "Project public profile",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.2.4": {
+      "id": "2.2.4",
+      "name": "Rotate website session ID",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.4.1": {
+      "id": "2.4.1",
+      "name": "Validate selected profile changes",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.4.2": {
+      "id": "2.4.2",
+      "name": "Persist normalized changes",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.4.3": {
+      "id": "2.4.3",
+      "name": "Project saved profile outcome",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.5.1": {
+      "id": "2.5.1",
+      "name": "Resolve logout identity",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.5.2": {
+      "id": "2.5.2",
+      "name": "Prepare token revocation",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.5.3": {
+      "id": "2.5.3",
+      "name": "Prepare local session removal",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "2.5.4": {
+      "id": "2.5.4",
+      "name": "Project logout confirmation",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "3.2.1": {
+      "id": "3.2.1",
+      "name": "Resolve permitted target operation",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "3.2.2": {
+      "id": "3.2.2",
+      "name": "Project user management result",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "3.2.3": {
+      "id": "3.2.3",
+      "name": "Persist target profile changes",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "3.2.4": {
+      "id": "3.2.4",
+      "name": "Prepare target account deletion",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "3.4.1": {
+      "id": "3.4.1",
+      "name": "Validate assignment fields",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "3.4.2": {
+      "id": "3.4.2",
+      "name": "Assess target membership operation",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "3.4.3": {
+      "id": "3.4.3",
+      "name": "Persist and project assignment",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "3.5.1": {
+      "id": "3.5.1",
+      "name": "Validate attempt selectors",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "3.5.2": {
+      "id": "3.5.2",
+      "name": "Project attempt observations",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "3.5.3": {
+      "id": "3.5.3",
+      "name": "Prepare selected attempt removals",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "4.2.1": {
+      "id": "4.2.1",
+      "name": "Select service identity source",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "4.2.2": {
+      "id": "4.2.2",
+      "name": "Authenticate configured service user",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "4.2.3": {
+      "id": "4.2.3",
+      "name": "Verify and retain admin proof",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "4.3.1": {
+      "id": "4.3.1",
+      "name": "Compare application credentials",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "4.3.2": {
+      "id": "4.3.2",
+      "name": "Resolve effective IP identity",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "4.3.3": {
+      "id": "4.3.3",
+      "name": "Assess IP attempt window",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "4.3.4": {
+      "id": "4.3.4",
+      "name": "Project IP admission data",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "4.4.1": {
+      "id": "4.4.1",
+      "name": "Resolve caller credential evidence",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "4.4.2": {
+      "id": "4.4.2",
+      "name": "Assess selected target scope",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "4.4.3": {
+      "id": "4.4.3",
+      "name": "Transform user attempt window",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    },
+    "4.4.4": {
+      "id": "4.4.4",
+      "name": "Project resolved user context",
+      "kind": "process",
+      "group": null,
+      "physical": null,
+      "status": "implemented"
+    }
+  },
+  "atoms": {
+    "browse": {
+      "id": "browse",
+      "label": "Browse criteria",
+      "fields": "query, category, selectedListingId",
+      "store": null
+    },
+    "message": {
+      "id": "message",
+      "label": "Message draft",
+      "fields": "selectedListingId, messageInput",
+      "store": null
+    },
+    "offer": {
+      "id": "offer",
+      "label": "Offer draft",
+      "fields": "selectedListingId, offerAmount",
+      "store": null
+    },
+    "cards": {
+      "id": "cards",
+      "label": "Listing selection view",
+      "fields": "filtered sample cards, selected detail, empty state",
+      "store": null
+    },
+    "messages": {
+      "id": "messages",
+      "label": "Message preview",
+      "fields": "local message strings, display state",
+      "store": null
+    },
+    "offers": {
+      "id": "offers",
+      "label": "Offer preview",
+      "fields": "formatted local offer string, display state",
+      "store": null
+    },
+    "register": {
+      "id": "register",
+      "label": "Registration fields",
+      "fields": "email, first_name, last_name, password, school",
+      "store": null
+    },
+    "login": {
+      "id": "login",
+      "label": "Login credentials",
+      "fields": "email, password",
+      "store": null
+    },
+    "read_profile": {
+      "id": "read_profile",
+      "label": "Profile read request",
+      "fields": "opaque session cookie",
+      "store": null
+    },
+    "edit_profile": {
+      "id": "edit_profile",
+      "label": "Profile change request",
+      "fields": "opaque cookie, selected nonblank fields",
+      "store": null
+    },
+    "logout": {
+      "id": "logout",
+      "label": "Logout request",
+      "fields": "opaque session cookie or no cookie",
+      "store": null
+    },
+    "schools": {
+      "id": "schools",
+      "label": "School lookup request",
+      "fields": "public directory request",
+      "store": null
+    },
+    "registration_result": {
+      "id": "registration_result",
+      "label": "Registration result",
+      "fields": "normalized email, created status or validation/conflict/service error",
+      "store": null
+    },
+    "login_result": {
+      "id": "login_result",
+      "label": "Login result",
+      "fields": "public profile, opaque cookie or safe error",
+      "store": null
+    },
+    "profile_result": {
+      "id": "profile_result",
+      "label": "Profile view",
+      "fields": "email, first_name, last_name, school or safe error",
+      "store": null
+    },
+    "edit_result": {
+      "id": "edit_result",
+      "label": "Profile change result",
+      "fields": "saved notice, public profile or null, validation/conflict/error",
+      "store": null
+    },
+    "logout_result": {
+      "id": "logout_result",
+      "label": "Logout confirmation",
+      "fields": "expired cookie, qualified sign-out message or safe error",
+      "store": null
+    },
+    "school_result": {
+      "id": "school_result",
+      "label": "School directory view",
+      "fields": "school names or safe error",
+      "store": null
+    },
+    "admin_status": {
+      "id": "admin_status",
+      "label": "Membership inquiry",
+      "fields": "caller cookie",
+      "store": null
+    },
+    "admin_users": {
+      "id": "admin_users",
+      "label": "User management request",
+      "fields": "caller cookie, target email, optional profile fields, operation",
+      "store": null
+    },
+    "admin_schools": {
+      "id": "admin_schools",
+      "label": "School management request",
+      "fields": "caller cookie, name, short_name, operation",
+      "store": null
+    },
+    "admin_roles": {
+      "id": "admin_roles",
+      "label": "Admin assignment request",
+      "fields": "caller cookie, to_user, level, optional locked, operation",
+      "store": null
+    },
+    "admin_attempts": {
+      "id": "admin_attempts",
+      "label": "Attempt management request",
+      "fields": "caller cookie, email XOR ip_addr for clearing, operation",
+      "store": null
+    },
+    "admin_logout": {
+      "id": "admin_logout",
+      "label": "Target sign-out request",
+      "fields": "caller cookie, target email",
+      "store": null
+    },
+    "status_result": {
+      "id": "status_result",
+      "label": "Membership view",
+      "fields": "is_admin, level, projected permission flags or safe error",
+      "store": null
+    },
+    "users_result": {
+      "id": "users_result",
+      "label": "User management result",
+      "fields": "directory, target profile, saved/deleted confirmation or safe error",
+      "store": null
+    },
+    "schools_result": {
+      "id": "schools_result",
+      "label": "School management result",
+      "fields": "school directory, mutation confirmation or safe error",
+      "store": null
+    },
+    "roles_result": {
+      "id": "roles_result",
+      "label": "Admin assignment result",
+      "fields": "target email, granted/changed/removed confirmation or safe error",
+      "store": null
+    },
+    "attempts_result": {
+      "id": "attempts_result",
+      "label": "Attempt management result",
+      "fields": "user/IP observations, cleared row count or safe error",
+      "store": null
+    },
+    "signout_result": {
+      "id": "signout_result",
+      "label": "Target sign-out confirmation",
+      "fields": "qualified request confirmation or safe error; not deletion proof",
+      "store": null
+    },
+    "listing_read": {
+      "id": "listing_read",
+      "label": "Listing query",
+      "fields": "optional category",
+      "store": null
+    },
+    "listing_create": {
+      "id": "listing_create",
+      "label": "Listing creation fields",
+      "fields": "Title, Description, Price, Category, UserId",
+      "store": null
+    },
+    "listing_delete": {
+      "id": "listing_delete",
+      "label": "Listing deletion selector",
+      "fields": "path listing ID",
+      "store": null
+    },
+    "listing_view": {
+      "id": "listing_view",
+      "label": "Listing query result",
+      "fields": "listing fields and joined user email/name or service error",
+      "store": null
+    },
+    "listing_created": {
+      "id": "listing_created",
+      "label": "Listing creation result",
+      "fields": "creation confirmation or service error",
+      "store": null
+    },
+    "listing_deleted": {
+      "id": "listing_deleted",
+      "label": "Listing deletion result",
+      "fields": "deleted confirmation, not-found result or service error",
+      "store": null
+    },
+    "account_access": {
+      "id": "account_access",
+      "label": "Account access data",
+      "fields": "operation, app envelope, verified IP, session token if present, login evidence if applicable",
+      "store": null
+    },
+    "account_assessment": {
+      "id": "account_assessment",
+      "label": "Account access assessment",
+      "fields": "prepared envelope, resolved identity, block/validation result, safe error",
+      "store": null
+    },
+    "admin_access": {
+      "id": "admin_access",
+      "label": "Admin access data",
+      "fields": "operation, caller token, target selector, server-owned IP/envelope",
+      "store": null
+    },
+    "admin_assessment": {
+      "id": "admin_assessment",
+      "label": "Admin access assessment",
+      "fields": "fresh caller membership, eligible target context, block/validation result",
+      "store": null
+    },
+    "catalog": {
+      "id": "catalog",
+      "label": "Sample catalog data",
+      "fields": "sample ID, title, category, price, school, condition, art fields",
+      "store": "D1"
+    },
+    "conversation": {
+      "id": "conversation",
+      "label": "Preview conversation data",
+      "fields": "App.messages[] strings, current draft / display context",
+      "store": "D2"
+    },
+    "preview_changes": {
+      "id": "preview_changes",
+      "label": "Preview text updates",
+      "fields": "appended message or formatted offer text; browser memory only",
+      "store": "D2"
+    },
+    "school_rows": {
+      "id": "school_rows",
+      "label": "School reference data",
+      "fields": "id, name, short_name",
+      "store": "D3"
+    },
+    "user_rows": {
+      "id": "user_rows",
+      "label": "Account reference data",
+      "fields": "id, encrypted email/password, names, school_id, datetime",
+      "store": "D4"
+    },
+    "new_user": {
+      "id": "new_user",
+      "label": "New account record",
+      "fields": "normalized/encrypted registration fields, school_id, timestamp",
+      "store": "D4"
+    },
+    "changed_user": {
+      "id": "changed_user",
+      "label": "Profile record changes",
+      "fields": "selected validated fields, selected user ID",
+      "store": "D4"
+    },
+    "deleted_user": {
+      "id": "deleted_user",
+      "label": "Account deletion data",
+      "fields": "selected user ID",
+      "store": "D4"
+    },
+    "changed_school": {
+      "id": "changed_school",
+      "label": "School record changes",
+      "fields": "normalized name, short_name",
+      "store": "D3"
+    },
+    "deleted_school": {
+      "id": "deleted_school",
+      "label": "School deletion data",
+      "fields": "name and/or short_name selectors",
+      "store": "D3"
+    },
+    "admin_rows": {
+      "id": "admin_rows",
+      "label": "Admin membership data",
+      "fields": "user_id, level, locked",
+      "store": "D5"
+    },
+    "token_rows": {
+      "id": "token_rows",
+      "label": "Access token data",
+      "fields": "user_id, token, expiry",
+      "store": "D6"
+    },
+    "new_token": {
+      "id": "new_token",
+      "label": "User token record",
+      "fields": "user_id, random token, expiry",
+      "store": "D6"
+    },
+    "revoked_token": {
+      "id": "revoked_token",
+      "label": "User token revocation data",
+      "fields": "selected user ID; all tokens for that user",
+      "store": "D6"
+    },
+    "admin_changes": {
+      "id": "admin_changes",
+      "label": "Admin membership changes",
+      "fields": "selected user_id, level, optional locked or removal selector",
+      "store": "D5"
+    },
+    "target_revocation": {
+      "id": "target_revocation",
+      "label": "Target token revocation data",
+      "fields": "selected eligible target user ID",
+      "store": "D6"
+    },
+    "user_attempts": {
+      "id": "user_attempts",
+      "label": "User attempt data",
+      "fields": "user_id, count, expiry",
+      "store": "D7"
+    },
+    "ip_registry": {
+      "id": "ip_registry",
+      "label": "IP identity data",
+      "fields": "id, encrypted IP, datetime",
+      "store": "D8"
+    },
+    "ip_links": {
+      "id": "ip_links",
+      "label": "User / IP relationship data",
+      "fields": "user_id, ip_id",
+      "store": "D9"
+    },
+    "ip_attempts": {
+      "id": "ip_attempts",
+      "label": "IP attempt data",
+      "fields": "ip_id, count, expiry",
+      "store": "D10"
+    },
+    "cleared_user_attempts": {
+      "id": "cleared_user_attempts",
+      "label": "User attempt removal data",
+      "fields": "selected user ID",
+      "store": "D7"
+    },
+    "cleared_ip_attempts": {
+      "id": "cleared_ip_attempts",
+      "label": "IP attempt removal data",
+      "fields": "selected IP ID",
+      "store": "D10"
+    },
+    "service_token": {
+      "id": "service_token",
+      "label": "Service token record",
+      "fields": "service user_id, login-issued token, expiry",
+      "store": "D6"
+    },
+    "user_attempt_changes": {
+      "id": "user_attempt_changes",
+      "label": "User attempt updates",
+      "fields": "new count/expiry or first observation",
+      "store": "D7"
+    },
+    "ip_identity_changes": {
+      "id": "ip_identity_changes",
+      "label": "IP identity updates",
+      "fields": "new encrypted IP and timestamp",
+      "store": "D8"
+    },
+    "ip_link_changes": {
+      "id": "ip_link_changes",
+      "label": "User / IP link updates",
+      "fields": "selected user_id, selected ip_id",
+      "store": "D9"
+    },
+    "ip_attempt_changes": {
+      "id": "ip_attempt_changes",
+      "label": "IP attempt updates",
+      "fields": "new count/expiry or first observation",
+      "store": "D10"
+    },
+    "blocked_token_removals": {
+      "id": "blocked_token_removals",
+      "label": "Blocked-user revocation data",
+      "fields": "user ID at count 10; all tokens removed",
+      "store": "D6"
+    },
+    "session_rows": {
+      "id": "session_rows",
+      "label": "Website session data",
+      "fields": "opaque ID, backend user token, fixed 12-hour expiry",
+      "store": "D11"
+    },
+    "session_changes": {
+      "id": "session_changes",
+      "label": "Website session updates",
+      "fields": "new opaque ID → user token + expiry",
+      "store": "D11"
+    },
+    "session_removals": {
+      "id": "session_removals",
+      "label": "Website session removal data",
+      "fields": "old login ID, matching-token IDs or invalid/expired ID",
+      "store": "D11"
+    },
+    "settings": {
+      "id": "settings",
+      "label": "Runtime configuration data",
+      "fields": "app credential, service identity credentials, auth policies, paths; names only",
+      "store": "D13"
+    },
+    "service_cache": {
+      "id": "service_cache",
+      "label": "Cached service identity data",
+      "fields": "cached admin token and identity context",
+      "store": "D12"
+    },
+    "service_cache_changes": {
+      "id": "service_cache_changes",
+      "label": "Service cache updates",
+      "fields": "fresh verified admin token or invalidation",
+      "store": "D12"
+    },
+    "lock_rows": {
+      "id": "lock_rows",
+      "label": "Lock metadata records",
+      "fields": "identity ID, last-use timestamp; lock mechanics omitted",
+      "store": "D15"
+    },
+    "lock_changes": {
+      "id": "lock_changes",
+      "label": "Lock metadata updates",
+      "fields": "identity key and usage timestamp",
+      "store": "D15"
+    },
+    "expired_tokens": {
+      "id": "expired_tokens",
+      "label": "Token expiry records",
+      "fields": "token record ID, expiry; expiry predicate applied by process",
+      "store": "D6"
+    },
+    "expired_users": {
+      "id": "expired_users",
+      "label": "User attempt expiry records",
+      "fields": "attempt record ID, expiry",
+      "store": "D7"
+    },
+    "expired_ips": {
+      "id": "expired_ips",
+      "label": "IP attempt expiry records",
+      "fields": "attempt record ID, expiry",
+      "store": "D10"
+    },
+    "token_cleanup": {
+      "id": "token_cleanup",
+      "label": "Expired token removal data",
+      "fields": "expired token IDs / expiry predicate",
+      "store": "D6"
+    },
+    "user_cleanup": {
+      "id": "user_cleanup",
+      "label": "Expired user-attempt removal data",
+      "fields": "expired user-attempt IDs / expiry predicate",
+      "store": "D7"
+    },
+    "ip_cleanup": {
+      "id": "ip_cleanup",
+      "label": "Expired IP-attempt removal data",
+      "fields": "expired IP-attempt IDs / expiry predicate",
+      "store": "D10"
+    },
+    "lock_cleanup": {
+      "id": "lock_cleanup",
+      "label": "Stale lock removal data",
+      "fields": "identity keys meeting stale-lock predicate",
+      "store": "D15"
+    },
+    "listing_rows": {
+      "id": "listing_rows",
+      "label": "Stored listing data",
+      "fields": "id, title, description, price, category, user_id, datetime",
+      "store": "D14"
+    },
+    "new_listing": {
+      "id": "new_listing",
+      "label": "New listing record",
+      "fields": "validated SQL parameters, supplied UserId, UTC datetime",
+      "store": "D14"
+    },
+    "deleted_listing": {
+      "id": "deleted_listing",
+      "label": "Listing deletion data",
+      "fields": "listing ID",
+      "store": "D14"
+    },
+    "message_context": {
+      "id": "message_context",
+      "label": "Selected listing context",
+      "fields": "selectedListingId, sample title; no seller identity",
+      "store": null
+    },
+    "offer_context": {
+      "id": "offer_context",
+      "label": "Selected offer context",
+      "fields": "selectedListingId, listed sample price",
+      "store": null
+    },
+    "scoped_admin_2": {
+      "id": "scoped_admin_2",
+      "label": "Scoped user request",
+      "fields": "caller identity, fresh permission data, operation, exact target selectors and relevant request fields",
+      "store": null
+    },
+    "scoped_admin_3": {
+      "id": "scoped_admin_3",
+      "label": "Scoped school request",
+      "fields": "caller identity, fresh permission data, operation, exact target selectors and relevant request fields",
+      "store": null
+    },
+    "scoped_admin_4": {
+      "id": "scoped_admin_4",
+      "label": "Scoped assignment request",
+      "fields": "caller identity, fresh permission data, operation, exact target selectors and relevant request fields",
+      "store": null
+    },
+    "scoped_admin_5": {
+      "id": "scoped_admin_5",
+      "label": "Scoped attempt request",
+      "fields": "caller identity, fresh permission data, operation, exact target selectors and relevant request fields",
+      "store": null
+    },
+    "scoped_admin_6": {
+      "id": "scoped_admin_6",
+      "label": "Scoped sign-out request",
+      "fields": "caller identity, fresh permission data, operation, exact target selectors and relevant request fields",
+      "store": null
+    },
+    "prepared_access": {
+      "id": "prepared_access",
+      "label": "Prepared operation data",
+      "fields": "operation, server-owned IP, selected public fields, caller token",
+      "store": null
+    },
+    "forwarding_identity": {
+      "id": "forwarding_identity",
+      "label": "Forwarding identity data",
+      "fields": "service admin token, operation envelope, caller token",
+      "store": null
+    },
+    "app_ip_context": {
+      "id": "app_ip_context",
+      "label": "Application / IP assessment",
+      "fields": "application validity, effective IP identity, selected operation",
+      "store": null
+    },
+    "user_context": {
+      "id": "user_context",
+      "label": "Resolved user context",
+      "fields": "caller level, selected user ID, sudo_id, target eligibility, attempt result",
+      "store": null
+    },
+    "ip_rejection": {
+      "id": "ip_rejection",
+      "label": "Application / IP rejection data",
+      "fields": "safe validation/block response or forwarding-expiry marker",
+      "store": null
+    },
+    "registration_accessed": {
+      "id": "registration_accessed",
+      "label": "Assessed registration fields",
+      "fields": "submitted fields, application/IP assessment",
+      "store": null
+    },
+    "normalized_registration": {
+      "id": "normalized_registration",
+      "label": "Normalized registration data",
+      "fields": "validated email/names/password, resolved school_id or validation errors",
+      "store": null
+    },
+    "registration_persistence": {
+      "id": "registration_persistence",
+      "label": "Registration persistence outcome",
+      "fields": "normalized email, insert success, duplicate-email conflict or error",
+      "store": null
+    },
+    "login_identity": {
+      "id": "login_identity",
+      "label": "Admitted login identity",
+      "fields": "matched user ID, credential comparison, block assessment",
+      "store": null
+    },
+    "visitor_token": {
+      "id": "visitor_token",
+      "label": "Visitor token data",
+      "fields": "selected or newly generated token, user ID, eligibility result",
+      "store": null
+    },
+    "profile_session_seed": {
+      "id": "profile_session_seed",
+      "label": "Projected profile and token",
+      "fields": "public profile plus backend token for server-side session storage",
+      "store": null
+    },
+    "validated_profile_change": {
+      "id": "validated_profile_change",
+      "label": "Validated profile changes",
+      "fields": "selected user ID, nonblank normalized changes or validation error",
+      "store": null
+    },
+    "saved_profile_change": {
+      "id": "saved_profile_change",
+      "label": "Profile persistence outcome",
+      "fields": "write committed flag, normalized email, conflict/validation/service result",
+      "store": null
+    },
+    "logout_identity": {
+      "id": "logout_identity",
+      "label": "Assessed logout identity",
+      "fields": "selected user/token if valid; idempotent no-session case",
+      "store": null
+    },
+    "logout_backend_result": {
+      "id": "logout_backend_result",
+      "label": "Backend logout outcome",
+      "fields": "confirmation including masked token-validation cases; submitted visitor token",
+      "store": null
+    },
+    "logout_local_result": {
+      "id": "logout_local_result",
+      "label": "Local logout outcome",
+      "fields": "cookie expiry data, matching local session IDs, qualified notice",
+      "store": null
+    },
+    "target_read": {
+      "id": "target_read",
+      "label": "Selected user read data",
+      "fields": "permitted directory/profile query, exact selected user ID",
+      "store": null
+    },
+    "target_change": {
+      "id": "target_change",
+      "label": "Selected target changes",
+      "fields": "eligible target ID, profile fields, caller context",
+      "store": null
+    },
+    "target_delete": {
+      "id": "target_delete",
+      "label": "Selected target deletion",
+      "fields": "eligible target ID, caller level and authorization result",
+      "store": null
+    },
+    "target_saved": {
+      "id": "target_saved",
+      "label": "Target profile persistence result",
+      "fields": "saved flag, normalized identity, readback/validation/error result",
+      "store": null
+    },
+    "target_deleted": {
+      "id": "target_deleted",
+      "label": "Account deletion result",
+      "fields": "affected row count, target email, error result",
+      "store": null
+    },
+    "assignment_fields": {
+      "id": "assignment_fields",
+      "label": "Validated assignment data",
+      "fields": "to_user, operation, integer level below caller, optional 0/1 locked",
+      "store": null
+    },
+    "assignment_change": {
+      "id": "assignment_change",
+      "label": "Permitted membership changes",
+      "fields": "selected user_id, operation, requested level/locked, eligibility result",
+      "store": null
+    },
+    "attempt_query": {
+      "id": "attempt_query",
+      "label": "Permitted attempt inquiry",
+      "fields": "caller level, directory request or validated selectors",
+      "store": null
+    },
+    "attempt_selection": {
+      "id": "attempt_selection",
+      "label": "Permitted attempt selection",
+      "fields": "email XOR ip_addr, resolved identity context",
+      "store": null
+    },
+    "attempt_cleared": {
+      "id": "attempt_cleared",
+      "label": "Attempt removal outcome",
+      "fields": "deleted row count, selector type, not-found/error result",
+      "store": null
+    },
+    "service_credentials": {
+      "id": "service_credentials",
+      "label": "Configured service credential data",
+      "fields": "service email/password, app credential, rejected/missing cache context",
+      "store": null
+    },
+    "service_token_candidate": {
+      "id": "service_token_candidate",
+      "label": "Service token candidate",
+      "fields": "login-issued token, selected service user ID, login outcome",
+      "store": null
+    },
+    "app_comparison": {
+      "id": "app_comparison",
+      "label": "Application credential assessment",
+      "fields": "validity, forwarded-IP eligibility, operation and caller context",
+      "store": null
+    },
+    "effective_ip": {
+      "id": "effective_ip",
+      "label": "Effective IP identity",
+      "fields": "connection/forwarded IP ID, failed-credential observation",
+      "store": null
+    },
+    "ip_window_result": {
+      "id": "ip_window_result",
+      "label": "IP window assessment",
+      "fields": "count, expiry, blocked status, IP ID, operation context",
+      "store": null
+    },
+    "caller_identity": {
+      "id": "caller_identity",
+      "label": "Resolved caller evidence",
+      "fields": "operation, caller ID/level, optional token validity or login-match evidence",
+      "store": null
+    },
+    "target_admission": {
+      "id": "target_admission",
+      "label": "Target scope assessment",
+      "fields": "selected target ID, caller rank, target rank/locked, validation result",
+      "store": null
+    },
+    "user_window_result": {
+      "id": "user_window_result",
+      "label": "User admission assessment",
+      "fields": "login-specific attempt count/expiry, token revocation selectors, resolved identity",
+      "store": null
+    }
+  },
+  "graphs": [
+    {
+      "id": "C0",
+      "title": "Context | Student Exchange",
+      "level": "Context",
+      "scope": "Entire implemented system, with preview and listing limitations stated",
+      "parent": null,
+      "process": null,
+      "inside": [
+        "0"
+      ],
+      "edges": [
+        {
+          "id": "F037",
+          "source": "E1",
+          "target": "0",
+          "label": "Marketplace + account requests",
+          "atoms": [
+            "browse",
+            "message",
+            "offer",
+            "register",
+            "login",
+            "read_profile",
+            "edit_profile",
+            "logout",
+            "schools"
+          ]
+        },
+        {
+          "id": "F038",
+          "source": "0",
+          "target": "E1",
+          "label": "Marketplace + account results",
+          "atoms": [
+            "cards",
+            "messages",
+            "offers",
+            "registration_result",
+            "login_result",
+            "profile_result",
+            "edit_result",
+            "logout_result",
+            "school_result"
+          ]
+        },
+        {
+          "id": "F039",
+          "source": "E2",
+          "target": "0",
+          "label": "Administration requests",
+          "atoms": [
+            "admin_status",
+            "admin_users",
+            "admin_schools",
+            "admin_roles",
+            "admin_attempts",
+            "admin_logout"
+          ]
+        },
+        {
+          "id": "F040",
+          "source": "0",
+          "target": "E2",
+          "label": "Administration results",
+          "atoms": [
+            "status_result",
+            "users_result",
+            "schools_result",
+            "roles_result",
+            "attempts_result",
+            "signout_result"
+          ]
+        },
+        {
+          "id": "F041",
+          "source": "E3",
+          "target": "0",
+          "label": "Direct listing requests",
+          "atoms": [
+            "listing_read",
+            "listing_create",
+            "listing_delete"
+          ]
+        },
+        {
+          "id": "F042",
+          "source": "0",
+          "target": "E3",
+          "label": "Direct listing results",
+          "atoms": [
+            "listing_view",
+            "listing_created",
+            "listing_deleted"
+          ]
+        }
+      ],
+      "source": "Website/src/App.tsx; server/api.mjs; Backend/Controllers/Listing.cs",
+      "note": "One system process, external entities and boundary data only. Internal stores do not appear."
+    },
+    {
+      "id": "L0",
+      "title": "Level-0 | Student Exchange data flows",
+      "level": "Level-0",
+      "scope": "Website, Node adapter, backend and logical storage",
+      "parent": null,
+      "process": null,
+      "inside": [
+        "1.0",
+        "2.0",
+        "3.0",
+        "4.0",
+        "5.0",
+        "6.0"
+      ],
+      "edges": [
+        {
+          "id": "F001",
+          "source": "E1",
+          "target": "1.0",
+          "label": "Marketplace intent",
+          "atoms": [
+            "browse",
+            "message",
+            "offer"
+          ]
+        },
+        {
+          "id": "F002",
+          "source": "1.0",
+          "target": "E1",
+          "label": "Marketplace preview",
+          "atoms": [
+            "cards",
+            "messages",
+            "offers"
+          ]
+        },
+        {
+          "id": "F003",
+          "source": "E1",
+          "target": "2.0",
+          "label": "Account requests",
+          "atoms": [
+            "register",
+            "login",
+            "read_profile",
+            "edit_profile",
+            "logout",
+            "schools"
+          ]
+        },
+        {
+          "id": "F004",
+          "source": "2.0",
+          "target": "E1",
+          "label": "Account results",
+          "atoms": [
+            "registration_result",
+            "login_result",
+            "profile_result",
+            "edit_result",
+            "logout_result",
+            "school_result"
+          ]
+        },
+        {
+          "id": "F005",
+          "source": "E2",
+          "target": "3.0",
+          "label": "Admin requests",
+          "atoms": [
+            "admin_status",
+            "admin_users",
+            "admin_schools",
+            "admin_roles",
+            "admin_attempts",
+            "admin_logout"
+          ]
+        },
+        {
+          "id": "F006",
+          "source": "3.0",
+          "target": "E2",
+          "label": "Admin results",
+          "atoms": [
+            "status_result",
+            "users_result",
+            "schools_result",
+            "roles_result",
+            "attempts_result",
+            "signout_result"
+          ]
+        },
+        {
+          "id": "F007",
+          "source": "E3",
+          "target": "6.0",
+          "label": "Direct listing requests",
+          "atoms": [
+            "listing_read",
+            "listing_create",
+            "listing_delete"
+          ]
+        },
+        {
+          "id": "F008",
+          "source": "6.0",
+          "target": "E3",
+          "label": "Direct listing results",
+          "atoms": [
+            "listing_view",
+            "listing_created",
+            "listing_deleted"
+          ]
+        },
+        {
+          "id": "F009",
+          "source": "G1",
+          "target": "1.0",
+          "label": "Preview records",
+          "atoms": [
+            "catalog",
+            "conversation"
+          ]
+        },
+        {
+          "id": "F010",
+          "source": "1.0",
+          "target": "G1",
+          "label": "Preview text updates",
+          "atoms": [
+            "preview_changes"
+          ]
+        },
+        {
+          "id": "F011",
+          "source": "2.0",
+          "target": "4.0",
+          "label": "Account access data",
+          "atoms": [
+            "account_access"
+          ]
+        },
+        {
+          "id": "F012",
+          "source": "4.0",
+          "target": "2.0",
+          "label": "Account assessment",
+          "atoms": [
+            "account_assessment"
+          ]
+        },
+        {
+          "id": "F013",
+          "source": "3.0",
+          "target": "4.0",
+          "label": "Admin access data",
+          "atoms": [
+            "admin_access"
+          ]
+        },
+        {
+          "id": "F014",
+          "source": "4.0",
+          "target": "3.0",
+          "label": "Admin assessment",
+          "atoms": [
+            "admin_assessment"
+          ]
+        },
+        {
+          "id": "F015",
+          "source": "G2",
+          "target": "2.0",
+          "label": "Account references",
+          "atoms": [
+            "user_rows",
+            "school_rows"
+          ]
+        },
+        {
+          "id": "F016",
+          "source": "2.0",
+          "target": "G2",
+          "label": "Account mutations",
+          "atoms": [
+            "new_user",
+            "changed_user"
+          ]
+        },
+        {
+          "id": "F017",
+          "source": "G3",
+          "target": "2.0",
+          "label": "Token eligibility data",
+          "atoms": [
+            "admin_rows",
+            "token_rows"
+          ]
+        },
+        {
+          "id": "F018",
+          "source": "2.0",
+          "target": "G3",
+          "label": "Token mutations",
+          "atoms": [
+            "new_token",
+            "revoked_token"
+          ]
+        },
+        {
+          "id": "F019",
+          "source": "G4",
+          "target": "2.0",
+          "label": "Session records",
+          "atoms": [
+            "session_rows"
+          ]
+        },
+        {
+          "id": "F020",
+          "source": "2.0",
+          "target": "G4",
+          "label": "Session mutations",
+          "atoms": [
+            "session_changes",
+            "session_removals"
+          ]
+        },
+        {
+          "id": "F021",
+          "source": "G2",
+          "target": "3.0",
+          "label": "User / school references",
+          "atoms": [
+            "user_rows",
+            "school_rows"
+          ]
+        },
+        {
+          "id": "F022",
+          "source": "3.0",
+          "target": "G2",
+          "label": "Managed record changes",
+          "atoms": [
+            "changed_user",
+            "deleted_user",
+            "changed_school",
+            "deleted_school"
+          ]
+        },
+        {
+          "id": "F023",
+          "source": "G3",
+          "target": "3.0",
+          "label": "Admin / attempt references",
+          "atoms": [
+            "admin_rows",
+            "token_rows",
+            "user_attempts",
+            "ip_registry",
+            "ip_links",
+            "ip_attempts"
+          ]
+        },
+        {
+          "id": "F024",
+          "source": "3.0",
+          "target": "G3",
+          "label": "Security record changes",
+          "atoms": [
+            "admin_changes",
+            "cleared_user_attempts",
+            "cleared_ip_attempts",
+            "target_revocation"
+          ]
+        },
+        {
+          "id": "F025",
+          "source": "G2",
+          "target": "4.0",
+          "label": "Identity references",
+          "atoms": [
+            "user_rows"
+          ]
+        },
+        {
+          "id": "F026",
+          "source": "G3",
+          "target": "4.0",
+          "label": "Security reference data",
+          "atoms": [
+            "admin_rows",
+            "token_rows",
+            "user_attempts",
+            "ip_registry",
+            "ip_links",
+            "ip_attempts"
+          ]
+        },
+        {
+          "id": "F027",
+          "source": "4.0",
+          "target": "G3",
+          "label": "Security observations",
+          "atoms": [
+            "service_token",
+            "user_attempt_changes",
+            "ip_identity_changes",
+            "ip_link_changes",
+            "ip_attempt_changes",
+            "blocked_token_removals"
+          ]
+        },
+        {
+          "id": "F028",
+          "source": "G5",
+          "target": "4.0",
+          "label": "Runtime service data",
+          "atoms": [
+            "settings",
+            "service_cache",
+            "lock_rows"
+          ]
+        },
+        {
+          "id": "F029",
+          "source": "4.0",
+          "target": "G5",
+          "label": "Runtime cache updates",
+          "atoms": [
+            "service_cache_changes",
+            "lock_changes"
+          ]
+        },
+        {
+          "id": "F030",
+          "source": "G3",
+          "target": "5.0",
+          "label": "Expiry records",
+          "atoms": [
+            "expired_tokens",
+            "expired_users",
+            "expired_ips"
+          ]
+        },
+        {
+          "id": "F031",
+          "source": "5.0",
+          "target": "G3",
+          "label": "Expired-record removals",
+          "atoms": [
+            "token_cleanup",
+            "user_cleanup",
+            "ip_cleanup"
+          ]
+        },
+        {
+          "id": "F032",
+          "source": "G5",
+          "target": "5.0",
+          "label": "Lock metadata",
+          "atoms": [
+            "lock_rows"
+          ]
+        },
+        {
+          "id": "F033",
+          "source": "5.0",
+          "target": "G5",
+          "label": "Stale lock removals",
+          "atoms": [
+            "lock_cleanup"
+          ]
+        },
+        {
+          "id": "F034",
+          "source": "G6",
+          "target": "6.0",
+          "label": "Listing records",
+          "atoms": [
+            "listing_rows"
+          ]
+        },
+        {
+          "id": "F035",
+          "source": "6.0",
+          "target": "G6",
+          "label": "Listing mutations",
+          "atoms": [
+            "new_listing",
+            "deleted_listing"
+          ]
+        },
+        {
+          "id": "F036",
+          "source": "G2",
+          "target": "6.0",
+          "label": "Listing owner references",
+          "atoms": [
+            "user_rows"
+          ]
+        }
+      ],
+      "source": "Website/src/App.tsx; server/api.mjs, admin.mjs; Backend/Controllers/*, Components/*",
+      "note": "Grouped stores are expanded into named primitive stores below. Listing API access is independent of the website."
+    },
+    {
+      "id": "P1",
+      "title": "1.0 | Marketplace preview data",
+      "level": "Level-1",
+      "scope": "Decomposition of process 1.0",
+      "parent": "L0",
+      "process": "1.0",
+      "inside": [
+        "1.1",
+        "1.2",
+        "1.3",
+        "1.4"
+      ],
+      "edges": [
+        {
+          "id": "F001.1",
+          "source": "E1",
+          "target": "1.1",
+          "label": "Browse criteria",
+          "atoms": [
+            "browse"
+          ]
+        },
+        {
+          "id": "F001.2",
+          "source": "E1",
+          "target": "1.2",
+          "label": "Browse criteria",
+          "atoms": [
+            "browse"
+          ]
+        },
+        {
+          "id": "F001.3",
+          "source": "E1",
+          "target": "1.3",
+          "label": "Message draft",
+          "atoms": [
+            "message"
+          ]
+        },
+        {
+          "id": "F001.4",
+          "source": "E1",
+          "target": "1.4",
+          "label": "Offer draft",
+          "atoms": [
+            "offer"
+          ]
+        },
+        {
+          "id": "F002.5",
+          "source": "1.1",
+          "target": "E1",
+          "label": "Listing selection view",
+          "atoms": [
+            "cards"
+          ]
+        },
+        {
+          "id": "F002.6",
+          "source": "1.2",
+          "target": "E1",
+          "label": "Listing selection view",
+          "atoms": [
+            "cards"
+          ]
+        },
+        {
+          "id": "F002.7",
+          "source": "1.3",
+          "target": "E1",
+          "label": "Message preview",
+          "atoms": [
+            "messages"
+          ]
+        },
+        {
+          "id": "F002.8",
+          "source": "1.4",
+          "target": "E1",
+          "label": "Offer preview",
+          "atoms": [
+            "offers"
+          ]
+        },
+        {
+          "id": "F009.9",
+          "source": "D1",
+          "target": "1.1",
+          "label": "Sample catalog data",
+          "atoms": [
+            "catalog"
+          ]
+        },
+        {
+          "id": "F009.10",
+          "source": "D1",
+          "target": "1.2",
+          "label": "Sample catalog data",
+          "atoms": [
+            "catalog"
+          ]
+        },
+        {
+          "id": "F009.11",
+          "source": "D2",
+          "target": "1.3",
+          "label": "Preview conversation data",
+          "atoms": [
+            "conversation"
+          ]
+        },
+        {
+          "id": "F009.12",
+          "source": "D2",
+          "target": "1.4",
+          "label": "Preview conversation data",
+          "atoms": [
+            "conversation"
+          ]
+        },
+        {
+          "id": "F010.13",
+          "source": "1.3",
+          "target": "D2",
+          "label": "Preview text updates",
+          "atoms": [
+            "preview_changes"
+          ]
+        },
+        {
+          "id": "F010.14",
+          "source": "1.4",
+          "target": "D2",
+          "label": "Preview text updates",
+          "atoms": [
+            "preview_changes"
+          ]
+        },
+        {
+          "id": "F057",
+          "source": "1.2",
+          "target": "1.3",
+          "label": "Selected listing context",
+          "atoms": [
+            "message_context"
+          ]
+        },
+        {
+          "id": "F058",
+          "source": "1.2",
+          "target": "1.4",
+          "label": "Selected offer context",
+          "atoms": [
+            "offer_context"
+          ]
+        }
+      ],
+      "source": "Website/src/App.tsx: visibleListings and message/offer handlers; src/data/listings.ts",
+      "note": "D1 is bundled sample data. D2 is one App-level array, not a per-listing persisted conversation."
+    },
+    {
+      "id": "P2",
+      "title": "2.0 | Accounts and website sessions",
+      "level": "Level-1",
+      "scope": "Decomposition of process 2.0",
+      "parent": "L0",
+      "process": "2.0",
+      "inside": [
+        "2.1",
+        "2.2",
+        "2.3",
+        "2.4",
+        "2.5",
+        "2.6"
+      ],
+      "edges": [
+        {
+          "id": "F003.1",
+          "source": "E1",
+          "target": "2.1",
+          "label": "Registration fields",
+          "atoms": [
+            "register"
+          ]
+        },
+        {
+          "id": "F003.2",
+          "source": "E1",
+          "target": "2.2",
+          "label": "Login credentials",
+          "atoms": [
+            "login"
+          ]
+        },
+        {
+          "id": "F003.3",
+          "source": "E1",
+          "target": "2.3",
+          "label": "Profile read request",
+          "atoms": [
+            "read_profile"
+          ]
+        },
+        {
+          "id": "F003.4",
+          "source": "E1",
+          "target": "2.4",
+          "label": "Profile change request",
+          "atoms": [
+            "edit_profile"
+          ]
+        },
+        {
+          "id": "F003.5",
+          "source": "E1",
+          "target": "2.5",
+          "label": "Logout request",
+          "atoms": [
+            "logout"
+          ]
+        },
+        {
+          "id": "F003.6",
+          "source": "E1",
+          "target": "2.6",
+          "label": "School lookup request",
+          "atoms": [
+            "schools"
+          ]
+        },
+        {
+          "id": "F004.7",
+          "source": "2.1",
+          "target": "E1",
+          "label": "Registration result",
+          "atoms": [
+            "registration_result"
+          ]
+        },
+        {
+          "id": "F004.8",
+          "source": "2.2",
+          "target": "E1",
+          "label": "Login result",
+          "atoms": [
+            "login_result"
+          ]
+        },
+        {
+          "id": "F004.9",
+          "source": "2.3",
+          "target": "E1",
+          "label": "Profile view",
+          "atoms": [
+            "profile_result"
+          ]
+        },
+        {
+          "id": "F004.10",
+          "source": "2.4",
+          "target": "E1",
+          "label": "Profile change result",
+          "atoms": [
+            "edit_result"
+          ]
+        },
+        {
+          "id": "F004.11",
+          "source": "2.5",
+          "target": "E1",
+          "label": "Logout confirmation",
+          "atoms": [
+            "logout_result"
+          ]
+        },
+        {
+          "id": "F004.12",
+          "source": "2.6",
+          "target": "E1",
+          "label": "School directory view",
+          "atoms": [
+            "school_result"
+          ]
+        },
+        {
+          "id": "F011.13",
+          "source": "2.1",
+          "target": "4.0",
+          "label": "Account access data",
+          "atoms": [
+            "account_access"
+          ]
+        },
+        {
+          "id": "F011.14",
+          "source": "2.2",
+          "target": "4.0",
+          "label": "Account access data",
+          "atoms": [
+            "account_access"
+          ]
+        },
+        {
+          "id": "F011.15",
+          "source": "2.3",
+          "target": "4.0",
+          "label": "Account access data",
+          "atoms": [
+            "account_access"
+          ]
+        },
+        {
+          "id": "F011.16",
+          "source": "2.4",
+          "target": "4.0",
+          "label": "Account access data",
+          "atoms": [
+            "account_access"
+          ]
+        },
+        {
+          "id": "F011.17",
+          "source": "2.5",
+          "target": "4.0",
+          "label": "Account access data",
+          "atoms": [
+            "account_access"
+          ]
+        },
+        {
+          "id": "F011.18",
+          "source": "2.6",
+          "target": "4.0",
+          "label": "Account access data",
+          "atoms": [
+            "account_access"
+          ]
+        },
+        {
+          "id": "F012.19",
+          "source": "4.0",
+          "target": "2.1",
+          "label": "Account access assessment",
+          "atoms": [
+            "account_assessment"
+          ]
+        },
+        {
+          "id": "F012.20",
+          "source": "4.0",
+          "target": "2.2",
+          "label": "Account access assessment",
+          "atoms": [
+            "account_assessment"
+          ]
+        },
+        {
+          "id": "F012.21",
+          "source": "4.0",
+          "target": "2.3",
+          "label": "Account access assessment",
+          "atoms": [
+            "account_assessment"
+          ]
+        },
+        {
+          "id": "F012.22",
+          "source": "4.0",
+          "target": "2.4",
+          "label": "Account access assessment",
+          "atoms": [
+            "account_assessment"
+          ]
+        },
+        {
+          "id": "F012.23",
+          "source": "4.0",
+          "target": "2.5",
+          "label": "Account access assessment",
+          "atoms": [
+            "account_assessment"
+          ]
+        },
+        {
+          "id": "F012.24",
+          "source": "4.0",
+          "target": "2.6",
+          "label": "Account access assessment",
+          "atoms": [
+            "account_assessment"
+          ]
+        },
+        {
+          "id": "F015.25",
+          "source": "D4",
+          "target": "2.2",
+          "label": "Account reference data",
+          "atoms": [
+            "user_rows"
+          ]
+        },
+        {
+          "id": "F015.26",
+          "source": "D4",
+          "target": "2.3",
+          "label": "Account reference data",
+          "atoms": [
+            "user_rows"
+          ]
+        },
+        {
+          "id": "F015.27",
+          "source": "D4",
+          "target": "2.4",
+          "label": "Account reference data",
+          "atoms": [
+            "user_rows"
+          ]
+        },
+        {
+          "id": "F015.28",
+          "source": "D3",
+          "target": "2.1",
+          "label": "School reference data",
+          "atoms": [
+            "school_rows"
+          ]
+        },
+        {
+          "id": "F015.29",
+          "source": "D3",
+          "target": "2.3",
+          "label": "School reference data",
+          "atoms": [
+            "school_rows"
+          ]
+        },
+        {
+          "id": "F015.30",
+          "source": "D3",
+          "target": "2.4",
+          "label": "School reference data",
+          "atoms": [
+            "school_rows"
+          ]
+        },
+        {
+          "id": "F015.31",
+          "source": "D3",
+          "target": "2.6",
+          "label": "School reference data",
+          "atoms": [
+            "school_rows"
+          ]
+        },
+        {
+          "id": "F016.32",
+          "source": "2.1",
+          "target": "D4",
+          "label": "New account record",
+          "atoms": [
+            "new_user"
+          ]
+        },
+        {
+          "id": "F016.33",
+          "source": "2.4",
+          "target": "D4",
+          "label": "Profile record changes",
+          "atoms": [
+            "changed_user"
+          ]
+        },
+        {
+          "id": "F017.34",
+          "source": "D5",
+          "target": "2.2",
+          "label": "Admin membership data",
+          "atoms": [
+            "admin_rows"
+          ]
+        },
+        {
+          "id": "F017.35",
+          "source": "D6",
+          "target": "2.2",
+          "label": "Access token data",
+          "atoms": [
+            "token_rows"
+          ]
+        },
+        {
+          "id": "F018.36",
+          "source": "2.2",
+          "target": "D6",
+          "label": "User token record",
+          "atoms": [
+            "new_token"
+          ]
+        },
+        {
+          "id": "F018.37",
+          "source": "2.5",
+          "target": "D6",
+          "label": "User token revocation data",
+          "atoms": [
+            "revoked_token"
+          ]
+        },
+        {
+          "id": "F019.38",
+          "source": "D11",
+          "target": "2.2",
+          "label": "Website session data",
+          "atoms": [
+            "session_rows"
+          ]
+        },
+        {
+          "id": "F019.39",
+          "source": "D11",
+          "target": "2.3",
+          "label": "Website session data",
+          "atoms": [
+            "session_rows"
+          ]
+        },
+        {
+          "id": "F019.40",
+          "source": "D11",
+          "target": "2.4",
+          "label": "Website session data",
+          "atoms": [
+            "session_rows"
+          ]
+        },
+        {
+          "id": "F019.41",
+          "source": "D11",
+          "target": "2.5",
+          "label": "Website session data",
+          "atoms": [
+            "session_rows"
+          ]
+        },
+        {
+          "id": "F020.42",
+          "source": "2.2",
+          "target": "D11",
+          "label": "Session mutations",
+          "atoms": [
+            "session_changes",
+            "session_removals"
+          ]
+        },
+        {
+          "id": "F020.43",
+          "source": "2.3",
+          "target": "D11",
+          "label": "Website session removal data",
+          "atoms": [
+            "session_removals"
+          ]
+        },
+        {
+          "id": "F020.44",
+          "source": "2.4",
+          "target": "D11",
+          "label": "Website session removal data",
+          "atoms": [
+            "session_removals"
+          ]
+        },
+        {
+          "id": "F020.45",
+          "source": "2.5",
+          "target": "D11",
+          "label": "Website session removal data",
+          "atoms": [
+            "session_removals"
+          ]
+        }
+      ],
+      "source": "Website/server/api.mjs: account routes; Backend/Register.cs, LogIn.cs, Schools.cs",
+      "note": "Shared access flows contain an operation discriminator; parallel-looking arrows represent alternative requests, not execution order."
+    },
+    {
+      "id": "P3",
+      "title": "3.0 | Administration data",
+      "level": "Level-1",
+      "scope": "Decomposition of process 3.0",
+      "parent": "L0",
+      "process": "3.0",
+      "inside": [
+        "3.1",
+        "3.2",
+        "3.3",
+        "3.4",
+        "3.5",
+        "3.6"
+      ],
+      "edges": [
+        {
+          "id": "F005.1",
+          "source": "E2",
+          "target": "3.1",
+          "label": "Admin requests",
+          "atoms": [
+            "admin_status",
+            "admin_users",
+            "admin_schools",
+            "admin_roles",
+            "admin_attempts",
+            "admin_logout"
+          ]
+        },
+        {
+          "id": "F006.2",
+          "source": "3.1",
+          "target": "E2",
+          "label": "Membership view",
+          "atoms": [
+            "status_result"
+          ]
+        },
+        {
+          "id": "F006.3",
+          "source": "3.2",
+          "target": "E2",
+          "label": "User management result",
+          "atoms": [
+            "users_result"
+          ]
+        },
+        {
+          "id": "F006.4",
+          "source": "3.3",
+          "target": "E2",
+          "label": "School management result",
+          "atoms": [
+            "schools_result"
+          ]
+        },
+        {
+          "id": "F006.5",
+          "source": "3.4",
+          "target": "E2",
+          "label": "Admin assignment result",
+          "atoms": [
+            "roles_result"
+          ]
+        },
+        {
+          "id": "F006.6",
+          "source": "3.5",
+          "target": "E2",
+          "label": "Attempt management result",
+          "atoms": [
+            "attempts_result"
+          ]
+        },
+        {
+          "id": "F006.7",
+          "source": "3.6",
+          "target": "E2",
+          "label": "Target sign-out confirmation",
+          "atoms": [
+            "signout_result"
+          ]
+        },
+        {
+          "id": "F013.8",
+          "source": "3.1",
+          "target": "4.0",
+          "label": "Admin access data",
+          "atoms": [
+            "admin_access"
+          ]
+        },
+        {
+          "id": "F014.9",
+          "source": "4.0",
+          "target": "3.1",
+          "label": "Admin access assessment",
+          "atoms": [
+            "admin_assessment"
+          ]
+        },
+        {
+          "id": "F021.10",
+          "source": "D4",
+          "target": "3.2",
+          "label": "Account reference data",
+          "atoms": [
+            "user_rows"
+          ]
+        },
+        {
+          "id": "F021.11",
+          "source": "D4",
+          "target": "3.5",
+          "label": "Account reference data",
+          "atoms": [
+            "user_rows"
+          ]
+        },
+        {
+          "id": "F021.12",
+          "source": "D3",
+          "target": "3.2",
+          "label": "School reference data",
+          "atoms": [
+            "school_rows"
+          ]
+        },
+        {
+          "id": "F021.13",
+          "source": "D3",
+          "target": "3.3",
+          "label": "School reference data",
+          "atoms": [
+            "school_rows"
+          ]
+        },
+        {
+          "id": "F022.14",
+          "source": "3.2",
+          "target": "D4",
+          "label": "Managed record changes",
+          "atoms": [
+            "changed_user",
+            "deleted_user"
+          ]
+        },
+        {
+          "id": "F022.15",
+          "source": "3.3",
+          "target": "D3",
+          "label": "Managed record changes",
+          "atoms": [
+            "changed_school",
+            "deleted_school"
+          ]
+        },
+        {
+          "id": "F023.16",
+          "source": "D5",
+          "target": "3.2",
+          "label": "Admin membership data",
+          "atoms": [
+            "admin_rows"
+          ]
+        },
+        {
+          "id": "F023.17",
+          "source": "D5",
+          "target": "3.4",
+          "label": "Admin membership data",
+          "atoms": [
+            "admin_rows"
+          ]
+        },
+        {
+          "id": "F023.18",
+          "source": "D6",
+          "target": "3.6",
+          "label": "Access token data",
+          "atoms": [
+            "token_rows"
+          ]
+        },
+        {
+          "id": "F023.19",
+          "source": "D7",
+          "target": "3.5",
+          "label": "User attempt data",
+          "atoms": [
+            "user_attempts"
+          ]
+        },
+        {
+          "id": "F023.20",
+          "source": "D8",
+          "target": "3.5",
+          "label": "IP identity data",
+          "atoms": [
+            "ip_registry"
+          ]
+        },
+        {
+          "id": "F023.21",
+          "source": "D9",
+          "target": "3.5",
+          "label": "User / IP relationship data",
+          "atoms": [
+            "ip_links"
+          ]
+        },
+        {
+          "id": "F023.22",
+          "source": "D10",
+          "target": "3.5",
+          "label": "IP attempt data",
+          "atoms": [
+            "ip_attempts"
+          ]
+        },
+        {
+          "id": "F024.23",
+          "source": "3.4",
+          "target": "D5",
+          "label": "Admin membership changes",
+          "atoms": [
+            "admin_changes"
+          ]
+        },
+        {
+          "id": "F024.24",
+          "source": "3.5",
+          "target": "D7",
+          "label": "User attempt removal data",
+          "atoms": [
+            "cleared_user_attempts"
+          ]
+        },
+        {
+          "id": "F024.25",
+          "source": "3.5",
+          "target": "D10",
+          "label": "IP attempt removal data",
+          "atoms": [
+            "cleared_ip_attempts"
+          ]
+        },
+        {
+          "id": "F024.26",
+          "source": "3.6",
+          "target": "D6",
+          "label": "Target token revocation data",
+          "atoms": [
+            "target_revocation"
+          ]
+        },
+        {
+          "id": "F130",
+          "source": "3.1",
+          "target": "3.2",
+          "label": "Scoped user request",
+          "atoms": [
+            "scoped_admin_2"
+          ]
+        },
+        {
+          "id": "F131",
+          "source": "3.1",
+          "target": "3.3",
+          "label": "Scoped school request",
+          "atoms": [
+            "scoped_admin_3"
+          ]
+        },
+        {
+          "id": "F132",
+          "source": "3.1",
+          "target": "3.4",
+          "label": "Scoped assignment request",
+          "atoms": [
+            "scoped_admin_4"
+          ]
+        },
+        {
+          "id": "F133",
+          "source": "3.1",
+          "target": "3.5",
+          "label": "Scoped attempt request",
+          "atoms": [
+            "scoped_admin_5"
+          ]
+        },
+        {
+          "id": "F134",
+          "source": "3.1",
+          "target": "3.6",
+          "label": "Scoped sign-out request",
+          "atoms": [
+            "scoped_admin_6"
+          ]
+        }
+      ],
+      "source": "Website/server/admin.mjs, api.mjs; Backend/Admin.cs, Register.cs, Schools.cs, Blocked.cs, Users.cs",
+      "note": "Fresh membership data qualifies every operation. Target rank/lock checks remain enforced by backend auth."
+    },
+    {
+      "id": "P4",
+      "title": "4.0 | Access and forwarding data",
+      "level": "Level-1",
+      "scope": "Decomposition of process 4.0",
+      "parent": "L0",
+      "process": "4.0",
+      "inside": [
+        "4.1",
+        "4.2",
+        "4.3",
+        "4.4",
+        "4.5"
+      ],
+      "edges": [
+        {
+          "id": "F011.1",
+          "source": "2.0",
+          "target": "4.1",
+          "label": "Account access data",
+          "atoms": [
+            "account_access"
+          ]
+        },
+        {
+          "id": "F012.2",
+          "source": "4.5",
+          "target": "2.0",
+          "label": "Account access assessment",
+          "atoms": [
+            "account_assessment"
+          ]
+        },
+        {
+          "id": "F013.3",
+          "source": "3.0",
+          "target": "4.1",
+          "label": "Admin access data",
+          "atoms": [
+            "admin_access"
+          ]
+        },
+        {
+          "id": "F014.4",
+          "source": "4.5",
+          "target": "3.0",
+          "label": "Admin access assessment",
+          "atoms": [
+            "admin_assessment"
+          ]
+        },
+        {
+          "id": "F025.5",
+          "source": "D4",
+          "target": "4.2",
+          "label": "Account reference data",
+          "atoms": [
+            "user_rows"
+          ]
+        },
+        {
+          "id": "F025.6",
+          "source": "D4",
+          "target": "4.4",
+          "label": "Account reference data",
+          "atoms": [
+            "user_rows"
+          ]
+        },
+        {
+          "id": "F026.7",
+          "source": "D5",
+          "target": "4.2",
+          "label": "Admin membership data",
+          "atoms": [
+            "admin_rows"
+          ]
+        },
+        {
+          "id": "F026.8",
+          "source": "D5",
+          "target": "4.4",
+          "label": "Admin membership data",
+          "atoms": [
+            "admin_rows"
+          ]
+        },
+        {
+          "id": "F026.9",
+          "source": "D6",
+          "target": "4.2",
+          "label": "Access token data",
+          "atoms": [
+            "token_rows"
+          ]
+        },
+        {
+          "id": "F026.10",
+          "source": "D6",
+          "target": "4.4",
+          "label": "Access token data",
+          "atoms": [
+            "token_rows"
+          ]
+        },
+        {
+          "id": "F026.11",
+          "source": "D7",
+          "target": "4.4",
+          "label": "User attempt data",
+          "atoms": [
+            "user_attempts"
+          ]
+        },
+        {
+          "id": "F026.12",
+          "source": "D8",
+          "target": "4.3",
+          "label": "IP identity data",
+          "atoms": [
+            "ip_registry"
+          ]
+        },
+        {
+          "id": "F026.13",
+          "source": "D9",
+          "target": "4.4",
+          "label": "User / IP relationship data",
+          "atoms": [
+            "ip_links"
+          ]
+        },
+        {
+          "id": "F026.14",
+          "source": "D10",
+          "target": "4.3",
+          "label": "IP attempt data",
+          "atoms": [
+            "ip_attempts"
+          ]
+        },
+        {
+          "id": "F027.15",
+          "source": "4.2",
+          "target": "D6",
+          "label": "Service token record",
+          "atoms": [
+            "service_token"
+          ]
+        },
+        {
+          "id": "F027.16",
+          "source": "4.4",
+          "target": "D7",
+          "label": "User attempt updates",
+          "atoms": [
+            "user_attempt_changes"
+          ]
+        },
+        {
+          "id": "F027.17",
+          "source": "4.3",
+          "target": "D8",
+          "label": "IP identity updates",
+          "atoms": [
+            "ip_identity_changes"
+          ]
+        },
+        {
+          "id": "F027.18",
+          "source": "4.4",
+          "target": "D9",
+          "label": "User / IP link updates",
+          "atoms": [
+            "ip_link_changes"
+          ]
+        },
+        {
+          "id": "F027.19",
+          "source": "4.3",
+          "target": "D10",
+          "label": "IP attempt updates",
+          "atoms": [
+            "ip_attempt_changes"
+          ]
+        },
+        {
+          "id": "F027.20",
+          "source": "4.4",
+          "target": "D6",
+          "label": "Blocked-user revocation data",
+          "atoms": [
+            "blocked_token_removals"
+          ]
+        },
+        {
+          "id": "F028.21",
+          "source": "D13",
+          "target": "4.1",
+          "label": "Runtime configuration data",
+          "atoms": [
+            "settings"
+          ]
+        },
+        {
+          "id": "F028.22",
+          "source": "D13",
+          "target": "4.2",
+          "label": "Runtime configuration data",
+          "atoms": [
+            "settings"
+          ]
+        },
+        {
+          "id": "F028.23",
+          "source": "D13",
+          "target": "4.3",
+          "label": "Runtime configuration data",
+          "atoms": [
+            "settings"
+          ]
+        },
+        {
+          "id": "F028.24",
+          "source": "D12",
+          "target": "4.2",
+          "label": "Cached service identity data",
+          "atoms": [
+            "service_cache"
+          ]
+        },
+        {
+          "id": "F028.25",
+          "source": "D15",
+          "target": "4.3",
+          "label": "Lock metadata records",
+          "atoms": [
+            "lock_rows"
+          ]
+        },
+        {
+          "id": "F028.26",
+          "source": "D15",
+          "target": "4.4",
+          "label": "Lock metadata records",
+          "atoms": [
+            "lock_rows"
+          ]
+        },
+        {
+          "id": "F029.27",
+          "source": "4.2",
+          "target": "D12",
+          "label": "Service cache updates",
+          "atoms": [
+            "service_cache_changes"
+          ]
+        },
+        {
+          "id": "F029.28",
+          "source": "4.3",
+          "target": "D15",
+          "label": "Lock metadata updates",
+          "atoms": [
+            "lock_changes"
+          ]
+        },
+        {
+          "id": "F029.29",
+          "source": "4.4",
+          "target": "D15",
+          "label": "Lock metadata updates",
+          "atoms": [
+            "lock_changes"
+          ]
+        },
+        {
+          "id": "F164",
+          "source": "4.1",
+          "target": "4.2",
+          "label": "Prepared operation data",
+          "atoms": [
+            "prepared_access"
+          ]
+        },
+        {
+          "id": "F165",
+          "source": "4.2",
+          "target": "4.3",
+          "label": "Forwarding identity data",
+          "atoms": [
+            "forwarding_identity"
+          ]
+        },
+        {
+          "id": "F166",
+          "source": "4.3",
+          "target": "4.4",
+          "label": "Application / IP assessment",
+          "atoms": [
+            "app_ip_context"
+          ]
+        },
+        {
+          "id": "F167",
+          "source": "4.4",
+          "target": "4.5",
+          "label": "Resolved user context",
+          "atoms": [
+            "user_context"
+          ]
+        },
+        {
+          "id": "F168",
+          "source": "4.3",
+          "target": "4.5",
+          "label": "Application / IP rejection data",
+          "atoms": [
+            "ip_rejection"
+          ]
+        }
+      ],
+      "source": "Website/server/api.mjs: forwarding client, upstream; Backend/AppAuthJson.cs, Users.cs, IP.cs",
+      "note": "This logical transformation spans the Node adapter and backend helpers; it is not a separate deployed service."
+    },
+    {
+      "id": "P5",
+      "title": "5.0 | Retained security data maintenance",
+      "level": "Level-1",
+      "scope": "Decomposition of process 5.0",
+      "parent": "L0",
+      "process": "5.0",
+      "inside": [
+        "5.1",
+        "5.2",
+        "5.3",
+        "5.4"
+      ],
+      "edges": [
+        {
+          "id": "F030.1",
+          "source": "D6",
+          "target": "5.1",
+          "label": "Token expiry records",
+          "atoms": [
+            "expired_tokens"
+          ]
+        },
+        {
+          "id": "F030.2",
+          "source": "D7",
+          "target": "5.2",
+          "label": "User attempt expiry records",
+          "atoms": [
+            "expired_users"
+          ]
+        },
+        {
+          "id": "F030.3",
+          "source": "D10",
+          "target": "5.3",
+          "label": "IP attempt expiry records",
+          "atoms": [
+            "expired_ips"
+          ]
+        },
+        {
+          "id": "F031.4",
+          "source": "5.1",
+          "target": "D6",
+          "label": "Expired token removal data",
+          "atoms": [
+            "token_cleanup"
+          ]
+        },
+        {
+          "id": "F031.5",
+          "source": "5.2",
+          "target": "D7",
+          "label": "Expired user-attempt removal data",
+          "atoms": [
+            "user_cleanup"
+          ]
+        },
+        {
+          "id": "F031.6",
+          "source": "5.3",
+          "target": "D10",
+          "label": "Expired IP-attempt removal data",
+          "atoms": [
+            "ip_cleanup"
+          ]
+        },
+        {
+          "id": "F032.7",
+          "source": "D15",
+          "target": "5.4",
+          "label": "Lock metadata records",
+          "atoms": [
+            "lock_rows"
+          ]
+        },
+        {
+          "id": "F033.8",
+          "source": "5.4",
+          "target": "D15",
+          "label": "Stale lock removal data",
+          "atoms": [
+            "lock_cleanup"
+          ]
+        }
+      ],
+      "source": "Backend/Program.cs; LogIn.CleanUp; Users.CleanUp; IP.CleanUp; Maitenance.cs",
+      "note": "Timing is a process specification, not a data-flow arrow: asynchronous startup cleanup and daily 03:24 Mountain work."
+    },
+    {
+      "id": "P6",
+      "title": "6.0 | Direct listing API data",
+      "level": "Level-1",
+      "scope": "Decomposition of process 6.0",
+      "parent": "L0",
+      "process": "6.0",
+      "inside": [
+        "6.1",
+        "6.2",
+        "6.3"
+      ],
+      "edges": [
+        {
+          "id": "F007.1",
+          "source": "E3",
+          "target": "6.1",
+          "label": "Listing query",
+          "atoms": [
+            "listing_read"
+          ]
+        },
+        {
+          "id": "F007.2",
+          "source": "E3",
+          "target": "6.2",
+          "label": "Listing creation fields",
+          "atoms": [
+            "listing_create"
+          ]
+        },
+        {
+          "id": "F007.3",
+          "source": "E3",
+          "target": "6.3",
+          "label": "Listing deletion selector",
+          "atoms": [
+            "listing_delete"
+          ]
+        },
+        {
+          "id": "F008.4",
+          "source": "6.1",
+          "target": "E3",
+          "label": "Listing query result",
+          "atoms": [
+            "listing_view"
+          ]
+        },
+        {
+          "id": "F008.5",
+          "source": "6.2",
+          "target": "E3",
+          "label": "Listing creation result",
+          "atoms": [
+            "listing_created"
+          ]
+        },
+        {
+          "id": "F008.6",
+          "source": "6.3",
+          "target": "E3",
+          "label": "Listing deletion result",
+          "atoms": [
+            "listing_deleted"
+          ]
+        },
+        {
+          "id": "F034.7",
+          "source": "D14",
+          "target": "6.1",
+          "label": "Stored listing data",
+          "atoms": [
+            "listing_rows"
+          ]
+        },
+        {
+          "id": "F034.8",
+          "source": "D14",
+          "target": "6.3",
+          "label": "Stored listing data",
+          "atoms": [
+            "listing_rows"
+          ]
+        },
+        {
+          "id": "F035.9",
+          "source": "6.2",
+          "target": "D14",
+          "label": "New listing record",
+          "atoms": [
+            "new_listing"
+          ]
+        },
+        {
+          "id": "F035.10",
+          "source": "6.3",
+          "target": "D14",
+          "label": "Listing deletion data",
+          "atoms": [
+            "deleted_listing"
+          ]
+        },
+        {
+          "id": "F036.11",
+          "source": "D4",
+          "target": "6.1",
+          "label": "Account reference data",
+          "atoms": [
+            "user_rows"
+          ]
+        }
+      ],
+      "source": "Backend/Controllers/Listing.cs; DB_Schema.txt; Website/server/api.mjs route inventory",
+      "note": "Direct API client only. No website listing adapter route, shared auth/ownership checks or supplied Listings DDL."
+    },
+    {
+      "id": "P21",
+      "title": "2.1 | Registration data transformation",
+      "level": "Level-2",
+      "scope": "Decomposition of process 2.1",
+      "parent": "P2",
+      "process": "2.1",
+      "inside": [
+        "2.1.1",
+        "2.1.2",
+        "2.1.3",
+        "2.1.4"
+      ],
+      "edges": [
+        {
+          "id": "F003.1.1",
+          "source": "E1",
+          "target": "2.1.1",
+          "label": "Registration fields",
+          "atoms": [
+            "register"
+          ]
+        },
+        {
+          "id": "F004.7.2",
+          "source": "2.1.4",
+          "target": "E1",
+          "label": "Registration result",
+          "atoms": [
+            "registration_result"
+          ]
+        },
+        {
+          "id": "F011.13.3",
+          "source": "2.1.1",
+          "target": "4.0",
+          "label": "Account access data",
+          "atoms": [
+            "account_access"
+          ]
+        },
+        {
+          "id": "F012.19.4",
+          "source": "4.0",
+          "target": "2.1.1",
+          "label": "Account access assessment",
+          "atoms": [
+            "account_assessment"
+          ]
+        },
+        {
+          "id": "F015.28.5",
+          "source": "D3",
+          "target": "2.1.2",
+          "label": "School reference data",
+          "atoms": [
+            "school_rows"
+          ]
+        },
+        {
+          "id": "F016.32.6",
+          "source": "2.1.3",
+          "target": "D4",
+          "label": "New account record",
+          "atoms": [
+            "new_user"
+          ]
+        },
+        {
+          "id": "F194",
+          "source": "2.1.1",
+          "target": "2.1.2",
+          "label": "Assessed registration fields",
+          "atoms": [
+            "registration_accessed"
+          ]
+        },
+        {
+          "id": "F195",
+          "source": "2.1.2",
+          "target": "2.1.3",
+          "label": "Normalized registration data",
+          "atoms": [
+            "normalized_registration"
+          ]
+        },
+        {
+          "id": "F196",
+          "source": "2.1.3",
+          "target": "2.1.4",
+          "label": "Registration persistence outcome",
+          "atoms": [
+            "registration_persistence"
+          ]
+        }
+      ],
+      "source": "Website/server/api.mjs: account routes; Backend/Register.cs, LogIn.cs, Schools.cs",
+      "note": "Registration does not issue an access token or create a website session."
+    },
+    {
+      "id": "P22",
+      "title": "2.2 | Login token and cookie data",
+      "level": "Level-2",
+      "scope": "Decomposition of process 2.2",
+      "parent": "P2",
+      "process": "2.2",
+      "inside": [
+        "2.2.1",
+        "2.2.2",
+        "2.2.3",
+        "2.2.4"
+      ],
+      "edges": [
+        {
+          "id": "F003.2.1",
+          "source": "E1",
+          "target": "2.2.1",
+          "label": "Login credentials",
+          "atoms": [
+            "login"
+          ]
+        },
+        {
+          "id": "F004.8.2",
+          "source": "2.2.4",
+          "target": "E1",
+          "label": "Login result",
+          "atoms": [
+            "login_result"
+          ]
+        },
+        {
+          "id": "F011.14.3",
+          "source": "2.2.1",
+          "target": "4.0",
+          "label": "Account access data",
+          "atoms": [
+            "account_access"
+          ]
+        },
+        {
+          "id": "F012.20.4",
+          "source": "4.0",
+          "target": "2.2.1",
+          "label": "Account access assessment",
+          "atoms": [
+            "account_assessment"
+          ]
+        },
+        {
+          "id": "F015.25.5",
+          "source": "D4",
+          "target": "2.2.1",
+          "label": "Account reference data",
+          "atoms": [
+            "user_rows"
+          ]
+        },
+        {
+          "id": "F015.25.6",
+          "source": "D4",
+          "target": "2.2.3",
+          "label": "Account reference data",
+          "atoms": [
+            "user_rows"
+          ]
+        },
+        {
+          "id": "F017.34.7",
+          "source": "D5",
+          "target": "2.2.2",
+          "label": "Admin membership data",
+          "atoms": [
+            "admin_rows"
+          ]
+        },
+        {
+          "id": "F017.35.8",
+          "source": "D6",
+          "target": "2.2.2",
+          "label": "Access token data",
+          "atoms": [
+            "token_rows"
+          ]
+        },
+        {
+          "id": "F018.36.9",
+          "source": "2.2.2",
+          "target": "D6",
+          "label": "User token record",
+          "atoms": [
+            "new_token"
+          ]
+        },
+        {
+          "id": "F019.38.10",
+          "source": "D11",
+          "target": "2.2.4",
+          "label": "Website session data",
+          "atoms": [
+            "session_rows"
+          ]
+        },
+        {
+          "id": "F020.42.11",
+          "source": "2.2.4",
+          "target": "D11",
+          "label": "Session mutations",
+          "atoms": [
+            "session_changes",
+            "session_removals"
+          ]
+        },
+        {
+          "id": "F208",
+          "source": "2.2.1",
+          "target": "2.2.2",
+          "label": "Admitted login identity",
+          "atoms": [
+            "login_identity"
+          ]
+        },
+        {
+          "id": "F209",
+          "source": "2.2.2",
+          "target": "2.2.3",
+          "label": "Visitor token data",
+          "atoms": [
+            "visitor_token"
+          ]
+        },
+        {
+          "id": "F210",
+          "source": "2.2.3",
+          "target": "2.2.4",
+          "label": "Projected profile and token",
+          "atoms": [
+            "profile_session_seed"
+          ]
+        }
+      ],
+      "source": "Website/server/api.mjs: account routes; Backend/Register.cs, LogIn.cs, Schools.cs",
+      "note": "Backend token lifetime: 21 days, or 3 for admins. Website session: fixed 12 hours. Browser sees only an opaque ID."
+    },
+    {
+      "id": "P24",
+      "title": "2.4 | Saved profile and readback data",
+      "level": "Level-2",
+      "scope": "Decomposition of process 2.4",
+      "parent": "P2",
+      "process": "2.4",
+      "inside": [
+        "2.4.1",
+        "2.4.2",
+        "2.4.3"
+      ],
+      "edges": [
+        {
+          "id": "F003.4.1",
+          "source": "E1",
+          "target": "2.4.1",
+          "label": "Profile change request",
+          "atoms": [
+            "edit_profile"
+          ]
+        },
+        {
+          "id": "F004.10.2",
+          "source": "2.4.3",
+          "target": "E1",
+          "label": "Profile change result",
+          "atoms": [
+            "edit_result"
+          ]
+        },
+        {
+          "id": "F011.16.3",
+          "source": "2.4.1",
+          "target": "4.0",
+          "label": "Account access data",
+          "atoms": [
+            "account_access"
+          ]
+        },
+        {
+          "id": "F012.22.4",
+          "source": "4.0",
+          "target": "2.4.1",
+          "label": "Account access assessment",
+          "atoms": [
+            "account_assessment"
+          ]
+        },
+        {
+          "id": "F015.27.5",
+          "source": "D4",
+          "target": "2.4.1",
+          "label": "Account reference data",
+          "atoms": [
+            "user_rows"
+          ]
+        },
+        {
+          "id": "F015.27.6",
+          "source": "D4",
+          "target": "2.4.3",
+          "label": "Account reference data",
+          "atoms": [
+            "user_rows"
+          ]
+        },
+        {
+          "id": "F015.30.7",
+          "source": "D3",
+          "target": "2.4.1",
+          "label": "School reference data",
+          "atoms": [
+            "school_rows"
+          ]
+        },
+        {
+          "id": "F016.33.8",
+          "source": "2.4.2",
+          "target": "D4",
+          "label": "Profile record changes",
+          "atoms": [
+            "changed_user"
+          ]
+        },
+        {
+          "id": "F019.40.9",
+          "source": "D11",
+          "target": "2.4.1",
+          "label": "Website session data",
+          "atoms": [
+            "session_rows"
+          ]
+        },
+        {
+          "id": "F020.44.10",
+          "source": "2.4.1",
+          "target": "D11",
+          "label": "Website session removal data",
+          "atoms": [
+            "session_removals"
+          ]
+        },
+        {
+          "id": "F221",
+          "source": "2.4.1",
+          "target": "2.4.2",
+          "label": "Validated profile changes",
+          "atoms": [
+            "validated_profile_change"
+          ]
+        },
+        {
+          "id": "F222",
+          "source": "2.4.2",
+          "target": "2.4.3",
+          "label": "Profile persistence outcome",
+          "atoms": [
+            "saved_profile_change"
+          ]
+        }
+      ],
+      "source": "Website/server/api.mjs: account routes; Backend/Register.cs, LogIn.cs, Schools.cs",
+      "note": "A committed write plus failed readback yields a saved notice and null profile; it does not imply a failed write."
+    },
+    {
+      "id": "P25",
+      "title": "2.5 | Logout and revocation data",
+      "level": "Level-2",
+      "scope": "Decomposition of process 2.5",
+      "parent": "P2",
+      "process": "2.5",
+      "inside": [
+        "2.5.1",
+        "2.5.2",
+        "2.5.3",
+        "2.5.4"
+      ],
+      "edges": [
+        {
+          "id": "F003.5.1",
+          "source": "E1",
+          "target": "2.5.1",
+          "label": "Logout request",
+          "atoms": [
+            "logout"
+          ]
+        },
+        {
+          "id": "F004.11.2",
+          "source": "2.5.4",
+          "target": "E1",
+          "label": "Logout confirmation",
+          "atoms": [
+            "logout_result"
+          ]
+        },
+        {
+          "id": "F011.17.3",
+          "source": "2.5.1",
+          "target": "4.0",
+          "label": "Account access data",
+          "atoms": [
+            "account_access"
+          ]
+        },
+        {
+          "id": "F012.23.4",
+          "source": "4.0",
+          "target": "2.5.1",
+          "label": "Account access assessment",
+          "atoms": [
+            "account_assessment"
+          ]
+        },
+        {
+          "id": "F018.37.5",
+          "source": "2.5.2",
+          "target": "D6",
+          "label": "User token revocation data",
+          "atoms": [
+            "revoked_token"
+          ]
+        },
+        {
+          "id": "F019.41.6",
+          "source": "D11",
+          "target": "2.5.1",
+          "label": "Website session data",
+          "atoms": [
+            "session_rows"
+          ]
+        },
+        {
+          "id": "F019.41.7",
+          "source": "D11",
+          "target": "2.5.3",
+          "label": "Website session data",
+          "atoms": [
+            "session_rows"
+          ]
+        },
+        {
+          "id": "F020.45.8",
+          "source": "2.5.3",
+          "target": "D11",
+          "label": "Website session removal data",
+          "atoms": [
+            "session_removals"
+          ]
+        },
+        {
+          "id": "F231",
+          "source": "2.5.1",
+          "target": "2.5.2",
+          "label": "Assessed logout identity",
+          "atoms": [
+            "logout_identity"
+          ]
+        },
+        {
+          "id": "F232",
+          "source": "2.5.2",
+          "target": "2.5.3",
+          "label": "Backend logout outcome",
+          "atoms": [
+            "logout_backend_result"
+          ]
+        },
+        {
+          "id": "F233",
+          "source": "2.5.3",
+          "target": "2.5.4",
+          "label": "Local logout outcome",
+          "atoms": [
+            "logout_local_result"
+          ]
+        }
+      ],
+      "source": "Website/server/api.mjs: account routes; Backend/Register.cs, LogIn.cs, Schools.cs",
+      "note": "Backend 200 can mask token-validation failure. A confirmation is not evidence that target tokens existed or were deleted."
+    },
+    {
+      "id": "P32",
+      "title": "3.2 | Target user record management",
+      "level": "Level-2",
+      "scope": "Decomposition of process 3.2",
+      "parent": "P3",
+      "process": "3.2",
+      "inside": [
+        "3.2.1",
+        "3.2.2",
+        "3.2.3",
+        "3.2.4"
+      ],
+      "edges": [
+        {
+          "id": "F006.3.1",
+          "source": "3.2.2",
+          "target": "E2",
+          "label": "User management result",
+          "atoms": [
+            "users_result"
+          ]
+        },
+        {
+          "id": "F021.10.2",
+          "source": "D4",
+          "target": "3.2.1",
+          "label": "Account reference data",
+          "atoms": [
+            "user_rows"
+          ]
+        },
+        {
+          "id": "F021.10.3",
+          "source": "D4",
+          "target": "3.2.2",
+          "label": "Account reference data",
+          "atoms": [
+            "user_rows"
+          ]
+        },
+        {
+          "id": "F021.10.4",
+          "source": "D4",
+          "target": "3.2.3",
+          "label": "Account reference data",
+          "atoms": [
+            "user_rows"
+          ]
+        },
+        {
+          "id": "F021.12.5",
+          "source": "D3",
+          "target": "3.2.2",
+          "label": "School reference data",
+          "atoms": [
+            "school_rows"
+          ]
+        },
+        {
+          "id": "F021.12.6",
+          "source": "D3",
+          "target": "3.2.3",
+          "label": "School reference data",
+          "atoms": [
+            "school_rows"
+          ]
+        },
+        {
+          "id": "F022.14.7",
+          "source": "3.2.3",
+          "target": "D4",
+          "label": "Profile record changes",
+          "atoms": [
+            "changed_user"
+          ]
+        },
+        {
+          "id": "F022.14.8",
+          "source": "3.2.4",
+          "target": "D4",
+          "label": "Account deletion data",
+          "atoms": [
+            "deleted_user"
+          ]
+        },
+        {
+          "id": "F023.16.9",
+          "source": "D5",
+          "target": "3.2.2",
+          "label": "Admin membership data",
+          "atoms": [
+            "admin_rows"
+          ]
+        },
+        {
+          "id": "F130.10",
+          "source": "3.1",
+          "target": "3.2.1",
+          "label": "Scoped user request",
+          "atoms": [
+            "scoped_admin_2"
+          ]
+        },
+        {
+          "id": "F244",
+          "source": "3.2.1",
+          "target": "3.2.2",
+          "label": "Selected user read data",
+          "atoms": [
+            "target_read"
+          ]
+        },
+        {
+          "id": "F245",
+          "source": "3.2.1",
+          "target": "3.2.3",
+          "label": "Selected target changes",
+          "atoms": [
+            "target_change"
+          ]
+        },
+        {
+          "id": "F246",
+          "source": "3.2.1",
+          "target": "3.2.4",
+          "label": "Selected target deletion",
+          "atoms": [
+            "target_delete"
+          ]
+        },
+        {
+          "id": "F247",
+          "source": "3.2.3",
+          "target": "3.2.2",
+          "label": "Target profile persistence result",
+          "atoms": [
+            "target_saved"
+          ]
+        },
+        {
+          "id": "F248",
+          "source": "3.2.4",
+          "target": "3.2.2",
+          "label": "Account deletion result",
+          "atoms": [
+            "target_deleted"
+          ]
+        }
+      ],
+      "source": "Website/server/admin.mjs, api.mjs; Backend/Admin.cs, Register.cs, Schools.cs, Blocked.cs, Users.cs",
+      "note": "Caller access_token remains the admin token. to_user selects the target and must match the stored normalized email exactly."
+    },
+    {
+      "id": "P34",
+      "title": "3.4 | Admin membership changes",
+      "level": "Level-2",
+      "scope": "Decomposition of process 3.4",
+      "parent": "P3",
+      "process": "3.4",
+      "inside": [
+        "3.4.1",
+        "3.4.2",
+        "3.4.3"
+      ],
+      "edges": [
+        {
+          "id": "F006.5.1",
+          "source": "3.4.3",
+          "target": "E2",
+          "label": "Admin assignment result",
+          "atoms": [
+            "roles_result"
+          ]
+        },
+        {
+          "id": "F023.17.2",
+          "source": "D5",
+          "target": "3.4.2",
+          "label": "Admin membership data",
+          "atoms": [
+            "admin_rows"
+          ]
+        },
+        {
+          "id": "F024.23.3",
+          "source": "3.4.3",
+          "target": "D5",
+          "label": "Admin membership changes",
+          "atoms": [
+            "admin_changes"
+          ]
+        },
+        {
+          "id": "F132.4",
+          "source": "3.1",
+          "target": "3.4.1",
+          "label": "Scoped assignment request",
+          "atoms": [
+            "scoped_admin_4"
+          ]
+        },
+        {
+          "id": "F253",
+          "source": "3.4.1",
+          "target": "3.4.2",
+          "label": "Validated assignment data",
+          "atoms": [
+            "assignment_fields"
+          ]
+        },
+        {
+          "id": "F254",
+          "source": "3.4.2",
+          "target": "3.4.3",
+          "label": "Permitted membership changes",
+          "atoms": [
+            "assignment_change"
+          ]
+        }
+      ],
+      "source": "Website/server/admin.mjs, api.mjs; Backend/Admin.cs, Register.cs, Schools.cs, Blocked.cs, Users.cs",
+      "note": "Admin management needs caller level > 0; explicitly setting locked needs level ≥ 30. Target admins must have lower rank."
+    },
+    {
+      "id": "P35",
+      "title": "3.5 | Attempt inspection and clearing",
+      "level": "Level-2",
+      "scope": "Decomposition of process 3.5",
+      "parent": "P3",
+      "process": "3.5",
+      "inside": [
+        "3.5.1",
+        "3.5.2",
+        "3.5.3"
+      ],
+      "edges": [
+        {
+          "id": "F006.6.1",
+          "source": "3.5.2",
+          "target": "E2",
+          "label": "Attempt management result",
+          "atoms": [
+            "attempts_result"
+          ]
+        },
+        {
+          "id": "F021.11.2",
+          "source": "D4",
+          "target": "3.5.2",
+          "label": "Account reference data",
+          "atoms": [
+            "user_rows"
+          ]
+        },
+        {
+          "id": "F023.19.3",
+          "source": "D7",
+          "target": "3.5.2",
+          "label": "User attempt data",
+          "atoms": [
+            "user_attempts"
+          ]
+        },
+        {
+          "id": "F023.19.4",
+          "source": "D7",
+          "target": "3.5.3",
+          "label": "User attempt data",
+          "atoms": [
+            "user_attempts"
+          ]
+        },
+        {
+          "id": "F023.20.5",
+          "source": "D8",
+          "target": "3.5.2",
+          "label": "IP identity data",
+          "atoms": [
+            "ip_registry"
+          ]
+        },
+        {
+          "id": "F023.20.6",
+          "source": "D8",
+          "target": "3.5.3",
+          "label": "IP identity data",
+          "atoms": [
+            "ip_registry"
+          ]
+        },
+        {
+          "id": "F023.21.7",
+          "source": "D9",
+          "target": "3.5.2",
+          "label": "User / IP relationship data",
+          "atoms": [
+            "ip_links"
+          ]
+        },
+        {
+          "id": "F023.22.8",
+          "source": "D10",
+          "target": "3.5.2",
+          "label": "IP attempt data",
+          "atoms": [
+            "ip_attempts"
+          ]
+        },
+        {
+          "id": "F023.22.9",
+          "source": "D10",
+          "target": "3.5.3",
+          "label": "IP attempt data",
+          "atoms": [
+            "ip_attempts"
+          ]
+        },
+        {
+          "id": "F024.24.10",
+          "source": "3.5.3",
+          "target": "D7",
+          "label": "User attempt removal data",
+          "atoms": [
+            "cleared_user_attempts"
+          ]
+        },
+        {
+          "id": "F024.25.11",
+          "source": "3.5.3",
+          "target": "D10",
+          "label": "IP attempt removal data",
+          "atoms": [
+            "cleared_ip_attempts"
+          ]
+        },
+        {
+          "id": "F133.12",
+          "source": "3.1",
+          "target": "3.5.1",
+          "label": "Scoped attempt request",
+          "atoms": [
+            "scoped_admin_5"
+          ]
+        },
+        {
+          "id": "F267",
+          "source": "3.5.1",
+          "target": "3.5.2",
+          "label": "Permitted attempt inquiry",
+          "atoms": [
+            "attempt_query"
+          ]
+        },
+        {
+          "id": "F268",
+          "source": "3.5.1",
+          "target": "3.5.3",
+          "label": "Permitted attempt selection",
+          "atoms": [
+            "attempt_selection"
+          ]
+        },
+        {
+          "id": "F269",
+          "source": "3.5.3",
+          "target": "3.5.2",
+          "label": "Attempt removal outcome",
+          "atoms": [
+            "attempt_cleared"
+          ]
+        }
+      ],
+      "source": "Website/server/admin.mjs, api.mjs; Backend/Admin.cs, Register.cs, Schools.cs, Blocked.cs, Users.cs",
+      "note": "Rows include observations below the block threshold; clearing records does not recreate revoked access tokens."
+    },
+    {
+      "id": "P42",
+      "title": "4.2 | Forwarding identity data",
+      "level": "Level-2",
+      "scope": "Decomposition of process 4.2",
+      "parent": "P4",
+      "process": "4.2",
+      "inside": [
+        "4.2.1",
+        "4.2.2",
+        "4.2.3"
+      ],
+      "edges": [
+        {
+          "id": "F025.5.1",
+          "source": "D4",
+          "target": "4.2.2",
+          "label": "Account reference data",
+          "atoms": [
+            "user_rows"
+          ]
+        },
+        {
+          "id": "F026.7.2",
+          "source": "D5",
+          "target": "4.2.3",
+          "label": "Admin membership data",
+          "atoms": [
+            "admin_rows"
+          ]
+        },
+        {
+          "id": "F026.9.3",
+          "source": "D6",
+          "target": "4.2.2",
+          "label": "Access token data",
+          "atoms": [
+            "token_rows"
+          ]
+        },
+        {
+          "id": "F027.15.4",
+          "source": "4.2.2",
+          "target": "D6",
+          "label": "Service token record",
+          "atoms": [
+            "service_token"
+          ]
+        },
+        {
+          "id": "F028.22.5",
+          "source": "D13",
+          "target": "4.2.1",
+          "label": "Runtime configuration data",
+          "atoms": [
+            "settings"
+          ]
+        },
+        {
+          "id": "F028.22.6",
+          "source": "D13",
+          "target": "4.2.2",
+          "label": "Runtime configuration data",
+          "atoms": [
+            "settings"
+          ]
+        },
+        {
+          "id": "F028.24.7",
+          "source": "D12",
+          "target": "4.2.1",
+          "label": "Cached service identity data",
+          "atoms": [
+            "service_cache"
+          ]
+        },
+        {
+          "id": "F029.27.8",
+          "source": "4.2.3",
+          "target": "D12",
+          "label": "Service cache updates",
+          "atoms": [
+            "service_cache_changes"
+          ]
+        },
+        {
+          "id": "F164.9",
+          "source": "4.1",
+          "target": "4.2.1",
+          "label": "Prepared operation data",
+          "atoms": [
+            "prepared_access"
+          ]
+        },
+        {
+          "id": "F165.10",
+          "source": "4.2.1",
+          "target": "4.3",
+          "label": "Forwarding identity data",
+          "atoms": [
+            "forwarding_identity"
+          ]
+        },
+        {
+          "id": "F165.11",
+          "source": "4.2.3",
+          "target": "4.3",
+          "label": "Forwarding identity data",
+          "atoms": [
+            "forwarding_identity"
+          ]
+        },
+        {
+          "id": "F281",
+          "source": "4.2.1",
+          "target": "4.2.2",
+          "label": "Configured service credential data",
+          "atoms": [
+            "service_credentials"
+          ]
+        },
+        {
+          "id": "F282",
+          "source": "4.2.2",
+          "target": "4.2.3",
+          "label": "Service token candidate",
+          "atoms": [
+            "service_token_candidate"
+          ]
+        }
+      ],
+      "source": "Website/server/api.mjs: forwarding client, upstream; Backend/AppAuthJson.cs, Users.cs, IP.cs",
+      "note": "Service admin_token and visitor access_token are different data. Only explicit forwarding-expiry rejection permits one renewal retry."
+    },
+    {
+      "id": "P43",
+      "title": "4.3 | Application and IP observations",
+      "level": "Level-2",
+      "scope": "Decomposition of process 4.3",
+      "parent": "P4",
+      "process": "4.3",
+      "inside": [
+        "4.3.1",
+        "4.3.2",
+        "4.3.3",
+        "4.3.4"
+      ],
+      "edges": [
+        {
+          "id": "F026.12.1",
+          "source": "D8",
+          "target": "4.3.2",
+          "label": "IP identity data",
+          "atoms": [
+            "ip_registry"
+          ]
+        },
+        {
+          "id": "F026.14.2",
+          "source": "D10",
+          "target": "4.3.3",
+          "label": "IP attempt data",
+          "atoms": [
+            "ip_attempts"
+          ]
+        },
+        {
+          "id": "F027.17.3",
+          "source": "4.3.2",
+          "target": "D8",
+          "label": "IP identity updates",
+          "atoms": [
+            "ip_identity_changes"
+          ]
+        },
+        {
+          "id": "F027.19.4",
+          "source": "4.3.3",
+          "target": "D10",
+          "label": "IP attempt updates",
+          "atoms": [
+            "ip_attempt_changes"
+          ]
+        },
+        {
+          "id": "F028.23.5",
+          "source": "D13",
+          "target": "4.3.1",
+          "label": "Runtime configuration data",
+          "atoms": [
+            "settings"
+          ]
+        },
+        {
+          "id": "F028.25.6",
+          "source": "D15",
+          "target": "4.3.3",
+          "label": "Lock metadata records",
+          "atoms": [
+            "lock_rows"
+          ]
+        },
+        {
+          "id": "F029.28.7",
+          "source": "4.3.3",
+          "target": "D15",
+          "label": "Lock metadata updates",
+          "atoms": [
+            "lock_changes"
+          ]
+        },
+        {
+          "id": "F165.8",
+          "source": "4.2",
+          "target": "4.3.1",
+          "label": "Forwarding identity data",
+          "atoms": [
+            "forwarding_identity"
+          ]
+        },
+        {
+          "id": "F166.9",
+          "source": "4.3.4",
+          "target": "4.4",
+          "label": "Application / IP assessment",
+          "atoms": [
+            "app_ip_context"
+          ]
+        },
+        {
+          "id": "F168.10",
+          "source": "4.3.4",
+          "target": "4.5",
+          "label": "Application / IP rejection data",
+          "atoms": [
+            "ip_rejection"
+          ]
+        },
+        {
+          "id": "F293",
+          "source": "4.3.1",
+          "target": "4.3.2",
+          "label": "Application credential assessment",
+          "atoms": [
+            "app_comparison"
+          ]
+        },
+        {
+          "id": "F294",
+          "source": "4.3.2",
+          "target": "4.3.3",
+          "label": "Effective IP identity",
+          "atoms": [
+            "effective_ip"
+          ]
+        },
+        {
+          "id": "F295",
+          "source": "4.3.3",
+          "target": "4.3.4",
+          "label": "IP window assessment",
+          "atoms": [
+            "ip_window_result"
+          ]
+        }
+      ],
+      "source": "Website/server/api.mjs: forwarding client, upstream; Backend/AppAuthJson.cs, Users.cs, IP.cs",
+      "note": "IP rows contain encrypted addresses. Forwarded-IP trust is server-owned; browser fields cannot replace the security envelope."
+    },
+    {
+      "id": "P44",
+      "title": "4.4 | User identity and attempt observations",
+      "level": "Level-2",
+      "scope": "Decomposition of process 4.4",
+      "parent": "P4",
+      "process": "4.4",
+      "inside": [
+        "4.4.1",
+        "4.4.2",
+        "4.4.3",
+        "4.4.4"
+      ],
+      "edges": [
+        {
+          "id": "F025.6.1",
+          "source": "D4",
+          "target": "4.4.1",
+          "label": "Account reference data",
+          "atoms": [
+            "user_rows"
+          ]
+        },
+        {
+          "id": "F025.6.2",
+          "source": "D4",
+          "target": "4.4.2",
+          "label": "Account reference data",
+          "atoms": [
+            "user_rows"
+          ]
+        },
+        {
+          "id": "F026.8.3",
+          "source": "D5",
+          "target": "4.4.1",
+          "label": "Admin membership data",
+          "atoms": [
+            "admin_rows"
+          ]
+        },
+        {
+          "id": "F026.8.4",
+          "source": "D5",
+          "target": "4.4.2",
+          "label": "Admin membership data",
+          "atoms": [
+            "admin_rows"
+          ]
+        },
+        {
+          "id": "F026.10.5",
+          "source": "D6",
+          "target": "4.4.1",
+          "label": "Access token data",
+          "atoms": [
+            "token_rows"
+          ]
+        },
+        {
+          "id": "F026.11.6",
+          "source": "D7",
+          "target": "4.4.3",
+          "label": "User attempt data",
+          "atoms": [
+            "user_attempts"
+          ]
+        },
+        {
+          "id": "F026.13.7",
+          "source": "D9",
+          "target": "4.4.4",
+          "label": "User / IP relationship data",
+          "atoms": [
+            "ip_links"
+          ]
+        },
+        {
+          "id": "F027.16.8",
+          "source": "4.4.3",
+          "target": "D7",
+          "label": "User attempt updates",
+          "atoms": [
+            "user_attempt_changes"
+          ]
+        },
+        {
+          "id": "F027.18.9",
+          "source": "4.4.4",
+          "target": "D9",
+          "label": "User / IP link updates",
+          "atoms": [
+            "ip_link_changes"
+          ]
+        },
+        {
+          "id": "F027.20.10",
+          "source": "4.4.3",
+          "target": "D6",
+          "label": "Blocked-user revocation data",
+          "atoms": [
+            "blocked_token_removals"
+          ]
+        },
+        {
+          "id": "F028.26.11",
+          "source": "D15",
+          "target": "4.4.3",
+          "label": "Lock metadata records",
+          "atoms": [
+            "lock_rows"
+          ]
+        },
+        {
+          "id": "F029.29.12",
+          "source": "4.4.3",
+          "target": "D15",
+          "label": "Lock metadata updates",
+          "atoms": [
+            "lock_changes"
+          ]
+        },
+        {
+          "id": "F166.13",
+          "source": "4.3",
+          "target": "4.4.1",
+          "label": "Application / IP assessment",
+          "atoms": [
+            "app_ip_context"
+          ]
+        },
+        {
+          "id": "F167.14",
+          "source": "4.4.4",
+          "target": "4.5",
+          "label": "Resolved user context",
+          "atoms": [
+            "user_context"
+          ]
+        },
+        {
+          "id": "F310",
+          "source": "4.4.1",
+          "target": "4.4.2",
+          "label": "Resolved caller evidence",
+          "atoms": [
+            "caller_identity"
+          ]
+        },
+        {
+          "id": "F311",
+          "source": "4.4.2",
+          "target": "4.4.3",
+          "label": "Target scope assessment",
+          "atoms": [
+            "target_admission"
+          ]
+        },
+        {
+          "id": "F312",
+          "source": "4.4.3",
+          "target": "4.4.4",
+          "label": "User admission assessment",
+          "atoms": [
+            "user_window_result"
+          ]
+        }
+      ],
+      "source": "Website/server/api.mjs: forwarding client, upstream; Backend/AppAuthJson.cs, Users.cs, IP.cs",
+      "note": "Attempt blocking is applied to login admission; ordinary token validation does not itself consult Blocked_Users."
+    }
+  ],
+  "context_child": "L0"
+}

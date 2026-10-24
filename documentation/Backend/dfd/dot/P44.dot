@@ -1,0 +1,48 @@
+digraph DFD {
+graph [rankdir=LR, bgcolor="transparent", splines=polyline, nodesep=0.42, ranksep=1.4, pad=0.12, outputorder=edgesfirst];
+node [shape=box, fontname="DejaVu Sans", fontsize=19, margin="0.15,0.12"];
+edge [fontname="DejaVu Sans", fontsize=16, arrowsize=0.75, penwidth=1.25, color="#276A96"];
+"4.3" [label="4.3\nAssess application and\nIP data",width=2.7,height=1.12];
+"4.4.1" [label="4.4.1\nResolve caller\ncredential evidence",width=2.7,height=1.12];
+"4.4.2" [label="4.4.2\nAssess selected target\nscope",width=2.7,height=1.12];
+"4.4.3" [label="4.4.3\nTransform user attempt\nwindow",width=2.7,height=1.12];
+"4.4.4" [label="4.4.4\nProject resolved user\ncontext",width=2.7,height=1.12];
+"4.5" [label="4.5\nPublish access\nassessment",width=2.7,height=1.12];
+"D15" [label="D15\nLock metadata",width=3.0,height=0.84];
+"D4" [label="D4\nUser accounts",width=3.0,height=0.84];
+"D5" [label="D5\nAdmin memberships",width=3.0,height=0.84];
+"D6" [label="D6\nAccess tokens",width=3.0,height=0.84];
+"D7" [label="D7\nUser attempt records",width=3.0,height=0.84];
+"D9" [label="D9\nUser / IP links",width=3.0,height=0.84];
+{rank=same; "4.3";"4.5";}
+{rank=same; "4.4.1";"4.4.2";"4.4.3";"4.4.4";}
+{rank=same; "D15";"D4";"D5";"D6";"D7";"D9";}
+"4.3" -> "4.5" [style=invis,weight=30];
+"4.4.1" -> "4.4.2" [style=invis,weight=30];
+"4.4.2" -> "4.4.3" [style=invis,weight=30];
+"4.4.3" -> "4.4.4" [style=invis,weight=30];
+"D15" -> "D4" [style=invis,weight=30];
+"D4" -> "D5" [style=invis,weight=30];
+"D5" -> "D6" [style=invis,weight=30];
+"D6" -> "D7" [style=invis,weight=30];
+"D7" -> "D9" [style=invis,weight=30];
+"4.3" -> "4.4.1" [style=invis,weight=100];
+"4.4.1" -> "D15" [style=invis,weight=100];
+"D4" -> "4.4.1" [label="Account reference data",constraint=false,id="edge0"];
+"D4" -> "4.4.2" [label="Account reference data",constraint=false,id="edge1"];
+"D5" -> "4.4.1" [label="Admin membership data",constraint=false,id="edge2"];
+"D5" -> "4.4.2" [label="Admin membership data",constraint=false,id="edge3"];
+"D6" -> "4.4.1" [label="Access token data",constraint=false,id="edge4"];
+"D7" -> "4.4.3" [label="User attempt data",constraint=false,id="edge5"];
+"D9" -> "4.4.4" [label="User / IP relationship\ndata",constraint=false,id="edge6"];
+"4.4.3" -> "D7" [label="User attempt updates",constraint=false,id="edge7"];
+"4.4.4" -> "D9" [label="User / IP link updates",constraint=false,id="edge8"];
+"4.4.3" -> "D6" [label="Blocked-user revocation\ndata",constraint=false,id="edge9"];
+"D15" -> "4.4.3" [label="Lock metadata records",constraint=false,id="edge10"];
+"4.4.3" -> "D15" [label="Lock metadata updates",constraint=false,id="edge11"];
+"4.3" -> "4.4.1" [label="Application / IP\nassessment",constraint=false,id="edge12"];
+"4.4.4" -> "4.5" [label="Resolved user context",constraint=false,id="edge13"];
+"4.4.1" -> "4.4.2" [label="Resolved caller evidence",constraint=false,id="edge14"];
+"4.4.2" -> "4.4.3" [label="Target scope assessment",constraint=false,id="edge15"];
+"4.4.3" -> "4.4.4" [label="User admission\nassessment",constraint=false,id="edge16"];
+}

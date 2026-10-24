@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>GAPS | Integration status &amp; implementation limits</title>
+<desc>These observations qualify the model; they do not represent changes to application behavior. Future integrations should be modeled separately until their routes, schema, authorization and persistence exist.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   DESIGN OBSERVATIONS   /   GAPS</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Integration status &amp; implementation limits</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">These observations qualify the model; they do not represent changes to application behavior.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Future integrations should be modeled separately until their routes, schema, authorization and persistence exist.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: latest pinned repository source; see README.md for full traceability and use-case contracts</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">30</text>
+<rect x="45" y="165" width="1190" height="95" rx="5" fill="#E8F5EF" stroke="none" stroke-width="1"/>
+<text x="62" y="188.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">IMPLEMENTED</text>
+<text x="228" y="192.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Accounts &amp; administration</text>
+<text x="228" y="219.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Real browser → Node → ASP.NET workflows. Shared credentials and user tokens stay in the adapter.</text>
+<rect x="45" y="275" width="1190" height="95" rx="5" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="62" y="298.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">PREVIEW</text>
+<text x="228" y="302.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Marketplace interactions</text>
+<text x="228" y="329.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Sample listing array; messages and offers only update App state. No seller delivery or durable conversations.</text>
+<rect x="45" y="385" width="1190" height="95" rx="5" fill="#FCEBE8" stroke="none" stroke-width="1"/>
+<text x="62" y="408.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">INCOMPLETE</text>
+<text x="228" y="412.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Listing API integration</text>
+<text x="228" y="439.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Website has no listing route. API expects undeclared Listings table, uses ../Data.db and has no shared auth checks.</text>
+<rect x="45" y="495" width="1190" height="95" rx="5" fill="#F0ECFA" stroke="none" stroke-width="1"/>
+<text x="62" y="518.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">RUNTIME LIMIT</text>
+<text x="228" y="522.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Session scope &amp; database constraints</text>
+<text x="228" y="549.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">One Node instance; sessions lost on restart. Account FK enforcement is not explicitly enabled by Sql connections.</text>
+</svg>

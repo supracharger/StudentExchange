@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>KEY | UML notation &amp; modeling rules</title>
+<desc>Conventions follow the lecture reference; architecture views are marked explicitly. An association is not automatically composition; relational foreign keys do not establish object ownership.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   NOTATION GUIDE   /   KEY</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">UML notation &amp; modeling rules</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Conventions follow the lecture reference; architecture views are marked explicitly.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">An association is not automatically composition; relational foreign keys do not establish object ownership.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Reference: UML (1).pdf, pp. 8–14 (use cases), 15–43 (classes), 60 (deployment), 74–81 (architecture)</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">03</text>
+<rect x="65" y="175" width="290" height="127" rx="0" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<rect x="65" y="175" width="290" height="47" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="210.0" y="189.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«class»</text>
+<text x="210.0" y="210.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">ClassName</text>
+<text x="75" y="239.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">- privateField : Type</text>
+<text x="75" y="259.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ publicProperty : Type</text>
+<polyline points="65,272 355,272" fill="none" stroke="#9BB0C1" stroke-width="1.5"/>
+<text x="75" y="289.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ operation(arg : Type) : Result</text>
+<rect x="65" y="406" width="290" height="148" rx="5" fill="#EAF3FB" stroke="none" stroke-width="1"/>
+<text x="79" y="429.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Class compartments</text>
+<text x="79" y="454.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Name, attributes and operations; +</text>
+<text x="79" y="474.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">public, - private. «static» and</text>
+<text x="79" y="494.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">«interface» identify intent.</text>
+<text x="410" y="192.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Association</text>
+<polyline points="415,217 595,217" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="635" y="201.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">A structural link; multiplicities appear at each end.</text>
+<text x="410" y="291.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Dependency</text>
+<polyline points="415,316 595,316" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="585.0,321.0 595,316 585.0,311.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="635" y="300.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Client uses supplier; arrow points toward supplier.</text>
+<text x="410" y="390.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Generalization</text>
+<polyline points="415,415 595,415" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="595,415 585.0,420.0 585.0,410.0" fill="#FFFFFF" stroke="#65788A" stroke-width="1"/>
+<text x="635" y="399.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Specialized type points to its parent type.</text>
+<text x="410" y="489.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Realization</text>
+<polyline points="415,514 595,514" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polygon points="595,514 585.0,519.0 585.0,509.0" fill="#FFFFFF" stroke="#65788A" stroke-width="1"/>
+<text x="635" y="498.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Implementation points to its interface contract.</text>
+<text x="410" y="597.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Sequence: time descends; dashed arrows return. Activity: guards use [condition].</text>
+</svg>

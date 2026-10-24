@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1080" viewBox="0 0 1440 1080" role="img">
+<title>Student Exchange | DFD design atlas</title>
+<desc>Logical context, Level-0 and balanced lower-level views • website + adapter + API 18 discrete DFDs, 17 checked decomposition relationships and a full data dictionary.</desc>
+<rect x="0" y="0" width="1440" height="1080" rx="0" fill="#FAFCFD" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1440" height="123" rx="0" fill="#103B64" stroke="none" stroke-width="1"/>
+<text x="45" y="28.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#A5DCF1" text-anchor="start">STUDENT EXCHANGE   /   DATA FLOW DIAGRAMMING   /   COVER</text>
+<text x="45" y="80.73" font-family="DejaVu Sans, sans-serif" font-size="31" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Student Exchange | DFD design atlas</text>
+<text x="45" y="154.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Logical context, Level-0 and balanced lower-level views • website + adapter + API</text>
+<rect x="43" y="964" width="1354" height="64" rx="6" fill="#FFF4D3" stroke="none" stroke-width="1"/>
+<text x="59" y="990.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">18 discrete DFDs, 17 checked decomposition relationships and a full data dictionary.</text>
+<text x="45" y="1056.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Source commit: f91b923f4ec8f1072b3dda07070916459342d7a2 | Reference: DFD (1).pdf, 32 pages</text>
+<text x="65" y="261.22" font-family="DejaVu Sans, sans-serif" font-size="34" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Follow the data, one boundary at a time.</text>
+<text x="65" y="321.26" font-family="DejaVu Sans, sans-serif" font-size="22" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">Prepared from the supplied PowerPoint design and the implemented Student Exchange website and backend. The</text>
+<text x="65" y="355.26" font-family="DejaVu Sans, sans-serif" font-size="22" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">model separates browser previews, server-owned identity data, persistent records and the independent listing API.</text>
+<rect x="65" y="457" width="1310" height="119" rx="5" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="84" y="491.43" font-family="DejaVu Sans, sans-serif" font-size="21" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">01 / Context and decomposition</text>
+<text x="84" y="525.94" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">A single context process expands into six major processes, then focused account, administration, access and maintenance views.</text>
+<rect x="65" y="606" width="1310" height="119" rx="5" fill="#E8F5EC" stroke="none" stroke-width="1"/>
+<text x="84" y="640.43" font-family="DejaVu Sans, sans-serif" font-size="21" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">02 / Exact boundary accounting</text>
+<text x="84" y="674.94" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">Named data packages are preserved across every parent/child boundary. Composite flows split without adding or losing information.</text>
+<rect x="65" y="755" width="1310" height="119" rx="5" fill="#EEEAF7" stroke="none" stroke-width="1"/>
+<text x="84" y="789.43" font-family="DejaVu Sans, sans-serif" font-size="21" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">03 / Editable and reproducible</text>
+<text x="84" y="823.94" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">Native editable PowerPoint objects, searchable vector PDF, separate SVGs, semantic JSON, Graphviz sources and automated structural</text>
+<text x="84" y="851.94" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">checks.</text>
+<text x="1392" y="1059.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="end">01</text>
+</svg>

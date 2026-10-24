@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D05 | Node adapter component structure</title>
+<desc>UML component view • browser-safe contracts are translated into backend body credentials. Opaque cookie IDs stay in the browser; backend user and service tokens stay in Node memory.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   COMPONENT DIAGRAM   /   D05</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Node adapter component structure</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">UML component view • browser-safe contracts are translated into backend body credentials.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Opaque cookie IDs stay in the browser; backend user and service tokens stay in Node memory.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: Website/server/app.mjs, api.mjs, admin.mjs, client-ip.mjs; src/api/accounts.ts</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">08</text>
+<rect x="45" y="176" width="225" height="115" rx="5" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="157.5" y="194.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="157.5" y="216.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Browser client</text>
+<text x="60" y="244.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">fetch /api/*</text>
+<text x="60" y="264.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Same-origin cookie</text>
+<rect x="352" y="176" width="260" height="115" rx="5" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="482.0" y="194.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="482.0" y="216.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">createWebsiteServer</text>
+<text x="367" y="244.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Static dist/ + SPA fallback</text>
+<text x="367" y="264.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">/api/* dispatch + /healthz</text>
+<rect x="705" y="176" width="290" height="115" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="850.0" y="194.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="850.0" y="216.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">createApiHandler</text>
+<text x="720" y="244.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Origin / route / body checks</text>
+<text x="720" y="264.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Session lookup + projections</text>
+<rect x="1015" y="176" width="225" height="115" rx="5" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1127.5" y="194.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="1127.5" y="216.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">sessions : Map</text>
+<text x="1030" y="244.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">id → {token, expires}</text>
+<text x="1030" y="264.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">12-hour local session</text>
+<polyline points="270,231 352,231" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="342.0,236.0 352,231 342.0,226.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="312" y="221.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">HTTPS</text>
+<polyline points="612,231 705,231" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="695.0,236.0 705,231 695.0,226.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="658" y="221.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">dispatch</text>
+<polyline points="995,231 1015,231" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="1005.0,236.0 1015,231 1005.0,226.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<rect x="58" y="439" width="260" height="130" rx="5" fill="#F0ECFA" stroke="#9BB0C1" stroke-width="1"/>
+<text x="188.0" y="457.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="188.0" y="479.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">admin.mjs</text>
+<text x="73" y="507.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Permission projection</text>
+<text x="73" y="527.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Field / response validation</text>
+<rect x="417" y="439" width="280" height="130" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="557.0" y="457.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="557.0" y="479.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">createForwardingClient</text>
+<text x="432" y="507.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Service login / Admin check</text>
+<text x="432" y="527.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Cached token + loginPending</text>
+<rect x="794" y="439" width="250" height="130" rx="5" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="919.0" y="457.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="919.0" y="479.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">upstream()</text>
+<text x="809" y="507.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Node http(s).request</text>
+<text x="809" y="527.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Supports GET JSON bodies</text>
+<rect x="1083" y="439" width="155" height="130" rx="5" fill="#F0ECFA" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1160.5" y="457.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="1160.5" y="479.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">ASP.NET</text>
+<text x="1098" y="507.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Controllers</text>
+<text x="1098" y="527.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">SQLite</text>
+<polyline points="780,291 780,342 188,342 188,439" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="183.0,429.0 188,439 193.0,429.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="850,291 850,369 557,369 557,439" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="552.0,429.0 557,439 562.0,429.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="557" y="356.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">clientIp + visitor token</text>
+<polyline points="697,507 794,507" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="784.0,512.0 794,507 784.0,502.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="745" y="494.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">call</text>
+<polyline points="1044,507 1083,507" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="1073.0,512.0 1083,507 1073.0,502.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<rect x="60" y="354" width="260" height="75" rx="5" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="74" y="377.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">client-ip.mjs</text>
+<text x="74" y="402.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Trusted proxy / connection address</text>
+<text x="74" y="422.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">selection.</text>
+</svg>

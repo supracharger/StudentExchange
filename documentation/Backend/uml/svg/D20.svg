@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D20 | Marketplace UI state machine</title>
+<desc>UML state machine • a simplified projection of App state, not a persisted business lifecycle. Offers are strings in a shared messages array; the current code does not isolate conversations by listing.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   STATE MACHINE   /   D20</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Marketplace UI state machine</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">UML state machine • a simplified projection of App state, not a persisted business lifecycle.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Offers are strings in a shared messages array; the current code does not isolate conversations by listing.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: Website/src/App.tsx: selectedListingId, messageOpen, offerOpen, messages, navigateAdmin</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">23</text>
+<ellipse cx="69.0" cy="239.0" rx="9.0" ry="9.0" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<rect x="112" y="200" width="262" height="89" rx="5" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="243.0" y="227.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Browsing</text>
+<text x="127" y="255.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">search + category filters</text>
+<polyline points="78,239 112,239" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="112,239 102.0,244.0 102.0,234.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<rect x="508" y="200" width="270" height="89" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="643.0" y="227.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Listing detail</text>
+<text x="523" y="255.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">selectedListingId ≠ null</text>
+<polyline points="374,239 508,239" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="508,239 498.0,244.0 498.0,234.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="441" y="227.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">select item</text>
+<rect x="958" y="200" width="272" height="89" rx="5" fill="#F0ECFA" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1094.0" y="227.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Message dialog</text>
+<text x="973" y="255.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">messageOpen = true</text>
+<polyline points="778,239 958,239" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="958,239 948.0,244.0 948.0,234.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="869" y="227.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">click Message</text>
+<rect x="958" y="464" width="272" height="89" rx="5" fill="#F0ECFA" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1094.0" y="491.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Offer dialog</text>
+<text x="973" y="519.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">offerOpen = true</text>
+<polyline points="1094,289 1094,464" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="1094,464 1089.0,454.0 1099.0,454.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="1149" y="377.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Send Offer</text>
+<polyline points="958,505 879,505 879,325 1042,325 1042,289" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="1042,289 1047.0,299.0 1037.0,299.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="875" y="440.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">submit valid / cancel</text>
+<polyline points="958,269 838,269 838,350 643,350 643,289" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="643,289 648.0,299.0 638.0,299.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="743" y="339.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">close message</text>
+<polyline points="508,269 442,269 442,371 243,371 243,289" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="243,289 248.0,299.0 238.0,299.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="327" y="360.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Back to Listings</text>
+<rect x="508" y="464" width="270" height="89" rx="5" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="643.0" y="491.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Admin page</text>
+<text x="523" y="519.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">window path = /admin</text>
+<polyline points="374,259 403,259 403,507 508,507" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="508,507 498.0,512.0 498.0,502.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="402" y="447.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">navigateAdmin(true)</text>
+<rect x="45" y="451" width="310" height="152" rx="5" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="59" y="474.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">State caveat</text>
+<text x="59" y="499.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Messages persist across selected items</text>
+<text x="59" y="519.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">until App unmount / reload. Admin</text>
+<text x="59" y="539.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">navigation clears selection and offerOpen;</text>
+<text x="59" y="559.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">it does not reset messages.</text>
+<rect x="509" y="565" width="722" height="54" rx="5" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="523" y="588.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">No business transaction state</text>
+<text x="523" y="613.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">There is no persisted offer acceptance, payment, order, delivery or seller-contact state machine.</text>
+</svg>

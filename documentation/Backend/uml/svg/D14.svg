@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D14 | Forwarding service token renewal</title>
+<desc>Sequence • one service account token per Node adapter; loginPending coalesces concurrent renewal. Retry occurs only for forwarding expiry, which the backend rejects before executing the target action.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   SEQUENCE DIAGRAM   /   D14</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Forwarding service token renewal</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Sequence • one service account token per Node adapter; loginPending coalesces concurrent renewal.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Retry occurs only for forwarding expiry, which the backend rejects before executing the target action.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: Website/server/api.mjs: createForwardingClient, upstream; Backend/AppAuthJson.cs: ValidateApp</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">17</text>
+<rect x="14.0" y="160" width="162" height="47" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="95.0" y="179.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Node adapter</text>
+<polyline points="95.0,207 95.0,605" fill="none" stroke="#9BB0C1" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="377.3333333333333" y="160" width="162" height="47" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="458.3333333333333" y="179.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Forwarding client</text>
+<polyline points="458.3333333333333,207 458.3333333333333,605" fill="none" stroke="#9BB0C1" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="740.6666666666666" y="160" width="162" height="47" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="821.6666666666666" y="179.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">LogIn / Admin</text>
+<polyline points="821.6666666666666,207 821.6666666666666,605" fill="none" stroke="#9BB0C1" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="1104.0" y="160" width="162" height="47" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1185.0" y="179.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Target controller</text>
+<polyline points="1185.0,207 1185.0,605" fill="none" stroke="#9BB0C1" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="95.0,230 458.3333333333333,230" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="458.3333333333333,230 448.3333333333333,235.0 448.3333333333333,225.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="276.66666666666663" y="222.545" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">call(route, method, visitor fields, verified ip)</text>
+<polyline points="458.3333333333333,263.6363636363636 821.6666666666666,263.6363636363636" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="821.6666666666666,263.6363636363636 811.6666666666666,268.6363636363636 811.6666666666666,258.6363636363636" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="640.0" y="256.18136363636364" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[no token] POST /LogIn with service credentials</text>
+<polyline points="821.6666666666666,297.27272727272725 458.3333333333333,297.27272727272725" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="468.3333333333333,292.27272727272725 458.3333333333333,297.27272727272725 468.3333333333333,302.27272727272725" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="640.0" y="289.81772727272727" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Service access_token</text>
+<polyline points="458.3333333333333,330.9090909090909 821.6666666666666,330.9090909090909" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="821.6666666666666,330.9090909090909 811.6666666666666,335.9090909090909 811.6666666666666,325.9090909090909" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="640.0" y="323.4540909090909" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">GET /Admin with service token</text>
+<polyline points="821.6666666666666,364.5454545454545 458.3333333333333,364.5454545454545" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="468.3333333333333,359.5454545454545 458.3333333333333,364.5454545454545 468.3333333333333,369.5454545454545" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="640.0" y="357.0904545454545" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">is_admin = true; cache token</text>
+<polyline points="458.3333333333333,398.18181818181813 1185.0,398.18181818181813" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="1185.0,398.18181818181813 1175.0,403.18181818181813 1175.0,393.18181818181813" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="821.6666666666666" y="390.72681818181815" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Request + app_access + ip + admin_token</text>
+<polyline points="1185.0,431.81818181818176 458.3333333333333,431.81818181818176" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="468.3333333333333,426.81818181818176 458.3333333333333,431.81818181818176 468.3333333333333,436.81818181818176" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="821.6666666666666" y="424.3631818181818" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[forwarding token expired] 400 Expired:true</text>
+<polyline points="458.3333333333333,465.4545454545454 821.6666666666666,465.4545454545454" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="821.6666666666666,465.4545454545454 811.6666666666666,470.4545454545454 811.6666666666666,460.4545454545454" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="640.0" y="457.9995454545454" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Renew service login + verify membership</text>
+<polyline points="821.6666666666666,499.090909090909 458.3333333333333,499.090909090909" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="468.3333333333333,494.090909090909 458.3333333333333,499.090909090909 468.3333333333333,504.090909090909" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="640.0" y="491.635909090909" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Fresh service token</text>
+<polyline points="458.3333333333333,532.7272727272726 1185.0,532.7272727272726" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="1185.0,532.7272727272726 1175.0,537.7272727272726 1175.0,527.7272727272726" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="821.6666666666666" y="525.2722727272726" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Retry original operation once with fresh token</text>
+<polyline points="1185.0,566.3636363636363 95.0,566.3636363636363" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="105.0,561.3636363636363 95.0,566.3636363636363 105.0,571.3636363636363" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="640.0" y="558.9086363636362" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Result; repeated forwarding expiry → 503</text>
+</svg>

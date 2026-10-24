@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D23 | Startup &amp; daily cleanup</title>
+<desc>Sequence • one possible interleaving; the startup cleanup task is not awaited. Startup cleanup can overlap host startup; the scheduled worker repeats cleanup daily at 03:24 Mountain.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   SEQUENCE DIAGRAM   /   D23</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Startup &amp; daily cleanup</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Sequence • one possible interleaving; the startup cleanup task is not awaited.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Startup cleanup can overlap host startup; the scheduled worker repeats cleanup daily at 03:24 Mountain.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: Backend/Program.cs; Components/Env.cs, Maitenance.cs, Users.cs, IP.cs; LogIn.cs</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">26</text>
+<rect x="14.0" y="160" width="162" height="47" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="95.0" y="179.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Program</text>
+<polyline points="95.0,207 95.0,605" fill="none" stroke="#9BB0C1" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="286.5" y="160" width="162" height="47" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="367.5" y="179.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Env / config</text>
+<polyline points="367.5,207 367.5,605" fill="none" stroke="#9BB0C1" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="559.0" y="160" width="162" height="47" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="640.0" y="179.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Cleanup delegate</text>
+<polyline points="640.0,207 640.0,605" fill="none" stroke="#9BB0C1" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="831.5" y="160" width="162" height="47" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="912.5" y="179.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">SQLite / locks</text>
+<polyline points="912.5,207 912.5,605" fill="none" stroke="#9BB0C1" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="1104.0" y="160" width="162" height="47" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1185.0" y="179.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Maitenance</text>
+<polyline points="1185.0,207 1185.0,605" fill="none" stroke="#9BB0C1" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="95.0,230 367.5,230" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="367.5,230 357.5,235.0 357.5,225.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="231.25" y="222.545" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">GetEnv(): load encrypted configuration</text>
+<polyline points="367.5,263.6363636363636 95.0,263.6363636363636" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="105.0,258.6363636363636 95.0,263.6363636363636 105.0,268.6363636363636" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="231.25" y="256.18136363636364" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Paths + authentication policy ready</text>
+<polyline points="95.0,297.27272727272725 640.0,297.27272727272725" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="630.0,302.27272727272725 640.0,297.27272727272725 630.0,292.27272727272725" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="367.5" y="289.81772727272727" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Task.Run(Schedule): start cleanup asynchronously</text>
+<polyline points="95.0,330.9090909090909 1185.0,330.9090909090909" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="1185.0,330.9090909090909 1175.0,335.9090909090909 1175.0,325.9090909090909" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="640.0" y="323.4540909090909" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">new Maitenance(324, Schedule)</text>
+<polyline points="95.0,364.5454545454545 137.0,364.5454545454545 137.0,378.5454545454545 95.0,378.5454545454545" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="105.0,373.5454545454545 95.0,378.5454545454545 105.0,383.5454545454545" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="240.0" y="360.6754545454545" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Create host; map controllers; app.Run()</text>
+<polyline points="640.0,398.18181818181813 912.5,398.18181818181813" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="912.5,398.18181818181813 902.5,403.18181818181813 902.5,393.18181818181813" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="776.25" y="390.72681818181815" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">LogIn.CleanUp: delete expired Access_Token</text>
+<polyline points="640.0,431.81818181818176 912.5,431.81818181818176" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="912.5,431.81818181818176 902.5,436.81818181818176 902.5,426.81818181818176" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="776.25" y="424.3631818181818" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Users.CleanUp: expired attempt rows + locks</text>
+<polyline points="640.0,465.4545454545454 912.5,465.4545454545454" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="912.5,465.4545454545454 902.5,470.4545454545454 902.5,460.4545454545454" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="776.25" y="457.9995454545454" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">IP.CleanUp: expired attempt rows + locks</text>
+<polyline points="1185.0,499.090909090909 640.0,499.090909090909" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="640.0,499.090909090909 650.0,494.090909090909 650.0,504.090909090909" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="912.5" y="491.635909090909" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[daily at 03:24 Mountain] invoke Schedule()</text>
+<polyline points="640.0,532.7272727272726 912.5,532.7272727272726" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="912.5,532.7272727272726 902.5,537.7272727272726 902.5,527.7272727272726" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="776.25" y="525.2722727272726" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Repeat the same three cleanup operations</text>
+<polyline points="95.0,566.3636363636363 1185.0,566.3636363636363" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="1185.0,566.3636363636363 1175.0,571.3636363636363 1175.0,561.3636363636363" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="640.0" y="558.9086363636362" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[shutdown] Dispose(): signal worker exit</text>
+</svg>

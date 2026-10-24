@@ -1,0 +1,5 @@
+reportlab==4.4.9
+python-pptx==1.0.2
+# Optional preview generation:
+# PyMuPDF==1.26.6
+# System dependencies: Graphviz (dot), DejaVu Sans fonts

@@ -1,0 +1,143 @@
+{
+  "diagrams": 18,
+  "balanced_relationships": 17,
+  "results": [
+    {
+      "diagram": "L0",
+      "parent": "C0",
+      "process": "0",
+      "input_fields": 18,
+      "output_fields": 18,
+      "status": "PASS"
+    },
+    {
+      "diagram": "P1",
+      "parent": "L0",
+      "process": "1.0",
+      "input_fields": 5,
+      "output_fields": 4,
+      "status": "PASS"
+    },
+    {
+      "diagram": "P2",
+      "parent": "L0",
+      "process": "2.0",
+      "input_fields": 12,
+      "output_fields": 13,
+      "status": "PASS"
+    },
+    {
+      "diagram": "P3",
+      "parent": "L0",
+      "process": "3.0",
+      "input_fields": 15,
+      "output_fields": 15,
+      "status": "PASS"
+    },
+    {
+      "diagram": "P4",
+      "parent": "L0",
+      "process": "4.0",
+      "input_fields": 12,
+      "output_fields": 10,
+      "status": "PASS"
+    },
+    {
+      "diagram": "P5",
+      "parent": "L0",
+      "process": "5.0",
+      "input_fields": 4,
+      "output_fields": 4,
+      "status": "PASS"
+    },
+    {
+      "diagram": "P6",
+      "parent": "L0",
+      "process": "6.0",
+      "input_fields": 5,
+      "output_fields": 5,
+      "status": "PASS"
+    },
+    {
+      "diagram": "P21",
+      "parent": "P2",
+      "process": "2.1",
+      "input_fields": 3,
+      "output_fields": 3,
+      "status": "PASS"
+    },
+    {
+      "diagram": "P22",
+      "parent": "P2",
+      "process": "2.2",
+      "input_fields": 6,
+      "output_fields": 5,
+      "status": "PASS"
+    },
+    {
+      "diagram": "P24",
+      "parent": "P2",
+      "process": "2.4",
+      "input_fields": 5,
+      "output_fields": 4,
+      "status": "PASS"
+    },
+    {
+      "diagram": "P25",
+      "parent": "P2",
+      "process": "2.5",
+      "input_fields": 3,
+      "output_fields": 4,
+      "status": "PASS"
+    },
+    {
+      "diagram": "P32",
+      "parent": "P3",
+      "process": "3.2",
+      "input_fields": 4,
+      "output_fields": 3,
+      "status": "PASS"
+    },
+    {
+      "diagram": "P34",
+      "parent": "P3",
+      "process": "3.4",
+      "input_fields": 2,
+      "output_fields": 2,
+      "status": "PASS"
+    },
+    {
+      "diagram": "P35",
+      "parent": "P3",
+      "process": "3.5",
+      "input_fields": 6,
+      "output_fields": 3,
+      "status": "PASS"
+    },
+    {
+      "diagram": "P42",
+      "parent": "P4",
+      "process": "4.2",
+      "input_fields": 6,
+      "output_fields": 3,
+      "status": "PASS"
+    },
+    {
+      "diagram": "P43",
+      "parent": "P4",
+      "process": "4.3",
+      "input_fields": 5,
+      "output_fields": 5,
+      "status": "PASS"
+    },
+    {
+      "diagram": "P44",
+      "parent": "P4",
+      "process": "4.4",
+      "input_fields": 7,
+      "output_fields": 5,
+      "status": "PASS"
+    }
+  ],
+  "self_tests": 4
+}

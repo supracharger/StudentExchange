@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1080" viewBox="0 0 1440 1080" role="img">
+<title>Boundary conservation audit</title>
+<desc>Automated comparison of directional data-package sets, including grouped-store expansions. Balancing preserves external information, not the number of arrows. Internal flows may be added within a child.</desc>
+<rect x="0" y="0" width="1440" height="1080" rx="0" fill="#FAFCFD" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1440" height="123" rx="0" fill="#103B64" stroke="none" stroke-width="1"/>
+<text x="45" y="28.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#A5DCF1" text-anchor="start">STUDENT EXCHANGE   /   DATA FLOW DIAGRAMMING   /   BALANCE</text>
+<text x="45" y="80.73" font-family="DejaVu Sans, sans-serif" font-size="31" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Boundary conservation audit</text>
+<text x="45" y="154.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Automated comparison of directional data-package sets, including grouped-store expansions.</text>
+<rect x="43" y="964" width="1354" height="64" rx="6" fill="#FFF4D3" stroke="none" stroke-width="1"/>
+<text x="59" y="990.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Balancing preserves external information, not the number of arrows. Internal flows may be added within a child.</text>
+<text x="45" y="1056.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Reference: DFD (1).pdf, pp. 19–23; validation-report.json contains the machine-readable results.</text>
+<text x="50" y="212.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Child view</text>
+<text x="290" y="212.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Parent process</text>
+<text x="580" y="212.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Input packages</text>
+<text x="846" y="212.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Output packages</text>
+<text x="1165" y="212.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Result</text>
+<rect x="45" y="235" width="1347" height="37" rx="0" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="57" y="256.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">L0</text>
+<text x="295" y="256.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">0</text>
+<text x="610" y="256.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">18</text>
+<text x="882" y="256.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">18</text>
+<text x="1172" y="256.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">PASS</text>
+<rect x="45" y="274" width="1347" height="37" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="57" y="295.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">P1</text>
+<text x="295" y="295.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">1.0</text>
+<text x="610" y="295.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">5</text>
+<text x="882" y="295.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">4</text>
+<text x="1172" y="295.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">PASS</text>
+<rect x="45" y="313" width="1347" height="37" rx="0" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="57" y="334.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">P2</text>
+<text x="295" y="334.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">2.0</text>
+<text x="610" y="334.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">12</text>
+<text x="882" y="334.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">13</text>
+<text x="1172" y="334.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">PASS</text>
+<rect x="45" y="352" width="1347" height="37" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="57" y="373.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">P3</text>
+<text x="295" y="373.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">3.0</text>
+<text x="610" y="373.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">15</text>
+<text x="882" y="373.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">15</text>
+<text x="1172" y="373.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">PASS</text>
+<rect x="45" y="391" width="1347" height="37" rx="0" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="57" y="412.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">P4</text>
+<text x="295" y="412.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">4.0</text>
+<text x="610" y="412.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">12</text>
+<text x="882" y="412.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">10</text>
+<text x="1172" y="412.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">PASS</text>
+<rect x="45" y="430" width="1347" height="37" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="57" y="451.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">P5</text>
+<text x="295" y="451.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">5.0</text>
+<text x="610" y="451.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">4</text>
+<text x="882" y="451.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">4</text>
+<text x="1172" y="451.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">PASS</text>
+<rect x="45" y="469" width="1347" height="37" rx="0" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="57" y="490.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">P6</text>
+<text x="295" y="490.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">6.0</text>
+<text x="610" y="490.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">5</text>
+<text x="882" y="490.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">5</text>
+<text x="1172" y="490.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">PASS</text>
+<rect x="45" y="508" width="1347" height="37" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="57" y="529.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">P21</text>
+<text x="295" y="529.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">2.1</text>
+<text x="610" y="529.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">3</text>
+<text x="882" y="529.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">3</text>
+<text x="1172" y="529.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">PASS</text>
+<rect x="45" y="547" width="1347" height="37" rx="0" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="57" y="568.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">P22</text>
+<text x="295" y="568.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">2.2</text>
+<text x="610" y="568.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">6</text>
+<text x="882" y="568.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">5</text>
+<text x="1172" y="568.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">PASS</text>
+<rect x="45" y="586" width="1347" height="37" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="57" y="607.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">P24</text>
+<text x="295" y="607.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">2.4</text>
+<text x="610" y="607.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">5</text>
+<text x="882" y="607.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">4</text>
+<text x="1172" y="607.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">PASS</text>
+<rect x="45" y="625" width="1347" height="37" rx="0" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="57" y="646.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">P25</text>
+<text x="295" y="646.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">2.5</text>
+<text x="610" y="646.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">3</text>
+<text x="882" y="646.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">4</text>
+<text x="1172" y="646.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">PASS</text>
+<rect x="45" y="664" width="1347" height="37" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="57" y="685.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">P32</text>
+<text x="295" y="685.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">3.2</text>
+<text x="610" y="685.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">4</text>
+<text x="882" y="685.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">3</text>
+<text x="1172" y="685.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">PASS</text>
+<rect x="45" y="703" width="1347" height="37" rx="0" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="57" y="724.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">P34</text>
+<text x="295" y="724.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">3.4</text>
+<text x="610" y="724.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">2</text>
+<text x="882" y="724.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">2</text>
+<text x="1172" y="724.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">PASS</text>
+<rect x="45" y="742" width="1347" height="37" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="57" y="763.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">P35</text>
+<text x="295" y="763.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">3.5</text>
+<text x="610" y="763.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">6</text>
+<text x="882" y="763.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">3</text>
+<text x="1172" y="763.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">PASS</text>
+<rect x="45" y="781" width="1347" height="37" rx="0" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="57" y="802.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">P42</text>
+<text x="295" y="802.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">4.2</text>
+<text x="610" y="802.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">6</text>
+<text x="882" y="802.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">3</text>
+<text x="1172" y="802.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">PASS</text>
+<rect x="45" y="820" width="1347" height="37" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="57" y="841.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">P43</text>
+<text x="295" y="841.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">4.3</text>
+<text x="610" y="841.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">5</text>
+<text x="882" y="841.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">5</text>
+<text x="1172" y="841.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">PASS</text>
+<rect x="45" y="859" width="1347" height="37" rx="0" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="57" y="880.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">P44</text>
+<text x="295" y="880.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">4.4</text>
+<text x="610" y="880.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">7</text>
+<text x="882" y="880.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">5</text>
+<text x="1172" y="880.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">PASS</text>
+<text x="1392" y="1059.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="end">32</text>
+</svg>

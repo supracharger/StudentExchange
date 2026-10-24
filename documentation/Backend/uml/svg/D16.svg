@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D16 | Browse, message &amp; offer activity</title>
+<desc>UML activity view • all actions shown occur in browser memory. Message and offer submissions append local text; there is no network delivery or durable transaction.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   ACTIVITY DIAGRAM   /   D16</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Browse, message &amp; offer activity</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">UML activity view • all actions shown occur in browser memory.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Message and offer submissions append local text; there is no network delivery or durable transaction.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: Website/src/App.tsx: visibleListings and message / offer form handlers</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">19</text>
+<ellipse cx="77.0" cy="221.0" rx="9.0" ry="9.0" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<rect x="125" y="189" width="250" height="65" rx="5" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="250.0" y="216.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Browse samples</text>
+<polyline points="86,221 125,221" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="125,221 115.0,226.0 115.0,216.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<rect x="447" y="189" width="270" height="65" rx="5" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="582.0" y="216.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Filter search / category</text>
+<polyline points="375,221 447,221" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="447,221 437.0,226.0 437.0,216.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<polygon points="842,182.0 917.0,221 842,260.0 767.0,221" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="842" y="223.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Any matches?</text>
+<polyline points="717,221 767,221" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="767,221 757.0,226.0 757.0,216.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<rect x="998" y="187" width="235" height="70" rx="5" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1115.5" y="214.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Show empty state</text>
+<polyline points="917,221 998,221" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="998,221 988.0,226.0 988.0,216.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="957" y="209.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[no]</text>
+<rect x="717" y="338" width="250" height="66" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="842.0" y="365.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Open listing detail</text>
+<polyline points="842,260 842,338" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="842,338 837.0,328.0 847.0,328.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="876" y="304.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[yes]</text>
+<rect x="407" y="338" width="250" height="66" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="532.0" y="365.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Open messages</text>
+<polyline points="717,371 657,371" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="657,371 667.0,366.0 667.0,376.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<polygon points="277,332.0 352.0,371 277,410.0 202.0,371" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="277" y="373.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Send type?</text>
+<polyline points="407,371 352,371" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="352,371 362.0,366.0 362.0,376.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<rect x="65" y="494" width="310" height="74" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="220.0" y="521.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Message: trim nonblank text</text>
+<polyline points="277,410 277,494" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="277,494 272.0,484.0 282.0,484.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="328" y="462.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[message]</text>
+<rect x="447" y="494" width="340" height="74" rx="5" fill="#F0ECFA" stroke="#9BB0C1" stroke-width="1"/>
+<text x="617.0" y="521.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Offer: finite amount &gt; 0</text>
+<polyline points="277,332 277,294 617,294 617,494" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="617,494 612.0,484.0 622.0,484.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="463" y="283.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[offer]</text>
+<rect x="889" y="494" width="340" height="74" rx="5" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1059.0" y="521.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Append text to messages[]</text>
+<polyline points="787,531 889,531" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="889,531 879.0,536.0 879.0,526.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="836" y="519.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[valid]</text>
+<polyline points="220,568 220,603 1059,603 1059,568" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="1059,568 1064.0,578.0 1054.0,578.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="609" y="591.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[valid]</text>
+</svg>

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D22 | Package dependencies &amp; architectural style</title>
+<desc>UML package view • a layered request path with direct helper coupling inside the backend. The current system has a browser/adapter/API split; a full MVC view layer or DDD service layer is not implemented.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   PACKAGE DIAGRAM   /   D22</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Package dependencies &amp; architectural style</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">UML package view • a layered request path with direct helper coupling inside the backend.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">The current system has a browser/adapter/API split; a full MVC view layer or DDD service layer is not implemented.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: Website/src and server imports; Backend/Program.cs; controller/helper source dependencies</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">25</text>
+<rect x="45" y="181" width="310" height="140" rx="5" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="200.0" y="208.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">«package» src/components</text>
+<text x="60" y="236.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">App, AccountPanel, AdminPage</text>
+<text x="60" y="256.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">SchoolsPanel, AdminAccessPanel</text>
+<rect x="484" y="181" width="310" height="140" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="639.0" y="208.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">«package» hooks + api</text>
+<text x="499" y="236.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">useAccount, useAdmin</text>
+<text x="499" y="256.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">accounts.ts, admin.ts</text>
+<rect x="925" y="181" width="310" height="140" rx="5" fill="#F0ECFA" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1080.0" y="208.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">«package» server</text>
+<text x="940" y="236.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">app.mjs → api.mjs</text>
+<text x="940" y="256.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">admin.mjs, client-ip.mjs</text>
+<rect x="925" y="443" width="310" height="140" rx="5" fill="#F0ECFA" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1080.0" y="470.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">«package» Backend controllers</text>
+<text x="940" y="498.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Register, LogIn, Admin</text>
+<text x="940" y="518.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Schools, Blocked, Listing</text>
+<rect x="484" y="443" width="310" height="140" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="639.0" y="470.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">«package» Backend helpers</text>
+<text x="499" y="498.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Auth, IP, Users, Sql</text>
+<text x="499" y="518.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Env, encryption, maintenance</text>
+<rect x="45" y="443" width="310" height="140" rx="5" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="200.0" y="470.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">«external library»</text>
+<text x="60" y="498.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">React + Vite (build)</text>
+<text x="60" y="518.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">ASP.NET Core + SQLite driver</text>
+<polyline points="355,252 484,252" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="474.0,257.0 484,252 474.0,247.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="419" y="238.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">«uses»</text>
+<polyline points="794,252 925,252" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="915.0,257.0 925,252 915.0,247.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="861" y="238.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">HTTP /api/*</text>
+<polyline points="1080,321 1080,443" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="1075.0,433.0 1080,443 1085.0,433.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="1080" y="387.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">HTTP + JSON envelope</text>
+<polyline points="925,513 794,513" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="804.0,508.0 794,513 804.0,518.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="859" y="499.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">«uses»</text>
+<polyline points="484,513 355,513" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="365.0,508.0 355,513 365.0,518.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="419" y="499.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">«uses»</text>
+<rect x="45" y="349" width="750" height="68" rx="5" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="59" y="372.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Coupling worth preserving in the model</text>
+<text x="59" y="397.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Users is both an API controller and a static attempt/lock helper. ListingController bypasses Sql. These are</text>
+<text x="59" y="417.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">implementation facts, not suggested architecture.</text>
+</svg>

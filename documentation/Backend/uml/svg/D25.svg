@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D25 | Login collaboration</title>
+<desc>UML communication diagram • numbered messages show ordering on a network of collaborating objects. Read the numbers in order; the same collaboration is shown with a time axis in D10.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   COMMUNICATION DIAGRAM   /   D25</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Login collaboration</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">UML communication diagram • numbered messages show ordering on a network of collaborating objects.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Read the numbers in order; the same collaboration is shown with a time axis in D10.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: Website/server/api.mjs: login route, forwarding call, profile projection, session insertion</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">28</text>
+<rect x="56" y="183" width="280" height="105" rx="5" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="196.0" y="210.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">browser : WebsiteUI</text>
+<text x="71" y="238.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Posts credentials; receives</text>
+<text x="71" y="258.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">profile + opaque cookie ID</text>
+<rect x="503" y="183" width="300" height="105" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="653.0" y="210.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">adapter : ApiHandler</text>
+<text x="518" y="238.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Validates and coordinates login</text>
+<text x="518" y="258.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Projects public profile</text>
+<rect x="951" y="183" width="280" height="105" rx="5" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1091.0" y="210.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">sessions : Map</text>
+<text x="966" y="238.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Stores backend user token</text>
+<text x="966" y="258.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">under random session ID</text>
+<rect x="503" y="462" width="300" height="105" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="653.0" y="489.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">service : ForwardingClient</text>
+<text x="518" y="517.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Adds app + IP envelope</text>
+<text x="518" y="537.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Maintains service admin token</text>
+<rect x="951" y="462" width="280" height="105" rx="5" fill="#F0ECFA" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1091.0" y="489.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">api : ASP.NET backend</text>
+<text x="966" y="517.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">POST /LogIn</text>
+<text x="966" y="537.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">GET /Register</text>
+<polyline points="336,216 503,216" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="503,216 493.0,221.0 493.0,211.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="419" y="202.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">1: login()</text>
+<polyline points="503,266 336,266" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="346.0,261.0 336,266 346.0,271.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="419" y="253.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">7: profile + cookie</text>
+<polyline points="803,235 951,235" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="951,235 941.0,240.0 941.0,230.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="877" y="223.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">6: set(id, session)</text>
+<polyline points="653,288 653,462" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="653,462 648.0,452.0 658.0,452.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="739" y="344.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">2: call(LogIn)</text>
+<text x="751" y="404.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">4: call(Register)</text>
+<polyline points="803,484 951,484" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="951,484 941.0,489.0 941.0,479.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="879" y="472.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">3: POST /LogIn</text>
+<polyline points="803,544 951,544" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="951,544 941.0,549.0 941.0,539.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="879" y="532.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">5: GET /Register</text>
+<rect x="56" y="362" width="350" height="150" rx="5" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="70" y="385.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Numbered interaction links</text>
+<text x="70" y="410.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">1 Request login. 2–3 Obtain a backend token.</text>
+<text x="70" y="430.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">4–5 Read the profile. 6 Create the local session.</text>
+<text x="70" y="450.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">7 Return the browser-safe result.</text>
+</svg>

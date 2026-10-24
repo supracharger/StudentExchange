@@ -1,0 +1,37 @@
+digraph DFD {
+graph [rankdir=LR, bgcolor="transparent", splines=polyline, nodesep=0.42, ranksep=1.4, pad=0.12, outputorder=edgesfirst];
+node [shape=box, fontname="DejaVu Sans", fontsize=19, margin="0.15,0.12"];
+edge [fontname="DejaVu Sans", fontsize=16, arrowsize=0.75, penwidth=1.25, color="#276A96"];
+"1.0" [label="1.0\nPresent marketplace\npreviews",width=2.7,height=1.12];
+"2.0" [label="2.0\nManage accounts and\nsessions",width=2.7,height=1.12];
+"4.0" [label="4.0\nPrepare and assess\naccess",width=2.7,height=1.12];
+"E1" [label="E1\nVisitor / student",width=2.7,height=1.12];
+"G1" [label="G1\nMarketplace preview\nrecords",width=3.0,height=0.84];
+"G2" [label="G2\nAccount reference\nrecords",width=3.0,height=0.84];
+"G3" [label="G3\nSecurity records",width=3.0,height=0.84];
+"G4" [label="G4\nWebsite session\nrecords",width=3.0,height=0.84];
+{rank=same; "E1";}
+{rank=same; "1.0";"2.0";}
+{rank=same; "4.0";"G1";"G2";"G3";"G4";}
+"1.0" -> "2.0" [style=invis,weight=30];
+"4.0" -> "G1" [style=invis,weight=30];
+"G1" -> "G2" [style=invis,weight=30];
+"G2" -> "G3" [style=invis,weight=30];
+"G3" -> "G4" [style=invis,weight=30];
+"E1" -> "1.0" [style=invis,weight=100];
+"1.0" -> "4.0" [style=invis,weight=100];
+"E1" -> "1.0" [label="Marketplace intent",constraint=false,id="edge0"];
+"1.0" -> "E1" [label="Marketplace preview",constraint=false,id="edge1"];
+"E1" -> "2.0" [label="Account requests",constraint=false,id="edge2"];
+"2.0" -> "E1" [label="Account results",constraint=false,id="edge3"];
+"G1" -> "1.0" [label="Preview records",constraint=false,id="edge4"];
+"1.0" -> "G1" [label="Preview text updates",constraint=false,id="edge5"];
+"2.0" -> "4.0" [label="Account access data",constraint=false,id="edge6"];
+"4.0" -> "2.0" [label="Account assessment",constraint=false,id="edge7"];
+"G2" -> "2.0" [label="Account references",constraint=false,id="edge8"];
+"2.0" -> "G2" [label="Account mutations",constraint=false,id="edge9"];
+"G3" -> "2.0" [label="Token eligibility data",constraint=false,id="edge10"];
+"2.0" -> "G3" [label="Token mutations",constraint=false,id="edge11"];
+"G4" -> "2.0" [label="Session records",constraint=false,id="edge12"];
+"2.0" -> "G4" [label="Session mutations",constraint=false,id="edge13"];
+}

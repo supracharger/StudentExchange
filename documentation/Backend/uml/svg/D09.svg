@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D09 | Listing model &amp; integration boundary</title>
+<desc>UML class / component view • the browser listing and API listing are different contracts. The website does not call ListingController; Listings is absent from the supplied database schema.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   CLASS &amp; INTEGRATION VIEW   /   D09</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Listing model &amp; integration boundary</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">UML class / component view • the browser listing and API listing are different contracts.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">The website does not call ListingController; Listings is absent from the supplied database schema.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: Website/src/data/listings.ts, App.tsx, server/api.mjs; Backend/Controllers/Listing.cs; DB_Schema.txt</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">12</text>
+<rect x="50" y="173" width="345" height="177" rx="0" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<rect x="50" y="173" width="345" height="47" rx="0" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="222.5" y="187.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«interface · browser preview»</text>
+<text x="222.5" y="208.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Listing (TypeScript)</text>
+<text x="60" y="237.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">id : number</text>
+<text x="60" y="257.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">title : string</text>
+<text x="60" y="277.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">category : Category (excludes All items)</text>
+<text x="60" y="297.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">price : number</text>
+<text x="60" y="317.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">condition, school : string</text>
+<text x="60" y="337.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">cover, label : string</text>
+<rect x="465" y="173" width="345" height="157" rx="0" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<rect x="465" y="173" width="345" height="47" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="637.5" y="187.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«C# request class»</text>
+<text x="637.5" y="208.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">ListingCreateModel</text>
+<text x="475" y="237.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Title : string</text>
+<text x="475" y="257.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Description : string</text>
+<text x="475" y="277.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Price : decimal</text>
+<text x="475" y="297.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Category : string</text>
+<text x="475" y="317.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ UserId : int</text>
+<rect x="884" y="173" width="345" height="135" rx="0" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<rect x="884" y="173" width="345" height="35" rx="0" fill="#FCEBE8" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1056.5" y="195.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">ListingController</text>
+<text x="894" y="225.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">- _connectionString : string</text>
+<polyline points="884,238 1229,238" fill="none" stroke="#9BB0C1" stroke-width="1.5"/>
+<text x="894" y="255.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ GetListings(category?) : IActionResult</text>
+<text x="894" y="275.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ CreateListing(model) : IActionResult</text>
+<text x="894" y="295.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ DeleteListing(id) : IActionResult</text>
+<polyline points="1055,390 1055,458 638,458 638,328" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="643.0,338.0 638,328 633.0,338.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="830" y="446.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">«uses»</text>
+<rect x="50" y="447" width="345" height="148" rx="5" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="64" y="470.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Static source</text>
+<text x="64" y="495.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Six illustrative records. Messages and offer</text>
+<text x="64" y="515.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">strings are held in App state; no seller account</text>
+<text x="64" y="535.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">or persisted conversation.</text>
+<rect x="465" y="494" width="345" height="101" rx="5" fill="#FCEBE8" stroke="none" stroke-width="1"/>
+<text x="479" y="517.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">API data expectation</text>
+<text x="479" y="542.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Listings: id, title, description, price, category,</text>
+<text x="479" y="562.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">user_id, datetime; joined to User. Table inferred</text>
+<text x="479" y="582.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">from SQL, not declared DDL.</text>
+<rect x="884" y="494" width="345" height="101" rx="5" fill="#FCEBE8" stroke="none" stroke-width="1"/>
+<text x="898" y="517.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Separate connection</text>
+<text x="898" y="542.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Data Source=../Data.db; no shared AppAuthJson</text>
+<text x="898" y="562.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">checks in listing actions.</text>
+</svg>

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D17 | Token &amp; target validation activity</title>
+<desc>UML activity view • ValidateApp has already passed; route-specific checks follow this activity. Forwarding preserves caller adminLvl and sudo_id while selecting the target user.id and isAdmin.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   ACTIVITY DIAGRAM   /   D17</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Token &amp; target validation activity</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">UML activity view • ValidateApp has already passed; route-specific checks follow this activity.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Forwarding preserves caller adminLvl and sudo_id while selecting the target user.id and isAdmin.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: Backend/Components/AppAuthJson.cs: ValidateToken; Register.cs, Admin.cs, Blocked.cs</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">20</text>
+<ellipse cx="74.0" cy="218.0" rx="9.0" ry="9.0" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<rect x="110" y="185" width="275" height="66" rx="5" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="247.5" y="212.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Find unexpired user token</text>
+<polyline points="83,218 110,218" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="110,218 100.0,223.0 100.0,213.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<polygon points="491,178.0 563.5,218 491,258.0 418.5,218" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="491" y="220.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Token found?</text>
+<polyline points="385,218 418,218" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="418,218 408.0,223.0 408.0,213.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<rect x="617" y="185" width="280" height="66" rx="5" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="757.0" y="212.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Resolve caller role / level</text>
+<polyline points="564,218 617,218" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="617,218 607.0,223.0 607.0,213.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="590" y="207.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[yes]</text>
+<polygon points="1058,178.0 1143.0,218 1058,258.0 973.0,218" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1058" y="220.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">to_user present?</text>
+<polyline points="897,218 973,218" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="973,218 963.0,223.0 963.0,213.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<rect x="622" y="345" width="285" height="81" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="764.5" y="372.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Resolve requested target</text>
+<text x="637" y="400.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Caller must be an admin</text>
+<polyline points="1058,258 1058,384 907,384" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="907,384 917.0,379.0 917.0,389.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="1090" y="329.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[yes]</text>
+<polygon points="452,338.0 544.5,384 452,430.0 359.5,384" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="452" y="386.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Target eligible?</text>
+<polyline points="622,384 545,384" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="545,384 555.0,379.0 555.0,389.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<rect x="59" y="343" width="282" height="83" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="200.0" y="370.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Use target identity</text>
+<text x="74" y="398.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Preserve caller level + sudo_id</text>
+<polyline points="359,384 341,384" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="341,384 351.0,379.0 351.0,389.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="347" y="355.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[yes]</text>
+<rect x="621" y="520" width="287" height="78" rx="5" fill="#FCEBE8" stroke="#9BB0C1" stroke-width="1"/>
+<text x="764.5" y="547.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Return validation error</text>
+<text x="636" y="575.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">401 / 400 / 500 as applicable</text>
+<polyline points="491,258 491,295 764,295 764,520" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="764,520 759.0,510.0 769.0,510.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="603" y="283.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[no]</text>
+<polyline points="452,430 452,559 621,559" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="621,559 611.0,564.0 611.0,554.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="484" y="491.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[no]</text>
+<rect x="59" y="520" width="282" height="78" rx="5" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="200.0" y="547.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Track IP → selected user</text>
+<text x="74" y="575.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Then apply controller policy</text>
+<polyline points="200,426 200,520" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="200,520 195.0,510.0 205.0,510.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<polyline points="1143,218 1220,218 1220,615 200,615 200,598" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="200,598 205.0,608.0 195.0,608.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="1035" y="604.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[no target: use caller]</text>
+<rect x="955" y="448" width="268" height="141" rx="5" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="969" y="471.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Target eligibility</text>
+<text x="969" y="496.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Exact stored email; target exists;</text>
+<text x="969" y="516.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">lower-level admin; locked admin</text>
+<text x="969" y="536.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">requires caller ≥ 30. Blank target →</text>
+<text x="969" y="556.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">400.</text>
+</svg>

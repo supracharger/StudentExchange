@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1080" viewBox="0 0 1440 1080" role="img">
+<title>Diagram index and reading path</title>
+<desc>The context uses process 0; Level-0 uses 1.0–6.0; child numbers identify their parent. Use the focused child views to inspect details. Numbering identifies decomposition, not execution order.</desc>
+<rect x="0" y="0" width="1440" height="1080" rx="0" fill="#FAFCFD" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1440" height="123" rx="0" fill="#103B64" stroke="none" stroke-width="1"/>
+<text x="45" y="28.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#A5DCF1" text-anchor="start">STUDENT EXCHANGE   /   DATA FLOW DIAGRAMMING   /   GUIDE</text>
+<text x="45" y="80.73" font-family="DejaVu Sans, sans-serif" font-size="31" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Diagram index and reading path</text>
+<text x="45" y="154.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">The context uses process 0; Level-0 uses 1.0–6.0; child numbers identify their parent.</text>
+<rect x="43" y="964" width="1354" height="64" rx="6" fill="#FFF4D3" stroke="none" stroke-width="1"/>
+<text x="59" y="990.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Use the focused child views to inspect details. Numbering identifies decomposition, not execution order.</text>
+<text x="45" y="1056.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Reference: DFD (1).pdf, pp. 6–9 and 15–23; README.md includes the complete index.</text>
+<rect x="49" y="207" width="655" height="64" rx="4" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="61" y="229.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">C0</text>
+<text x="136" y="231.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Student Exchange</text>
+<text x="136" y="256.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Context</text>
+<rect x="49" y="285" width="655" height="64" rx="4" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="61" y="307.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">L0</text>
+<text x="136" y="309.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Student Exchange data flows</text>
+<text x="136" y="334.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Level-0</text>
+<rect x="49" y="363" width="655" height="64" rx="4" fill="#E8F5EC" stroke="none" stroke-width="1"/>
+<text x="61" y="385.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">P1</text>
+<text x="136" y="387.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Marketplace preview data</text>
+<text x="136" y="412.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Level-1 · parent 1.0</text>
+<rect x="49" y="441" width="655" height="64" rx="4" fill="#E8F5EC" stroke="none" stroke-width="1"/>
+<text x="61" y="463.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">P2</text>
+<text x="136" y="465.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Accounts and website sessions</text>
+<text x="136" y="490.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Level-1 · parent 2.0</text>
+<rect x="49" y="519" width="655" height="64" rx="4" fill="#E8F5EC" stroke="none" stroke-width="1"/>
+<text x="61" y="541.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">P3</text>
+<text x="136" y="543.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Administration data</text>
+<text x="136" y="568.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Level-1 · parent 3.0</text>
+<rect x="49" y="597" width="655" height="64" rx="4" fill="#E8F5EC" stroke="none" stroke-width="1"/>
+<text x="61" y="619.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">P4</text>
+<text x="136" y="621.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Access and forwarding data</text>
+<text x="136" y="646.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Level-1 · parent 4.0</text>
+<rect x="49" y="675" width="655" height="64" rx="4" fill="#E8F5EC" stroke="none" stroke-width="1"/>
+<text x="61" y="697.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">P5</text>
+<text x="136" y="699.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Retained security data maintenance</text>
+<text x="136" y="724.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Level-1 · parent 5.0</text>
+<rect x="49" y="753" width="655" height="64" rx="4" fill="#E8F5EC" stroke="none" stroke-width="1"/>
+<text x="61" y="775.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">P6</text>
+<text x="136" y="777.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Direct listing API data</text>
+<text x="136" y="802.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Level-1 · parent 6.0</text>
+<rect x="49" y="831" width="655" height="64" rx="4" fill="#EEEAF7" stroke="none" stroke-width="1"/>
+<text x="61" y="853.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">P21</text>
+<text x="136" y="855.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Registration data transformation</text>
+<text x="136" y="880.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Level-2 · parent 2.1</text>
+<rect x="744" y="207" width="655" height="64" rx="4" fill="#EEEAF7" stroke="none" stroke-width="1"/>
+<text x="756" y="229.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">P22</text>
+<text x="831" y="231.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Login token and cookie data</text>
+<text x="831" y="256.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Level-2 · parent 2.2</text>
+<rect x="744" y="285" width="655" height="64" rx="4" fill="#EEEAF7" stroke="none" stroke-width="1"/>
+<text x="756" y="307.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">P24</text>
+<text x="831" y="309.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Saved profile and readback data</text>
+<text x="831" y="334.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Level-2 · parent 2.4</text>
+<rect x="744" y="363" width="655" height="64" rx="4" fill="#EEEAF7" stroke="none" stroke-width="1"/>
+<text x="756" y="385.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">P25</text>
+<text x="831" y="387.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Logout and revocation data</text>
+<text x="831" y="412.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Level-2 · parent 2.5</text>
+<rect x="744" y="441" width="655" height="64" rx="4" fill="#EEEAF7" stroke="none" stroke-width="1"/>
+<text x="756" y="463.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">P32</text>
+<text x="831" y="465.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Target user record management</text>
+<text x="831" y="490.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Level-2 · parent 3.2</text>
+<rect x="744" y="519" width="655" height="64" rx="4" fill="#EEEAF7" stroke="none" stroke-width="1"/>
+<text x="756" y="541.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">P34</text>
+<text x="831" y="543.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Admin membership changes</text>
+<text x="831" y="568.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Level-2 · parent 3.4</text>
+<rect x="744" y="597" width="655" height="64" rx="4" fill="#EEEAF7" stroke="none" stroke-width="1"/>
+<text x="756" y="619.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">P35</text>
+<text x="831" y="621.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Attempt inspection and clearing</text>
+<text x="831" y="646.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Level-2 · parent 3.5</text>
+<rect x="744" y="675" width="655" height="64" rx="4" fill="#EEEAF7" stroke="none" stroke-width="1"/>
+<text x="756" y="697.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">P42</text>
+<text x="831" y="699.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Forwarding identity data</text>
+<text x="831" y="724.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Level-2 · parent 4.2</text>
+<rect x="744" y="753" width="655" height="64" rx="4" fill="#EEEAF7" stroke="none" stroke-width="1"/>
+<text x="756" y="775.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">P43</text>
+<text x="831" y="777.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Application and IP observations</text>
+<text x="831" y="802.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Level-2 · parent 4.3</text>
+<rect x="744" y="831" width="655" height="64" rx="4" fill="#EEEAF7" stroke="none" stroke-width="1"/>
+<text x="756" y="853.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">P44</text>
+<text x="831" y="855.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">User identity and attempt observations</text>
+<text x="831" y="880.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Level-2 · parent 4.4</text>
+<text x="1392" y="1059.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="end">02</text>
+</svg>

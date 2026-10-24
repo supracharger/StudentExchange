@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D21 | Production deployment</title>
+<desc>UML deployment view • derived from render.yaml and source configuration, not a verified live topology. Render is configured for one Node instance; in-memory sessions do not support independent replicas.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   DEPLOYMENT DIAGRAM   /   D21</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Production deployment</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">UML deployment view • derived from render.yaml and source configuration, not a verified live topology.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Render is configured for one Node instance; in-memory sessions do not support independent replicas.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: Website/render.yaml, server/index.mjs, app.mjs; Backend/Program.cs, Env.cs, Sql.cs, Listing.cs</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">24</text>
+<rect x="45" y="178" width="280" height="380" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="62" y="209.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">«device» Student computer</text>
+<rect x="391" y="178" width="389" height="380" rx="0" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="408" y="209.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">«node» Render web service</text>
+<rect x="857" y="178" width="377" height="380" rx="0" fill="#F0ECFA" stroke="#9BB0C1" stroke-width="1"/>
+<text x="874" y="209.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">«node» Azure backend host</text>
+<rect x="67" y="245" width="236" height="123" rx="5" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="185.0" y="272.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">«executionEnvironment»</text>
+<text x="82" y="300.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Web browser</text>
+<text x="82" y="320.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">React compiled assets</text>
+<text x="82" y="340.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">HttpOnly cookie ID</text>
+<rect x="414" y="245" width="343" height="129" rx="5" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="585.5" y="272.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">«executionEnvironment»</text>
+<text x="429" y="300.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Node.js 24.19.0</text>
+<text x="429" y="320.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Static dist/ + /api adapter</text>
+<text x="429" y="340.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Map sessions + service token</text>
+<rect x="880" y="245" width="331" height="129" rx="5" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1045.5" y="272.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">«executionEnvironment»</text>
+<text x="895" y="300.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">ASP.NET Core / .NET 9</text>
+<text x="895" y="320.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Account + admin controllers</text>
+<text x="895" y="340.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">ListingController (separate SQL)</text>
+<rect x="415" y="429" width="342" height="96" rx="5" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="586.0" y="456.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">«artifact» server settings</text>
+<text x="430" y="484.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">backend, app_access</text>
+<text x="430" y="504.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">user, user_pass (values omitted)</text>
+<rect x="880" y="429" width="331" height="96" rx="5" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1045.5" y="456.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">«artifact» storage</text>
+<text x="895" y="484.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">path.env → .env2 + .env + DB</text>
+<text x="895" y="504.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Listing: ../Data.db (relative path)</text>
+<polyline points="303,307 414,307" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="359" y="294.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">HTTPS</text>
+<polyline points="757,307 880,307" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="818" y="294.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">HTTPS / JSON</text>
+<text x="63" y="597.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Build: npm ci + npm run build → dist/        Process health: GET /healthz        Configured replicas: 1</text>
+</svg>

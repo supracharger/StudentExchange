@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D18 | Attempt-window activity</title>
+<desc>UML activity view • common pattern in Users and IP; known-user path shown. Count -1 is a successful observation, not a block. Active counts ≥ 10 block access.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   ACTIVITY DIAGRAM   /   D18</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Attempt-window activity</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">UML activity view • common pattern in Users and IP; known-user path shown.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Count -1 is a successful observation, not a block. Active counts ≥ 10 block access.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: Backend/Components/Users.cs: IncInvalidForUser; IP.cs: IncInvalidForIP; Env.cs</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">21</text>
+<ellipse cx="70.0" cy="218.0" rx="9.0" ry="9.0" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<rect x="110" y="185" width="268" height="66" rx="5" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="244.0" y="212.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Acquire per-identity lock</text>
+<polyline points="79,218 110,218" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="110,218 100.0,223.0 100.0,213.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<polygon points="497,178.0 577.0,218 497,258.0 417.0,218" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="497" y="220.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Active row?</text>
+<polyline points="378,218 417,218" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="417,218 407.0,223.0 407.0,213.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<rect x="672" y="175" width="550" height="91" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="947.0" y="202.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Create 5-minute window</text>
+<text x="687" y="230.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">count = 1 if failed; otherwise -1. Return without blocking.</text>
+<polyline points="577,218 672,218" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="672,218 662.0,223.0 662.0,213.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="621" y="207.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[no]</text>
+<rect x="370" y="333" width="296" height="82" rx="5" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="518.0" y="360.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Evaluate count</text>
+<text x="385" y="388.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Normalize -1 → 0 for evaluation</text>
+<polyline points="497,258 497,333" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="497,333 492.0,323.0 502.0,323.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="528" y="301.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[yes]</text>
+<polygon points="852,326.5 977.0,374 852,421.5 727.0,374" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="852" y="376.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Failure OR count ≥ 10?</text>
+<polyline points="666,374 727,374" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="727,374 717.0,379.0 717.0,369.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<rect x="682" y="510" width="350" height="93" rx="5" fill="#F0ECFA" stroke="#9BB0C1" stroke-width="1"/>
+<text x="857.0" y="537.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Increment + persist count</text>
+<text x="697" y="565.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">At 20, 30, 40... extend expiry</text>
+<text x="697" y="585.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">At user count 10: delete all tokens</text>
+<polyline points="852,422 852,510" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="852,510 847.0,500.0 857.0,500.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="883" y="471.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[yes]</text>
+<rect x="45" y="507" width="449" height="96" rx="5" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="269.5" y="534.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Return based on effective count</text>
+<text x="60" y="562.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">count ≥ 10 → 400 blocked until expiry</text>
+<text x="60" y="582.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">count &lt; 10 → continue; no success reset</text>
+<polyline points="682,556 494,556" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="494,556 504.0,551.0 504.0,561.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<polyline points="977,374 1220,374 1220,615 270,615 270,603" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="270,603 275.0,613.0 265.0,613.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="1110" y="363.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[no]</text>
+<rect x="44" y="333" width="268" height="135" rx="5" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="58" y="356.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Window extension</text>
+<text x="58" y="381.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">At multiples &gt; 10: max(expiry, now)</text>
+<text x="58" y="401.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ 5 min × max(count / 10 − 2, 1). IP</text>
+<text x="58" y="421.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">blocks do not revoke user tokens.</text>
+</svg>

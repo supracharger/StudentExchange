@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1080" viewBox="0 0 1440 1080" role="img">
+<title>Four symbols, one consistent notation</title>
+<desc>Gane–Sarson style follows the reference: numbered rounded processes, entities, open-ended stores and arrows. Arrows carry noun-phrase data; they do not represent time, control, decisions, API call order or lifecycle transitions.</desc>
+<rect x="0" y="0" width="1440" height="1080" rx="0" fill="#FAFCFD" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1440" height="123" rx="0" fill="#103B64" stroke="none" stroke-width="1"/>
+<text x="45" y="28.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#A5DCF1" text-anchor="start">STUDENT EXCHANGE   /   DATA FLOW DIAGRAMMING   /   NOTATION</text>
+<text x="45" y="80.73" font-family="DejaVu Sans, sans-serif" font-size="31" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Four symbols, one consistent notation</text>
+<text x="45" y="154.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Gane–Sarson style follows the reference: numbered rounded processes, entities, open-ended stores and arrows.</text>
+<rect x="43" y="964" width="1354" height="64" rx="6" fill="#FFF4D3" stroke="none" stroke-width="1"/>
+<text x="59" y="990.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Arrows carry noun-phrase data; they do not represent time, control, decisions, API call order or lifecycle transitions.</text>
+<text x="45" y="1056.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Reference: DFD (1).pdf, pp. 2–5, 10–14 and 24–29.</text>
+<rect x="368" y="212" width="1005" height="135" rx="5" fill="#E8F5EC" stroke="none" stroke-width="1"/>
+<text x="388" y="243.43" font-family="DejaVu Sans, sans-serif" font-size="21" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">External entity</text>
+<text x="388" y="277.94" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">A person or outside system supplying or receiving data. Only E1, E2 and E3 are external to this</text>
+<text x="388" y="304.94" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">whole-system model.</text>
+<rect x="65" y="233" width="257" height="87" rx="0" fill="#E8F5EC" stroke="#87A5BC" stroke-width="1"/>
+<text x="193" y="274.77" font-family="DejaVu Sans, sans-serif" font-size="19" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="middle">E1  Visitor / student</text>
+<rect x="368" y="381" width="1005" height="135" rx="5" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="388" y="412.43" font-family="DejaVu Sans, sans-serif" font-size="21" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Numbered process</text>
+<text x="388" y="446.94" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">A verb phrase describes a transformation. Each internal process has data input and output. Parent</text>
+<text x="388" y="473.94" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">numbers expand into child numbers.</text>
+<rect x="65" y="396" width="257" height="103" rx="9" fill="#E7F2FC" stroke="#87A5BC" stroke-width="1"/>
+<polyline points="65,427 322,427" fill="none" stroke="#87A5BC" stroke-width="1.5"/>
+<text x="193" y="418.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="middle">2.1</text>
+<text x="193" y="462.77" font-family="DejaVu Sans, sans-serif" font-size="19" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="middle">Register account</text>
+<rect x="368" y="550" width="1005" height="135" rx="5" fill="#FFF4D3" stroke="none" stroke-width="1"/>
+<text x="388" y="581.43" font-family="DejaVu Sans, sans-serif" font-size="21" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Data store</text>
+<text x="388" y="615.94" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">A noun phrase names retained data. D1/D2 are browser preview records; D11/D12/D15 are process</text>
+<text x="388" y="642.94" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">memory; SQLite stores are separate.</text>
+<rect x="65" y="571" width="257" height="87" rx="0" fill="#FFF4D3" stroke="none" stroke-width="1"/>
+<polyline points="322,571 65,571 65,658 322,658" fill="none" stroke="#87A5BC" stroke-width="1.5"/>
+<polyline points="109,571 109,658" fill="none" stroke="#87A5BC" stroke-width="1.5"/>
+<text x="87" y="614.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="middle">D4</text>
+<text x="214" y="616.77" font-family="DejaVu Sans, sans-serif" font-size="19" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="middle">User accounts</text>
+<rect x="368" y="719" width="1005" height="135" rx="5" fill="#EEEAF7" stroke="none" stroke-width="1"/>
+<text x="388" y="750.43" font-family="DejaVu Sans, sans-serif" font-size="21" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Directed data flow</text>
+<text x="388" y="784.94" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">One arrow has one direction. Separate arrows represent reads and writes. Named composite packages</text>
+<text x="388" y="811.94" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">are defined in the data dictionary.</text>
+<polyline points="65,789 322,789" fill="none" stroke="#276A96" stroke-width="2"/>
+<polygon points="322,789 309,783 309,795" fill="#276A96" stroke="none" stroke-width="1"/>
+<text x="193" y="768.11" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="middle">Registration fields</text>
+<text x="1392" y="1059.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="end">03</text>
+</svg>

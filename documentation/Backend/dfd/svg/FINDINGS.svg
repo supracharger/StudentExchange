@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1080" viewBox="0 0 1440 1080" role="img">
+<title>Current data boundaries and implementation gaps</title>
+<desc>The diagrams describe existing behavior and clearly qualify incomplete listing storage. No payment, completed order, seller delivery or persisted offer acceptance is invented in these DFDs.</desc>
+<rect x="0" y="0" width="1440" height="1080" rx="0" fill="#FAFCFD" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1440" height="123" rx="0" fill="#103B64" stroke="none" stroke-width="1"/>
+<text x="45" y="28.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#A5DCF1" text-anchor="start">STUDENT EXCHANGE   /   DATA FLOW DIAGRAMMING   /   FINDINGS</text>
+<text x="45" y="80.73" font-family="DejaVu Sans, sans-serif" font-size="31" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Current data boundaries and implementation gaps</text>
+<text x="45" y="154.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">The diagrams describe existing behavior and clearly qualify incomplete listing storage.</text>
+<rect x="43" y="964" width="1354" height="64" rx="6" fill="#FFF4D3" stroke="none" stroke-width="1"/>
+<text x="59" y="990.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">No payment, completed order, seller delivery or persisted offer acceptance is invented in these DFDs.</text>
+<text x="45" y="1056.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Evidence: Website/App.tsx, data/listings.ts, server/api.mjs; Backend/Listing.cs, Sql.cs, Env.cs.</text>
+<rect x="48" y="207" width="1344" height="124" rx="5" fill="#FFF4D3" stroke="none" stroke-width="1"/>
+<text x="67" y="241.43" font-family="DejaVu Sans, sans-serif" font-size="21" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Preview data stays in the browser</text>
+<text x="67" y="275.94" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">Messages and offer strings update one App-level array. They are not sent to sellers and are not isolated by listing.</text>
+<rect x="48" y="352" width="1344" height="124" rx="5" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="67" y="386.43" font-family="DejaVu Sans, sans-serif" font-size="21" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Two identities cross the adapter boundary</text>
+<text x="67" y="420.94" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">Service admin_token enables server-owned IP forwarding; visitor access_token identifies the acting user. The browser receives an opaque</text>
+<text x="67" y="448.94" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">cookie ID.</text>
+<rect x="48" y="497" width="1344" height="124" rx="5" fill="#FCEAE6" stroke="none" stroke-width="1"/>
+<text x="67" y="531.43" font-family="DejaVu Sans, sans-serif" font-size="21" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Listing storage is a qualified expectation</text>
+<text x="67" y="565.94" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">ListingController uses ../Data.db and expects Listings, which is absent from supplied DDL. The website has no listing adapter route.</text>
+<rect x="48" y="642" width="1344" height="124" rx="5" fill="#EEEAF7" stroke="none" stroke-width="1"/>
+<text x="67" y="676.43" font-family="DejaVu Sans, sans-serif" font-size="21" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Retention is not a scheduling arrow</text>
+<text x="67" y="710.94" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">Node sessions disappear on restart. Security maintenance uses expiry data. Startup cleanup is unawaited; daily cleanup is at 03:24 Mountain.</text>
+<rect x="48" y="787" width="1344" height="124" rx="5" fill="#E8F5EC" stroke="none" stroke-width="1"/>
+<text x="67" y="821.43" font-family="DejaVu Sans, sans-serif" font-size="21" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Logical processes span implementation modules</text>
+<text x="67" y="855.94" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">Process 4.0 centralizes access-related data transformations across Node and ASP.NET. It does not assert a separate physical service.</text>
+<text x="1392" y="1059.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="end">34</text>
+</svg>

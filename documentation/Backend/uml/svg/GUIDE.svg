@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>GUIDE | Reading path &amp; diagram index</title>
+<desc>Start with context; use the detailed views to answer one question at a time. Use the PDF to review, the editable PowerPoint to present, and the model + renderer to maintain.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   GUIDE   /   GUIDE</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Reading path &amp; diagram index</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Start with context; use the detailed views to answer one question at a time.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Use the PDF to review, the editable PowerPoint to present, and the model + renderer to maintain.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Notation reference: supplied UML (1).pdf, pp. 7–43 and 57–81</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">02</text>
+<rect x="45" y="164" width="380" height="437" rx="6" fill="#EAF3FB" stroke="none" stroke-width="1"/>
+<text x="63" y="193.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">STRUCTURE / D01–D09</text>
+<text x="63" y="234.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D01</text>
+<text x="115" y="235.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">System context</text>
+<text x="63" y="272.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D02</text>
+<text x="115" y="273.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Student &amp; visitor use cases</text>
+<text x="63" y="310.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D03</text>
+<text x="115" y="311.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Administration use cases</text>
+<text x="63" y="348.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D04</text>
+<text x="115" y="349.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">React component structure</text>
+<text x="63" y="386.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D05</text>
+<text x="115" y="387.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Node adapter structure</text>
+<text x="63" y="424.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D06</text>
+<text x="115" y="425.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Backend controller classes</text>
+<text x="63" y="462.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D07</text>
+<text x="115" y="463.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Request DTO inheritance</text>
+<text x="63" y="500.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D08</text>
+<text x="115" y="501.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Persistence class model</text>
+<text x="63" y="538.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D09</text>
+<text x="115" y="539.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Listing model &amp; integration boundary</text>
+<rect x="450" y="164" width="380" height="437" rx="6" fill="#E8F5EF" stroke="none" stroke-width="1"/>
+<text x="468" y="193.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">BEHAVIOR / D10–D18</text>
+<text x="468" y="234.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D10</text>
+<text x="520" y="235.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Login &amp; cookie establishment</text>
+<text x="468" y="272.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D11</text>
+<text x="520" y="273.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Account registration</text>
+<text x="468" y="310.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D12</text>
+<text x="520" y="311.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Profile update &amp; readback</text>
+<text x="468" y="348.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D13</text>
+<text x="520" y="349.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Admin account deletion</text>
+<text x="468" y="386.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D14</text>
+<text x="520" y="387.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Forwarding token renewal</text>
+<text x="468" y="424.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D15</text>
+<text x="520" y="425.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Logout &amp; token revocation</text>
+<text x="468" y="462.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D16</text>
+<text x="520" y="463.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Browse, message &amp; offer activity</text>
+<text x="468" y="500.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D17</text>
+<text x="520" y="501.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Token / target validation activity</text>
+<text x="468" y="538.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D18</text>
+<text x="520" y="539.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Attempt-window activity</text>
+<rect x="855" y="164" width="380" height="437" rx="6" fill="#F0ECFA" stroke="none" stroke-width="1"/>
+<text x="873" y="193.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">STATE &amp; RUNTIME / D19–D25</text>
+<text x="873" y="234.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D19</text>
+<text x="925" y="235.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Website session state machine</text>
+<text x="873" y="272.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D20</text>
+<text x="925" y="273.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Marketplace UI state machine</text>
+<text x="873" y="310.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D21</text>
+<text x="925" y="311.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Production deployment</text>
+<text x="873" y="348.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D22</text>
+<text x="925" y="349.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Package dependencies</text>
+<text x="873" y="386.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D23</text>
+<text x="925" y="387.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Startup &amp; scheduled cleanup</text>
+<text x="873" y="424.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D24</text>
+<text x="925" y="425.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Listing API interactions</text>
+<text x="873" y="462.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#65788A" text-anchor="start">D25</text>
+<text x="925" y="463.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Login communication diagram</text>
+</svg>
