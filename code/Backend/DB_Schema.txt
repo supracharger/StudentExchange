@@ -4,148 +4,126 @@ WHERE type IN ('table', 'index', 'trigger', 'view')
   AND sql IS NOT NULL
 ORDER BY type, name;
 
-Schools
-   ↑
-   │ school_id
-User
-   ├── Admins
-   ├── Access_Token
-   ├── Blocked_Users
-   └── User_Has_IPs
-            │
-            ↓
-            IP
-            │
-            └── Blocked_IPs
+-- ============================================
+-- Schools
+-- ============================================
+
+CREATE TABLE Schools (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    name        TEXT(2, 50) UNIQUE NOT NULL,
+    short_name  TEXT(2, 30) UNIQUE
+);
+
+
+-- ============================================
+-- User
+-- ============================================
+
+CREATE TABLE User (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    email       TEXT(2, 100) UNIQUE NOT NULL,
+    first_name  TEXT(1, 50) NOT NULL,
+    last_name   TEXT(1, 50) NOT NULL,
+    password    TEXT(8, 100) NOT NULL,
+    school_id   INTEGER NOT NULL REFERENCES Schools(id)
+                    ON DELETE RESTRICT
+                    ON UPDATE CASCADE,
+    datetime    TEXT
+);
+
+
+-- ============================================
+-- Admins
+-- ============================================
+
+CREATE TABLE Admins (
+    user_id INTEGER UNIQUE NOT NULL REFERENCES User(id)
+                ON DELETE RESTRICT
+                ON UPDATE CASCADE,
+    level   INTEGER NOT NULL DEFAULT (0),
+    locked  INTEGER NOT NULL DEFAULT (0)
+);
+
+
+-- ============================================
+-- Access Tokens
+-- ============================================
+
+CREATE TABLE Access_Token (
+    id       INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    user_id  INTEGER NOT NULL REFERENCES User(id)
+                 ON DELETE CASCADE
+                 ON UPDATE CASCADE,
+    token    TEXT(2, 100) UNIQUE NOT NULL,
+    expiry   TEXT(2, 50) NOT NULL
+);
+
+
+-- ============================================
+-- IP Addresses
+-- ============================================
+
+CREATE TABLE IP (
+    id        INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
+    ip        TEXT NOT NULL UNIQUE,
+    datetime  TEXT
+);
+
+
+-- ============================================
+-- User IP Relationships
+-- ============================================
+
+CREATE TABLE User_Has_IPs (
+    user_id INTEGER NOT NULL REFERENCES User(id)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE,
+    ip_id   INTEGER NOT NULL REFERENCES IP(id)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE
+);
+
+
+-- ============================================
+-- Blocked IP Addresses
+-- ============================================
+
+CREATE TABLE Blocked_IPs (
+    id      INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    ip_id   INTEGER NOT NULL REFERENCES IP(id)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE,
+    count   INTEGER NOT NULL,
+    expiry  TEXT NOT NULL
+);
+
+
+-- ============================================
+-- Blocked Users
+-- ============================================
+
+CREATE TABLE Blocked_Users (
+    id       INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    user_id  INTEGER NOT NULL REFERENCES User(id)
+                 ON DELETE CASCADE
+                 ON UPDATE CASCADE,
+    count    INTEGER NOT NULL,
+    expiry   TEXT NOT NULL
+);
+
+
+-- ============================================
+-- Indexes
+-- ============================================
 
 CREATE UNIQUE INDEX IPIndex
-ON IP (ip);
+    ON IP (ip);
 
 CREATE INDEX SchoolsNameIndex
-ON Schools (name);
+    ON Schools (name);
 
 CREATE INDEX TokenIndex
-ON Access_Token (token);
+    ON Access_Token (token);
 
 CREATE UNIQUE INDEX User_IP
-ON User_Has_IPs (user_id, ip_id);
-
-
-CREATE TABLE Access_Token
-(
-    id      INTEGER PRIMARY KEY AUTOINCREMENT
-                    UNIQUE
-                    NOT NULL,
-
-    user_id INTEGER NOT NULL
-                    REFERENCES User (id),
-
-    token   TEXT(2, 100)
-                    UNIQUE
-                    NOT NULL,
-
-    expiry  TEXT(2, 50)
-                    NOT NULL
-);
-
-
-CREATE TABLE Admins
-(
-    user_id INTEGER REFERENCES User (id)
-                    UNIQUE
-                    NOT NULL,
-
-    level   INTEGER NOT NULL
-                    DEFAULT (0)
-);
-
-
-CREATE TABLE Blocked_IPs
-(
-    id      INTEGER PRIMARY KEY AUTOINCREMENT
-                    UNIQUE
-                    NOT NULL,
-
-    ip_id   INTEGER NOT NULL
-                    REFERENCES IP (id),
-
-    count   INTEGER NOT NULL,
-
-    expiry  TEXT NOT NULL
-);
-
-
-CREATE TABLE Blocked_Users
-(
-    id      INTEGER PRIMARY KEY AUTOINCREMENT
-                    UNIQUE
-                    NOT NULL,
-
-    user_id INTEGER NOT NULL
-                    REFERENCES User (id),
-
-    count   INTEGER NOT NULL,
-
-    expiry  TEXT NOT NULL
-);
-
-
-CREATE TABLE IP
-(
-    id       INTEGER PRIMARY KEY AUTOINCREMENT
-                     NOT NULL
-                     UNIQUE,
-
-    ip       TEXT NOT NULL
-                  UNIQUE,
-
-    datetime TEXT
-);
-
-
-CREATE TABLE Schools
-(
-    id   INTEGER PRIMARY KEY AUTOINCREMENT
-                 UNIQUE
-                 NOT NULL,
-
-    name TEXT(2, 50)
-                 UNIQUE
-                 NOT NULL
-);
-
-
-CREATE TABLE User
-(
-    id         INTEGER PRIMARY KEY AUTOINCREMENT
-                       UNIQUE
-                       NOT NULL,
-
-    email      TEXT(2, 100)
-                       UNIQUE
-                       NOT NULL,
-
-    first_name TEXT(1, 50)
-                       NOT NULL,
-
-    last_name  TEXT(1, 50)
-                       NOT NULL,
-
-    password   TEXT(8, 100)
-                       NOT NULL,
-
-    school_id  INTEGER NOT NULL
-                       REFERENCES Schools (id),
-
-    datetime   TEXT
-);
-
-
-CREATE TABLE User_Has_IPs
-(
-    user_id INTEGER REFERENCES User (id)
-                    NOT NULL,
-
-    ip_id   INTEGER NOT NULL
-                    REFERENCES IP (id)
-);
+    ON User_Has_IPs (user_id, ip_id);
