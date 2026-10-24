@@ -1,0 +1,13 @@
+{
+  "diagrams": 18,
+  "pages": 34,
+  "editable_slides": 34,
+  "native_editable_objects": 9820,
+  "svg_files": 38,
+  "balanced_relationships": 17,
+  "negative_tests": 4,
+  "complete_sheet_coverage": true,
+  "no_raster_slides": true,
+  "no_page_bound_text_overflows": true,
+  "no_flow_label_node_collisions": true
+}

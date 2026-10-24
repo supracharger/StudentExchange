@@ -1,0 +1,42 @@
+digraph DFD {
+graph [rankdir=LR, bgcolor="transparent", splines=polyline, nodesep=0.42, ranksep=1.4, pad=0.12, outputorder=edgesfirst];
+node [shape=box, fontname="DejaVu Sans", fontsize=19, margin="0.15,0.12"];
+edge [fontname="DejaVu Sans", fontsize=16, arrowsize=0.75, penwidth=1.25, color="#276A96"];
+"3.1" [label="3.1\nAssess caller\npermissions",width=2.7,height=1.12];
+"3.5.1" [label="3.5.1\nValidate attempt\nselectors",width=2.7,height=1.12];
+"3.5.2" [label="3.5.2\nProject attempt\nobservations",width=2.7,height=1.12];
+"3.5.3" [label="3.5.3\nPrepare selected\nattempt removals",width=2.7,height=1.12];
+"D10" [label="D10\nIP attempt records",width=3.0,height=0.84];
+"D4" [label="D4\nUser accounts",width=3.0,height=0.84];
+"D7" [label="D7\nUser attempt records",width=3.0,height=0.84];
+"D8" [label="D8\nIP registry",width=3.0,height=0.84];
+"D9" [label="D9\nUser / IP links",width=3.0,height=0.84];
+"E2" [label="E2\nAdministrator",width=2.7,height=1.12];
+{rank=same; "3.1";"E2";}
+{rank=same; "3.5.1";"3.5.2";"3.5.3";}
+{rank=same; "D10";"D4";"D7";"D8";"D9";}
+"3.1" -> "E2" [style=invis,weight=30];
+"3.5.1" -> "3.5.2" [style=invis,weight=30];
+"3.5.2" -> "3.5.3" [style=invis,weight=30];
+"D10" -> "D4" [style=invis,weight=30];
+"D4" -> "D7" [style=invis,weight=30];
+"D7" -> "D8" [style=invis,weight=30];
+"D8" -> "D9" [style=invis,weight=30];
+"3.1" -> "3.5.1" [style=invis,weight=100];
+"3.5.1" -> "D10" [style=invis,weight=100];
+"3.5.2" -> "E2" [label="Attempt management\nresult",constraint=false,id="edge0"];
+"D4" -> "3.5.2" [label="Account reference data",constraint=false,id="edge1"];
+"D7" -> "3.5.2" [label="User attempt data",constraint=false,id="edge2"];
+"D7" -> "3.5.3" [label="User attempt data",constraint=false,id="edge3"];
+"D8" -> "3.5.2" [label="IP identity data",constraint=false,id="edge4"];
+"D8" -> "3.5.3" [label="IP identity data",constraint=false,id="edge5"];
+"D9" -> "3.5.2" [label="User / IP relationship\ndata",constraint=false,id="edge6"];
+"D10" -> "3.5.2" [label="IP attempt data",constraint=false,id="edge7"];
+"D10" -> "3.5.3" [label="IP attempt data",constraint=false,id="edge8"];
+"3.5.3" -> "D7" [label="User attempt removal\ndata",constraint=false,id="edge9"];
+"3.5.3" -> "D10" [label="IP attempt removal data",constraint=false,id="edge10"];
+"3.1" -> "3.5.1" [label="Scoped attempt request",constraint=false,id="edge11"];
+"3.5.1" -> "3.5.2" [label="Permitted attempt\ninquiry",constraint=false,id="edge12"];
+"3.5.1" -> "3.5.3" [label="Permitted attempt\nselection",constraint=false,id="edge13"];
+"3.5.3" -> "3.5.2" [label="Attempt removal outcome",constraint=false,id="edge14"];
+}

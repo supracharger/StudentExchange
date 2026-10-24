@@ -1,0 +1,23 @@
+>> Create a progress review powerpoint. The Progress Review shows how far your project has come since the proposal: what you finished, what changed, and whether the team actually understands its own design and implementation. The PowerPoint should be technical and detailed. Also, talk about higher level, with enough technical substance to show the team knows what it built.
+
+>> **What are the team members’ names, their roles in the proposal, and what each person completed or is working on now? Also share the proposal’s original scope, milestone dates, and final-presentation deadline if you have them. I’ll continue reviewing the repository while you gather this.**
+
+Tristan Roa (Team Leader / Backend)
+Robert (Andrew) Quaife (Backend)
+Alex Pyankov   (Materials & PowerPoint)
+Robert Richardson (FrontEnd)
+Thomas Phommarath  (FrontEnd)
+
+>> **For Tristan, Andrew, Alex, Robert Richardson, and Thomas, what did each person personally complete since the proposal, and what is each working on now? I have their roles, but Git history alone cannot establish individual credit. If available, also send the proposal date and final-presentation deadline.**
+
+Tristan (UML Diagrams & commenting Backend, Listings endpoint)
+Alex (previous powerpoint)
+Robert Richardson (Messaging UI)
+Thomas (Still working with mobile web app)
+Andrew(All of the Backend, and the website except Listings endpoint and Messaging UI)
+
+>> I added some images of the admin console.
+
+>> **Are the two admin screenshots also saved in the repository? If so, send their file paths. I can see the pasted images, but the original image files are not available as downloadable attachments in the workspace.**
+
+The screenshots are not in the repository.

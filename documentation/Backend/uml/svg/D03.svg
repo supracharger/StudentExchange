@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D03 | Administration use cases</title>
+<desc>Use-case model • specialized admin roles inherit the capabilities of lower-level roles. Every admin operation refreshes membership; target-user restrictions are checked again by the backend.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   USE-CASE DIAGRAM   /   D03</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Administration use cases</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Use-case model • specialized admin roles inherit the capabilities of lower-level roles.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Every admin operation refreshes membership; target-user restrictions are checked again by the backend.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: Website/server/admin.mjs, api.mjs; Backend/Controllers/Admin.cs, Blocked.cs, Register.cs, Schools.cs</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">06</text>
+<rect x="260" y="162" width="940" height="450" rx="0" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="280" y="187.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Administration subsystem</text>
+<ellipse cx="111.0" cy="200.0" rx="10.0" ry="10.0" fill="#FFFFFF" stroke="#18334B" stroke-width="1"/>
+<polyline points="111,210 111,245" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="91,222 131,222" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="93,267 111,245 129,267" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="111" y="286.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Admin (any)</text>
+<ellipse cx="111.0" cy="310.0" rx="10.0" ry="10.0" fill="#FFFFFF" stroke="#18334B" stroke-width="1"/>
+<polyline points="111,320 111,355" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="91,332 131,332" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="93,377 111,355 129,377" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="111" y="396.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Admin level &gt; 0</text>
+<ellipse cx="111.0" cy="420.0" rx="10.0" ry="10.0" fill="#FFFFFF" stroke="#18334B" stroke-width="1"/>
+<polyline points="111,430 111,465" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="91,442 131,442" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="93,487 111,465 129,487" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="111" y="506.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Admin level ≥ 10</text>
+<ellipse cx="111.0" cy="530.0" rx="10.0" ry="10.0" fill="#FFFFFF" stroke="#18334B" stroke-width="1"/>
+<polyline points="111,540 111,575" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="91,552 131,552" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="93,597 111,575 129,597" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="111" y="616.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Admin level ≥ 20</text>
+<polyline points="101,310 30,310 30,200 101,200" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="101,200 91.0,205.0 91.0,195.0" fill="#FFFFFF" stroke="#65788A" stroke-width="1"/>
+<polyline points="101,420 30,420 30,310 101,310" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="101,310 91.0,315.0 91.0,305.0" fill="#FFFFFF" stroke="#65788A" stroke-width="1"/>
+<polyline points="101,530 30,530 30,420 101,420" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="101,420 91.0,425.0 91.0,415.0" fill="#FFFFFF" stroke="#65788A" stroke-width="1"/>
+<ellipse cx="487.5" cy="248.0" rx="177.5" ry="30.0" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="487.5" y="240.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Check membership /</text>
+<text x="487.5" y="259.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">request target sign-out</text>
+<ellipse cx="487.5" cy="358.0" rx="177.5" ry="30.0" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="487.5" y="350.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Grant / change /</text>
+<text x="487.5" y="369.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">remove admin status</text>
+<ellipse cx="487.5" cy="468.0" rx="177.5" ry="30.0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="487.5" y="460.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Manage users, profiles</text>
+<text x="487.5" y="479.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">and schools</text>
+<ellipse cx="487.5" cy="578.0" rx="177.5" ry="30.0" fill="#F0ECFA" stroke="#9BB0C1" stroke-width="1"/>
+<text x="487.5" y="570.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Inspect / clear</text>
+<text x="487.5" y="589.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">attempt records</text>
+<polyline points="131,228 310,248" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="131,338 310,358" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="131,448 310,468" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="131,558 310,578" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<ellipse cx="993.0" cy="369.0" rx="160.0" ry="36.0" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="993.0" y="361.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Validate caller</text>
+<text x="993.0" y="380.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">and target scope</text>
+<polyline points="665,358 833,369" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="822.6946855416378,373.33595363377776 833,369 823.3480484179605,363.3573206135769" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="751" y="348.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">«include»</text>
+<rect x="802" y="204" width="350" height="105" rx="5" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="816" y="227.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Level ≥ 30</text>
+<text x="816" y="252.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">May set locked status. Website shows admin</text>
+<text x="816" y="272.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">levels at 30; backend exposes them at 27.</text>
+<rect x="802" y="443" width="350" height="113" rx="5" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="816" y="466.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Target guard</text>
+<text x="816" y="491.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Caller token stays unchanged. A selected admin</text>
+<text x="816" y="511.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">target must have a lower level; locked targets</text>
+<text x="816" y="531.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">require caller ≥ 30.</text>
+</svg>

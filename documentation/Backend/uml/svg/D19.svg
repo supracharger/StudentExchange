@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D19 | Website session state machine</title>
+<desc>UML state machine • adapter session validity and backend token validity are separate. Adapter sessions expire after 12 hours, are not sliding, and disappear on a Node process restart.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   STATE MACHINE   /   D19</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Website session state machine</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">UML state machine • adapter session validity and backend token validity are separate.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Adapter sessions expire after 12 hours, are not sliding, and disappear on a Node process restart.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: Website/server/api.mjs: SESSION_LIFETIME, sessions Map, sessionFor, login/logout, catch handler</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">22</text>
+<ellipse cx="76.0" cy="240.0" rx="9.0" ry="9.0" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<rect x="123" y="201" width="290" height="88" rx="5" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="268.0" y="228.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Anonymous</text>
+<text x="138" y="256.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">No valid Map entry / cookie</text>
+<polyline points="85,240 123,240" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="123,240 113.0,245.0 113.0,235.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<rect x="553" y="201" width="295" height="88" rx="5" fill="#F0ECFA" stroke="#9BB0C1" stroke-width="1"/>
+<text x="700.5" y="228.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Authenticating</text>
+<text x="568" y="256.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Credentials + backend profile read</text>
+<polyline points="413,240 553,240" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="553,240 543.0,245.0 543.0,235.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="482" y="227.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">submit login</text>
+<rect x="955" y="201" width="280" height="88" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1095.0" y="228.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Active local session</text>
+<text x="970" y="256.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">ID maps to token + fixed expiry</text>
+<polyline points="848,240 955,240" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="955,240 945.0,245.0 945.0,235.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="903" y="227.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[success]</text>
+<rect x="553" y="455" width="295" height="90" rx="5" fill="#FCEBE8" stroke="#9BB0C1" stroke-width="1"/>
+<text x="700.5" y="482.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Session invalidated</text>
+<text x="568" y="510.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Delete Map ID; expire cookie</text>
+<polyline points="701,289 701,371 269,371 269,289" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="269,289 274.0,299.0 264.0,299.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="481" y="356.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">[login error]</text>
+<polyline points="1095,289 1095,500 848,500" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="848,500 858.0,495.0 858.0,505.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="1018" y="479.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">logout / expiry / token 401</text>
+<polyline points="553,500 269,500 269,289" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="269,289 274.0,299.0 264.0,299.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="399" y="486.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">next request / UI expires</text>
+<rect x="52" y="558" width="475" height="61" rx="5" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="66" y="581.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Restart behavior</text>
+<text x="66" y="606.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">A process restart loses every Map entry. A remaining browser</text>
+<text x="66" y="626.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">cookie cannot restore its backend token.</text>
+<rect x="895" y="558" width="337" height="61" rx="5" fill="#EAF3FB" stroke="none" stroke-width="1"/>
+<text x="909" y="581.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Transient failure</text>
+<text x="909" y="606.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">502/504 does not by itself delete a session.</text>
+<polyline points="1235,245 1250,245 1250,175 1095,175 1095,201" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="1095,201 1090.0,191.0 1100.0,191.0" fill="#65788A" stroke="#65788A" stroke-width="1"/>
+<text x="1060" y="163.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">successful read: expiry unchanged</text>
+</svg>

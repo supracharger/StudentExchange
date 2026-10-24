@@ -1,0 +1,41 @@
+digraph DFD {
+graph [rankdir=LR, bgcolor="transparent", splines=polyline, nodesep=0.42, ranksep=1.4, pad=0.12, outputorder=edgesfirst];
+node [shape=box, fontname="DejaVu Sans", fontsize=19, margin="0.15,0.12"];
+edge [fontname="DejaVu Sans", fontsize=16, arrowsize=0.75, penwidth=1.25, color="#276A96"];
+"2.1" [label="2.1\nRegister account",width=2.7,height=1.12];
+"2.2" [label="2.2\nAuthenticate and\ncreate session",width=2.7,height=1.12];
+"4.0" [label="4.0\nPrepare and assess\naccess",width=2.7,height=1.12];
+"D11" [label="D11\nWebsite sessions",width=3.0,height=0.84];
+"D3" [label="D3\nSchool directory",width=3.0,height=0.84];
+"D4" [label="D4\nUser accounts",width=3.0,height=0.84];
+"D5" [label="D5\nAdmin memberships",width=3.0,height=0.84];
+"D6" [label="D6\nAccess tokens",width=3.0,height=0.84];
+"E1" [label="E1\nVisitor / student",width=2.7,height=1.12];
+{rank=same; "E1";}
+{rank=same; "2.1";"2.2";}
+{rank=same; "4.0";"D11";"D3";"D4";"D5";"D6";}
+"2.1" -> "2.2" [style=invis,weight=30];
+"4.0" -> "D11" [style=invis,weight=30];
+"D11" -> "D3" [style=invis,weight=30];
+"D3" -> "D4" [style=invis,weight=30];
+"D4" -> "D5" [style=invis,weight=30];
+"D5" -> "D6" [style=invis,weight=30];
+"E1" -> "2.1" [style=invis,weight=100];
+"2.1" -> "4.0" [style=invis,weight=100];
+"E1" -> "2.1" [label="Registration fields",constraint=false,id="edge0"];
+"E1" -> "2.2" [label="Login credentials",constraint=false,id="edge1"];
+"2.1" -> "E1" [label="Registration result",constraint=false,id="edge2"];
+"2.2" -> "E1" [label="Login result",constraint=false,id="edge3"];
+"2.1" -> "4.0" [label="Account access data",constraint=false,id="edge4"];
+"2.2" -> "4.0" [label="Account access data",constraint=false,id="edge5"];
+"4.0" -> "2.1" [label="Account access\nassessment",constraint=false,id="edge6"];
+"4.0" -> "2.2" [label="Account access\nassessment",constraint=false,id="edge7"];
+"D4" -> "2.2" [label="Account reference data",constraint=false,id="edge8"];
+"D3" -> "2.1" [label="School reference data",constraint=false,id="edge9"];
+"2.1" -> "D4" [label="New account record",constraint=false,id="edge10"];
+"D5" -> "2.2" [label="Admin membership data",constraint=false,id="edge11"];
+"D6" -> "2.2" [label="Access token data",constraint=false,id="edge12"];
+"2.2" -> "D6" [label="User token record",constraint=false,id="edge13"];
+"D11" -> "2.2" [label="Website session data",constraint=false,id="edge14"];
+"2.2" -> "D11" [label="Session mutations",constraint=false,id="edge15"];
+}

@@ -1,0 +1,11 @@
+{
+  "context": "Built current frontend served by local Node; backend account service intentionally unconfigured; no live account requests or data mutations",
+  "sample_cards": 6,
+  "textbook_filter_cards": 3,
+  "local_message_visible": true,
+  "local_offer_visible": true,
+  "whole_dollar_offer_step_mismatch": true,
+  "mobile_width": 390,
+  "mobile_horizontal_overflow": false,
+  "browser_script_errors": []
+}

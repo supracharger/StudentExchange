@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D04 | React component structure</title>
+<desc>UML component view • React functions are components, not invented object-oriented classes. The hooks own account and admin state; App owns marketplace previews and page selection.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   COMPONENT DIAGRAM   /   D04</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">React component structure</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">UML component view • React functions are components, not invented object-oriented classes.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">The hooks own account and admin state; App owns marketplace previews and page selection.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: Website/src/App.tsx, components/*, hooks/useAccount.ts, hooks/useAdmin.ts, api/*</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">07</text>
+<rect x="470" y="165" width="340" height="88" rx="5" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="640.0" y="183.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="640.0" y="205.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">App.tsx</text>
+<text x="485" y="233.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Marketplace + /admin navigation</text>
+<rect x="65" y="328" width="285" height="105" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="207.5" y="346.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="207.5" y="368.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">AccountPanel</text>
+<text x="80" y="396.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Login / register / profile forms</text>
+<rect x="470" y="328" width="340" height="105" rx="5" fill="#F0ECFA" stroke="#9BB0C1" stroke-width="1"/>
+<text x="640.0" y="346.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="640.0" y="368.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">AdminPage</text>
+<text x="485" y="396.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Users, schools, attempts, grants</text>
+<rect x="925" y="328" width="290" height="105" rx="5" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1070.0" y="346.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="1070.0" y="368.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Sample marketplace</text>
+<text x="940" y="396.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Search, detail, messages, offers</text>
+<rect x="65" y="500" width="285" height="100" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="207.5" y="518.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="207.5" y="540.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">useAccount → accounts.ts</text>
+<text x="80" y="568.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Session restore + account requests</text>
+<rect x="470" y="500" width="340" height="100" rx="5" fill="#F0ECFA" stroke="#9BB0C1" stroke-width="1"/>
+<text x="640.0" y="518.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="640.0" y="540.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">useAdmin → admin.ts</text>
+<text x="485" y="568.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Caller access + admin requests</text>
+<rect x="925" y="500" width="290" height="100" rx="5" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1070.0" y="518.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="1070.0" y="540.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">data/listings.ts</text>
+<text x="940" y="568.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Listing[] constant; six samples</text>
+<polyline points="470,209 208,209 208,328" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="203.0,318.0 208,328 213.0,318.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="640,253 640,328" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="635.0,318.0 640,328 645.0,318.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="810,209 1070,209 1070,328" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="1065.0,318.0 1070,328 1075.0,318.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="208,433 208,500" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="203.0,490.0 208,500 213.0,490.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="640,433 640,500" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="635.0,490.0 640,500 645.0,490.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="1070,433 1070,500" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="1065.0,490.0 1070,500 1075.0,490.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="770" y="471.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">useAdmin consumes account.profile</text>
+<polyline points="350,550 470,550" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="460.0,555.0 470,550 460.0,545.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="410" y="539.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">profile</text>
+</svg>

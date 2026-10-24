@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1080" viewBox="0 0 1440 1080" role="img">
+<title>Logical and physical data store dictionary</title>
+<desc>Grouped Level-0 stores are refined into primitive subject stores on child diagrams. Open-ended stores represent retained information, including process memory; they do not all imply database tables.</desc>
+<rect x="0" y="0" width="1440" height="1080" rx="0" fill="#FAFCFD" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1440" height="123" rx="0" fill="#103B64" stroke="none" stroke-width="1"/>
+<text x="45" y="28.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#A5DCF1" text-anchor="start">STUDENT EXCHANGE   /   DATA FLOW DIAGRAMMING   /   STORES</text>
+<text x="45" y="80.73" font-family="DejaVu Sans, sans-serif" font-size="31" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Logical and physical data store dictionary</text>
+<text x="45" y="154.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Grouped Level-0 stores are refined into primitive subject stores on child diagrams.</text>
+<rect x="43" y="964" width="1354" height="64" rx="6" fill="#FFF4D3" stroke="none" stroke-width="1"/>
+<text x="59" y="990.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Open-ended stores represent retained information, including process memory; they do not all imply database tables.</text>
+<text x="45" y="1056.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="start">Reference: DFD (1).pdf, pp. 3–4, 15–23 and 27; full fields and retention notes in DATA-DICTIONARY.md.</text>
+<rect x="45" y="211" width="1347" height="45" rx="0" fill="#FFF4D3" stroke="none" stroke-width="1"/>
+<text x="58" y="235.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">D1</text>
+<text x="112" y="236.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Sample catalog</text>
+<text x="447" y="234.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">G1</text>
+<text x="510" y="234.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">src/data/listings.ts · bundled constant</text>
+<rect x="45" y="258" width="1347" height="45" rx="0" fill="#FFF4D3" stroke="none" stroke-width="1"/>
+<text x="58" y="282.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">D2</text>
+<text x="112" y="283.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Preview conversation</text>
+<text x="447" y="281.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">G1</text>
+<text x="510" y="281.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">App.tsx · messages[] in browser memory</text>
+<rect x="45" y="305" width="1347" height="45" rx="0" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="58" y="329.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">D3</text>
+<text x="112" y="330.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">School directory</text>
+<text x="447" y="328.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">G2</text>
+<text x="510" y="328.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">SQLite Schools</text>
+<rect x="45" y="352" width="1347" height="45" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="58" y="376.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">D4</text>
+<text x="112" y="377.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">User accounts</text>
+<text x="447" y="375.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">G2</text>
+<text x="510" y="375.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">SQLite User</text>
+<rect x="45" y="399" width="1347" height="45" rx="0" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="58" y="423.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">D5</text>
+<text x="112" y="424.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Admin memberships</text>
+<text x="447" y="422.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">G3</text>
+<text x="510" y="422.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">SQLite Admins</text>
+<rect x="45" y="446" width="1347" height="45" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="58" y="470.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">D6</text>
+<text x="112" y="471.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Access tokens</text>
+<text x="447" y="469.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">G3</text>
+<text x="510" y="469.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">SQLite Access_Token</text>
+<rect x="45" y="493" width="1347" height="45" rx="0" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="58" y="517.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">D7</text>
+<text x="112" y="518.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">User attempt records</text>
+<text x="447" y="516.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">G3</text>
+<text x="510" y="516.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">SQLite Blocked_Users</text>
+<rect x="45" y="540" width="1347" height="45" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="58" y="564.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">D8</text>
+<text x="112" y="565.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">IP registry</text>
+<text x="447" y="563.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">G3</text>
+<text x="510" y="563.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">SQLite IP</text>
+<rect x="45" y="587" width="1347" height="45" rx="0" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="58" y="611.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">D9</text>
+<text x="112" y="612.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">User / IP links</text>
+<text x="447" y="610.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">G3</text>
+<text x="510" y="610.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">SQLite User_Has_IPs</text>
+<rect x="45" y="634" width="1347" height="45" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="58" y="658.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">D10</text>
+<text x="112" y="659.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">IP attempt records</text>
+<text x="447" y="657.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">G3</text>
+<text x="510" y="657.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">SQLite Blocked_IPs</text>
+<rect x="45" y="681" width="1347" height="45" rx="0" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="58" y="705.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">D11</text>
+<text x="112" y="706.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Website sessions</text>
+<text x="447" y="704.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">G4</text>
+<text x="510" y="704.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">Node sessions Map · opaque ID → token / expiry</text>
+<rect x="45" y="728" width="1347" height="45" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="58" y="752.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">D12</text>
+<text x="112" y="753.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Service token cache</text>
+<text x="447" y="751.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">G5</text>
+<text x="510" y="751.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">Node forwarding-client closure</text>
+<rect x="45" y="775" width="1347" height="45" rx="0" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="58" y="799.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">D13</text>
+<text x="112" y="800.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Runtime settings</text>
+<text x="447" y="798.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">G5</text>
+<text x="510" y="798.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">Server environment + backend Env policy / paths</text>
+<rect x="45" y="822" width="1347" height="45" rx="0" fill="#FCEAE6" stroke="none" stroke-width="1"/>
+<text x="58" y="846.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">D14</text>
+<text x="112" y="847.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Listing records</text>
+<text x="447" y="845.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">G6</text>
+<text x="510" y="845.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">Listings table inferred from SQL; missing from DDL</text>
+<rect x="45" y="869" width="1347" height="45" rx="0" fill="#E7F2FC" stroke="none" stroke-width="1"/>
+<text x="58" y="893.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">D15</text>
+<text x="112" y="894.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#17354C" text-anchor="start">Lock metadata</text>
+<text x="447" y="892.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#64798C" text-anchor="start">G5</text>
+<text x="510" y="892.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#17354C" text-anchor="start">Users._userLock and IP lock dictionaries</text>
+<text x="1392" y="1059.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#64798C" text-anchor="end">33</text>
+</svg>

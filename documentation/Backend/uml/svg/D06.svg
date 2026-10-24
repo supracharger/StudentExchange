@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D06 | Backend controller classes</title>
+<desc>UML class view • abbreviated public operations; all controllers inherit ControllerBase. Controllers call shared helpers directly; the code does not implement a separate service/repository layer.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   CLASS DIAGRAM   /   D06</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Backend controller classes</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">UML class view • abbreviated public operations; all controllers inherit ControllerBase.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Controllers call shared helpers directly; the code does not implement a separate service/repository layer.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: Backend/Controllers/*.cs; Components/Users.cs, Sql.cs; Listing.cs</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">09</text>
+<rect x="495" y="161" width="290" height="77" rx="0" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<rect x="495" y="161" width="290" height="47" rx="0" fill="#F0ECFA" stroke="#9BB0C1" stroke-width="1"/>
+<text x="640.0" y="175.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«framework»</text>
+<text x="640.0" y="196.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">ControllerBase</text>
+<text x="505" y="225.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start"> </text>
+<rect x="45" y="292" width="270" height="155" rx="0" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<rect x="45" y="292" width="270" height="35" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="180.0" y="314.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Register</text>
+<text x="55" y="344.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start"> </text>
+<polyline points="45,337 315,337" fill="none" stroke="#9BB0C1" stroke-width="1.5"/>
+<text x="55" y="354.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Post(Info) : IActionResult</text>
+<text x="55" y="374.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Get(AppAuthJson) : IActionResult</text>
+<text x="55" y="394.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Patch(Info) : IActionResult</text>
+<text x="55" y="414.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Delete(AppAuthJson) : IActionResult</text>
+<polyline points="180.0,292 180.0,263 640,263 640,233" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="640,233 645.0,243.0 635.0,243.0" fill="#FFFFFF" stroke="#65788A" stroke-width="1"/>
+<rect x="351" y="292" width="270" height="135" rx="0" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<rect x="351" y="292" width="270" height="35" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="486.0" y="314.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">LogIn</text>
+<text x="361" y="344.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start"> </text>
+<polyline points="351,337 621,337" fill="none" stroke="#9BB0C1" stroke-width="1.5"/>
+<text x="361" y="354.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Post(Info) : IActionResult</text>
+<text x="361" y="374.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Delete(AppAuthJson) : IActionResult</text>
+<text x="361" y="394.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ CleanUp() : void {static}</text>
+<polyline points="486.0,292 486.0,263 640,263 640,233" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="640,233 645.0,243.0 635.0,243.0" fill="#FFFFFF" stroke="#65788A" stroke-width="1"/>
+<rect x="657" y="292" width="270" height="155" rx="0" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<rect x="657" y="292" width="270" height="35" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="792.0" y="314.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Admin</text>
+<text x="667" y="344.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start"> </text>
+<polyline points="657,337 927,337" fill="none" stroke="#9BB0C1" stroke-width="1.5"/>
+<text x="667" y="354.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Get(AppAuthJson) : IActionResult</text>
+<text x="667" y="374.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Post(Info) : IActionResult</text>
+<text x="667" y="394.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Patch(Info) : IActionResult</text>
+<text x="667" y="414.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Delete(AppAuthJson) : IActionResult</text>
+<polyline points="792.0,292 792.0,263 640,263 640,233" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="640,233 645.0,243.0 635.0,243.0" fill="#FFFFFF" stroke="#65788A" stroke-width="1"/>
+<rect x="963" y="292" width="270" height="135" rx="0" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<rect x="963" y="292" width="270" height="35" rx="0" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1098.0" y="314.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Schools</text>
+<text x="973" y="344.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start"> </text>
+<polyline points="963,337 1233,337" fill="none" stroke="#9BB0C1" stroke-width="1.5"/>
+<text x="973" y="354.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Get() : IActionResult</text>
+<text x="973" y="374.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Post(Info) : IActionResult</text>
+<text x="973" y="394.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Delete(Info) : IActionResult</text>
+<polyline points="1098.0,292 1098.0,263 640,263 640,233" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="640,233 645.0,243.0 635.0,243.0" fill="#FFFFFF" stroke="#65788A" stroke-width="1"/>
+<rect x="45" y="506" width="270" height="94" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="180.0" y="533.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Users : ControllerBase</text>
+<text x="60" y="561.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Get(AppAuthJson)</text>
+<text x="60" y="581.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Also user locks + attempts</text>
+<rect x="351" y="506" width="270" height="94" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="486.0" y="533.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Blocked : ControllerBase</text>
+<text x="366" y="561.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Get(AppAuthJson)</text>
+<text x="366" y="581.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ Delete(Info)</text>
+<rect x="657" y="506" width="270" height="94" rx="5" fill="#FCEBE8" stroke="#9BB0C1" stroke-width="1"/>
+<text x="792.0" y="533.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">ListingController</text>
+<text x="672" y="561.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">GetListings / CreateListing</text>
+<text x="672" y="581.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">DeleteListing; own SQL path</text>
+<rect x="963" y="506" width="270" height="94" rx="5" fill="#FFF4CD" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1098.0" y="533.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Shared helpers</text>
+<text x="978" y="561.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">AppAuthJson, IP, Users, Sql</text>
+<text x="978" y="581.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Env, Utilz, encryption</text>
+</svg>

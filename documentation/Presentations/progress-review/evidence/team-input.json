@@ -1,0 +1,81 @@
+{
+  "date": "2026-10-24",
+  "basis": "User statements in this conversation",
+  "members": [
+    {
+      "name": "Tristan Roa",
+      "role": "Team Leader / Backend",
+      "reported_work": "UML diagrams; backend commenting; Listings endpoint",
+      "current_work": "Not separately specified",
+      "next_work_is_proposed": true
+    },
+    {
+      "name": "Robert (Andrew) Quaife",
+      "role": "Backend",
+      "reported_work": "Remaining backend and website except Listings endpoint / Messaging UI",
+      "current_work": "Not separately specified",
+      "next_work_is_proposed": true
+    },
+    {
+      "name": "Alex Pyankov",
+      "role": "Materials & PowerPoint",
+      "reported_work": "Previous PowerPoint presentation",
+      "current_work": "Not separately specified",
+      "next_work_is_proposed": true
+    },
+    {
+      "name": "Robert Richardson",
+      "role": "Frontend",
+      "reported_work": "Messaging UI",
+      "current_work": "Not separately specified",
+      "next_work_is_proposed": true
+    },
+    {
+      "name": "Thomas Phommarath",
+      "role": "Frontend",
+      "reported_work": "Mobile web implementation underway; no completed module stated",
+      "current_work": "Mobile web app work ongoing",
+      "next_work_is_proposed": true
+    }
+  ],
+  "deployment": {
+    "backend": "Azure, confirmed by user",
+    "website": "Render, confirmed by user",
+    "website_url": "https://studentexchange.onrender.com",
+    "deployed_revision_independently_verified": false
+  },
+  "unprovided": [
+    "Original proposal artifact/date",
+    "Formal requirement change approvals",
+    "Final-presentation deadline",
+    "Current tasks for members other than Thomas"
+  ],
+  "admin_screenshot_observations": {
+    "source": "Two original PNG screenshots supplied in user ZIP: ChatGPT Image Oct 24, 2026, 11_55_08 AM.zip",
+    "overview": "Authenticated deployed /admin overview",
+    "displayed_registered_students": 7,
+    "displayed_user_attempt_records": 2,
+    "displayed_ip_attempt_records": 2,
+    "displayed_admin_level": 20,
+    "users_view": [
+      "search by name/email/school",
+      "school filter",
+      "admin and locked indicators",
+      "joined timestamps",
+      "eligible management controls"
+    ],
+    "limits": "Snapshot observations, not independently performed admin mutations; attempt records are not necessarily active blocks",
+    "files": [
+      {
+        "path": "assets/admin-overview.png",
+        "sha256": "29275a7e1f5a03dd977fa01de1e110d16f2236bbfd8918e9a509191f3108ed12",
+        "source_preserved": true
+      },
+      {
+        "path": "assets/admin-users.png",
+        "sha256": "f4ad0b9bba006f612424372000d44c6a798a0054b90861526dce6cbcf12ebd5a",
+        "source_preserved": true
+      }
+    ]
+  }
+}

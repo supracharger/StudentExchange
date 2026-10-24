@@ -1,0 +1,5 @@
+reportlab==4.4.9
+python-pptx==1.0.2
+Pillow>=10
+# Optional PDF preview / verification:
+# PyMuPDF==1.26.6

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>TRACE | Evidence &amp; PowerPoint alignment</title>
+<desc>Source snapshot is pinned to f91b923f4ec8f1072b3dda07070916459342d7a2. The supplied lecture provides modeling and visual guidance; the repository supplies the system-specific behavior.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   TRACEABILITY   /   TRACE</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Evidence &amp; PowerPoint alignment</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Source snapshot is pinned to f91b923f4ec8f1072b3dda07070916459342d7a2.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">The supplied lecture provides modeling and visual guidance; the repository supplies the system-specific behavior.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Reference document: uploaded UML (1).pdf (81 pages); repository: supracharger/SoftwareEngineerTemp</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">31</text>
+<rect x="45" y="164" width="579" height="411" rx="6" fill="#EAF3FB" stroke="none" stroke-width="1"/>
+<text x="63" y="197.6" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Lecture → modeling choices</text>
+<text x="63" y="241.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">pp. 7–14</text>
+<text x="63" y="262.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Goals, actor roles, boundaries, include / extend</text>
+<text x="63" y="304.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">pp. 15–43</text>
+<text x="63" y="325.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Compartments, types, visibility, multiplicities</text>
+<text x="63" y="367.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">pp. 45–59</text>
+<text x="63" y="388.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Modularity, refinement and distinct design views</text>
+<text x="63" y="430.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">p. 60</text>
+<text x="63" y="451.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Nodes, runtime environments and artifacts</text>
+<text x="63" y="493.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">pp. 61–81</text>
+<text x="63" y="514.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Layering, context and component architecture</text>
+<rect x="656" y="164" width="579" height="411" rx="6" fill="#E8F5EF" stroke="none" stroke-width="1"/>
+<text x="674" y="197.6" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Repository → model evidence</text>
+<text x="674" y="241.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Website src/</text>
+<text x="674" y="262.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">UI components, hooks, API contracts, preview data</text>
+<text x="674" y="304.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Website server/</text>
+<text x="674" y="325.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Cookies, sessions, adapter, forwarding, projections</text>
+<text x="674" y="367.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Backend Controllers/</text>
+<text x="674" y="388.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Account, school, admin, blocked and listing routes</text>
+<text x="674" y="430.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Backend Components/</text>
+<text x="674" y="451.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Auth, locks, attempts, config, SQL, scheduler</text>
+<text x="674" y="493.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">DB_Schema.txt</text>
+<text x="674" y="514.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Declared tables, uniqueness and delete rules</text>
+<text x="47" y="606.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Editable delivery: native PowerPoint objects + JSON vector model + reproducible Python renderer + individual SVGs.</text>
+</svg>

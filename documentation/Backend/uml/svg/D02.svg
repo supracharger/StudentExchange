@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D02 | Student &amp; visitor use cases</title>
+<desc>Use-case model • boundary covers the website and its account adapter. Registering creates an account; a separate login establishes the website session.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   USE-CASE DIAGRAM   /   D02</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Student &amp; visitor use cases</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Use-case model • boundary covers the website and its account adapter.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Registering creates an account; a separate login establishes the website session.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: Website/src/App.tsx, hooks/useAccount.ts, api/accounts.ts; server/api.mjs</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">05</text>
+<ellipse cx="88.0" cy="262.0" rx="10.0" ry="10.0" fill="#FFFFFF" stroke="#18334B" stroke-width="1"/>
+<polyline points="88,272 88,307" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="68,284 108,284" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="70,329 88,307 106,329" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="88" y="348.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Visitor</text>
+<ellipse cx="88.0" cy="461.0" rx="10.0" ry="10.0" fill="#FFFFFF" stroke="#18334B" stroke-width="1"/>
+<polyline points="88,471 88,506" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="68,483 108,483" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="70,528 88,506 106,528" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="88" y="547.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Signed-in student</text>
+<rect x="235" y="164" width="975" height="442" rx="0" fill="#FFFFFF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="255" y="188.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Student Exchange website</text>
+<ellipse cx="410.0" cy="253.5" rx="125.0" ry="32.5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="410.0" y="246.29" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Browse sample</text>
+<text x="410.0" y="265.29" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">listings</text>
+<ellipse cx="410.0" cy="362.5" rx="125.0" ry="32.5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="410.0" y="364.29" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Register account</text>
+<ellipse cx="410.0" cy="471.5" rx="125.0" ry="32.5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="410.0" y="473.29" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Log in</text>
+<ellipse cx="765.0" cy="253.5" rx="125.0" ry="32.5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="765.0" y="246.29" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Preview messages</text>
+<text x="765.0" y="265.29" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">and offers</text>
+<ellipse cx="765.0" cy="362.5" rx="125.0" ry="32.5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="765.0" y="364.29" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Read / edit profile</text>
+<ellipse cx="765.0" cy="471.5" rx="125.0" ry="32.5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="765.0" y="464.29" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Log out all</text>
+<text x="765.0" y="483.29" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">backend sessions</text>
+<polyline points="109,292 285,253" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="109,292 215,292 215,361 285,361" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="109,292 195,292 195,470 285,470" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="109,492 620,572 765,572 765,504" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="109,492 615,535 615,362 640,362" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polyline points="640,253 535,253" fill="none" stroke="#65788A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="545.0,248.0 535,253 545.0,258.0" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<text x="587" y="240.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">«extend»</text>
+<rect x="947" y="222" width="235" height="144" rx="5" fill="#F0ECFA" stroke="none" stroke-width="1"/>
+<text x="961" y="245.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Extension condition</text>
+<text x="961" y="270.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Preview messaging / offers is</text>
+<text x="961" y="290.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">optional after selecting a</text>
+<text x="961" y="310.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">listing. It does not require a</text>
+<text x="961" y="330.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">login in the current UI.</text>
+<rect x="947" y="393" width="235" height="137" rx="5" fill="#EAF3FB" stroke="none" stroke-width="1"/>
+<text x="961" y="416.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Inherited capability</text>
+<text x="961" y="441.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">A signed-in student can also</text>
+<text x="961" y="461.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">use the visitor workflows.</text>
+<text x="961" y="481.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Actors describe roles, not</text>
+<text x="961" y="501.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">distinct people.</text>
+<polyline points="88,451 88,354" fill="none" stroke="#65788A" stroke-width="1.5"/>
+<polygon points="88,354 93.0,364.0 83.0,364.0" fill="#FFFFFF" stroke="#65788A" stroke-width="1"/>
+</svg>

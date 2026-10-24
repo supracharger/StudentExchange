@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>ACCESS | Authorization matrix</title>
+<desc>Current implementation • website permissions and backend checks are shown separately. A UI permission flag does not replace backend authorization; caller and target roles remain distinct.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   CONTRACT REFERENCE   /   ACCESS</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Authorization matrix</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Current implementation • website permissions and backend checks are shown separately.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">A UI permission flag does not replace backend authorization; caller and target roles remain distinct.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence: Website/server/admin.mjs: adminStatus; Backend/Users.cs, AppAuthJson.cs; Controllers/*</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">29</text>
+<rect x="43" y="165" width="350" height="43" rx="0" fill="#12365B" stroke="#FFFFFF" stroke-width="1"/>
+<text x="54" y="185.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#FFFFFF" text-anchor="start">Action</text>
+<rect x="393" y="165" width="295" height="43" rx="0" fill="#12365B" stroke="#FFFFFF" stroke-width="1"/>
+<text x="404" y="185.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#FFFFFF" text-anchor="start">Website requirement</text>
+<rect x="688" y="165" width="551" height="43" rx="0" fill="#12365B" stroke="#FFFFFF" stroke-width="1"/>
+<text x="699" y="185.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#FFFFFF" text-anchor="start">Backend requirement / scope</text>
+<rect x="43" y="208" width="350" height="43" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1"/>
+<text x="54" y="227.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Check membership</text>
+<rect x="393" y="208" width="295" height="43" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1"/>
+<text x="404" y="227.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Signed-in session</text>
+<rect x="688" y="208" width="551" height="43" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1"/>
+<text x="699" y="227.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Valid app credentials + user token; no to_user</text>
+<rect x="43" y="251" width="350" height="43" rx="0" fill="#EAF3FB" stroke="#FFFFFF" stroke-width="1"/>
+<text x="54" y="270.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Manage admin assignments</text>
+<rect x="393" y="251" width="295" height="43" rx="0" fill="#EAF3FB" stroke="#FFFFFF" stroke-width="1"/>
+<text x="404" y="270.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Admin level &gt; 0</text>
+<rect x="688" y="251" width="551" height="43" rx="0" fill="#EAF3FB" stroke="#FFFFFF" stroke-width="1"/>
+<text x="699" y="270.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Caller &gt; 0; to_user required; assigned level &lt; caller</text>
+<rect x="43" y="294" width="350" height="43" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1"/>
+<text x="54" y="313.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Set locked status</text>
+<rect x="393" y="294" width="295" height="43" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1"/>
+<text x="404" y="313.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Admin level ≥ 30</text>
+<rect x="688" y="294" width="551" height="43" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1"/>
+<text x="699" y="313.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Caller ≥ 30; locked must be 0 or 1</text>
+<rect x="43" y="337" width="350" height="43" rx="0" fill="#EAF3FB" stroke="#FFFFFF" stroke-width="1"/>
+<text x="54" y="356.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">List users / manage schools</text>
+<rect x="393" y="337" width="295" height="43" rx="0" fill="#EAF3FB" stroke="#FFFFFF" stroke-width="1"/>
+<text x="404" y="356.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Admin level ≥ 10</text>
+<rect x="688" y="337" width="551" height="43" rx="0" fill="#EAF3FB" stroke="#FFFFFF" stroke-width="1"/>
+<text x="699" y="356.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Caller ≥ 10; forwarding rejected</text>
+<rect x="43" y="380" width="350" height="43" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1"/>
+<text x="54" y="399.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Read / edit target profile</text>
+<rect x="393" y="380" width="295" height="43" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1"/>
+<text x="404" y="399.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Admin level ≥ 10</text>
+<rect x="688" y="380" width="551" height="43" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1"/>
+<text x="699" y="399.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Forwarding caller ≥ 10; target eligibility checks</text>
+<rect x="43" y="423" width="350" height="43" rx="0" fill="#EAF3FB" stroke="#FFFFFF" stroke-width="1"/>
+<text x="54" y="442.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Delete target account</text>
+<rect x="393" y="423" width="295" height="43" rx="0" fill="#EAF3FB" stroke="#FFFFFF" stroke-width="1"/>
+<text x="404" y="442.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Admin level ≥ 10</text>
+<rect x="688" y="423" width="551" height="43" rx="0" fill="#EAF3FB" stroke="#FFFFFF" stroke-width="1"/>
+<text x="699" y="442.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">to_user required; lower admin target; locked guard</text>
+<rect x="43" y="466" width="350" height="43" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1"/>
+<text x="54" y="485.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Inspect / clear attempt records</text>
+<rect x="393" y="466" width="295" height="43" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1"/>
+<text x="404" y="485.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Admin level ≥ 20</text>
+<rect x="688" y="466" width="551" height="43" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1"/>
+<text x="699" y="485.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Caller ≥ 20; no forwarding; choose email XOR ip_addr</text>
+<rect x="43" y="509" width="350" height="43" rx="0" fill="#EAF3FB" stroke="#FFFFFF" stroke-width="1"/>
+<text x="54" y="528.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Reveal admin levels in directory</text>
+<rect x="393" y="509" width="295" height="43" rx="0" fill="#EAF3FB" stroke="#FFFFFF" stroke-width="1"/>
+<text x="404" y="528.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Admin level ≥ 30</text>
+<rect x="688" y="509" width="551" height="43" rx="0" fill="#EAF3FB" stroke="#FFFFFF" stroke-width="1"/>
+<text x="699" y="528.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Backend exposes level at ≥ 27 (website is stricter)</text>
+<rect x="43" y="552" width="350" height="43" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1"/>
+<text x="54" y="571.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Request target sign-out</text>
+<rect x="393" y="552" width="295" height="43" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1"/>
+<text x="404" y="571.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Any admin</text>
+<rect x="688" y="552" width="551" height="43" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1"/>
+<text x="699" y="571.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Forwarding guard; logout can mask validation failure</text>
+</svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>00 | Student Exchange | UML design atlas</title>
+<desc>Website + Node adapter + ASP.NET Core API + SQLite 25 discrete diagrams, grounded in the repository and organized from goals to deployment.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="none" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE   /   DESIGN DOSSIER   /   00</text>
+<text x="42" y="67.24" font-family="DejaVu Sans, sans-serif" font-size="28" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Student Exchange | UML design atlas</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Website + Node adapter + ASP.NET Core API + SQLite</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="none" stroke-width="1"/>
+<text x="56" y="657.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">25 discrete diagrams, grounded in the repository and organized from goals to deployment.</text>
+<text x="44" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Evidence snapshot: f91b923f4ec8f1072b3dda07070916459342d7a2 | 24 October 2026</text>
+<text x="1238" y="697.3" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="end">01</text>
+<text x="63" y="202.9" font-family="DejaVu Sans, sans-serif" font-size="30" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">A precise model of the system that exists today.</text>
+<text x="65" y="251.77" font-family="DejaVu Sans, sans-serif" font-size="19" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Prepared from the supplied UML PowerPoint PDF and the latest repository, including the newly added website.</text>
+<text x="65" y="280.77" font-family="DejaVu Sans, sans-serif" font-size="19" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Each view has a distinct purpose, a boundary, and implementation evidence.</text>
+<rect x="65" y="367" width="350" height="130" rx="5" fill="#EAF3FB" stroke="#9BB0C1" stroke-width="1"/>
+<text x="240.0" y="394.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">01 / Goals &amp; structure</text>
+<text x="80" y="422.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Actors, use cases, components,</text>
+<text x="80" y="442.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">classes and data relationships</text>
+<rect x="465" y="367" width="350" height="130" rx="5" fill="#E8F5EF" stroke="#9BB0C1" stroke-width="1"/>
+<text x="640.0" y="394.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">02 / Behavior &amp; state</text>
+<text x="480" y="422.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Request sequences, activities,</text>
+<text x="480" y="442.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">sessions and marketplace UI</text>
+<rect x="865" y="367" width="350" height="130" rx="5" fill="#F0ECFA" stroke="#9BB0C1" stroke-width="1"/>
+<text x="1040.0" y="394.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">03 / Runtime &amp; evidence</text>
+<text x="880" y="422.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Deployment, integration gaps,</text>
+<text x="880" y="442.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">permissions and traceability</text>
+<text x="65" y="555.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Visual language: navy headings, pastel groups, explicit arrows, numbered views.</text>
+<text x="65" y="591.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Status labels distinguish implemented behavior, browser previews and incomplete integration.</text>
+</svg>

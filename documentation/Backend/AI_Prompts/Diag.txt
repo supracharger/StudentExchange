@@ -1,0 +1,7 @@
+>> Create UML Diagrams according to the powerpoint design. In depth and discrete. Do your best work!
+
+>> Then push to ChatGPT branch.
+
+>> I added the front end also which is the website.
+
+>> Create DFD Diagrams according to the powerpoint design (The file I gave you). In depth and discrete. Do your best work!
