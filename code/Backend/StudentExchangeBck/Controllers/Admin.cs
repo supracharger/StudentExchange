@@ -1,56 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-/* Admin:
- 
-   GET Get():
-        Returns if admin or not
-        if admin: will also have admin level
-        Input: {app_access, access_token}
-        Output: on success: {is_admin, level}  
-
-   POST Post():
-        Add Admin
-        Input: {to_user, level, locked?, app_access, access_token}
-        Output: on success: {message, email}
-
-   PATCH Patch():
-        Update Admin
-        Input: {to_user, level, locked?, app_access, access_token}
-        Output: on success: {message, email}
-
-   DELETE Delete():
-        Delete Admin
-        Input: {to_user, app_access, access_token}
-        Output: <on success: {message, email}
-
-   ==================================================================================
-
-   ValidateLevel():
-        Validate Authenication level
- */
-
-namespace StudentExchangeBck.Controllers
-{
+namespace StudentExchangeBck.Controllers{
     [ApiController]
     [Route("[controller]")]
-    public class Admin : ControllerBase
-    {
-        /// <summary>
-        /// Returns if admin or not
-        /// if admin: will also have admin level
-        /// </summary>
-        /// <param name="auth">Input: {app_access, access_token}</param>
-        /// <returns>Output: on success: {is_admin, level}</returns>
+    public class Admin : ControllerBase{//manages who is an admin and at what level, 4 methods map to 4 standard HTTP verbs
         [HttpGet]
-        public IActionResult Get(AppAuthJson auth)
-        {
-            // Validate Application Access & Access Token
+        public IActionResult Get(AppAuthJson auth){//admin at what level
+            //validate application access & access token
             var msg = AppAuthJson.ValidateWithToken(this, auth, HttpContext, out var user, out var ip);
-            // Exit if invalid
+            // exit if invalid
             if (msg != null) return msg;
 
-            // Not Authorized: User can't be forwarded
+            // not authorized: user can't be forwarded
             if (user.forwarded)
                 return BadRequest(new
                 {
@@ -72,20 +34,14 @@ namespace StudentExchangeBck.Controllers
             });
         }
 
-        /// <summary>
-        /// Add Admin
-        /// </summary>
-        /// <param name="info">Input: {to_user, level, locked?, app_access, access_token}</param>
-        /// <returns>on success: {message, email}</returns>
         [HttpPost]
-        public IActionResult Post(Info info)
-        {
-            // Validate Application Access & Access Token
+        public IActionResult Post(Info info){//make someone an admin
+            //validate application access & access token
             var msg = AppAuthJson.ValidateWithToken(this, info, HttpContext, out var user, out var ip);
-            // Exit if invalid
+            // exit if invalid
             if (msg != null) return msg;
 
-            // Admin Level to low
+            // admin level too low
             if (user.adminLvl <= 0 || (info.locked != null && user.adminLvl < 30))
                 return Unauthorized(new
                 {
@@ -151,20 +107,14 @@ namespace StudentExchangeBck.Controllers
             }
         }
 
-        /// <summary>
-        /// Update Admin
-        /// </summary>
-        /// <param name="info">Input: {to_user, level, locked?, app_access, access_token}</param>
-        /// <returns>on success: {message, email}</returns>
         [HttpPatch]
-        public IActionResult Patch(Info info)
-        {
-            // Validate Application Access & Access Token
+        public IActionResult Patch(Info info){//change admin level or locked status
+            //validate application access & access token
             var msg = AppAuthJson.ValidateWithToken(this, info, HttpContext, out var user, out var ip);
-            // Exit if invalid
+            //exit if invalid
             if (msg != null) return msg;
 
-            // Admin Level to low
+            //admin lvl to low
             if (user.adminLvl <= 0 || (info.locked != null && user.adminLvl < 30))
                 return Unauthorized(new
                 {
@@ -232,14 +182,8 @@ namespace StudentExchangeBck.Controllers
             }
         }
 
-        /// <summary>
-        /// Delete Admin
-        /// </summary>
-        /// <param name="auth">Input: {to_user, app_access, access_token}</param>
-        /// <returns><on success: {message, email}/returns>
         [HttpDelete]
-        public IActionResult Delete(AppAuthJson auth)
-        {
+        public IActionResult Delete(AppAuthJson auth){//removes someone's admin status
             // Validate Application Access & Access Token
             var msg = AppAuthJson.ValidateWithToken(this, auth, HttpContext, out var user, out var ip);
             // Exit if invalid
@@ -297,14 +241,7 @@ namespace StudentExchangeBck.Controllers
             }
         }
 
-        /// <summary>
-        /// Validate Authenication level
-        /// </summary>
-        /// <param name="user">User data</param>
-        /// <param name="info">Request Data</param>
-        /// <exception cref="ArgumentException"></exception>
-        static void ValidateLevel(in Users.Data user, Info info)
-        {
+        static void ValidateLevel(in Users.Data user, Info info){//check level
             if (info.level == null || info.level.Value < 0)
                 throw new ArgumentException("Invalid 'level' value.");
 

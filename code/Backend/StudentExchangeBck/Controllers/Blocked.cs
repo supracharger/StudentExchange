@@ -1,48 +1,25 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-/* Blocked Users & IP
- 
-   GET Get():
-        Get Blocked Users & IPs
-        Input: {app_access, access_token}
-        Output: On Success {blockedUsers: [], blockedIPs: []}
-
-   DELETE Delete():
-        Delete Blocked User or IP
-        Input: {app_access, access_token, email || ip_addr}
-        Output: On Success {Message, Email || IP, Deleted_Rows}
- */
-
-namespace StudentExchangeBck
-{
+namespace StudentExchangeBck{
     [ApiController]
     [Route("[controller]")]
-    public class Blocked : ControllerBase
-    {
-        /// <summary>
-        /// Get Blocked Users & IPs
-        /// </summary>
-        /// <param name="auth">Input: {app_access, access_token}</param>
-        /// <returns>Output: On Success {blockedUsers: [], blockedIPs: []}</returns>
+    public class Blocked : ControllerBase{//admin only controller for managing blocked things that you see in IP.cs and Users.cs
         [HttpGet]
-        public IActionResult Get(AppAuthJson auth)
-        {
-            // Validate Application Access & Access Token
+        public IActionResult Get(AppAuthJson auth){//list blocked users and IPs
+            //validate application access & access token
             var msg = AppAuthJson.ValidateWithToken(this, auth, HttpContext, out var user, out var ip);
-            // Exit if invalid
+            //exit if invalid
             if (msg != null) return msg;
 
-            // Not Authorized: User can't be forwarded
+            //not authorized: user can't be forwarded
             if (user.forwarded)
                 return Unauthorized(new
                 {
                     Message = "User cannot be forwarded."
                 });
 
-            // Not Authorized: Not Admin or Admin level too low
-            if (!user.isAdmin || user.adminLvl < 20)
-            {
+            if (!user.isAdmin || user.adminLvl < 20){// Not Authorized: Not Admin or Admin level too low
                 // IP Blocking & Tracking
                 var msg2 = IP.IncInvalidForIP(true, this, ip.id);
                 if (msg2 != null) return msg2;
@@ -185,14 +162,8 @@ namespace StudentExchangeBck
             }
         }
 
-        /// <summary>
-        /// Delete Blocked User or IP
-        /// </summary>
-        /// <param name="info">Input: {app_access, access_token, email || ip_addr}</param>
-        /// <returns>Output: On Success {Message, Email || IP, Deleted_Rows}</returns>
         [HttpDelete]
-        public IActionResult Delete(Info info)
-        {
+        public IActionResult Delete(Info info){//unblock someone
             // Validate Application Access & Access Token
             var msg = AppAuthJson.ValidateWithToken(this, info, HttpContext, out var user, out var ip);
             // Exit if invalid
@@ -261,9 +232,7 @@ namespace StudentExchangeBck
                     });
                 }
 
-                // Delete blocked ip
-                if (hasIP)
-                {
+                if (hasIP){// Delete blocked ip
                     // Find ip id
                     var result = Sql.Read("SELECT [id] FROM IP WHERE [ip]=@ip;", new Dictionary<string, object>
                     {
@@ -309,8 +278,7 @@ namespace StudentExchangeBck
             }
         }
 
-        public class Info : AppAuthJson
-        {
+        public class Info : AppAuthJson{
             public string? email { get; set; }
             public string? ip_addr { get; set; }
         }
