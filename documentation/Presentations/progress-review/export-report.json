@@ -1,0 +1,17 @@
+{
+  "slides": 34,
+  "pdf_pages": 34,
+  "native_editable_objects": 1377,
+  "placed_screenshots": 4,
+  "speaker_notes": true,
+  "page_bounds_pass": true,
+  "website_hyperlinks": true,
+  "team_contributions_confirmed": true,
+  "app_builds_passed": 2,
+  "app_test_results": {
+    "passed": 116,
+    "failed": 1,
+    "skipped": 1
+  },
+  "application_source_modified": false
+}
