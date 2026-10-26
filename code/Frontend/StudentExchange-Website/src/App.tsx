@@ -41,6 +41,7 @@ const [messageInput, setMessageInput] = useState('')
 const selectedListing = listings.find(
   (listing) => listing.id === selectedListingId
 )
+  const messageInputRef = useRef<HTMLInputElement>(null)
   const accountButton = useRef<HTMLButtonElement>(null)
   const account = useAccount()
   const administration = useAdmin(account.profile, account.expire)
@@ -103,16 +104,32 @@ const selectedListing = listings.find(
           <a
             className="nav-browse"
             href="/#browse"
-            onClick={() => {
-              if (adminPage) navigateAdmin(false)
+            onClick={(event) => {
+              event.preventDefault()
+
+              navigateAdmin(false)
+
+              setTimeout(() => {
+                document.getElementById('browse')?.scrollIntoView({
+                  behavior: 'smooth'
+                })
+              }, 0)
             }}
           >
             Browse
           </a>
           <a
             href="/#how-it-works"
-            onClick={() => {
-              if (adminPage) navigateAdmin(false)
+            onClick={(event) => {
+              event.preventDefault()
+
+              navigateAdmin(false)
+
+              setTimeout(() => {
+                document.getElementById('how-it-works')?.scrollIntoView({
+                  behavior: 'smooth'
+                })
+              }, 0)
             }}
           >
             How it works
@@ -244,7 +261,7 @@ const selectedListing = listings.find(
         onClick={(event) => event.stopPropagation()}
       >
 
-        <div className="message-window-header">
+      <div className="message-window-header">
 
           <div>
             <h2>Message Seller</h2>
@@ -265,7 +282,11 @@ const selectedListing = listings.find(
 
         </div>
 
-        <div className="message-window-body">
+        <div
+          className="message-window-body"
+          onClick={() => messageInputRef.current?.focus()}
+          style={{ cursor: 'text' }}
+        >
 
           {messages.length === 0 && (
             <p className="message-placeholder">
@@ -304,6 +325,7 @@ const selectedListing = listings.find(
           >
 
             <input
+              ref={messageInputRef}
               type="text"
               placeholder="Type a message..."
               aria-label="Type a message"
@@ -366,7 +388,8 @@ const selectedListing = listings.find(
                     id="offer-price"
                     type="number"
                     min="0.01"
-                    step="1"
+                    max={selectedListing.price}
+                    step="0.01"
                     required
                     autoFocus
                     value={offerAmount}
