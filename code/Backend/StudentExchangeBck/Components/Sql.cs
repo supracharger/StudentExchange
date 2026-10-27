@@ -30,7 +30,8 @@ namespace StudentExchangeBck{
             try
             {
                 // Async lock
-                _lock.EnterReadLock();
+                if (trans == null)
+                    _lock.EnterReadLock();
                 // Connect Sql
                 if (trans != null)
                 {
@@ -76,8 +77,10 @@ namespace StudentExchangeBck{
             finally 
             {
                 if (trans == null)
+                {
                     con?.Close();
-                _lock.ExitReadLock(); 
+                    _lock.ExitReadLock();
+                }
             }
         }
 
@@ -141,43 +144,37 @@ namespace StudentExchangeBck{
             if (!_validWrite.IsMatch(sql.Trim().ToLower()))
                 throw new ArgumentException($"Invalid SQL statement for Sql.Write(): {sql}.");
             int cnt = 0;                            // Rows affected
-            try
+            // Connect to SqLite
+            if (trans._con == null)
             {
-                // Async write lock
-                _lock.EnterWriteLock();
-                // Connect to SqLite
-                if (trans._con == null)
-                {
-                    if (trans._trans != null) throw new Exception("trans._trans != null");
-                    trans._con = SqLiteConnect();
-                }
-                var con = trans._con;
-                // Open connection if closed
-                if (con.State == ConnectionState.Closed) con.Open();
-
-                // Sql Command
-                if (trans._trans == null)
-                    trans._trans = con.BeginTransaction();
-                var com = con.CreateCommand();
-                com.CommandText = sql;
-                com.Transaction = trans._trans;
-
-                // Add Sql args
-                if (args != null)
-                    foreach (var s in args)
-                        com.Parameters.AddWithValue(s.Key, s.Value);
-
-                // Excute non Query
-                cnt = com.ExecuteNonQuery();
-                // Validate affected rows
-                if (cnt != updatedRows && !new[] { -1, -2 }.Contains(updatedRows))
-                    throw new Exception($"cnt({cnt}) != updatedRows({updatedRows})");
-                else if (cnt < 1 && updatedRows == -1)
-                    throw new Exception($"cnt({cnt}) < 1");
-
-                return cnt;
+                if (trans._trans != null) throw new Exception("trans._trans != null");
+                trans._con = SqLiteConnect();
             }
-            finally { _lock.ExitWriteLock(); }
+            var con = trans._con;
+            // Open connection if closed
+            if (con.State == ConnectionState.Closed) con.Open();
+
+            // Sql Command
+            if (trans._trans == null)
+                trans._trans = con.BeginTransaction();
+            var com = con.CreateCommand();
+            com.CommandText = sql;
+            com.Transaction = trans._trans;
+
+            // Add Sql args
+            if (args != null)
+                foreach (var s in args)
+                    com.Parameters.AddWithValue(s.Key, s.Value);
+
+            // Excute non Query
+            cnt = com.ExecuteNonQuery();
+            // Validate affected rows
+            if (cnt != updatedRows && !new[] { -1, -2 }.Contains(updatedRows))
+                throw new Exception($"cnt({cnt}) != updatedRows({updatedRows})");
+            else if (cnt < 1 && updatedRows == -1)
+                throw new Exception($"cnt({cnt}) < 1");
+
+            return cnt;
         }
         // SqLite Path
         public static readonly string _path = Path.GetFullPath(Env._dbPath);
@@ -200,7 +197,6 @@ namespace StudentExchangeBck{
                     // Open connection if closed
                     if (_con!.State == ConnectionState.Closed) _con.Open();
 
-                    _lock.EnterWriteLock();
                     _trans.Commit();
                     _trans = null;
                 }
@@ -220,7 +216,6 @@ namespace StudentExchangeBck{
                     // Open connection if closed
                     if (_con!.State == ConnectionState.Closed) _con.Open();
 
-                    _lock.EnterWriteLock();
                     _trans.Rollback();
                     _trans = null;
                 }
@@ -230,6 +225,11 @@ namespace StudentExchangeBck{
                     _lock.ExitWriteLock();
                     _con = null;
                 }
+            }
+
+            public Trans()
+            {
+                _lock.EnterWriteLock();
             }
         }
     }
