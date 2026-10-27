@@ -37,6 +37,15 @@ namespace StudentExchangeBck
             if (asuser && user.forwarded && user.adminLvl < 10)
                 return Unauthorized("Not Authorized.");
 
+            if (!string.IsNullOrWhiteSpace(data.isbn))
+            {
+                var cleaned = data.isbn.Replace("-", "").Replace(" ", "").ToUpperInvariant();
+                if (!IsValidIsbn(cleaned))
+                    return BadRequest("That ISBN is not valid. Please check it and try again.");
+                data.isbn = cleaned;
+            }
+            else data.isbn = null;
+
             try
             {
                 var useCategory = !string.IsNullOrWhiteSpace(data.category);
@@ -52,6 +61,7 @@ namespace StudentExchangeBck
                           WHERE " +
                           (asuser ? "u.id=@userid AND " : "l.status=1 AND ") +
                           (useCategory ? "c.name=@category AND " : "") +
+                          (data.isbn != null ? "b.isbn=@isbn AND " : "") +
                           @"l.user_id=u.id AND l.category=c.id AND l.condition=cd.id AND b.list_id=l.id AND l.status=s.id
                           ORDER BY l.expiry; ";
                 var args = new Dictionary<string, object>();
@@ -60,8 +70,26 @@ namespace StudentExchangeBck
                     args.Add("@category", data.category!);
                 if (asuser)
                     args.Add("@userid", user.id);
+                if (data.isbn != null)
+                    args.Add("@isbn", data.isbn);
 
                 var result = Sql.Read(sql, args);
+
+                // Search
+                if (result.Count != 0 && !string.IsNullOrWhiteSpace(data.search))
+                {
+                    data.search = data.search.Trim().ToLower();
+                    var titles = result["title"].Select(s => ((string)s).ToLower()).ToList();
+                    var ii = Enumerable.Range(0, titles.Count)
+                                .OrderBy(i => Utilz.LevenshteinEditDistance(data.search, titles[i]))
+                                .ThenBy(i => i).ToList();
+
+                    foreach(var k in result.Keys.ToArray())
+                    {
+                        var v = result[k];
+                        result[k] = ii.Select(i => v[i]).ToList();
+                    }
+                }
 
                 // Sql.Read returns columns; rebuild one object per listing
                 var listings = new List<object>();
@@ -115,7 +143,6 @@ namespace StudentExchangeBck
             }
         }
 
-        readonly object _createLock = new object();
         // POST: api/listing
         [HttpPost]
         public IActionResult CreateListing([FromBody] ListingCreateModel model)
@@ -131,64 +158,61 @@ namespace StudentExchangeBck
                 model.Title = Utilz.FirstUpper(model.Title, ignoreStopWords: true);
 
             string? imageName = null;
+            // Save the image (if any)
+            if (!string.IsNullOrWhiteSpace(model.ImageBase64))
+            {
+                imageName = SaveImage(model.ImageBase64, out error);
+                if (imageName == null) return BadRequest(new { Message = error });
+            }
+
             Sql.Trans? trans = null;
             try
             {
                 trans = new Sql.Trans();
                 long lid;
-                lock (_createLock)
+                Sql.Write(@"INSERT INTO Listings (title, description, price, category, [condition], 
+                            user_id, datetime, expiry) 
+                            VALUES (@title, @description, @price, @category, @condition, 
+                            @user_id, @datetime, @expiry)", trans,
+                    new Dictionary<string, object>
+                    {
+                    { "@title", model.Title.Trim() },
+                    { "@description", model.Description ?? "" },
+                    { "@price", model.Price },
+                    { "@category", category },
+                    { "@condition", condition },
+                    // SQLite needs DBNull.Value (not null) to store an empty cell
+                    //{ "@image", (object?)imageName ?? DBNull.Value },
+                    { "@user_id", user.id },                       // from the token, not the client
+                    { "@datetime", Utilz.ToMtn().ToString("s") },
+                    { "@expiry", (Utilz.ToMtn() + Env._list_expiry).ToString("s") }
+                    }, 1);
+
+                lid = (long)Sql.Read("SELECT [id] FROM Listings WHERE user_id=@userid ORDER BY id DESC LIMIT 1",
+                                    new Dictionary<string, object> { { "@userid", user.id } }, trans)["id"][0];
+
+                if (isbn != null)
                 {
-                    Sql.Write(@"INSERT INTO Listings (title, description, price, category, [condition], 
-                              user_id, datetime, expiry) 
-                              VALUES (@title, @description, @price, @category, @condition, 
-                              @user_id, @datetime, @expiry)", trans,
-                        new Dictionary<string, object>
-                        {
-                        { "@title", model.Title.Trim() },
-                        { "@description", model.Description ?? "" },
-                        { "@price", model.Price },
-                        { "@category", category },
-                        { "@condition", condition },
-                        // SQLite needs DBNull.Value (not null) to store an empty cell
-                        //{ "@image", (object?)imageName ?? DBNull.Value },
-                        { "@user_id", user.id },                       // from the token, not the client
-                        { "@datetime", Utilz.ToMtn().ToString("s") },
-                        { "@expiry", (Utilz.ToMtn() + Env._list_expiry).ToString("s") }
-                        }, 1);
-
-                    lid = (long)Sql.Read("SELECT [id] FROM Listings WHERE user_id=@userid ORDER BY id DESC LIMIT 1",
-                                        new Dictionary<string, object> { { "@userid", user.id } }, trans)["id"][0];
-
-                    if (isbn != null)
+                    if (isbn != _noisbn)
+                        Sql.Write("INSERT INTO Books (list_id, isbn) VALUES (@lid, @isbn)", trans, new Dictionary<string, object>
                     {
-                        if (isbn != _noisbn)
-                            Sql.Write("INSERT INTO Books (list_id, isbn) VALUES (@lid, @isbn)", trans, new Dictionary<string, object>
-                        {
-                            { "@lid", lid },
-                            { "@isbn", isbn }
-                        }, 1);
-                        else
-                            Sql.Write("INSERT INTO Books (list_id) VALUES (@lid)", trans, new Dictionary<string, object>
-                        {
-                            { "@lid", lid }
-                        }, 1);
-                    }
-
-                    // Save the image (if any)
-                    if (!string.IsNullOrWhiteSpace(model.ImageBase64))
+                        { "@lid", lid },
+                        { "@isbn", isbn }
+                    }, 1);
+                    else
+                        Sql.Write("INSERT INTO Books (list_id) VALUES (@lid)", trans, new Dictionary<string, object>
                     {
-                        imageName = SaveImage(model.ImageBase64, out error);
-                        if (imageName == null) return BadRequest(new { Message = error });
-                    }
+                        { "@lid", lid }
+                    }, 1);
+                }
 
-                    if (imageName != null)
-                    {
-                        Sql.Write("Insert INTO Img (list_id, name) VALUES (@lid, @name)", trans, new Dictionary<string, object>
+                if (imageName != null)
+                {
+                    Sql.Write("Insert INTO Img (list_id, name) VALUES (@lid, @name)", trans, new Dictionary<string, object>
                     {
                         { "@lid", lid },
                         { "@name", imageName }
                     }, 1);
-                    }
                 }
 
                 trans.Commit();
@@ -428,8 +452,10 @@ namespace StudentExchangeBck
 
     public class GetListingsJson : AppAuthJson
     {
+        public string? search { get; set; } = null;
         public string? category { get; set; } = null;
         public string? for_user { get; set; } = null;
+        public string? isbn { get; set; } = null;
     }
 
     public class ListingCreateModel : AppAuthJson
