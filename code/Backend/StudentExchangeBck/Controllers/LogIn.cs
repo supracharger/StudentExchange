@@ -1,40 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using static StudentExchangeBck.Register;
 
-/* LogIn EndPoint:
-    
-   POST Post():
-        Login POST: Uses password and email to login.
-        Input: {'email', 'password', 'app_access'}
-        Returns: If successfull: {'access_token', 'first_name'}
-
-   DELETE Delete():
-        Log Out
-        On Success: Deletes all access tokens for given user.
-        Input: {'app_access', 'access_token'}
-        Returns: OK(), Status 200
-
-   ========================================================================
-
-   CleanUp():
-        Occasionally should be used to clean up resources
- */
-
-namespace StudentExchangeBck
-{
+namespace StudentExchangeBck{
     [ApiController]
     [Route("[controller]")]
-    public class LogIn : ControllerBase
-    {
-        /// <summary>
-        /// Login POST: Uses password and email to login.
-        /// If successfull: Returns {'access_token', 'first_name'}
-        /// </summary>
-        /// <param name="data">Input: {'email', 'password', 'app_access'}</param>
-        /// <returns>If successfull: Returns {'access_token', 'first_name'}</returns>
+    public class LogIn : ControllerBase{//login controller with two actions POST logs and DELETE logs out
         [HttpPost]
-        public IActionResult Post(Info data)
-        {
+        public IActionResult Post(Info data){//uses ValidateApp instad of ValidateWithToken bc person doesnt have a token yet
             // Validate Application Access
             var msg = AppAuthJson.ValidateApp(data, HttpContext, this, out var ip);
             // If no Auth: return no auth
@@ -168,15 +140,8 @@ namespace StudentExchangeBck
             }
         }
 
-        /// <summary>
-        /// Log Out
-        /// On Success: Deletes all access tokens for given user.
-        /// </summary>
-        /// <param name="data">Input: {'app_access', 'access_token'}</param>
-        /// <returns>OK(), Status 200</returns>
         [HttpDelete]
-        public IActionResult Delete(AppAuthJson data)
-        {
+        public IActionResult Delete(AppAuthJson data){//validates app, then the token, if token invalid says you are logged out, otherwise deletes all the users tokens
             // Validate Application Access
             var msg = AppAuthJson.ValidateApp(data, HttpContext, this, out var ip);
             // Exit: No Auth
@@ -218,11 +183,7 @@ namespace StudentExchangeBck
             }
         }
 
-        /// <summary>
-        /// Occasionally should be used to clean up resources
-        /// </summary>
-        public static void CleanUp()
-        {
+        public static void CleanUp(){//deletes expired rows from Access_Token
             // Clean up old access tokens
             Sql.Write("DELETE FROM Access_Token WHERE [expiry]<@date", new Dictionary<string, object>
             {
@@ -230,8 +191,7 @@ namespace StudentExchangeBck
             }, -2);
         }
 
-        public class Info : AppAuthJson
-        {
+        public class Info : AppAuthJson{
             public string? email { get; set; }
             public string? password { get; set; }
         }

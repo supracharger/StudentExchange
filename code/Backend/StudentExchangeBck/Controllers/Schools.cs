@@ -1,37 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-/* Schools EndPoint
- 
-   GET Get():
-        Get List of used Schools.
-        Input: {}
-        RETURNS: { Schools: [...], short_names: [...] }
-
-   POST Post():
-        Add School
-        Input: {'app_access', 'access_token', 'name', 'short_name'}
-        Output: on success: {message, name, short_name }
-
-   DELETE Delete():
-        Delete School
-        Input: {'app_access', 'access_token', 'name'?, 'short_name'?}
-        Output: on success: {message, name, short_name, row_count }
- */
-
-namespace StudentExchangeBck
-{
+namespace StudentExchangeBck{
     [ApiController]
     [Route("[controller]")]
-    public class Schools : ControllerBase
-    {
-        /// <summary>
-        /// Get List of used Schools.
-        /// Input: {}
-        /// </summary>
-        /// <returns>{ Schools: [...], short_names: [...] }</returns>
+    public class Schools : ControllerBase{
         [HttpGet]
-        public IActionResult Get()
-        {
+        public IActionResult Get(){//list the schools
             try
             {
                 // Get Schools from db
@@ -59,14 +33,8 @@ namespace StudentExchangeBck
             }
         }
 
-        /// <summary>
-        /// Add School
-        /// </summary>
-        /// <param name="info">Input: {'app_access', 'access_token', 'name', 'short_name'}</param>
-        /// <returns>on success: {message, name, short_name }</returns>
         [HttpPost]
-        public IActionResult Post(Info info)
-        {
+        public IActionResult Post(Info info){//add a school ADMIN 10+
             // Validate Application Access & Access Token
             var msg = AppAuthJson.ValidateWithToken(this, info, HttpContext, out var user, out var ip);
             // Exit if invalid
@@ -138,14 +106,8 @@ namespace StudentExchangeBck
             }
         }
 
-        /// <summary>
-        /// Delete School
-        /// </summary>
-        /// <param name="info">Input: {'app_access', 'access_token', 'name'?, 'short_name'?}</param>
-        /// <returns>on success: {message, name, short_name, row_count }</returns>
         [HttpDelete]
-        public IActionResult Delete(Info info)
-        {
+        public IActionResult Delete(Info info){//remove a school ADMIN 10+
             // Validate Application Access & Access Token
             var msg = AppAuthJson.ValidateWithToken(this, info, HttpContext, out var user, out var ip);
             // Exit if invalid
@@ -216,8 +178,7 @@ namespace StudentExchangeBck
             }
         }
 
-        public class Info : AppAuthJson
-        {
+        public class Info : AppAuthJson{
             public string? name { get; set; }
             public string? short_name { get; set; }
         }

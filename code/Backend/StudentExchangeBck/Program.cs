@@ -1,8 +1,13 @@
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.FileProviders;      // NEW
 using StudentExchangeBck;
+using StudentExchangeBck.Controllers;          // NEW
 
 // Get Enviroment
 Env.GetEnv();
+
+Directory.CreateDirectory("public");
+Directory.CreateDirectory(Listing.UploadsPath);
 
 // Tasks that need to be occasionally cleaned
 Action Schedule = () =>
@@ -10,6 +15,7 @@ Action Schedule = () =>
     LogIn.CleanUp();
     Users.CleanUp();
     IP.CleanUp();
+    Listing.CleanUp();               // NEW
 };
 // Run Clean up at program start
 var tsk = Task.Run(Schedule);
@@ -33,7 +39,7 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
         ForwardedHeaders.XForwardedProto;
 });
 
-var app = builder.Build();
+var app = builder.Build();          // <-- 'app' is created here
 
 app.UseForwardedHeaders();
 
@@ -44,6 +50,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// NEW: serve listing images from the uploads folder at /uploads/...
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Listing.UploadsPath),
+    RequestPath = "/uploads"
+});
 
 app.UseAuthorization();
 

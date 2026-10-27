@@ -56,4 +56,25 @@ Accept: application/json
 # Delete Blocked IPs or Users
 DELETE {{StudentExchangeBck_HostAddress}}/Blocked/
 Accept: application/json
+
+# Get Listings
+GET {{StudentExchangeBck_HostAddress}}/Listing/
+Accept: application/json
+# Add Listing
+POST {{StudentExchangeBck_HostAddress}}/Listing/
+Accept: application/json
+# Delete Listing
+DELETE {{StudentExchangeBck_HostAddress}}/Listing/
+Accept: application/json
+
+# Get Conditions
+GET {{StudentExchangeBck_HostAddress}}/Condition/
+Accept: application/json
+
+# Get Listings Category
+GET {{StudentExchangeBck_HostAddress}}/Category/
+Accept: application/json
+# Post Listings Category
+POST {{StudentExchangeBck_HostAddress}}/Category/
+Accept: application/json
 ###

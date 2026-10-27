@@ -9,7 +9,12 @@ Thumbs.db
 # Environment files and secrets
 .env
 .env.*
+.env2
+*.env
 !.env.example
+
+# User-uploaded listing images
+wwwroot/uploads/
 
 # Common dependency and build output
 node_modules/
@@ -26,3 +31,6 @@ obj/
 
 # Logs
 *.log
+
+*.db-journal
+*.sqbpro

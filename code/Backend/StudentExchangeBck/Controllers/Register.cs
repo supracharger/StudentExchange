@@ -1,48 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 
-/* Register EndPoint:
-   
-   POST Post():
-        Registers a user
-        Input: { 'email', 'first_name', 'last_name', 'password', 'school', 'app_access' }
-        Returns: On Success: {'Message', 'Email'}
-
-   GET Get():
-        Get User Registered info
-        Input: {'app_access', 'access_token'}
-        Returns: On Success: {'email', 'first_name', 'last_name', 'password', 'school'}
-
-   PATCH Patch():
-        Updates User Info
-        Input: { 'email'?, 'first_name'?, 'last_name'?, 'password'?, 'school'?, 'app_access', 'access_token' }
-        Returns: On Success: {'Message', 'Email'}
-
-   DELETE Delete():
-        Deletes user
-        Input: {'app_access', 'access_token', 'email'}
-        Output: on success: {'Message', 'Email', 'Deleted_Rows'}
-
-   ====================================================================================================
-
-   ValidateFormatInfo():
-        Validate & Format data to be added to database
- */
-
-namespace StudentExchangeBck
-{
+namespace StudentExchangeBck{
     [ApiController]
     [Route("[controller]")]
-    public class Register : ControllerBase
-    {
-        /// <summary>
-        /// Registers a user
-        /// </summary>
-        /// <param name="request">Input: { 'email', 'first_name', 'last_name', 'password', 'school', 'app_access' }</param>
-        /// <returns>On Success: {'Message', 'Email'} </returns>
+    public class Register : ControllerBase{
         [HttpPost]
-        public IActionResult Post(Info request)
-        {
+        public IActionResult Post(Info request){//create an account
             // Validate Application Access
             var msg = AppAuthJson.ValidateApp(request, HttpContext, this, out var ip);
             // Exit if no auth
@@ -100,14 +64,8 @@ namespace StudentExchangeBck
             }
         }
 
-        /// <summary>
-        /// Get User Registered info
-        /// </summary>
-        /// <param name="request">Input: {'app_access', 'access_token'}</param>
-        /// <returns>On Success: {'email', 'first_name', 'last_name', 'password', 'school'}</returns>
         [HttpGet]
-        public IActionResult Get(AppAuthJson request)
-        {
+        public IActionResult Get(AppAuthJson request){//view users register info
             // Validate Application Access & Access Token
             var msg = AppAuthJson.ValidateWithToken(this, request, HttpContext, out var user, out var ip);
             // Exit if invalid
@@ -164,14 +122,8 @@ namespace StudentExchangeBck
             }
         }
 
-        /// <summary>
-        /// Updates User Info
-        /// </summary>
-        /// <param name="info">Input: { 'email'?, 'first_name'?, 'last_name'?, 'password'?, 'school'?, 'app_access', 'access_token' }</param>
-        /// <returns>On Success: {'Message', 'Email'}</returns>
         [HttpPatch]
-        public IActionResult Patch(Info info)
-        {
+        public IActionResult Patch(Info info){//update some of a user's info
             // Validate Application Access & Access Token
             var msg = AppAuthJson.ValidateWithToken(this, info, HttpContext, out var user, out var ip);
             // Exit if invalid
@@ -307,14 +259,8 @@ namespace StudentExchangeBck
             }
         }
 
-        /// <summary>
-        /// Deletes user
-        /// </summary>
-        /// <param name="info">Input: {'app_access', 'access_token', 'to_user'}</param>
-        /// <returns>Output: on success: {'Message', 'Email', 'Deleted_Rows'}</returns>
         [HttpDelete]
-        public IActionResult Delete(AppAuthJson auth)
-        {
+        public IActionResult Delete(AppAuthJson auth){//delete user ADMIN ONLY
             // Validate Application Access & Access Token
             var msg = AppAuthJson.ValidateWithToken(this, auth, HttpContext, out var user, out var ip);
             // Exit if invalid
@@ -386,16 +332,7 @@ namespace StudentExchangeBck
         // Valid Regex Password
         static readonly Regex _valPass = new Regex(@"^[a-zA-Z0-9!@#$%^&*_\-+=]+$");
 
-        /// <summary>
-        /// Validate & Format data to be added to database
-        /// </summary>
-        /// <param name="info">Data to use</param>
-        /// <param name="schoolID">(long) school id</param>
-        /// <param name="emailCrypt">Encrypted Email</param>
-        /// <param name="passCrypt">Encrypted Password</param>
-        /// <exception cref="ArgumentException"></exception>
-        static void ValidateFormatInfo(ref Info info, out object schoolID, out string emailCrypt, out string passCrypt)
-        {
+        static void ValidateFormatInfo(ref Info info, out object schoolID, out string emailCrypt, out string passCrypt){//helper that both Post and Patch use. takes the Info object by ref, its the rulebook
             // Check for null or whitespace
             if (string.IsNullOrWhiteSpace(info.email))
                 throw new ArgumentException("There needs to be an Email.");
@@ -449,8 +386,7 @@ namespace StudentExchangeBck
             passCrypt = DeterministicEncryption.Encrypt(info.password, Env._passSalt);
         }
 
-        public class Info : AppAuthJson
-        {
+        public class Info : AppAuthJson{
             public string? email { get; set; }
             public string? first_name { get; set; }
             public string? last_name { get; set; }
