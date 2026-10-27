@@ -6,13 +6,16 @@ using StudentExchangeBck.Controllers;          // NEW
 // Get Enviroment
 Env.GetEnv();
 
+Directory.CreateDirectory("public");
+Directory.CreateDirectory(Listing.UploadsPath);
+
 // Tasks that need to be occasionally cleaned
 Action Schedule = () =>
 {
     LogIn.CleanUp();
     Users.CleanUp();
     IP.CleanUp();
-    ListingController.CleanUp();               // NEW
+    Listing.CleanUp();               // NEW
 };
 // Run Clean up at program start
 var tsk = Task.Run(Schedule);
@@ -49,10 +52,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 // NEW: serve listing images from the uploads folder at /uploads/...
-Directory.CreateDirectory(ListingController.UploadsPath);
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(ListingController.UploadsPath),
+    FileProvider = new PhysicalFileProvider(Listing.UploadsPath),
     RequestPath = "/uploads"
 });
 

@@ -1,15 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace StudentExchangeBck.Controllers
+namespace StudentExchangeBck
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class ListingController : ControllerBase
+    public class Listing : ControllerBase
     {
         // Allowed values for Condition (saved exactly as written here)
-        static readonly string[] _conditions = { "New", "Like New", "Good", "Fair", "Poor" };
+        //static readonly string[] _conditions = { "New", "Like New", "Good", "Fair", "Poor" };
         // ISBN is only accepted for this category. Must match what the frontend sends!
         const string TextbookCategory = "Textbooks";
+        const string _noisbn = "[blank]";
         const int MaxImageBytes = 2 * 1024 * 1024;   // 2 MB
 
         /// <summary>
@@ -17,29 +18,48 @@ namespace StudentExchangeBck.Controllers
         /// project's other data files (Env._bin). Program.cs serves it at /uploads.
         /// A property (not a field) so it is only read after Env.GetEnv() has run.
         /// </summary>
-        public static string UploadsPath => Path.GetFullPath(Path.Combine(Env._bin, "uploads"));
+        public static string UploadsPath => Path.GetFullPath(Path.Combine(Env._bin, "public/uploads"));
 
         // GET: api/listing  (optional ?category=...)
         [HttpGet]
-        public IActionResult GetListings(AppAuthJson auth, [FromQuery] string? category = null)
+        public IActionResult GetListings(GetListingsJson data)
         {
-            var msg = AppAuthJson.ValidateWithToken(this, auth, HttpContext, out var user, out var ip);
+            IP.Data ip;
+            Users.Data user = new Users.Data();
+            IActionResult? msg;
+            var asuser = data.for_user != null;
+            if (asuser)
+                msg = AppAuthJson.ValidateWithToken(this, data, HttpContext, out user, out ip);
+            else
+                msg = AppAuthJson.ValidateApp(data, HttpContext, this, out ip);
             if (msg != null) return msg;
+
+            if (asuser && user.forwarded && user.adminLvl < 10)
+                return Unauthorized("Not Authorized.");
 
             try
             {
-                var sql = "SELECT l.id, l.title, l.description, l.price, l.category, " +
-                          "l.[condition], l.location, l.isbn, l.image, l.datetime, " +
-                          "u.email, u.first_name, u.last_name " +
-                          "FROM Listings l JOIN User u ON l.user_id = u.id ";
+                var useCategory = !string.IsNullOrWhiteSpace(data.category);
+                var sql = @"SELECT l.id, l.title, l.description, l.price, c.name category, 
+                          cd.name condition, COALESCE(u.location, '') location, b.isbn, 
+                          (
+                           SELECT i.name FROM Img i 
+                           WHERE i.list_id = l.id 
+                           ORDER BY i.id LIMIT 1 
+                          ) image, 
+                          l.datetime, u.email, u.first_name, u.last_name, s.name status 
+                          FROM Listings l, User u, Listings_Category c, Condition cd, Books b, status s 
+                          WHERE " +
+                          (asuser ? "u.id=@userid AND " : "l.status=1 AND ") +
+                          (useCategory ? "c.name=@category AND " : "") +
+                          @"l.user_id=u.id AND l.category=c.id AND l.condition=cd.id AND b.list_id=l.id AND l.status=s.id
+                          ORDER BY l.expiry; ";
                 var args = new Dictionary<string, object>();
 
-                if (!string.IsNullOrWhiteSpace(category))
-                {
-                    sql += "WHERE l.category = @category ";
-                    args.Add("@category", category);
-                }
-                sql += "ORDER BY l.datetime DESC";
+                if (useCategory)
+                    args.Add("@category", data.category!);
+                if (asuser)
+                    args.Add("@userid", user.id);
 
                 var result = Sql.Read(sql, args);
 
@@ -47,25 +67,44 @@ namespace StudentExchangeBck.Controllers
                 var listings = new List<object>();
                 if (result.Count > 0)
                 {
-                    for (int i = 0; i < result["id"].Count; i++)
+                    var id = result["id"];
+                    var img = result["image"];
+                    var title = result["title"];
+                    var desc = result["description"];
+                    var price = result["price"];
+                    var cat = result["category"];
+                    var cond = result["condition"];
+                    var loc = result["location"];
+                    var isbn = result["isbn"];
+                    var dt = result["datetime"];
+                    var email = result["email"];
+                    var first = result["first_name"];
+                    var last = result["last_name"];
+                    List<object>? status = null;
+                    if (asuser)
+                        status = result["status"];
+                    for (int i = 0; i < id.Count; i++)
                     {
-                        var image = Val(result["image"][i]) as string;
-                        listings.Add(new
+                        var image = Val(img[i]) as string;
+                        var d = new Dictionary<string, object?>
                         {
-                            id = (long)result["id"][i],
-                            title = Val(result["title"][i]),
-                            description = Val(result["description"][i]),
-                            price = Convert.ToDecimal(result["price"][i]),
-                            category = Val(result["category"][i]),
-                            condition = Val(result["condition"][i]),
-                            location = Val(result["location"][i]),
-                            isbn = Val(result["isbn"][i]),
-                            image_url = image == null ? null : "/uploads/" + image,
-                            datetime = Val(result["datetime"][i]),
-                            email = DeterministicEncryption.Decrypt((string)result["email"][i], Env._emailSalt),
-                            first_name = Val(result["first_name"][i]),
-                            last_name = Val(result["last_name"][i])
-                        });
+                            { "id", (long)id[i]},
+                            { "title", Val(title[i])},
+                            { "description", Val(desc[i])},
+                            { "price", Convert.ToDecimal(price[i])},
+                            { "category", Val(cat[i])},
+                            { "condition", Val(cond[i])},
+                            { "location", Val(loc[i])},
+                            { "isbn", Val(isbn[i])},
+                            { "image_url", image == null ? null : "/uploads/" + image },
+                            { "datetime", Val(dt[i])},
+                            { "email", DeterministicEncryption.Decrypt((string)email[i], Env._emailSalt)},
+                            { "first_name", Val(first[i])},
+                            { "last_name", Val(last[i])}
+                        };
+                        if (asuser)
+                            d.Add("status", status![i]);
+                        listings.Add(d);
                     }
                 }
                 return Ok(listings);
@@ -76,6 +115,7 @@ namespace StudentExchangeBck.Controllers
             }
         }
 
+        readonly object _createLock = new object();
         // POST: api/listing
         [HttpPost]
         public IActionResult CreateListing([FromBody] ListingCreateModel model)
@@ -84,42 +124,79 @@ namespace StudentExchangeBck.Controllers
             if (msg != null) return msg;
 
             // Validate everything before touching the disk or database
-            var error = ValidateListing(model, out var condition, out var isbn);
+            var error = ValidateListing(model, out var condition, out var category, out var isbn);
             if (error != null) return BadRequest(new { Message = error });
 
-            // Save the image (if any)
-            string? imageName = null;
-            if (!string.IsNullOrWhiteSpace(model.ImageBase64))
-            {
-                imageName = SaveImage(model.ImageBase64, out error);
-                if (imageName == null) return BadRequest(new { Message = error });
-            }
+            if (!string.IsNullOrWhiteSpace(model.Title))
+                model.Title = Utilz.FirstUpper(model.Title, ignoreStopWords: true);
 
+            string? imageName = null;
+            Sql.Trans? trans = null;
             try
             {
-                Sql.Write("INSERT INTO Listings (title, description, price, category, [condition], " +
-                          "location, isbn, image, user_id, datetime) " +
-                          "VALUES (@title, @description, @price, @category, @condition, " +
-                          "@location, @isbn, @image, @user_id, @datetime)",
-                    new Dictionary<string, object>
-                    {
+                trans = new Sql.Trans();
+                long lid;
+                lock (_createLock)
+                {
+                    Sql.Write(@"INSERT INTO Listings (title, description, price, category, [condition], 
+                              user_id, datetime, expiry) 
+                              VALUES (@title, @description, @price, @category, @condition, 
+                              @user_id, @datetime, @expiry)", trans,
+                        new Dictionary<string, object>
+                        {
                         { "@title", model.Title.Trim() },
                         { "@description", model.Description ?? "" },
                         { "@price", model.Price },
-                        { "@category", model.Category.Trim() },
+                        { "@category", category },
                         { "@condition", condition },
-                        { "@location", model.Location.Trim() },
                         // SQLite needs DBNull.Value (not null) to store an empty cell
-                        { "@isbn", (object?)isbn ?? DBNull.Value },
-                        { "@image", (object?)imageName ?? DBNull.Value },
+                        //{ "@image", (object?)imageName ?? DBNull.Value },
                         { "@user_id", user.id },                       // from the token, not the client
-                        { "@datetime", Utilz.ToMtn().ToString("s") }
-                    }, 1);
+                        { "@datetime", Utilz.ToMtn().ToString("s") },
+                        { "@expiry", (Utilz.ToMtn() + Env._list_expiry).ToString("s") }
+                        }, 1);
 
-                return Ok(new { message = "Listing created successfully!" });
+                    lid = (long)Sql.Read("SELECT [id] FROM Listings WHERE user_id=@userid ORDER BY id DESC LIMIT 1",
+                                        new Dictionary<string, object> { { "@userid", user.id } }, trans)["id"][0];
+
+                    if (isbn != null)
+                    {
+                        if (isbn != _noisbn)
+                            Sql.Write("INSERT INTO Books (list_id, isbn) VALUES (@lid, @isbn)", trans, new Dictionary<string, object>
+                        {
+                            { "@lid", lid },
+                            { "@isbn", isbn }
+                        }, 1);
+                        else
+                            Sql.Write("INSERT INTO Books (list_id) VALUES (@lid)", trans, new Dictionary<string, object>
+                        {
+                            { "@lid", lid }
+                        }, 1);
+                    }
+
+                    // Save the image (if any)
+                    if (!string.IsNullOrWhiteSpace(model.ImageBase64))
+                    {
+                        imageName = SaveImage(model.ImageBase64, out error);
+                        if (imageName == null) return BadRequest(new { Message = error });
+                    }
+
+                    if (imageName != null)
+                    {
+                        Sql.Write("Insert INTO Img (list_id, name) VALUES (@lid, @name)", trans, new Dictionary<string, object>
+                    {
+                        { "@lid", lid },
+                        { "@name", imageName }
+                    }, 1);
+                    }
+                }
+
+                trans.Commit();
+                return StatusCode(201, new { message = "Listing created successfully!" });
             }
             catch (Exception e)
             {
+                try { trans?.Rollback(); } catch { }
                 // The database insert failed, so don't leave an orphan image file behind
                 if (imageName != null) DeleteImageFile(imageName);
                 return StatusCode(500, new { Message = $"An internal server error occurred: {e}" });
@@ -127,29 +204,41 @@ namespace StudentExchangeBck.Controllers
         }
 
         // DELETE: api/listing/{id}
-        [HttpDelete("{id}")]
-        public IActionResult DeleteListing(long id, [FromBody] AppAuthJson auth)
+        [HttpDelete]
+        public IActionResult DeleteListing(Delete data)
         {
-            var msg = AppAuthJson.ValidateWithToken(this, auth, HttpContext, out var user, out var ip);
+            var msg = AppAuthJson.ValidateWithToken(this, data, HttpContext, out var user, out var ip);
             if (msg != null) return msg;
+
+            if (user.forwarded && user.adminLvl < 10)
+                return Unauthorized("Not Authorized.");
+
+            if (data.id == null)
+                return BadRequest("There needs to be an id.");
 
             try
             {
+                var idd = new Dictionary<string, object> { { "@id", data.id.Value } };
                 // Who owns this listing, and does it have an image?
-                var result = Sql.Read("SELECT [user_id], [image] FROM Listings WHERE [id]=@id",
-                    new Dictionary<string, object> { { "@id", id } });
+                var result = Sql.Read("SELECT [user_id] FROM Listings WHERE [id]=@id", idd);
                 if (result.Count == 0)
                     return NotFound(new { message = "Listing not found." });
 
                 // Only the owner or an admin may delete it
-                if ((long)result["user_id"][0] != user.id && !user.isAdmin)
+                if ((long)result["user_id"][0] != user.id)
                     return Unauthorized(new { Message = "Not authorized." });
 
-                Sql.Write("DELETE FROM Listings WHERE [id]=@id",
-                    new Dictionary<string, object> { { "@id", id } }, 1);
+                result = Sql.Read("SELECT [name] FROM Img WHERE [list_id]=@id", idd);
+                if (result.Count != 0)
+                {
+                    foreach (var img in result["name"].Cast<string>())
+                        if (Val(img) is string) DeleteImageFile(img);
 
-                // Remove the image file too
-                if (Val(result["image"][0]) is string img) DeleteImageFile(img);
+                    Sql.Write("DELETE FROM Img WHERE [list_id]=@id", idd);
+                }
+
+                Sql.Write("DELETE FROM Listings WHERE [id]=@id", idd, 1);
+                // Table Books CASCADES the delete
 
                 return Ok(new { message = "Listing deleted successfully!" });
             }
@@ -166,24 +255,30 @@ namespace StudentExchangeBck.Controllers
         /// </summary>
         public static void CleanUp()
         {
+            // DeActivate expired listings
+            Sql.Write("UPDATE Listings SET [status]=3 WHERE status=1 AND expiry<@now;",
+                    new Dictionary<string, object> { { "@now", Utilz.ToMtn().ToString("s") } }, -2);
+
             var dir = UploadsPath;
-            if (!Directory.Exists(dir)) return;
-
-            // Every image filename that is still in use
-            var result = Sql.Read("SELECT [image] FROM Listings WHERE [image] IS NOT NULL");
-            var used = result.Count == 0
-                ? new HashSet<string>()
-                : result["image"].Select(o => (string)o).ToHashSet();
-
-            foreach (var file in Directory.GetFiles(dir))
+            if (!Directory.Exists(dir))
             {
-                // Still in use: keep it
-                if (used.Contains(Path.GetFileName(file))) continue;
-                // Very new: its database row may not have been inserted yet
-                if (System.IO.File.GetCreationTimeUtc(file) > DateTime.UtcNow.AddDays(-1)) continue;
 
-                try { System.IO.File.Delete(file); }
-                catch { /* best effort: try again tomorrow */ }
+                // Every image filename that is still in use
+                var result = Sql.Read("SELECT [name] FROM Img");
+                var used = result.Count == 0
+                    ? new HashSet<string>()
+                    : result["name"].Cast<string>().ToHashSet();
+
+                foreach (var file in Directory.GetFiles(dir))
+                {
+                    // Still in use: keep it
+                    if (used.Contains(Path.GetFileName(file))) continue;
+                    // Very new: its database row may not have been inserted yet
+                    if (System.IO.File.GetCreationTimeUtc(file) > DateTime.UtcNow.AddDays(-1)) continue;
+
+                    try { System.IO.File.Delete(file); }
+                    catch { /* best effort: try again tomorrow */ }
+                }
             }
         }
 
@@ -193,9 +288,9 @@ namespace StudentExchangeBck.Controllers
         static object? Val(object o) => o is DBNull ? null : o;
 
         /// <summary>Returns an error message, or null if the listing is valid.</summary>
-        static string? ValidateListing(ListingCreateModel m, out string condition, out string? isbn)
+        static string? ValidateListing(ListingCreateModel m, out long condition, out long category, out string? isbn)
         {
-            condition = "";
+            condition = category = -1;
             isbn = null;
 
             if (string.IsNullOrWhiteSpace(m.Title) || m.Title.Trim().Length > 200)
@@ -208,19 +303,30 @@ namespace StudentExchangeBck.Controllers
                 return "Category is required.";
 
             // Condition must match one of the allowed values (any capitalization)
-            var match = _conditions.FirstOrDefault(c =>
+            var result = Sql.Read("SELECT [id],[name] FROM Condition");
+            var conds = result["name"].Cast<string>().ToList();
+            var cid = result["id"].Cast<long>().ToList();
+            var match = conds.FirstOrDefault(c =>
                 string.Equals(c, m.Condition?.Trim(), StringComparison.OrdinalIgnoreCase));
             if (match == null)
-                return $"Condition must be one of: {string.Join(", ", _conditions)}.";
-            condition = match;
+                return $"Condition must be one of: {string.Join(", ", conds)}.";
+            condition = cid[conds.IndexOf(match)];
 
-            if (string.IsNullOrWhiteSpace(m.Location) || m.Location.Trim().Length > 100)
-                return "Location is required (max 100 characters).";
+            // Category must be allowed
+            result = Sql.Read("SELECT [id],[name] FROM Listings_Category");
+            var cats = result["name"].Cast<string>().ToList();
+            cid = result["id"].Cast<long>().ToList();
+            match = cats.FirstOrDefault(c =>
+                string.Equals(c, m.Category?.Trim(), StringComparison.OrdinalIgnoreCase));
+            if (match == null)
+                return $"Category must be one of: {string.Join(", ", conds)}.";
+            category = cid[cats.IndexOf(match)];
 
+            var isbook = string.Equals(m.Category.Trim(), TextbookCategory, StringComparison.OrdinalIgnoreCase);
             // ISBN: optional, textbooks only
             if (!string.IsNullOrWhiteSpace(m.Isbn))
             {
-                if (!string.Equals(m.Category.Trim(), TextbookCategory, StringComparison.OrdinalIgnoreCase))
+                if (!isbook)
                     return "An ISBN can only be added to textbook listings.";
 
                 var cleaned = m.Isbn.Replace("-", "").Replace(" ", "").ToUpperInvariant();
@@ -228,6 +334,8 @@ namespace StudentExchangeBck.Controllers
                     return "That ISBN is not valid. Please check it and try again.";
                 isbn = cleaned;
             }
+            else if (isbook)
+                isbn = _noisbn;
 
             return null;
         }
@@ -311,6 +419,17 @@ namespace StudentExchangeBck.Controllers
             }
             catch { /* best effort: a leftover file is harmless, and CleanUp will catch it */ }
         }
+
+        public class Delete : AppAuthJson
+        {
+            public long? id { get; set; }
+        }
+    }
+
+    public class GetListingsJson : AppAuthJson
+    {
+        public string? category { get; set; } = null;
+        public string? for_user { get; set; } = null;
     }
 
     public class ListingCreateModel : AppAuthJson
@@ -320,7 +439,6 @@ namespace StudentExchangeBck.Controllers
         public decimal Price { get; set; }
         public string Category { get; set; } = string.Empty;
         public string Condition { get; set; } = string.Empty;
-        public string Location { get; set; } = string.Empty;
         public string? Isbn { get; set; }           // optional, textbooks only
         public string? ImageBase64 { get; set; }    // optional
     }

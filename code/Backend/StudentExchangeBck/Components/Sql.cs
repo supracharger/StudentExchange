@@ -21,52 +21,64 @@ namespace StudentExchangeBck{
         // Only 'insert into', 'update', or 'delete from' allowed in write
         static readonly Regex _validWrite = new Regex(@"^(insert\s+into|update|delete\s+from)\b", RegexOptions.IgnoreCase);
 
-        public static Dictionary<string, List<object>> Read(string sql, Dictionary<string, object>? args = null){//run a SELECT, get data back
+        public static Dictionary<string, List<object>> Read(string sql, Dictionary<string, object>? args = null,
+                                                            Trans? trans = null){//run a SELECT, get data back
             // Validate correct statement
             if (!_validRead.IsMatch(sql.Trim()))
                 throw new ArgumentException($"Only SELECT SQL statements are allowed in Sql.Read(): {sql}.");
+            SqliteConnection? con = null;
             try
             {
                 // Async lock
                 _lock.EnterReadLock();
                 // Connect Sql
-                using (var con = SqLiteConnect())
+                if (trans != null)
                 {
-                    // Open connection if need be
-                    if (con.State == ConnectionState.Closed) con.Open();
+                    if (trans._con == null) throw new Exception("trans._con == null");
+                    con = trans._con;
+                } else con = SqLiteConnect();
 
-                    // Sql Command
-                    var com = con.CreateCommand();
-                    com.CommandText = sql;
+                // Open connection if need be
+                if (con.State == ConnectionState.Closed) con.Open();
 
-                    // Add Sql Args
-                    if (args != null)
-                        foreach (var s in args)
-                            com.Parameters.AddWithValue(s.Key, s.Value);
+                // Sql Command
+                var com = con.CreateCommand();
+                com.CommandText = sql;
+                if (trans != null && trans._trans != null)
+                    com.Transaction = trans._trans;
 
-                    List<string>? keys = null;
-                    var ls = new List<List<object>>();
+                // Add Sql Args
+                if (args != null)
+                    foreach (var s in args)
+                        com.Parameters.AddWithValue(s.Key, s.Value);
 
-                    // Read data
-                    using (var reader = com.ExecuteReader())
+                List<string>? keys = null;
+                var ls = new List<List<object>>();
+
+                // Read data
+                using (var reader = com.ExecuteReader())
+                {
+                    while (reader.Read())
                     {
-                        while (reader.Read())
-                        {
-                            if (keys == null)
-                                keys = Enumerable.Range(0, reader.FieldCount).Select(reader.GetName).ToList();
-                            ls.Add(keys.Select(k => reader[k]).ToList());
-                        }
+                        if (keys == null)
+                            keys = Enumerable.Range(0, reader.FieldCount).Select(reader.GetName).ToList();
+                        ls.Add(keys.Select(k => reader[k]).ToList());
                     }
-
-                    // If nothing return empty dictionary
-                    if (keys == null) return new Dictionary<string, List<object>>();
-
-                    // Return values Data[column_name][irows]
-                    ls = Utilz.Transpose(ls).ToList();
-                    return Enumerable.Range(0, keys.Count).ToDictionary(i => keys[i], i => ls[i]);
                 }
+
+                // If nothing return empty dictionary
+                if (keys == null) return new Dictionary<string, List<object>>();
+
+                // Return values Data[column_name][irows]
+                ls = Utilz.Transpose(ls).ToList();
+                return Enumerable.Range(0, keys.Count).ToDictionary(i => keys[i], i => ls[i]);
             }
-            finally { _lock.ExitReadLock(); }
+            finally 
+            {
+                if (trans == null)
+                    con?.Close();
+                _lock.ExitReadLock(); 
+            }
         }
 
         public static int Write(string sql, Dictionary<string, object>? args = null, int updatedRows = -1){//run an INSERT, UPDATE, or DELETE
@@ -123,6 +135,50 @@ namespace StudentExchangeBck{
             finally { _lock.ExitWriteLock(); }
         }
 
+        public static int Write(string sql, Trans trans, Dictionary<string, object>? args = null, int updatedRows = -1)
+        {//run an INSERT, UPDATE, or DELETE
+            // validate Write Sql statement
+            if (!_validWrite.IsMatch(sql.Trim().ToLower()))
+                throw new ArgumentException($"Invalid SQL statement for Sql.Write(): {sql}.");
+            int cnt = 0;                            // Rows affected
+            try
+            {
+                // Async write lock
+                _lock.EnterWriteLock();
+                // Connect to SqLite
+                if (trans._con == null)
+                {
+                    if (trans._trans != null) throw new Exception("trans._trans != null");
+                    trans._con = SqLiteConnect();
+                }
+                var con = trans._con;
+                // Open connection if closed
+                if (con.State == ConnectionState.Closed) con.Open();
+
+                // Sql Command
+                if (trans._trans == null)
+                    trans._trans = con.BeginTransaction();
+                var com = con.CreateCommand();
+                com.CommandText = sql;
+                com.Transaction = trans._trans;
+
+                // Add Sql args
+                if (args != null)
+                    foreach (var s in args)
+                        com.Parameters.AddWithValue(s.Key, s.Value);
+
+                // Excute non Query
+                cnt = com.ExecuteNonQuery();
+                // Validate affected rows
+                if (cnt != updatedRows && !new[] { -1, -2 }.Contains(updatedRows))
+                    throw new Exception($"cnt({cnt}) != updatedRows({updatedRows})");
+                else if (cnt < 1 && updatedRows == -1)
+                    throw new Exception($"cnt({cnt}) < 1");
+
+                return cnt;
+            }
+            finally { _lock.ExitWriteLock(); }
+        }
         // SqLite Path
         public static readonly string _path = Path.GetFullPath(Env._dbPath);
 
@@ -130,5 +186,51 @@ namespace StudentExchangeBck{
         // !!! Needs to be a private method !!!
         static SqliteConnection SqLiteConnect()
             => new SqliteConnection($"Data Source={_path};");
+
+        public class Trans
+        {
+            public SqliteTransaction? _trans;
+            public SqliteConnection? _con;
+
+            public void Commit()
+            {
+                if (_trans == null) return;
+                try
+                {
+                    // Open connection if closed
+                    if (_con!.State == ConnectionState.Closed) _con.Open();
+
+                    _lock.EnterWriteLock();
+                    _trans.Commit();
+                    _trans = null;
+                }
+                finally 
+                {
+                    _con!.Close();
+                    _lock.ExitWriteLock(); 
+                    _con = null;
+                }
+            }
+
+            public void Rollback()
+            {
+                if (_trans == null) return;
+                try
+                {
+                    // Open connection if closed
+                    if (_con!.State == ConnectionState.Closed) _con.Open();
+
+                    _lock.EnterWriteLock();
+                    _trans.Rollback();
+                    _trans = null;
+                }
+                finally
+                {
+                    _con!.Close();
+                    _lock.ExitWriteLock();
+                    _con = null;
+                }
+            }
+        }
     }
 }
