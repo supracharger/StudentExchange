@@ -57,12 +57,13 @@ namespace StudentExchangeBck
                            ORDER BY i.id LIMIT 1 
                           ) image, 
                           l.datetime, u.email, u.first_name, u.last_name, s.name status 
-                          FROM Listings l, User u, Listings_Category c, Condition cd, Books b, status s 
+                          FROM Listings l, User u, Listings_Category c, Condition cd, status s 
+                          LEFT JOIN Books b ON b.list_id=l.id
                           WHERE " +
                           (asuser ? "u.id=@userid AND " : "l.status=1 AND ") +
                           (useCategory ? "c.name=@category AND " : "") +
                           (data.isbn != null ? "b.isbn=@isbn AND " : "") +
-                          @"l.user_id=u.id AND l.category=c.id AND l.condition=cd.id AND b.list_id=l.id AND l.status=s.id
+                          @"l.user_id=u.id AND l.category=c.id AND l.condition=cd.id AND l.status=s.id
                           ORDER BY l.expiry; ";
                 var args = new Dictionary<string, object>();
 
