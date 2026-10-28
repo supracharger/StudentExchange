@@ -6,7 +6,6 @@ using StudentExchangeBck.Controllers;          // NEW
 // Get Enviroment
 Env.GetEnv();
 
-Directory.CreateDirectory("public");
 Directory.CreateDirectory(Listing.UploadsPath);
 
 // Tasks that need to be occasionally cleaned

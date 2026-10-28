@@ -55,6 +55,48 @@ namespace StudentExchangeBck
             }
         }
 
+        [HttpDelete]
+        public IActionResult Delete(Data data)
+        {
+            var msg = AppAuthJson.ValidateWithToken(this, data, HttpContext, out var user, out var ip);
+            // Exit if invalid
+            if (msg != null) return msg;
+
+            if (user.adminLvl < 10)
+                return Unauthorized("Not Authorized.");
+
+            if (string.IsNullOrWhiteSpace(data.category))
+                return BadRequest(new { Message = "category is empty." });
+
+            data.category = Utilz.FirstUpper(data.category, ignoreStopWords: true);
+
+            try
+            {
+                var cnt = Sql.Write("DELETE From Listings_Category WHERE name=@name", new Dictionary<string, object>
+                {
+                    { "@name", data.category }
+                }, -2);
+
+                if (cnt == 0)
+                    return BadRequest("Category not found.");
+                else if (cnt != 1)
+                    throw new Exception($"cnt({cnt}) != 1");
+
+                return Ok(new
+                {
+                    Message = "Category deleted.",
+                    Category = data.category
+                });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new
+                {
+                    Message = $"An internal server error occurred: {e}"
+                });
+            }
+        }
+
         public class Data : AppAuthJson
         {
             public string? category { get; set; }

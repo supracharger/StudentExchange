@@ -77,4 +77,7 @@ Accept: application/json
 # Post Listings Category
 POST {{StudentExchangeBck_HostAddress}}/Category/
 Accept: application/json
+# Delete Listings Category
+DELETE {{StudentExchangeBck_HostAddress}}/Category/
+Accept: application/json
 ###
