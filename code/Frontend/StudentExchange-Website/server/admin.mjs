@@ -26,7 +26,7 @@ export function adminStatus(data) {
     permissions: {
       manageAdmins: data.is_admin && level > 0,
       lockAdmins: data.is_admin && level >= 30,
-      viewAdminLevels: data.is_admin && level >= 30,
+      viewAdminLevels: data.is_admin && level >= 27,
       users: data.is_admin && level >= 10,
       schools: data.is_admin && level >= 10,
       profiles: data.is_admin && level >= 10,

@@ -1,10 +1,10 @@
 # Administrator console
 
-The current backend is deployed to Azure, as confirmed by the maintainer. Positive admin levels unlock admin-access management; level 10 unlocks user/profile/school management and account deletion; level 20 unlocks attempt-record tools; level 30 unlocks viewing admin levels and changing locked status. Website permission checks and HTTP fixtures use these thresholds.
+The current backend is deployed to Azure, as confirmed by the maintainer. Positive admin levels unlock admin-access management; level 10 unlocks user/profile/school management and account deletion; level 20 unlocks attempt-record tools; level 27 unlocks viewing admin levels; level 30 unlocks changing locked status. Website permission checks and HTTP fixtures use these thresholds.
 
 The `/admin` page is available from **Admin console** in the header after an administrator logs in. Direct navigation requires a valid session and confirmed membership from `GET /Admin`. Regular users never see the admin link. Permission checks fail closed: an unavailable or malformed membership response does not grant access.
 
-The current admin-access and user-directory contracts follow [Admin.cs](https://github.com/supracharger/SoftwareEngineerTemp/blob/23078099d3da3a06581bcf041770e2f08b0befac/StudentExchangeBck/Controllers/Admin.cs) and [Users.cs](https://github.com/supracharger/SoftwareEngineerTemp/blob/23078099d3da3a06581bcf041770e2f08b0befac/StudentExchangeBck/Components/Users.cs) at commit `23078099d3da3a06581bcf041770e2f08b0befac`. Target account selectors use `to_user`, containing the exact stored target email.
+The current admin-access and user-directory contracts follow [Admin.cs](https://github.com/supracharger/SoftwareEngineerTemp/blob/88cc232/StudentExchangeBck/Controllers/Admin.cs) and [Users.cs](https://github.com/supracharger/SoftwareEngineerTemp/blob/88cc232/StudentExchangeBck/Components/Users.cs) at commit `88cc232`. Target account selectors use `to_user`, containing the exact stored target email.
 
 | Admin access | Visible tools |
 | --- | --- |
@@ -12,7 +12,8 @@ The current admin-access and user-directory contracts follow [Admin.cs](https://
 | Level above 0 | Grant/update/remove admin access for eligible lower-ranked targets; assigned levels must be below the caller's level |
 | Level 10+ | User directory, search, school filter, pagination, eligible profile reads/updates, account deletion, school directory/add/delete |
 | Level 20+ | User/IP attempt records, search, pagination, clear user or IP records |
-| Level 30+ | View admin levels in the directory; optionally change locked status when granting/updating admin access |
+| Level 27+ | View admin levels in the directory |
+| Level 30+ | Optionally change locked status when granting/updating admin access |
 
 Navigation and controls outside the administrator's permissions are omitted, rather than disabled. Disabled states are only used for temporary loading, missing confirmation, or pagination boundaries.
 
@@ -41,7 +42,7 @@ The Admin access section accepts an exact target email, so levels 1–9 can use 
 
 ## Target permissions and backend limitations
 
-`/Users` returns parallel `isAdmin` and `locked` columns as numeric flags. The adapter validates and normalizes these to booleans; the directory shows student/admin status and locked admin status. Only level 30+ callers receive the `level` column, with `-1` for nonadmins. The adapter normalizes this sentinel to null so students have no displayed admin level. The adapter projects this column only when the caller has permission. The directory verifies profile access for the visible page (eight users, at most three checks in flight) before showing **Manage** and **Admin access…**. Known equal/higher-level, locked-ineligible, and own-account targets have no admin-access shortcut. A failed profile check leaves that target without controls while preserving successful checks for other users; service errors remain visible for retry. A forbidden target has no profile/session controls. Selecting an eligible profile opens a native modal with editable email, names, school, and optional new password with confirmation. Only changed, nonblank fields are sent. Passwords are cleared after attempts and never stored in browser storage.
+`/Users` returns parallel `isAdmin` and `locked` columns as numeric flags. The adapter validates and normalizes these to booleans; the directory shows student/admin status and locked admin status. Only level 27+ callers receive the `level` column, with `-1` for nonadmins. The adapter normalizes this sentinel to null so students have no displayed admin level. The adapter projects this column only when the caller has permission. The directory verifies profile access for the visible page (eight users, at most three checks in flight) before showing **Manage** and **Admin access…**. Known equal/higher-level, locked-ineligible, and own-account targets have no admin-access shortcut. A failed profile check leaves that target without controls while preserving successful checks for other users; service errors remain visible for retry. A forbidden target has no profile/session controls. Selecting an eligible profile opens a native modal with editable email, names, school, and optional new password with confirmation. Only changed, nonblank fields are sent. Passwords are cleared after attempts and never stored in browser storage.
 
 Profile forwarding and session termination cannot target an administrator of equal or higher rank. The backend enforces this again on the mutation. Account deletion now uses `to_user` and follows the shared forwarded-target checks. Its control appears only after successful profile-access verification, so equal/higher-rank targets have no profile, session, or deletion controls. Deletion requires typing the exact email into a confirmation dialog. The browser and adapter both send `{ "to_user": "student@example.com" }` as the deletion selector; the former `email` selector is rejected. The backend only deletes the `User` row; dependent-row cleanup is determined by its actual database configuration.
 
@@ -64,3 +65,6 @@ Existing HttpOnly, SameSite session cookies, write-origin checks, payload limits
 Run `npm test` and `npm run build`. Integration tests use real HTTP fixtures to inspect every outgoing admin request, including GET bodies, IP forwarding, selector preservation, privilege demotion, forbidden targets, credential injection, malformed responses, and partial-write success. UI tests check hidden controls, direct-route protection, navigation, profile editing, deletion confirmation, session termination, and separate user/IP clearing.
 
 The existing Render Node service remains the deployment target; use its normal deployment process. This change does not create a separate hosted site or change its audience.
+
+
+Marketplace listing review, deletion, and category creation are also available at level 10+. See [marketplace integration](marketplace.md) for the current contracts and backend limitations.

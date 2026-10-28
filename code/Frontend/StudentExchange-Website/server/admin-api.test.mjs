@@ -98,7 +98,7 @@ beforeEach(async () => {
               body: {
                 isAdmin: [0],
                 locked: [0],
-                ...(level >= 30 ? { level: [-1] } : {}),
+                ...(level >= 27 ? { level: [-1] } : {}),
                 email: [target.email],
                 name: ['Student, Sam'],
                 school: ['C'],
@@ -405,12 +405,17 @@ describe('administrator wire contract and permissions', () => {
     expect((await call('admin', 'DELETE', { to_user: target.email }, cookie)).status).toBe(403)
     expect((await call('admin', 'GET', undefined, cookie)).status).toBe(200)
   })
-  it('shows directory flags at all permitted levels and reveals levels only at 30+', async () => {
+  it('shows directory flags at all permitted levels and reveals levels at 27 while locking requires 30', async () => {
     const cookie = await login()
     level = 20
     const lower = await (await call('admin/users', 'GET', undefined, cookie)).json()
     expect(lower.users[0]).toMatchObject({ isAdmin: false, locked: false })
     expect(lower.users[0]).not.toHaveProperty('level')
+    level = 27
+    const middle = await (await call('admin/users', 'GET', undefined, cookie)).json()
+    expect(middle.users[0]).toHaveProperty('level', null)
+    const middleStatus = await (await call('admin', 'GET', undefined, cookie)).json()
+    expect(middleStatus.permissions).toMatchObject({ viewAdminLevels: true, lockAdmins: false })
     level = 30
     const higher = await (await call('admin/users', 'GET', undefined, cookie)).json()
     expect(higher.users[0]).toHaveProperty('level', null)
