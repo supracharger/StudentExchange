@@ -1,3 +1,4 @@
+import { marketplace } from '../api/marketplace'
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -12,6 +13,12 @@ const profile = {
 }
 
 beforeEach(() => {
+  vi.spyOn(marketplace, 'catalog').mockResolvedValue({
+    categories: [],
+    conditions: [],
+  })
+  vi.spyOn(marketplace, 'listings').mockResolvedValue({ listings: [] })
+
   vi.spyOn(accounts, 'profile').mockRejectedValue(
     new AccountApiError(401, 'Please log in to continue.'),
   )

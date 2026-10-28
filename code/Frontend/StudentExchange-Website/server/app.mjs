@@ -36,6 +36,7 @@ export function createWebsiteServer({
   })
   const root = resolve(dist)
   return http.createServer(
+    // These limit incoming uploads/headers, not the time spent waiting for the backend.
     { requestTimeout: 30000, headersTimeout: 10000 },
     async (request, response) => {
       // Headers apply to both API and static responses, including error pages.

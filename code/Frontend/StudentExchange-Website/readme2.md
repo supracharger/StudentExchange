@@ -108,3 +108,7 @@ School lookup and authenticated account workflows have been verified against the
 | `render.yaml`                                                                     | Node Web Service deployment Blueprint                         |
 
 Generated builds, dependencies, and local `.env` files are ignored by Git. Commit `package-lock.json` and use `npm ci` to reproduce the dependency versions.
+
+### Backend cold starts
+
+The adapter allows up to 180 seconds per upstream call so Azure can wake up even when a cold start takes about two minutes. Browser requests (including administrator actions) allow up to five minutes for that cold start and the sequential authentication, permission, and profile calls. Requests remain bounded; timeout/network failures do not automatically retry writes. The Node server’s 30-second `requestTimeout` limits receiving the incoming request body, not waiting for the backend response.

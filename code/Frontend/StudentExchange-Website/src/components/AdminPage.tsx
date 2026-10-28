@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { admin } from '../api/admin'
 import SchoolsPanel from './SchoolsPanel'
+import AdminMarketplace from './AdminMarketplace'
 import AdminAccessPanel from './AdminAccessPanel'
 import type {
   AdminAccess,
@@ -20,7 +21,7 @@ import {
   ConfirmPasswordField,
 } from './AccountPanel'
 
-type Section = 'overview' | 'users' | 'blocked' | 'sessions' | 'schools' | 'adminAccess'
+type Section = 'marketplace' | 'overview' | 'users' | 'blocked' | 'sessions' | 'schools' | 'adminAccess'
 type Confirmation = {
   title: string
   description: string
@@ -366,6 +367,7 @@ function Console({
   }[] = [
     { id: 'overview', icon: '◈', label: 'Overview', visible: true },
     { id: 'adminAccess', icon: '◇', label: 'Admin access', visible: permissions.manageAdmins },
+    { id: 'marketplace', icon: '▦', label: 'Marketplace', visible: permissions.users },
     { id: 'schools', icon: '▤', label: 'Schools', visible: permissions.schools },
     { id: 'users', icon: '♧', label: 'Users', visible: permissions.users },
     {
@@ -437,7 +439,7 @@ function Console({
         <header className="admin-page-heading">
           <p className="eyebrow">YOUR CAMPUS. IN GOOD HANDS.</p>
           <h1 id="admin-title" ref={heading} tabIndex={-1}>
-            {section === 'overview'
+            {section === 'marketplace' ? 'Manage the marketplace' : section === 'overview'
               ? `Welcome back, ${account.profile?.first_name}.`
               : section === 'adminAccess'
                 ? 'Manage admin access'
@@ -450,7 +452,7 @@ function Console({
                     : 'End user sessions'}
           </h1>
           <p>
-            {section === 'overview'
+            {section === 'marketplace' ? 'Review seller listings and keep the category directory current.' : section === 'overview'
               ? 'A clear view of your community, with the tools to keep it running smoothly.'
               : section === 'adminAccess'
                 ? 'Grant, change, or remove admin access for eligible users.'
@@ -669,6 +671,7 @@ function Console({
                 )}
               </>
             )}
+            {section === 'marketplace' && permissions.users && <AdminMarketplace key={revision} onError={handleError} />}
             {section === 'users' && permissions.users && (
               <div className="admin-card admin-directory">
                 <div className="admin-card-heading">

@@ -1,22 +1,5 @@
-import { request as accountRequest } from './accounts'
+import { request } from './accounts'
 import type { Profile, ProfileUpdate } from './accounts'
-
-// Admin calls include a fresh membership check; updates also read the saved profile.
-// Allow those bounded upstream deadlines to finish before the browser gives up.
-function request<T>(
-  path: string,
-  method = 'GET',
-  body?: unknown,
-  signal?: AbortSignal,
-) {
-  return accountRequest<T>(
-    path,
-    method,
-    body,
-    signal,
-    method === 'PATCH' || path === 'admin/sessions' ? 50000 : 35000,
-  )
-}
 
 export interface AdminAccess {
   is_admin: boolean

@@ -1,3 +1,24 @@
+# Student Exchange
+
+The website now uses the live listing API and includes a seller portal at `/seller` and marketplace administration at `/admin`.
+
+See [the marketplace integration guide](docs/marketplace.md) for current features, endpoint mappings, validation, and backend limitations. See [administration](docs/administration.md) for existing account and security tools; the user-level visibility threshold is now 27.
+
+## Run locally
+
+Use Node 24. Copy `.env.example` to `.env.local` and set the server-only `backend`, `app_access`, `user`, and `user_pass` values. The service account must be an administrator so the adapter can forward visitor IPs. Never prefix these secrets with `VITE_`.
+
+```sh
+npm ci
+npm run dev
+```
+
+Run `npm test` for fixture and UI tests, and `npm run build` for TypeScript checking and the production build. `npm start` serves the built site and same-origin API. Render configuration remains in `render.yaml`.
+
+---
+
+The earlier developer walkthrough below is retained for background. Its sample marketplace descriptions and feature roadmap are superseded by the integration guide above.
+
 \# Student Exchange developer guide
 
 Administrator console: see [docs/administration.md](docs/administration.md) for available tools, permission levels, backend route coverage, and visitor IP forwarding.
