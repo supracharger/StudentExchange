@@ -77,15 +77,38 @@ namespace StudentExchangeBck
                 var result = Sql.Read(sql, args);
 
                 // Search
-                if (result.Count != 0 && !string.IsNullOrWhiteSpace(data.search))
+                if (result.Count != 0 && !string.IsNullOrWhiteSpace(data.search) && result.Values.First().Count > 1)
                 {
-                    data.search = data.search.Trim().ToLower();
-                    var titles = result["title"].Select(s => ((string)s).ToLower()).ToList();
-                    var ii = Enumerable.Range(0, titles.Count)
-                                .OrderBy(i => Utilz.LevenshteinEditDistance(data.search, titles[i]))
-                                .ThenBy(i => i).ToList();
+                    var search = data.search.Trim().ToLowerInvariant().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    var titles = result["title"].Select(s => ((string)s).ToLowerInvariant().Split(' ', StringSplitOptions.RemoveEmptyEntries)).ToArray();
 
-                    foreach(var k in result.Keys.ToArray())
+                    var cache = new Dictionary<(string, string), int>();
+
+                    var ii = Enumerable.Range(0, titles.Length).ToArray();
+
+                    if (titles.Length > 2000)
+                    {
+                        // Rank all listings cheaply first.
+                        ii = ii.OrderBy(i => Utilz.SearchBasic(search, titles[i]))
+                               .ThenBy(i => i)
+                               .ToArray();
+
+                        // Apply fuzzy scoring to the strongest 2,000 candidates.
+                        var top = ii.Take(2000)
+                            .OrderBy(i => Utilz.Search(search, titles[i], cache))
+                            .ThenBy(i => i)
+                            .ToArray();
+
+                        ii = top.Concat(ii.Skip(2000)).ToArray();
+                    }
+                    else
+                    {
+                        ii = ii.OrderBy(i => Utilz.Search(search, titles[i], cache))
+                               .ThenBy(i => i)
+                               .ToArray();
+                    }
+
+                    foreach (var k in result.Keys.ToArray())
                     {
                         var v = result[k];
                         result[k] = ii.Select(i => v[i]).ToList();
