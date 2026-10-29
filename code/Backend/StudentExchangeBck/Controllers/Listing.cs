@@ -86,7 +86,8 @@ namespace StudentExchangeBck
 
                     var ii = Enumerable.Range(0, titles.Length).ToArray();
 
-                    if (titles.Length > 2000)
+                    const int cutoff = 2000;
+                    if (titles.Length > cutoff)
                     {
                         // Rank all listings cheaply first.
                         ii = ii.OrderBy(i => Utilz.SearchBasic(search, titles[i]))
@@ -94,12 +95,12 @@ namespace StudentExchangeBck
                                .ToArray();
 
                         // Apply fuzzy scoring to the strongest 2,000 candidates.
-                        var top = ii.Take(2000)
+                        var top = ii.Take(cutoff)
                             .OrderBy(i => Utilz.Search(search, titles[i], cache))
                             .ThenBy(i => i)
                             .ToArray();
 
-                        ii = top.Concat(ii.Skip(2000)).ToArray();
+                        ii = top.Concat(ii.Skip(cutoff)).ToArray();
                     }
                     else
                     {
