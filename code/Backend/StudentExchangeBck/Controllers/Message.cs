@@ -58,7 +58,8 @@ namespace StudentExchangeBck.Controllers
             try
             {
                 var result = Sql.Read(
-                    @"SELECT c.id, c.listing_id, c.buyer_id, c.seller_id, l.title, l.image, 
+                    @"SELECT c.id, c.listing_id, c.buyer_id, c.seller_id, l.title, 
+                    (SELECT i.name FROM Img i WHERE i.list_id=c.listing_id ORDER BY i.id LIMIT 1) image,
                     ub.first_name buyer_first, ub.last_name buyer_last, 
                     us.first_name seller_first, us.last_name seller_last, 
                     m.kind last_kind, m.body last_body, m.amount last_amount, 
