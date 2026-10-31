@@ -58,20 +58,20 @@ namespace StudentExchangeBck.Controllers
             try
             {
                 var result = Sql.Read(
-                    "SELECT c.id, c.listing_id, c.buyer_id, c.seller_id, l.title, l.image, " +
-                    "ub.first_name buyer_first, ub.last_name buyer_last, " +
-                    "us.first_name seller_first, us.last_name seller_last, " +
-                    "m.kind last_kind, m.body last_body, m.amount last_amount, " +
-                    "m.datetime last_datetime, m.sender_id last_sender_id, " +
-                    "(SELECT COUNT(*) FROM Messages x WHERE x.conversation_id = c.id " +
-                    "AND x.sender_id <> @me AND x.read_datetime IS NULL) unread " +
-                    "FROM Conversations c " +
-                    "JOIN Listings l ON l.id = c.listing_id " +
-                    "JOIN User ub ON ub.id = c.buyer_id " +
-                    "JOIN User us ON us.id = c.seller_id " +
-                    "JOIN Messages m ON m.id = (SELECT MAX(id) FROM Messages WHERE conversation_id = c.id) " +
-                    "WHERE c.buyer_id = @me OR c.seller_id = @me " +
-                    "ORDER BY m.id DESC",
+                    @"SELECT c.id, c.listing_id, c.buyer_id, c.seller_id, l.title, l.image, 
+                    ub.first_name buyer_first, ub.last_name buyer_last, 
+                    us.first_name seller_first, us.last_name seller_last, 
+                    m.kind last_kind, m.body last_body, m.amount last_amount, 
+                    m.datetime last_datetime, m.sender_id last_sender_id, 
+                    (SELECT COUNT(*) FROM Messages x WHERE x.conversation_id = c.id 
+                    AND x.sender_id <> @me AND x.read_datetime IS NULL) unread 
+                    FROM Conversations c 
+                    JOIN Listings l ON l.id = c.listing_id 
+                    JOIN User ub ON ub.id = c.buyer_id 
+                    JOIN User us ON us.id = c.seller_id 
+                    JOIN Messages m ON m.id = (SELECT MAX(id) FROM Messages WHERE conversation_id = c.id) 
+                    WHERE c.buyer_id = @me OR c.seller_id = @me 
+                    ORDER BY m.id DESC",
                     new Dictionary<string, object> { { "@me", user.id } });
  
                 // Sql.Read returns columns; rebuild one object per conversation
@@ -131,10 +131,10 @@ namespace StudentExchangeBck.Controllers
             try
             {
                 var result = Sql.Read(
-                    "SELECT COUNT(*) n FROM Messages m " +
-                    "JOIN Conversations cv ON cv.id = m.conversation_id " +
-                    "WHERE (cv.buyer_id = @me OR cv.seller_id = @me) " +
-                    "AND m.sender_id <> @me AND m.read_datetime IS NULL",
+                    @"SELECT COUNT(*) n FROM Messages m 
+                    JOIN Conversations cv ON cv.id = m.conversation_id 
+                    WHERE (cv.buyer_id = @me OR cv.seller_id = @me) 
+                    AND m.sender_id <> @me AND m.read_datetime IS NULL",
                     new Dictionary<string, object> { { "@me", user.id } });
  
                 return Ok(new { unread = (long)result["n"][0] });
@@ -171,8 +171,8 @@ namespace StudentExchangeBck.Controllers
                     return NotFound(new { Message = "Conversation not found." });
  
                 var result = Sql.Read(
-                    "SELECT id, sender_id, kind, body, amount, datetime, read_datetime " +
-                    "FROM Messages WHERE conversation_id = @c AND id > @after " +
+                    @"SELECT id, sender_id, kind, body, amount, datetime, read_datetime 
+                    FROM Messages WHERE conversation_id = @c AND id > @after " +
                     $"ORDER BY id LIMIT {PageSize}",
                     new Dictionary<string, object> { { "@c", conversationId }, { "@after", after } });
  
@@ -196,8 +196,8 @@ namespace StudentExchangeBck.Controllers
  
                     // Opening the conversation marks the other person's messages as read.
                     // -2: zero rows is fine (nothing was unread).
-                    Sql.Write("UPDATE Messages SET read_datetime=@now " +
-                              "WHERE conversation_id=@c AND sender_id<>@me AND read_datetime IS NULL",
+                    Sql.Write(@"UPDATE Messages SET read_datetime=@now 
+                              WHERE conversation_id=@c AND sender_id<>@me AND read_datetime IS NULL",
                         new Dictionary<string, object>
                         {
                             { "@now", Utilz.ToMtn().ToString("s") },
@@ -289,8 +289,8 @@ namespace StudentExchangeBck.Controllers
                     conversationId = FindOrCreateConversation(model.listing_id.Value, user.id, sellerId);
                 }
  
-                Sql.Write("INSERT INTO Messages (conversation_id, sender_id, kind, body, amount, datetime) " +
-                          "VALUES (@c, @s, @k, @b, @a, @d)",
+                Sql.Write(@"INSERT INTO Messages (conversation_id, sender_id, kind, body, amount, datetime) 
+                          VALUES (@c, @s, @k, @b, @a, @d)",
                     new Dictionary<string, object>
                     {
                         { "@c", conversationId },
@@ -321,12 +321,14 @@ namespace StudentExchangeBck.Controllers
         /// </summary>
         public static void CleanUp()
         {
-            Sql.Write("DELETE FROM Conversations WHERE [listing_id] NOT IN (SELECT [id] FROM Listings) " +
-                      "OR [buyer_id] NOT IN (SELECT [id] FROM User) " +
-                      "OR [seller_id] NOT IN (SELECT [id] FROM User)", null, -2);
+            // !!! This is not needed foreign keys are already setup for CASCADE for Update & Delete. !!!
+
+            //Sql.Write("DELETE FROM Conversations WHERE [listing_id] NOT IN (SELECT [id] FROM Listings) " +
+            //          "OR [buyer_id] NOT IN (SELECT [id] FROM User) " +
+            //          "OR [seller_id] NOT IN (SELECT [id] FROM User)", null, -2);
  
-            Sql.Write("DELETE FROM Messages WHERE [conversation_id] NOT IN (SELECT [id] FROM Conversations)",
-                null, -2);
+            //Sql.Write("DELETE FROM Messages WHERE [conversation_id] NOT IN (SELECT [id] FROM Conversations)",
+            //    null, -2);
         }
  
         // ---------------- Helpers ----------------
@@ -354,8 +356,8 @@ namespace StudentExchangeBck.Controllers
  
                 try
                 {
-                    Sql.Write("INSERT INTO Conversations (listing_id, buyer_id, seller_id, datetime) " +
-                              "VALUES (@l, @b, @s, @d)",
+                    Sql.Write(@"INSERT INTO Conversations (listing_id, buyer_id, seller_id, datetime) 
+                              VALUES (@l, @b, @s, @d)",
                         new Dictionary<string, object>
                         {
                             { "@l", listingId },
