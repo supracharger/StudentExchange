@@ -49,14 +49,14 @@ namespace StudentExchangeBck
             try
             {
                 var useCategory = !string.IsNullOrWhiteSpace(data.category);
-                var sql = @"SELECT l.id, l.title, l.description, l.price, c.name category, 
-                          cd.name condition, COALESCE(u.location, '') location, b.isbn, 
+                var sql = @"SELECT l.id, l.title, l.price, c.name category, 
+                          cd.name condition, u.location, b.isbn, 
                           (
                            SELECT i.name FROM Img i 
                            WHERE i.list_id = l.id 
                            ORDER BY i.id LIMIT 1 
                           ) image, 
-                          l.datetime, u.email, u.first_name, u.last_name, s.name status 
+                          l.datetime, s.name status 
                           FROM Listings l, User u, Listings_Category c, Condition cd, status s 
                           LEFT JOIN Books b ON b.list_id=l.id
                           WHERE " +
@@ -120,45 +120,25 @@ namespace StudentExchangeBck
                 var listings = new List<object>();
                 if (result.Count > 0)
                 {
-                    var id = result["id"];
-                    var img = result["image"];
-                    var title = result["title"];
-                    var desc = result["description"];
-                    var price = result["price"];
-                    var cat = result["category"];
-                    var cond = result["condition"];
-                    var loc = result["location"];
-                    var isbn = result["isbn"];
-                    var dt = result["datetime"];
-                    var email = result["email"];
-                    var first = result["first_name"];
-                    var last = result["last_name"];
-                    List<object>? status = null;
-                    if (asuser)
-                        status = result["status"];
-                    for (int i = 0; i < id.Count; i++)
+                    var keys = result.Keys.ToList();
+                    if (!asuser) keys.Remove("status");
+
+                    foreach (var k in new[] { "location", "isbn" })
+                        result[k] = result[k].Select(Val).ToList()!;
+                    if (result.TryGetValue("price", out var v))
+                        result["price"] = v.Select(s => (object)Convert.ToDecimal(s)).ToList();
+                    if (result.TryGetValue("image", out var v2))
                     {
-                        var image = Val(img[i]) as string;
-                        var d = new Dictionary<string, object?>
-                        {
-                            { "id", (long)id[i]},
-                            { "title", Val(title[i])},
-                            { "description", Val(desc[i])},
-                            { "price", Convert.ToDecimal(price[i])},
-                            { "category", Val(cat[i])},
-                            { "condition", Val(cond[i])},
-                            { "location", Val(loc[i])},
-                            { "isbn", Val(isbn[i])},
-                            { "image_url", image == null ? null : "/uploads/" + image },
-                            { "datetime", Val(dt[i])},
-                            { "email", DeterministicEncryption.Decrypt((string)email[i], Env._emailSalt)},
-                            { "first_name", Val(first[i])},
-                            { "last_name", Val(last[i])}
-                        };
-                        if (asuser)
-                            d.Add("status", status![i]);
-                        listings.Add(d);
+                        result.Add("image_url", v2.Select(s => Val(s) != null ? (object)("/uploads/" + s): null!).ToList());
+                        keys.Remove("image");
+                        keys.Add("image_url");
                     }
+
+                    var dta = Utilz.Transpose(keys.Select(k => result[k])).ToList();
+                    var ii = Enumerable.Range(0, keys.Count).ToArray();
+
+                    foreach (var row in dta)
+                        listings.Add(ii.ToDictionary(i => keys[i], i => row[i]));
                 }
                 return Ok(listings);
             }
@@ -166,6 +146,41 @@ namespace StudentExchangeBck
             {
                 return StatusCode(500, new { Message = $"An internal server error occurred: {e}" });
             }
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetOne(long id, AppAuthJson auth)
+        {
+            var msg = AppAuthJson.ValidateApp(auth, HttpContext, this, out var ip);
+            if (msg != null) return msg;
+
+            var did = new Dictionary<string, object>
+                            {
+                                { "@id", id }
+                            };
+
+            var result = Sql.Read(@"SELECT l.title, l.description, l.price, c.name category, 
+                          cd.name condition, COALESCE(u.location, '') location, b.isbn, 
+                          l.datetime, u.email, u.first_name, u.last_name, s.name status 
+                          FROM Listings l, User u, Listings_Category c, Condition cd, status s 
+                          LEFT JOIN Books b ON b.list_id=l.id
+                          WHERE l.id=@id AND
+                          l.user_id=u.id AND l.category=c.id AND l.condition=cd.id AND l.status=s.id; ", did);
+
+            if (result.Count == 0)
+                return BadRequest("Listing not found.");
+
+            var data = result.ToDictionary(s => s.Key, s => Val(s.Value[0]));
+            if (data.TryGetValue("email", out var email))
+                data["email"] = DeterministicEncryption.Decrypt((string)email!, Env._emailSalt);
+
+            result = Sql.Read("SELECT name FROM Img WHERE list_id=@id ORDER BY [id];", did);
+            List<string>? imgs = null;
+            if (result.Count != 0)
+                imgs = result["name"].Select(n => "/uploads/" + ((string)n)).ToList();
+            data.Add("images_url", imgs);
+
+            return Ok(data);
         }
 
         // POST: api/listing
@@ -176,18 +191,22 @@ namespace StudentExchangeBck
             if (msg != null) return msg;
 
             // Validate everything before touching the disk or database
-            var error = ValidateListing(model, out var condition, out var category, out var isbn);
+            var error = ValidateListing(model, out var condition, out var category, out var isbn, out var imgs);
             if (error != null) return BadRequest(new { Message = error });
 
             if (!string.IsNullOrWhiteSpace(model.Title))
                 model.Title = Utilz.FirstUpper(model.Title, ignoreStopWords: true);
 
-            string? imageName = null;
+            string[]? imageName = null;
             // Save the image (if any)
-            if (!string.IsNullOrWhiteSpace(model.ImageBase64))
+            if (imgs != null)
             {
-                imageName = SaveImage(model.ImageBase64, out error);
-                if (imageName == null) return BadRequest(new { Message = error });
+                imageName = new string[imgs.Length];
+                for (int i = 0; i < imgs.Length; i++)
+                {
+                    imageName[i] = SaveImage(imgs[i], out error)!;
+                    if (imageName[i] == null) return BadRequest(new { Message = $"Image: {i + 1} " + error });
+                }
             }
 
             Sql.Trans? trans = null;
@@ -233,11 +252,12 @@ namespace StudentExchangeBck
 
                 if (imageName != null)
                 {
-                    Sql.Write("Insert INTO Img (list_id, name) VALUES (@lid, @name)", trans, new Dictionary<string, object>
+                    var sql = "Insert INTO Img (list_id, name) VALUES "
+                                + string.Join(", ", imageName.Select(n => $"(@lid, '{n}')"));
+                    Sql.Write(sql, trans, new Dictionary<string, object>
                     {
-                        { "@lid", lid },
-                        { "@name", imageName }
-                    }, 1);
+                        { "@lid", lid }
+                    }, imageName.Length);
                 }
 
                 trans.Commit();
@@ -247,7 +267,7 @@ namespace StudentExchangeBck
             {
                 try { trans?.Rollback(); } catch { }
                 // The database insert failed, so don't leave an orphan image file behind
-                if (imageName != null) DeleteImageFile(imageName);
+                if (imageName != null) Array.ForEach(imageName, DeleteImageFile);
                 return StatusCode(500, new { Message = $"An internal server error occurred: {e}" });
             }
         }
@@ -283,7 +303,7 @@ namespace StudentExchangeBck
                     foreach (var img in result["name"].Cast<string>())
                         if (Val(img) is string) DeleteImageFile(img);
 
-                    Sql.Write("DELETE FROM Img WHERE [list_id]=@id", idd);
+                    Sql.Write("DELETE FROM Img WHERE [list_id]=@id", idd, result.Values.First().Count);
                 }
 
                 Sql.Write("DELETE FROM Listings WHERE [id]=@id", idd, 1);
@@ -337,10 +357,12 @@ namespace StudentExchangeBck
         static object? Val(object o) => o is DBNull ? null : o;
 
         /// <summary>Returns an error message, or null if the listing is valid.</summary>
-        static string? ValidateListing(ListingCreateModel m, out long condition, out long category, out string? isbn)
+        static string? ValidateListing(ListingCreateModel m, out long condition, out long category, out string? isbn,
+                                        out string[]? imgs)
         {
             condition = category = -1;
             isbn = null;
+            imgs = null;
 
             if (string.IsNullOrWhiteSpace(m.Title) || m.Title.Trim().Length > 200)
                 return "Title is required (max 200 characters).";
@@ -385,6 +407,15 @@ namespace StudentExchangeBck
             }
             else if (isbook)
                 isbn = _noisbn;
+
+            if (m.ImageBase64 != null)
+            {
+                if (m.ImageBase64.Length > 8)
+                    return "There can be no more than 8 images";
+                imgs = m.ImageBase64.Where(m => !string.IsNullOrWhiteSpace(m)).ToArray();
+                if (imgs.Length == 0)
+                    imgs = null;
+            }
 
             return null;
         }
@@ -491,6 +522,6 @@ namespace StudentExchangeBck
         public string Category { get; set; } = string.Empty;
         public string Condition { get; set; } = string.Empty;
         public string? Isbn { get; set; }           // optional, textbooks only
-        public string? ImageBase64 { get; set; }    // optional
+        public string[]? ImageBase64 { get; set; }    // optional
     }
 }
