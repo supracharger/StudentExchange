@@ -148,12 +148,11 @@ namespace StudentExchangeBck{
             if (!_validWrite.IsMatch(sql.Trim().ToLower()))
                 throw new ArgumentException($"Invalid SQL statement for Sql.Write(): {sql}.");
             int cnt = 0;                            // Rows affected
+            if ((trans._con == null) != (trans._trans == null))
+                throw new Exception("con & trans should have the same null value.");
             // Connect to SqLite
             if (trans._con == null)
-            {
-                if (trans._trans != null) throw new Exception("trans._trans != null");
                 trans._con = SqLiteConnect();
-            }
             var con = trans._con;
             // Open connection if closed
             if (con.State == ConnectionState.Closed) con.Open();
