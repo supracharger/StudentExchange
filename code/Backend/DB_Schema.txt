@@ -5,125 +5,177 @@ WHERE type IN ('table', 'index', 'trigger', 'view')
 ORDER BY type, name;
 
 -- ============================================
--- Schools
--- ============================================
-
-CREATE TABLE Schools (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
-    name        TEXT(2, 50) UNIQUE NOT NULL,
-    short_name  TEXT(2, 30) UNIQUE
-);
 
 
--- ============================================
--- User
--- ============================================
-
-CREATE TABLE User (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
-    email       TEXT(2, 100) UNIQUE NOT NULL,
-    first_name  TEXT(1, 50) NOT NULL,
-    last_name   TEXT(1, 50) NOT NULL,
-    password    TEXT(8, 100) NOT NULL,
-    school_id   INTEGER NOT NULL REFERENCES Schools(id)
-                    ON DELETE RESTRICT
-                    ON UPDATE CASCADE,
-    datetime    TEXT
-);
-
-
--- ============================================
--- Admins
--- ============================================
-
-CREATE TABLE Admins (
-    user_id INTEGER UNIQUE NOT NULL REFERENCES User(id)
-                ON DELETE RESTRICT
-                ON UPDATE CASCADE,
-    level   INTEGER NOT NULL DEFAULT (0),
-    locked  INTEGER NOT NULL DEFAULT (0)
-);
-
-
--- ============================================
--- Access Tokens
--- ============================================
-
+-- Table: Access_Token
 CREATE TABLE Access_Token (
-    id       INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
-    user_id  INTEGER NOT NULL REFERENCES User(id)
-                 ON DELETE CASCADE
-                 ON UPDATE CASCADE,
-    token    TEXT(2, 100) UNIQUE NOT NULL,
-    expiry   TEXT(2, 50) NOT NULL
+    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    user_id INTEGER NOT NULL
+        REFERENCES User (id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    token TEXT (2, 100) UNIQUE NOT NULL,
+    expiry TEXT (2, 50) NOT NULL
 );
 
-
--- ============================================
--- IP Addresses
--- ============================================
-
-CREATE TABLE IP (
-    id        INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
-    ip        TEXT NOT NULL UNIQUE,
-    datetime  TEXT
+-- Table: Admins
+CREATE TABLE Admins (
+    user_id INTEGER
+        REFERENCES User (id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+        UNIQUE NOT NULL,
+    level INTEGER NOT NULL DEFAULT (0),
+    locked INTEGER NOT NULL DEFAULT (0)
 );
 
-
--- ============================================
--- User IP Relationships
--- ============================================
-
-CREATE TABLE User_Has_IPs (
-    user_id INTEGER NOT NULL REFERENCES User(id)
-                ON DELETE CASCADE
-                ON UPDATE CASCADE,
-    ip_id   INTEGER NOT NULL REFERENCES IP(id)
-                ON DELETE CASCADE
-                ON UPDATE CASCADE
-);
-
-
--- ============================================
--- Blocked IP Addresses
--- ============================================
-
+-- Table: Blocked_IPs
 CREATE TABLE Blocked_IPs (
-    id      INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
-    ip_id   INTEGER NOT NULL REFERENCES IP(id)
-                ON DELETE CASCADE
-                ON UPDATE CASCADE,
-    count   INTEGER NOT NULL,
-    expiry  TEXT NOT NULL
+    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    ip_id INTEGER NOT NULL
+        REFERENCES IP (id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    count INTEGER NOT NULL,
+    expiry TEXT NOT NULL
 );
 
-
--- ============================================
--- Blocked Users
--- ============================================
-
+-- Table: Blocked_Users
 CREATE TABLE Blocked_Users (
-    id       INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
-    user_id  INTEGER NOT NULL REFERENCES User(id)
-                 ON DELETE CASCADE
-                 ON UPDATE CASCADE,
-    count    INTEGER NOT NULL,
-    expiry   TEXT NOT NULL
+    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    user_id INTEGER NOT NULL
+        REFERENCES User (id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    count INTEGER NOT NULL,
+    expiry TEXT NOT NULL
 );
 
+-- Table: Books
+CREATE TABLE Books (
+    list_id INTEGER
+        REFERENCES Listings (id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+        UNIQUE NOT NULL,
+    isbn TEXT
+);
 
--- ============================================
--- Indexes
--- ============================================
+-- Table: Condition
+CREATE TABLE Condition (
+    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    name TEXT UNIQUE NOT NULL
+);
 
+-- Table: Img
+CREATE TABLE Img (
+    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    list_id INTEGER
+        REFERENCES Listings (id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+        NOT NULL,
+    name TEXT UNIQUE NOT NULL
+);
+
+-- Table: IP
+CREATE TABLE IP (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
+    ip TEXT NOT NULL UNIQUE,
+    datetime TEXT
+);
+
+-- Table: Listings
+CREATE TABLE Listings (
+    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    user_id INTEGER
+        REFERENCES User (id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+        NOT NULL,
+    title TEXT (2, 200) NOT NULL,
+    description TEXT NOT NULL,
+    price REAL NOT NULL,
+    category INTEGER NOT NULL
+        REFERENCES Listings_Category (id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+    condition INTEGER
+        REFERENCES Condition (id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+        NOT NULL,
+    expiry TEXT NOT NULL,
+    datetime TEXT NOT NULL,
+    status INTEGER NOT NULL DEFAULT (1)
+        REFERENCES Status (id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+);
+
+-- Table: Listings_Category
+CREATE TABLE Listings_Category (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
+    name TEXT UNIQUE NOT NULL
+);
+
+-- Table: Schools
+CREATE TABLE Schools (
+    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    name TEXT (2, 50) UNIQUE NOT NULL,
+    short_name TEXT (2, 30) UNIQUE
+);
+
+-- Table: Status
+CREATE TABLE Status (
+    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    name TEXT NOT NULL UNIQUE
+);
+
+-- Table: User
+CREATE TABLE User (
+    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    email TEXT (2, 100) UNIQUE NOT NULL,
+    first_name TEXT (1, 50) NOT NULL,
+    last_name TEXT (1, 50) NOT NULL,
+    password TEXT (8, 100) NOT NULL,
+    school_id INTEGER NOT NULL
+        REFERENCES Schools (id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+    location TEXT (2, 50),
+    datetime TEXT
+);
+
+-- Table: User_Has_IPs
+CREATE TABLE User_Has_IPs (
+    user_id INTEGER
+        REFERENCES User (id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+        NOT NULL,
+    ip_id INTEGER NOT NULL
+        REFERENCES IP (id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+-- Index: IPIndex
 CREATE UNIQUE INDEX IPIndex
     ON IP (ip);
 
+-- Index: isbn_index
+CREATE INDEX isbn_index
+    ON Books (isbn);
+
+-- Index: SchoolsNameIndex
 CREATE INDEX SchoolsNameIndex
     ON Schools (name);
 
+-- Index: TokenIndex
 CREATE INDEX TokenIndex
     ON Access_Token (token);
 
+-- Index: User_IP
 CREATE UNIQUE INDEX User_IP
     ON User_Has_IPs (user_id, ip_id);
