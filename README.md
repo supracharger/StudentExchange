@@ -1,8 +1,7 @@
 # [Project:StudentExchange]
 
-> Intro to Software Engineering group project template
-
-Replace every bracketed placeholder in this repository with information about your project. Delete instructional text that does not belong in your final submission.
+render link : https://studentexchange.onrender.com/
+mobile app test : https://student-exchange-phone.marzont.chatgpt.site/
 
 ## Project Information
 
