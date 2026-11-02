@@ -58,18 +58,18 @@ namespace StudentExchangeBck{
             {
                 var ishigh = user.adminLvl >= 27;
                 // Get users info from DB
-                var users = Sql.Read("SELECT U.[email], (U.[last_name] || ', ' || U.[first_name]) name, " +
-                                        "COALESCE(S.[short_name], S.[name]) school, " +
-                                        "U.[datetime], " +
-                                        "(A.[user_id] IS NOT NULL) isAdmin, " +
-                                        "(A.[locked] IS NOT NULL AND A.[locked] != 0) locked " +
+                var users = Sql.Read(@"SELECT U.[email], (U.[last_name] || ', ' || U.[first_name]) name,
+                                        COALESCE(S.[short_name], S.[name]) school,
+                                        U.[datetime], U.user_name,
+                                        (A.[user_id] IS NOT NULL) isAdmin,
+                                        (A.[locked] IS NOT NULL AND A.[locked] != 0) locked " +
                                         (ishigh ? ", COALESCE(A.[level], -1) level " : "") +
-                                        "FROM User U, Schools S " +
-                                        "LEFT JOIN Admins A ON U.[id]=A.[user_id] " +
-                                        "WHERE S.[id]=U.[school_id] " +
-                                        "ORDER BY " +
+                                        @"FROM User U, Schools S
+                                        LEFT JOIN Admins A ON U.[id]=A.[user_id]
+                                        WHERE S.[id]=U.[school_id]
+                                        ORDER BY " +
                                         (ishigh ? "level DESC, " : "") +
-                                        "isAdmin DESC, U.[datetime] DESC;");
+                                        @"isAdmin DESC, U.[datetime] DESC;");
 
                 // Decrypt Email
                 if (users.TryGetValue("email", out var emails))
@@ -224,6 +224,56 @@ namespace StudentExchangeBck{
             return ulock;
         }
 
+        public static string FindUniqueUser(string first, string last)
+        {
+            Func<string, string> Format = s => string.Join(' ', s.Trim().ToLowerInvariant().Split(' ', StringSplitOptions.RemoveEmptyEntries)).Replace(" ", "_");
+            first = Format(first);
+            last = Format(last);
+
+            var matches = UniqueUsers(first);
+            if (matches == null) return first;
+
+            var user = first + last.Substring(0, 1);
+            if (!matches.Contains(user))
+                return user;
+
+            for (int i = 1; i < 10000; i++)
+            {
+                var u = user + i;
+                if (!matches.Contains(u))
+                    return u;
+            }
+
+            throw new Exception("All possible with no matches.");
+        }
+
+        public static string FindUniqueUser(ref string user)
+        {
+            user = string.Join(' ', user.Trim().ToLowerInvariant().Split(' ', StringSplitOptions.RemoveEmptyEntries)).Replace(" ", "_");
+
+            var matches = UniqueUsers(user);
+            if (matches == null) return user;
+
+            for (int i = 1; i < 10000; i++)
+            {
+                var u = user + i;
+                if (!matches.Contains(u))
+                    return u;
+            }
+
+            throw new Exception("All possible with no matches.");
+        }
+
+        public static HashSet<string>? UniqueUsers(string user)
+        {
+            user = user.Trim().ToLowerInvariant();
+            var result = Sql.Read("SELECT user_name FROM User WHERE user_name LIKE @user || '%';",
+                                    new Dictionary<string, object> { { "@user", user } });
+            if (result.Count == 0) return null;
+
+            return result["user_name"].Cast<string>().ToHashSet();
+        }
+
         public static void CleanUp(){//deletes expired rows from Blocked_Users and drops unused locks from memory, user-side twin of IP.CleanUp
             // Clean up invalid accesses that have expired
             Sql.Write("DELETE FROM Blocked_Users WHERE [expiry]<@date", new Dictionary<string, object>
@@ -237,6 +287,23 @@ namespace StudentExchangeBck{
                 var now = DateTime.Now;
                 foreach (var s in _userLock.Where(s => now > s.Value.dt))
                     _userLock.Remove(s.Key);
+            }
+
+            var result = Sql.Read("SELECT id,first_name,last_name FROM User WHERE user_name IS NULL;");
+            if (result.Count != 0)
+            {
+                var keys = result.Keys.ToList();
+                var data = Utilz.Transpose(keys.Select(k => result[k])).ToList();
+                var ii = Enumerable.Range(0, keys.Count).ToArray();
+                foreach(var row in data)
+                {
+                    var d = ii.ToDictionary(i => keys[i], i => row[i]);
+                    Sql.Write("UPDATE User SET user_name=@user WHERE id=@id", new Dictionary<string, object>
+                    {
+                        { "@id", d["id"] },
+                        { "@user", FindUniqueUser((string)d["first_name"], (string)d["last_name"]) }
+                    }, 1);
+                }
             }
         }
 

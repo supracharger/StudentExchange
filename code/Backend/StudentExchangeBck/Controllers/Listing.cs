@@ -56,7 +56,7 @@ namespace StudentExchangeBck
                            WHERE i.list_id = l.id 
                            ORDER BY i.id LIMIT 1 
                           ) image, 
-                          l.datetime, s.name status 
+                          l.datetime, s.name status, u.user_name user
                           FROM Listings l, User u, Listings_Category c, Condition cd, status s 
                           LEFT JOIN Books b ON b.list_id=l.id
                           WHERE " +
@@ -161,7 +161,7 @@ namespace StudentExchangeBck
 
             var result = Sql.Read(@"SELECT l.title, l.description, l.price, c.name category, 
                           cd.name condition, COALESCE(u.location, '') location, b.isbn, 
-                          l.datetime, u.email, u.first_name, u.last_name, s.name status 
+                          l.datetime, u.email, u.first_name, u.last_name, s.name status, u.user_name user
                           FROM Listings l, User u, Listings_Category c, Condition cd, status s 
                           LEFT JOIN Books b ON b.list_id=l.id
                           WHERE l.id=@id AND
