@@ -51,3 +51,9 @@ Profile reads/edits include `user` and `location`. Registration intentionally om
 Validation uses local HTTP fixtures, not the older live deployment. No live sample accounts or listings were changed during this update.
 
 Backend source review also found `StudentExchangeBck/Components/Users.cs` and `Controllers/Users.cs` both declaring `StudentExchangeBck.Users`. The SDK project includes both without an exclusion, which creates duplicate class/member definitions. The backend owner needs to consolidate them before building/deploying this commit. This website change does not modify the backend repository.
+
+## Photo selection and gallery controls
+
+Sellers can add photos in successive selections, up to eight total. New selections append instead of replacing existing photos. Invalid or oversized batches leave previous selections intact. Each preview has Remove and Make cover controls; the first photo becomes the listing cover and the same order is sent in `imageBase64`.
+
+Listing details expose thumbnails, Previous/Next controls, a photo counter, and left/right arrow-key navigation. Validation covers successive uploads, cover ordering, individual removal, overflow handling, gallery switching, and the submitted multi-photo array.

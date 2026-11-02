@@ -132,3 +132,34 @@ it('opens the seller login gate from navigation and supports direct seller URLs'
     screen.getByRole('button', { name: 'Log in to your account' }),
   ).toBeVisible()
 })
+it('navigates all listing photos using thumbnails, buttons, and arrow keys', async () => {
+  const user = userEvent.setup()
+  const images = [
+    '/api/listing-image?name=first.png',
+    '/api/listing-image?name=second.png',
+    '/api/listing-image?name=third.png',
+  ]
+  vi.mocked(marketplace.detail).mockResolvedValue({
+    listing: { ...calculus, images_url: images, image_url: images[0] },
+  })
+  render(<App />)
+  await user.click(
+    await screen.findByRole('button', { name: /Calculus textbook/ }),
+  )
+  await screen.findByText('Photo 1 of 3')
+  await user.click(screen.getByRole('button', { name: 'Next photo' }))
+  expect(screen.getByAltText('Calculus textbook')).toHaveAttribute(
+    'src',
+    images[1],
+  )
+  await user.click(screen.getByRole('button', { name: 'View photo 3' }))
+  expect(screen.getByText('Photo 3 of 3')).toBeVisible()
+  await user.click(screen.getByRole('button', { name: 'Next photo' }))
+  expect(screen.getByText('Photo 1 of 3')).toBeVisible()
+  screen.getByRole('region', { name: 'Listing photo gallery' }).focus()
+  await user.keyboard('{ArrowLeft}')
+  expect(screen.getByAltText('Calculus textbook')).toHaveAttribute(
+    'src',
+    images[2],
+  )
+})

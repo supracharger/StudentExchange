@@ -487,18 +487,19 @@ function ListingForm({
             </label>
           )}
           <label>
-            Photo (optional)
+            Photos (optional)
             <input
               type="file"
               multiple
               aria-label="Photo (optional)"
               accept="image/png,image/jpeg,image/webp"
-              disabled={reading}
+              disabled={reading || image.length >= 8}
               onChange={async (e) => {
-                setImage([])
-                setImageError('')
                 const files = Array.from(e.target.files || [])
-                if (files.length > 8) {
+                e.target.value = ''
+                if (!files.length) return
+                setImageError('')
+                if (image.length + files.length > 8) {
                   setImageError('Choose no more than 8 photos.')
                   return
                 }
@@ -530,7 +531,7 @@ function ListingForm({
                         }),
                     ),
                   )
-                  setImage(values)
+                  setImage((current) => [...current, ...values])
                 } catch {
                   setImageError('Unable to read the images. Choose them again.')
                 } finally {
@@ -538,21 +539,54 @@ function ListingForm({
                 }
               }}
             />
-            <small>Up to 8 photos · PNG, JPEG, or WebP · 2 MB each</small>
+            <small>
+              Add photos together or one at a time. Up to 8 · PNG, JPEG, or WebP
+              · 2 MB each. The first photo is your cover.
+            </small>
+            <span role="status">{image.length} of 8 photos added</span>
           </label>
           {image.length > 0 && (
-            <div className="listing-preview">
+            <ol
+              className="upload-photo-grid"
+              aria-label="Selected listing photos"
+            >
               {image.map((src, i) => (
-                <img key={i} src={src} alt={`Listing photo preview ${i + 1}`} />
+                <li key={`${i}-${src.slice(-24)}`}>
+                  <img src={src} alt={`Listing photo preview ${i + 1}`} />
+                  <span>{i === 0 ? 'Cover photo' : `Photo ${i + 1}`}</span>
+                  <div>
+                    <button
+                      type="button"
+                      className="admin-button"
+                      disabled={reading || i === 0}
+                      aria-label={`Make photo ${i + 1} the cover`}
+                      onClick={() =>
+                        setImage((current) => [
+                          current[i],
+                          ...current.filter((_, index) => index !== i),
+                        ])
+                      }
+                    >
+                      Make cover
+                    </button>
+                    <button
+                      type="button"
+                      className="admin-button"
+                      disabled={reading}
+                      aria-label={`Remove photo ${i + 1}`}
+                      onClick={() => {
+                        setImage((current) =>
+                          current.filter((_, index) => index !== i),
+                        )
+                        setImageError('')
+                      }}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </li>
               ))}
-              <button
-                type="button"
-                className="admin-button"
-                onClick={() => setImage([])}
-              >
-                Remove photos
-              </button>
-            </div>
+            </ol>
           )}
           {(error || imageError) && (
             <p className="admin-alert error" role="alert">

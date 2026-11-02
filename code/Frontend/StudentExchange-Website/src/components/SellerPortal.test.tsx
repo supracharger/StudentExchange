@@ -118,3 +118,75 @@ it('expires the account after an authenticated inventory request loses its sessi
   render(<SellerPortal account={account} onLogin={vi.fn()} />)
   await waitFor(() => expect(account.expire).toHaveBeenCalled())
 })
+it('adds photos across selections, changes cover, removes one, and publishes the ordered array', async () => {
+  const user = userEvent.setup()
+  render(<SellerPortal account={account} onLogin={vi.fn()} />)
+  await screen.findByRole('heading', { name: 'Calculus' })
+  await user.click(screen.getByRole('button', { name: '＋ Create listing' }))
+  const upload = screen.getByLabelText('Photo (optional)')
+  await user.upload(
+    upload,
+    new File(['first'], 'front.png', { type: 'image/png' }),
+  )
+  await screen.findByAltText('Listing photo preview 1')
+  await user.upload(
+    upload,
+    new File(['second'], 'back.png', { type: 'image/png' }),
+  )
+  await screen.findByAltText('Listing photo preview 2')
+  expect(screen.getByText('2 of 8 photos added')).toBeVisible()
+  await user.click(
+    screen.getByRole('button', { name: 'Make photo 2 the cover' }),
+  )
+  expect(screen.getByAltText('Listing photo preview 1')).toHaveAttribute(
+    'src',
+    'data:image/png;base64,c2Vjb25k',
+  )
+  await user.upload(
+    upload,
+    new File(['third'], 'spine.png', { type: 'image/png' }),
+  )
+  await screen.findByAltText('Listing photo preview 3')
+  await user.click(screen.getByRole('button', { name: 'Remove photo 2' }))
+  expect(
+    screen.queryByAltText('Listing photo preview 3'),
+  ).not.toBeInTheDocument()
+  await user.type(screen.getByLabelText('Title'), 'Multi photo book')
+  await user.type(screen.getByLabelText('Price ($)'), '12')
+  await user.selectOptions(screen.getByLabelText('Condition'), 'Good')
+  await user.click(screen.getByRole('button', { name: 'Publish listing' }))
+  await waitFor(() =>
+    expect(marketplace.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        imageBase64: [
+          'data:image/png;base64,c2Vjb25k',
+          'data:image/png;base64,dGhpcmQ=',
+        ],
+      }),
+    ),
+  )
+})
+it('retains selected photos when an added batch would exceed eight', async () => {
+  const user = userEvent.setup()
+  render(<SellerPortal account={account} onLogin={vi.fn()} />)
+  await screen.findByRole('heading', { name: 'Calculus' })
+  await user.click(screen.getByRole('button', { name: '＋ Create listing' }))
+  const upload = screen.getByLabelText('Photo (optional)')
+  await user.upload(
+    upload,
+    new File(['first'], 'one.png', { type: 'image/png' }),
+  )
+  await screen.findByAltText('Listing photo preview 1')
+  await user.upload(
+    upload,
+    Array.from(
+      { length: 8 },
+      (_, i) => new File(['more'], `${i}.png`, { type: 'image/png' }),
+    ),
+  )
+  expect(await screen.findByRole('alert')).toHaveTextContent('no more than 8')
+  expect(screen.getByAltText('Listing photo preview 1')).toBeVisible()
+  expect(
+    screen.queryByAltText('Listing photo preview 2'),
+  ).not.toBeInTheDocument()
+})

@@ -64,8 +64,11 @@ export function ListingDetail({
       })
     return () => controller.abort()
   }, [initialListing.id, attempt])
-  const images =
-    listing.images_url || (listing.image_url ? [listing.image_url] : [])
+  const images = listing.images_url?.length
+    ? listing.images_url
+    : listing.image_url
+      ? [listing.image_url]
+      : []
   return (
     <section className="product-page">
       <button className="product-back" onClick={onBack}>
@@ -85,10 +88,59 @@ export function ListingDetail({
         </div>
       ) : (
         <div className="product-layout">
-          <div className="product-left">
+          <div
+            className="product-left"
+            role="region"
+            aria-label="Listing photo gallery"
+            tabIndex={images.length > 1 ? 0 : undefined}
+            onKeyDown={(event) => {
+              if (images.length < 2) return
+              if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+                event.preventDefault()
+                setPhoto(
+                  (current) =>
+                    (current +
+                      (event.key === 'ArrowRight' ? 1 : images.length - 1)) %
+                    images.length,
+                )
+              }
+            }}
+          >
             <ListingArt
               listing={{ ...listing, image_url: images[photo] || null }}
             />
+            {images.length > 0 && (
+              <div className="gallery-controls">
+                <button
+                  type="button"
+                  className="admin-button"
+                  aria-label="Previous photo"
+                  disabled={images.length < 2}
+                  onClick={() =>
+                    setPhoto(
+                      (current) =>
+                        (current + images.length - 1) % images.length,
+                    )
+                  }
+                >
+                  ← Previous
+                </button>
+                <span role="status">
+                  Photo {photo + 1} of {images.length}
+                </span>
+                <button
+                  type="button"
+                  className="admin-button"
+                  aria-label="Next photo"
+                  disabled={images.length < 2}
+                  onClick={() =>
+                    setPhoto((current) => (current + 1) % images.length)
+                  }
+                >
+                  Next →
+                </button>
+              </div>
+            )}
             {images.length > 1 && (
               <div
                 className="photo-selector"
