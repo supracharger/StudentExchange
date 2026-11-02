@@ -16,6 +16,8 @@ export default function AdminMarketplace({
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const [category, setCategory] = useState('')
+  const [removeCategory, setRemoveCategory] = useState('')
+  const [pendingCategory, setPendingCategory] = useState('')
   const [revision, setRevision] = useState(0)
   const [deleting, setDeleting] = useState<Listing | null>(null)
   useEffect(() => {
@@ -162,6 +164,71 @@ export default function AdminMarketplace({
           Add category
         </button>
       </form>
+      <h3>Delete a category</h3>
+      <p>
+        Remove a category only when it is no longer needed. Existing listings
+        may prevent deletion.
+      </p>
+      <form
+        className="market-toolbar"
+        onSubmit={(e) => {
+          e.preventDefault()
+          setPendingCategory(removeCategory.trim())
+        }}
+      >
+        <label>
+          Category to delete
+          <input
+            required
+            value={removeCategory}
+            onChange={(e) => setRemoveCategory(e.target.value)}
+          />
+        </label>
+        <button className="admin-button destructive" disabled={busy}>
+          Review category deletion
+        </button>
+      </form>
+      {pendingCategory && (
+        <PortalDialog
+          title="Delete category?"
+          busy={busy}
+          onClose={() => setPendingCategory('')}
+        >
+          <p>Delete “{pendingCategory}” from the catalog?</p>
+          {error && <p role="alert">{error}</p>}
+          <div className="admin-dialog-actions">
+            <button
+              className="admin-button"
+              disabled={busy}
+              onClick={() => setPendingCategory('')}
+            >
+              Cancel
+            </button>
+            <button
+              className="admin-button destructive"
+              disabled={busy}
+              onClick={async () => {
+                setBusy(true)
+                setError('')
+                try {
+                  const result =
+                    await marketplace.deleteCategory(pendingCategory)
+                  setNotice(result.message)
+                  setPendingCategory('')
+                  setRemoveCategory('')
+                } catch (e) {
+                  setError(errorMessage(e))
+                  onError(e)
+                } finally {
+                  setBusy(false)
+                }
+              }}
+            >
+              Delete category
+            </button>
+          </div>
+        </PortalDialog>
+      )}
       {deleting && (
         <PortalDialog
           title="Delete seller listing?"

@@ -1,4 +1,6 @@
 export interface Profile {
+  user?: string
+  location?: string | null
   email: string
   first_name: string
   last_name: string

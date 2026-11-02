@@ -39,3 +39,15 @@ The adapter owns `app_access`, forwarded IP, and service `admin_token`; it never
 Read-only checks against the configured live backend returned Schools, the Textbooks category, five conditions (Poor, Fair, Good, Like New, New), and an empty public listing array. Live seller data was not mutated for testing.
 
 HTTP fixtures cover creation, photo body size and type validation, ISBN checksums, free prices, search request composition and response projection, seller authentication, origin checks, admin demotions/targets, image proxy restrictions, and preserving caller sessions on target denial. UI tests cover catalog search, details/contact, retry, seller login, publishing, confirmation, and photo validation. Browser checks use controlled API fixtures rather than modifying live inventory.
+
+## Upcoming backend contract — 85e551c
+
+This website now targets backend commit `85e551c` (not yet deployed when implemented). Deploy that backend before releasing this website version: the older backend does not support `GET Listing/{id}` or array-valued `imageBase64`.
+
+Listing search remains a `GET Listing` JSON body with `search`, category, and optional ISBN. Preserve its new word-based fuzzy ranking. Summaries now expose `user` and omit description/contact; opening a listing fetches the full detail endpoint and projects its `images_url` through the same-origin image proxy. Sellers may upload up to eight images, each at most 2 MiB; the JSON upload limit is now 23 MiB. The backend's Books LEFT JOIN fixes non-textbook visibility, superseding the limitation above.
+
+Profile reads/edits include `user` and `location`. Registration intentionally omits both: the backend generates the initial username and rejects those fields at signup. Empty profile edits remain omitted because the backend does not support clearing location through a blank PATCH. Admin user directories also expose `user_name`. Category deletion uses `DELETE Category` with the category name and requires confirmation in the console.
+
+Validation uses local HTTP fixtures, not the older live deployment. No live sample accounts or listings were changed during this update.
+
+Backend source review also found `StudentExchangeBck/Components/Users.cs` and `Controllers/Users.cs` both declaring `StudentExchangeBck.Users`. The SDK project includes both without an exclusion, which creates duplicate class/member definitions. The backend owner needs to consolidate them before building/deploying this commit. This website change does not modify the backend repository.

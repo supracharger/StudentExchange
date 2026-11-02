@@ -23,7 +23,8 @@ const SESSION_LIFETIME = 12 * 60 * 60 * 1000
 const MAX_BODY = 16 * 1024
 const MAX_RESPONSE = 1024 * 1024
 const PROFILE_FIELDS = ['email', 'first_name', 'last_name', 'school']
-const EDITABLE_FIELDS = [...PROFILE_FIELDS, 'password']
+const REGISTRATION_FIELDS = [...PROFILE_FIELDS, 'password']
+const EDITABLE_FIELDS = [...REGISTRATION_FIELDS, 'user', 'location']
 
 // Respect managed HTTPS proxies without routing local development fixtures through them.
 // Node 24 supports proxyEnv on its native agents, including requests with GET bodies.
@@ -74,7 +75,7 @@ async function readBody(request) {
       size >
       (request.url?.split('?')[0] === '/api/seller/listings' &&
       request.method === 'POST'
-        ? 3 * 1024 * 1024
+        ? 23 * 1024 * 1024
         : MAX_BODY)
     )
       throw new ApiError(413, 'The request is too large.')
@@ -122,9 +123,14 @@ function publicProfile(value) {
     )
   }
   // Explicit projection prevents future backend properties (including passwords) reaching the UI.
-  return Object.fromEntries(
-    PROFILE_FIELDS.map((field) => [field, value[field]]),
-  )
+  return Object.fromEntries([
+    ...PROFILE_FIELDS.map((field) => [field, value[field]]),
+    ...['user', 'location']
+      .filter(
+        (field) => typeof value[field] === 'string' || value[field] === null,
+      )
+      .map((field) => [field, value[field]]),
+  ])
 }
 
 /** Node's HTTP client supports the API's GET body; browser fetch and Node fetch do not. */
@@ -742,7 +748,7 @@ export function createApiHandler({
         }
         send(response, 200, { schools: [...new Set(schools)] })
       } else if (path === '/api/register') {
-        const fields = formFields(await readBody(request), EDITABLE_FIELDS)
+        const fields = formFields(await readBody(request), REGISTRATION_FIELDS)
         const data = await call('Register', 'POST', fields)
         if (typeof data?.email !== 'string')
           throw new ApiError(

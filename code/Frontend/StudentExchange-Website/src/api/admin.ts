@@ -21,6 +21,7 @@ export interface AdminSchool {
   short_name: string
 }
 export interface AdminUser {
+  user_name?: string
   isAdmin: boolean
   locked: boolean
   level?: number | null
@@ -46,10 +47,17 @@ export interface Attempts {
   blockedIPs: IPAttemptRecord[]
 }
 export const admin = {
-  assign: (method: 'POST' | 'PATCH' | 'DELETE', fields: { to_user: string; level?: number; locked?: number }) =>
-    request<{ message: string }>('admin', method, fields),
+  assign: (
+    method: 'POST' | 'PATCH' | 'DELETE',
+    fields: { to_user: string; level?: number; locked?: number },
+  ) => request<{ message: string }>('admin', method, fields),
   schools: (signal?: AbortSignal) =>
-    request<{ schools: AdminSchool[] }>('admin/schools', 'GET', undefined, signal),
+    request<{ schools: AdminSchool[] }>(
+      'admin/schools',
+      'GET',
+      undefined,
+      signal,
+    ),
   addSchool: (school: AdminSchool) =>
     request<{ message: string }>('admin/schools', 'POST', school),
   deleteSchool: (selector: { name?: string; short_name?: string }) =>

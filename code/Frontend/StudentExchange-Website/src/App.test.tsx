@@ -37,6 +37,7 @@ beforeEach(() => {
   vi.spyOn(accounts, 'profile').mockRejectedValue(
     new AccountApiError(401, 'Please log in.'),
   )
+  vi.spyOn(marketplace, 'detail').mockResolvedValue({ listing: calculus })
   vi.spyOn(marketplace, 'catalog').mockResolvedValue({
     categories: ['Textbooks', 'Campus living'],
     conditions: ['Good', 'Like New'],
@@ -57,7 +58,7 @@ it('shows live listings, actual prices, full details, and a seller email link', 
     screen.queryByText('Sample listings · Demo only'),
   ).not.toBeInTheDocument()
   await user.click(screen.getByRole('button', { name: /Calculus textbook/ }))
-  expect(screen.getByText('A useful book.')).toBeVisible()
+  expect(await screen.findByText('A useful book.')).toBeVisible()
   expect(screen.getByText('Alex Lee')).toBeVisible()
   expect(screen.getByRole('link', { name: 'Email seller ↗' })).toHaveAttribute(
     'href',

@@ -16,7 +16,14 @@ export function ListingArt({ listing }: { listing: Listing }) {
   ) : (
     <div className="market-placeholder">
       <span aria-hidden="true">
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <svg
+          width="48"
+          height="48"
+          viewBox="0 0 48 48"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        >
           <rect x="10" y="6" width="28" height="36" rx="3" />
           <path d="M16 6v36M22 16h10M22 22h7M10 36h28" />
         </svg>
@@ -28,69 +35,134 @@ export function ListingArt({ listing }: { listing: Listing }) {
 }
 
 export function ListingDetail({
-  listing,
+  listing: initialListing,
   onBack,
 }: {
   listing: Listing
   onBack: () => void
 }) {
+  const [listing, setListing] = useState(initialListing)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [attempt, setAttempt] = useState(0)
+  const [photo, setPhoto] = useState(0)
+  useEffect(() => {
+    const controller = new AbortController()
+    setLoading(true)
+    setError('')
+    setPhoto(0)
+    marketplace
+      .detail(initialListing.id, controller.signal)
+      .then((result) => {
+        if (!controller.signal.aborted) setListing(result.listing)
+      })
+      .catch((e) => {
+        if (!controller.signal.aborted) setError(errorMessage(e))
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false)
+      })
+    return () => controller.abort()
+  }, [initialListing.id, attempt])
+  const images =
+    listing.images_url || (listing.image_url ? [listing.image_url] : [])
   return (
     <section className="product-page">
       <button className="product-back" onClick={onBack}>
         ← Back to listings
       </button>
-      <div className="product-layout">
-        <div className="product-left">
-          <ListingArt listing={listing} />
+      {loading ? (
+        <p role="status">Loading listing details…</p>
+      ) : error ? (
+        <div role="alert">
+          <p>{error}</p>
+          <button
+            className="admin-button"
+            onClick={() => setAttempt((x) => x + 1)}
+          >
+            Retry details
+          </button>
         </div>
-        <div className="product-right">
-          <p className="eyebrow">THE CAMPUS COLLECTION</p>
-          <h1>{listing.title}</h1>
-          <h2>{money(listing.price)}</h2>
-          <div className="product-information">
-            <p>
-              <strong>Category:</strong> {listing.category}
-            </p>
-            <p>
-              <strong>Condition:</strong> {listing.condition}
-            </p>
-            {listing.location && (
-              <p>
-                <strong>Location:</strong> {listing.location}
-              </p>
-            )}
-            {listing.isbn && (
-              <p>
-                <strong>ISBN:</strong> {listing.isbn}
-              </p>
+      ) : (
+        <div className="product-layout">
+          <div className="product-left">
+            <ListingArt
+              listing={{ ...listing, image_url: images[photo] || null }}
+            />
+            {images.length > 1 && (
+              <div
+                className="photo-selector"
+                role="group"
+                aria-label="Listing photos"
+              >
+                {images.map((src, i) => (
+                  <button
+                    key={src}
+                    aria-label={`View photo ${i + 1}`}
+                    aria-pressed={photo === i}
+                    onClick={() => setPhoto(i)}
+                  >
+                    <img src={src} alt={`Photo ${i + 1} of ${images.length}`} />
+                  </button>
+                ))}
+              </div>
             )}
           </div>
-          <p className="listing-description">
-            {listing.description || 'No description provided.'}
-          </p>
-          <p>
-            Listed by{' '}
-            <strong>
-              {`${listing.first_name} ${listing.last_name}`.trim() ||
-                'Student seller'}
-            </strong>
-          </p>
-          {listing.email ? (
-            <a
-              className="button-primary"
-              href={`mailto:${encodeURIComponent(listing.email)}?subject=${encodeURIComponent(`Student Exchange: ${listing.title}`)}`}
-            >
-              Email seller ↗
-            </a>
-          ) : (
-            <p>Seller contact is unavailable.</p>
-          )}
-          <p className="market-hint">
-            Ask questions and agree on pickup and payment directly with the
-            seller. Meet in a public place on campus.
-          </p>
+          <div className="product-right">
+            <p className="eyebrow">THE CAMPUS COLLECTION</p>
+            <h1>{listing.title}</h1>
+            <h2>{money(listing.price)}</h2>
+            <div className="product-information">
+              <p>
+                <strong>Category:</strong> {listing.category}
+              </p>
+              <p>
+                <strong>Condition:</strong> {listing.condition}
+              </p>
+              {listing.location && (
+                <p>
+                  <strong>Location:</strong> {listing.location}
+                </p>
+              )}
+              {listing.isbn && (
+                <p>
+                  <strong>ISBN:</strong> {listing.isbn}
+                </p>
+              )}
+            </div>
+            <p className="listing-description">
+              {listing.description || 'No description provided.'}
+            </p>
+            <p>
+              Listed by{' '}
+              <strong>
+                {listing.user ||
+                  `${listing.first_name} ${listing.last_name}`.trim() ||
+                  'Student seller'}
+              </strong>
+            </p>
+            {/^sample\.seller\.[1-5]@example\.com$/.test(listing.email) ? (
+              <p className="sample-listing-note">
+                Sample listing · This item and seller are examples, not
+                available for purchase.
+              </p>
+            ) : listing.email ? (
+              <a
+                className="button-primary"
+                href={`mailto:${encodeURIComponent(listing.email)}?subject=${encodeURIComponent(`Student Exchange: ${listing.title}`)}`}
+              >
+                Email seller ↗
+              </a>
+            ) : (
+              <p>Seller contact is unavailable.</p>
+            )}
+            <p className="market-hint">
+              Ask questions and agree on pickup and payment directly with the
+              seller. Meet in a public place on campus.
+            </p>
+          </div>
         </div>
-      </div>
+      )}
     </section>
   )
 }
@@ -321,6 +393,14 @@ export default function Marketplace({
                           <span>{row.condition}</span>
                         </div>
                         <h3>{row.title}</h3>
+                        {(/\(sample\)$/i.test(row.title) ||
+                          /^sample\.seller\.[1-5]@example\.com$/.test(
+                            row.email,
+                          )) && (
+                          <span className="sample-listing-badge">
+                            Sample listing
+                          </span>
+                        )}
                         <div className="listing-bottom">
                           <strong>{money(row.price)}</strong>
                           <span>

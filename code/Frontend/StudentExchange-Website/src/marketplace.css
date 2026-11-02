@@ -240,3 +240,65 @@ textarea:focus-visible {
     gap: 16px;
   }
 }
+.sample-listing-badge {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: #466045;
+  background: #edf3e6;
+  border-radius: 20px;
+  padding: 5px 10px;
+  margin-bottom: 12px;
+}
+.sample-listing-note {
+  padding: 18px 20px;
+  background: #edf3e6;
+  border-left: 3px solid #087747;
+  border-radius: 4px 10px 10px 4px;
+  line-height: 1.6;
+}
+.market-card .market-image {
+  object-fit: cover;
+  transition: transform 0.25s ease;
+}
+.market-card:hover {
+  border-color: #98b798;
+  box-shadow: 0 10px 26px #18362912;
+  transform: translateY(-3px);
+}
+.market-card {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  overflow: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  .market-card,
+  .market-card .market-image {
+    transition: none;
+  }
+}
+.photo-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+.photo-selector button {
+  padding: 3px;
+  background: white;
+  border: 2px solid transparent;
+  border-radius: 8px;
+}
+.photo-selector button[aria-pressed='true'] {
+  border-color: #087747;
+}
+.photo-selector img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  display: block;
+}
+.listing-preview {
+  flex-wrap: wrap;
+}

@@ -61,6 +61,8 @@ beforeEach(async () => {
           first_name: 'Jane',
           last_name: 'Doe',
           school: 'Campus',
+          user: 'jane',
+          location: 'Campus library',
         }),
       )
     if (req.url === '/Category')
@@ -73,6 +75,18 @@ beforeEach(async () => {
       )
     if (req.url === '/Condition')
       return res.end(JSON.stringify(['Good', 'Like New']))
+    if (req.url === '/Listing/5')
+      return res.end(
+        JSON.stringify({
+          ...listing,
+          user: 'jane',
+          images_url: [
+            listing.image_url,
+            '/uploads/abcdef0123456789abcdef0123456789.jpg',
+          ],
+          password: 'private',
+        }),
+      )
     if (req.url === '/Listing') {
       if (failTarget && body.to_user) {
         res.statusCode = 401
@@ -287,4 +301,84 @@ it('accepts ISBN-10 X and ISBN-13 check digits', () => {
   expect(validIsbn('9780131103627')).toBe(true)
   expect(validIsbn('9780131103628')).toBe(false)
   expect(validIsbn('123')).toBe(false)
+})
+
+it('fetches full details and multiple images through GET Listing/id', async () => {
+  const response = await get('listing?id=5', false)
+  expect(response.status).toBe(200)
+  const { listing: detail } = await response.json()
+  expect(detail.user).toBe('jane')
+  expect(detail.description).toBe('Useful')
+  expect(detail.images_url).toHaveLength(2)
+  expect(
+    detail.images_url.every((src) =>
+      src.startsWith('/api/listing-image?name='),
+    ),
+  ).toBe(true)
+  expect(detail.password).toBeUndefined()
+  expect(calls.findLast((x) => x.route === '/Listing/5')).toMatchObject({
+    method: 'GET',
+    body: { app_access: 'fixture-app' },
+  })
+  expect((await get('listing?id=-1', false)).status).toBe(400)
+})
+it('sends an image array, enforces eight-photo limit, and supports category deletion', async () => {
+  const bytes = Buffer.alloc(12)
+  bytes.set([137, 80, 78, 71])
+  const image = bytes.toString('base64')
+  const draft = {
+    title: 'Multiple photos',
+    category: 'Electronics',
+    condition: 'Good',
+    price: 20,
+    imageBase64: Array(8).fill(image),
+  }
+  expect((await write('seller/listings', 'POST', draft)).status).toBe(201)
+  expect(
+    calls.findLast((x) => x.route === '/Listing').body.imageBase64,
+  ).toHaveLength(8)
+  expect(
+    (
+      await write('seller/listings', 'POST', {
+        ...draft,
+        imageBase64: Array(9).fill(image),
+      })
+    ).status,
+  ).toBe(400)
+  expect(
+    (await write('admin/categories', 'DELETE', { category: 'Electronics' }))
+      .status,
+  ).toBe(200)
+  expect(calls.findLast((x) => x.route === '/Category')).toMatchObject({
+    method: 'DELETE',
+    body: { category: 'Electronics', access_token: 'visitor-token' },
+  })
+})
+it('preserves username/location profile fields and forwards profile edits', async () => {
+  expect(await (await get('profile')).json()).toMatchObject({
+    profile: { user: 'jane', location: 'Campus library' },
+  })
+  expect(
+    (
+      await write('profile', 'PATCH', {
+        user: 'jane_new',
+        location: 'Student center',
+      })
+    ).status,
+  ).toBe(200)
+  expect(
+    calls.findLast((x) => x.route === '/Register' && x.method === 'PATCH').body,
+  ).toMatchObject({ user: 'jane_new', location: 'Student center' })
+  expect(
+    (
+      await write('register', 'POST', {
+        email: 'x@example.com',
+        password: 'Fixture!123',
+        first_name: 'Jane',
+        last_name: 'Doe',
+        school: 'Campus',
+        user: 'not_allowed',
+      })
+    ).status,
+  ).toBe(400)
 })

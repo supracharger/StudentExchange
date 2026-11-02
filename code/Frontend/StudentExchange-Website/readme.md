@@ -1,5 +1,7 @@
 # Student Exchange
 
+This revision targets the upcoming backend `85e551c`. Deploy that backend before this website release; see [deployment notes and backend source blocker](docs/marketplace.md#upcoming-backend-contract--85e551c).
+
 The website now uses the live listing API and includes a seller portal at `/seller` and marketplace administration at `/admin`.
 
 See [the marketplace integration guide](docs/marketplace.md) for current features, endpoint mappings, validation, and backend limitations. See [administration](docs/administration.md) for existing account and security tools; the user-level visibility threshold is now 27.

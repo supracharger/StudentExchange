@@ -485,6 +485,22 @@ function ProfileForm({
               }}
             />
           </label>
+          {(['user', 'location'] as const).map((key) => (
+            <label key={key}>
+              {key === 'user' ? 'Username' : 'Pickup location'}
+              <input
+                value={fields[key] || ''}
+                maxLength={200}
+                pattern={key === 'user' ? '[A-Za-z0-9_-]+' : undefined}
+                onChange={(event) =>
+                  setFields((current) => ({
+                    ...current,
+                    [key]: event.target.value,
+                  }))
+                }
+              />
+            </label>
+          ))}
           <SchoolSelect
             value={fields.school}
             onChange={(value) => {

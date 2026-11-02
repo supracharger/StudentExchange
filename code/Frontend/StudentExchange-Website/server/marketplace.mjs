@@ -1,9 +1,10 @@
 export const marketplaceRoutes = {
   '/api/listings': ['GET'],
+  '/api/listing': ['GET'],
   '/api/catalog': ['GET'],
   '/api/seller/listings': ['GET', 'POST', 'DELETE'],
   '/api/admin/listings': ['GET', 'DELETE'],
-  '/api/admin/categories': ['POST'],
+  '/api/admin/categories': ['POST', 'DELETE'],
 }
 
 export function validIsbn(value) {
@@ -93,6 +94,7 @@ export async function handleMarketplace({
         'email',
         'first_name',
         'last_name',
+        'user',
         'status',
       ])
         result[key] = typeof row[key] === 'string' ? row[key] : ''
@@ -112,6 +114,26 @@ export async function handleMarketplace({
     )
       fail(502, 'The catalog could not be loaded.')
     return [...new Set(data)]
+  }
+  if (path === '/api/listing') {
+    const params = Object.fromEntries(
+      new URL(request.url, 'http://website.local').searchParams,
+    )
+    exact(params, ['id'])
+    const id = Number(params.id)
+    if (!Number.isSafeInteger(id) || id <= 0)
+      fail(400, 'Choose a valid listing.')
+    const data = await call(`Listing/${id}`, 'GET', {})
+    const detail = list([{ ...data, id }])[0]
+    const images = data.images_url ?? []
+    if (!Array.isArray(images) || images.some((x) => typeof x !== 'string'))
+      fail(502, 'Invalid listing images.')
+    detail.images_url = images
+      .map((image_url) => list([{ ...data, id, image_url }])[0].image_url)
+      .filter(Boolean)
+    detail.image_url = detail.images_url[0] || null
+    send(response, 200, { listing: detail })
+    return
   }
   const url = new URL(request.url, 'http://website.local')
   const admin = path.startsWith('/api/admin')
@@ -135,8 +157,10 @@ export async function handleMarketplace({
     const body = await readBody(request)
     exact(body, ['category'])
     const category = text(body.category, 200, true)
-    await call('Category', 'POST', { category, ...credentials })
-    send(response, 201, { message: 'Category created.' })
+    await call('Category', method, { category, ...credentials })
+    send(response, method === 'POST' ? 201 : 200, {
+      message: method === 'POST' ? 'Category created.' : 'Category deleted.',
+    })
     return
   }
   const selectors = Object.fromEntries(url.searchParams)
@@ -199,9 +223,17 @@ export async function handleMarketplace({
     fail(400, 'Enter a nonnegative price with at most two decimal places.')
   if (isbn && (category !== 'Textbooks' || !validIsbn(isbn)))
     fail(400, 'A valid ISBN can only be added to textbooks.')
-  const imageBase64 = text(body.imageBase64, 2800000)
-  if (imageBase64) {
-    const raw = imageBase64.replace(/^data:image\/(png|jpeg|webp);base64,/, '')
+  const imageBase64 =
+    body.imageBase64 == null
+      ? []
+      : typeof body.imageBase64 === 'string'
+        ? [body.imageBase64]
+        : body.imageBase64
+  if (!Array.isArray(imageBase64) || imageBase64.length > 8)
+    fail(400, 'Choose no more than 8 photos.')
+  for (const image of imageBase64) {
+    text(image, 2800000, true)
+    const raw = image.replace(/^data:image\/(png|jpeg|webp);base64,/, '')
     if (!/^[A-Za-z0-9+/]+={0,2}$/.test(raw) || raw.length % 4)
       fail(400, 'Choose a valid PNG, JPEG, or WebP image.')
     const bytes = Buffer.from(raw, 'base64')
@@ -224,7 +256,7 @@ export async function handleMarketplace({
     category,
     condition,
     ...(isbn ? { isbn } : {}),
-    ...(imageBase64 ? { imageBase64 } : {}),
+    ...(imageBase64.length ? { imageBase64 } : {}),
     ...credentials,
   })
   send(response, 201, { message: 'Listing created.' })

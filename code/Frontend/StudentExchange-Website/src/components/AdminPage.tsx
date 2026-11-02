@@ -21,7 +21,14 @@ import {
   ConfirmPasswordField,
 } from './AccountPanel'
 
-type Section = 'marketplace' | 'overview' | 'users' | 'blocked' | 'sessions' | 'schools' | 'adminAccess'
+type Section =
+  | 'marketplace'
+  | 'overview'
+  | 'users'
+  | 'blocked'
+  | 'sessions'
+  | 'schools'
+  | 'adminAccess'
 type Confirmation = {
   title: string
   description: string
@@ -237,8 +244,9 @@ function Console({
     recordType === 'users' ? attempts.blockedUsers : attempts.blockedIPs
   const filteredRecords = sourceRecords.filter((record) =>
     ('ip' in record
-      ? `${record.ip} ${record.users.map(user => `${user.name} ${user.email}`).join(' ')}`
-      : `${record.name} ${record.email}`)
+      ? `${record.ip} ${record.users.map((user) => `${user.name} ${user.email}`).join(' ')}`
+      : `${record.name} ${record.email}`
+    )
       .toLowerCase()
       .includes(query.trim().toLowerCase()),
   )
@@ -331,9 +339,8 @@ function Console({
     })
   }
   function askClear(record: AttemptRecord | IPAttemptRecord) {
-    const selector = 'ip' in record
-      ? { ip_addr: record.ip }
-      : { email: record.email }
+    const selector =
+      'ip' in record ? { ip_addr: record.ip } : { email: record.email }
     setConfirmation({
       title: 'Clear attempt records?',
       description: `Remove all login-attempt records for ${'ip' in record ? record.ip : record.email}. User and IP records are cleared separately. Previously revoked sessions stay revoked.`,
@@ -366,9 +373,24 @@ function Console({
     visible: boolean
   }[] = [
     { id: 'overview', icon: '◈', label: 'Overview', visible: true },
-    { id: 'adminAccess', icon: '◇', label: 'Admin access', visible: permissions.manageAdmins },
-    { id: 'marketplace', icon: '▦', label: 'Marketplace', visible: permissions.users },
-    { id: 'schools', icon: '▤', label: 'Schools', visible: permissions.schools },
+    {
+      id: 'adminAccess',
+      icon: '◇',
+      label: 'Admin access',
+      visible: permissions.manageAdmins,
+    },
+    {
+      id: 'marketplace',
+      icon: '▦',
+      label: 'Marketplace',
+      visible: permissions.users,
+    },
+    {
+      id: 'schools',
+      icon: '▤',
+      label: 'Schools',
+      visible: permissions.schools,
+    },
     { id: 'users', icon: '♧', label: 'Users', visible: permissions.users },
     {
       id: 'blocked',
@@ -439,30 +461,34 @@ function Console({
         <header className="admin-page-heading">
           <p className="eyebrow">YOUR CAMPUS. IN GOOD HANDS.</p>
           <h1 id="admin-title" ref={heading} tabIndex={-1}>
-            {section === 'marketplace' ? 'Manage the marketplace' : section === 'overview'
-              ? `Welcome back, ${account.profile?.first_name}.`
-              : section === 'adminAccess'
-                ? 'Manage admin access'
-                : section === 'schools'
-                ? 'Manage schools'
-                : section === 'users'
-                  ? 'Your student community'
-                  : section === 'blocked'
-                    ? 'Login attempts'
-                    : 'End user sessions'}
+            {section === 'marketplace'
+              ? 'Manage the marketplace'
+              : section === 'overview'
+                ? `Welcome back, ${account.profile?.first_name}.`
+                : section === 'adminAccess'
+                  ? 'Manage admin access'
+                  : section === 'schools'
+                    ? 'Manage schools'
+                    : section === 'users'
+                      ? 'Your student community'
+                      : section === 'blocked'
+                        ? 'Login attempts'
+                        : 'End user sessions'}
           </h1>
           <p>
-            {section === 'marketplace' ? 'Review seller listings and keep the category directory current.' : section === 'overview'
-              ? 'A clear view of your community, with the tools to keep it running smoothly.'
-              : section === 'adminAccess'
-                ? 'Grant, change, or remove admin access for eligible users.'
-                : section === 'schools'
-                ? 'Keep the school list available to students up to date.'
-                : section === 'users'
-                  ? 'Find students, keep profiles up to date, and manage account access.'
-                  : section === 'blocked'
-                    ? 'Review user and IP attempt records and help students regain access.'
-                    : 'Sign an eligible user out of all active sessions.'}
+            {section === 'marketplace'
+              ? 'Review seller listings and keep the category directory current.'
+              : section === 'overview'
+                ? 'A clear view of your community, with the tools to keep it running smoothly.'
+                : section === 'adminAccess'
+                  ? 'Grant, change, or remove admin access for eligible users.'
+                  : section === 'schools'
+                    ? 'Keep the school list available to students up to date.'
+                    : section === 'users'
+                      ? 'Find students, keep profiles up to date, and manage account access.'
+                      : section === 'blocked'
+                        ? 'Review user and IP attempt records and help students regain access.'
+                        : 'Sign an eligible user out of all active sessions.'}
           </p>
         </header>
         {error && (
@@ -620,8 +646,12 @@ function Console({
                       )}
                       {permissions.deleteUsers && <li>Account deletion</li>}
                       {permissions.schools && <li>Add and delete schools</li>}
-                      {permissions.manageAdmins && <li>Manage lower-ranked admin access</li>}
-                      {permissions.lockAdmins && <li>View admin levels and change locked status</li>}
+                      {permissions.manageAdmins && (
+                        <li>Manage lower-ranked admin access</li>
+                      )}
+                      {permissions.lockAdmins && (
+                        <li>View admin levels and change locked status</li>
+                      )}
                       {permissions.blocked && (
                         <li>User and IP attempt records</li>
                       )}
@@ -660,6 +690,9 @@ function Console({
                             <Avatar name={user.name} />
                             <span>
                               <strong>{user.name}</strong>
+                              {user.user_name && (
+                                <small>@{user.user_name}</small>
+                              )}
                               <small>{user.school}</small>
                             </span>
                             <Timestamp value={user.datetime} />
@@ -671,7 +704,9 @@ function Console({
                 )}
               </>
             )}
-            {section === 'marketplace' && permissions.users && <AdminMarketplace key={revision} onError={handleError} />}
+            {section === 'marketplace' && permissions.users && (
+              <AdminMarketplace key={revision} onError={handleError} />
+            )}
             {section === 'users' && permissions.users && (
               <div className="admin-card admin-directory">
                 <div className="admin-card-heading">
@@ -750,15 +785,25 @@ function Console({
                                 <Avatar name={user.name} />
                                 <span>
                                   <strong>{user.name}</strong>
+                                  {user.user_name && (
+                                    <small>@{user.user_name}</small>
+                                  )}
                                   <small>{user.email}</small>
                                 </span>
                               </div>
                             </td>
                             <td>{user.school}</td>
                             <td>
-                              <strong>{user.isAdmin ? 'Admin' : 'Student'}</strong>
-                              {user.isAdmin && user.locked && <small>Locked</small>}
-                              {permissions.viewAdminLevels && user.level != null && <small>Level {user.level}</small>}
+                              <strong>
+                                {user.isAdmin ? 'Admin' : 'Student'}
+                              </strong>
+                              {user.isAdmin && user.locked && (
+                                <small>Locked</small>
+                              )}
+                              {permissions.viewAdminLevels &&
+                                user.level != null && (
+                                  <small>Level {user.level}</small>
+                                )}
                             </td>
                             <td>
                               <Timestamp value={user.datetime} />
@@ -777,14 +822,22 @@ function Console({
                                       Manage <span aria-hidden="true">↗</span>
                                     </button>
                                   )}
-                                {permissions.manageAdmins && profiles[user.email] &&
+                                {permissions.manageAdmins &&
+                                  profiles[user.email] &&
                                   user.email !== account.profile?.email &&
                                   (!user.locked || permissions.lockAdmins) &&
-                                  (user.level == null || user.level < (access.level ?? 0)) && (
-                                    <button className="admin-button" aria-label={`Admin access for ${user.email}`} onClick={() => {
-                                      setAdminTarget(user)
-                                      go('adminAccess')
-                                    }}>Admin access…</button>
+                                  (user.level == null ||
+                                    user.level < (access.level ?? 0)) && (
+                                    <button
+                                      className="admin-button"
+                                      aria-label={`Admin access for ${user.email}`}
+                                      onClick={() => {
+                                        setAdminTarget(user)
+                                        go('adminAccess')
+                                      }}
+                                    >
+                                      Admin access…
+                                    </button>
                                   )}
                                 {permissions.deleteUsers &&
                                   profiles[user.email] && (
@@ -821,9 +874,8 @@ function Console({
                 </div>
                 <p className="admin-record-note">
                   Successful access records are labeled Successful. Includes
-                  attempts below the block threshold and
-                  expired records awaiting cleanup. Each IP row lists its
-                  associated users.
+                  attempts below the block threshold and expired records
+                  awaiting cleanup. Each IP row lists its associated users.
                 </p>
                 <div
                   className="admin-record-tabs"
@@ -890,26 +942,37 @@ function Console({
                       </thead>
                       <tbody>
                         {pageRecords.map((record, index) => (
-                          <tr key={`${'ip' in record ? record.ip : record.email}-${index}`}>
+                          <tr
+                            key={`${'ip' in record ? record.ip : record.email}-${index}`}
+                          >
                             <td>
                               {'ip' in record ? (
                                 <>
                                   <strong>{record.ip}</strong>
-                                  {record.users.length ? record.users.map((user, index) => (
-                                    <small key={`${user.email}-${index}`}>
-                                      {user.name} · {user.email}
-                                    </small>
-                                  )) : <small>No associated users</small>}
+                                  {record.users.length ? (
+                                    record.users.map((user, index) => (
+                                      <small key={`${user.email}-${index}`}>
+                                        {user.name} · {user.email}
+                                      </small>
+                                    ))
+                                  ) : (
+                                    <small>No associated users</small>
+                                  )}
                                 </>
                               ) : (
-                                <><strong>{record.name}</strong><small>{record.email}</small></>
+                                <>
+                                  <strong>{record.name}</strong>
+                                  <small>{record.email}</small>
+                                </>
                               )}
                             </td>
                             <td>
                               <span
                                 className={`admin-pill ${record.count === -1 ? '' : 'amber'}`}
                               >
-                                {record.count === -1 ? 'Successful' : `${record.count} failed attempts`}
+                                {record.count === -1
+                                  ? 'Successful'
+                                  : `${record.count} failed attempts`}
                               </span>
                             </td>
                             <td>
@@ -943,15 +1006,28 @@ function Console({
                 key={adminTarget?.email || 'manual'}
                 access={access}
                 target={adminTarget}
-                onSubmit={(method, fields) => setConfirmation({
-                  title: method === 'POST' ? 'Grant admin access?' : method === 'PATCH' ? 'Update admin access?' : 'Remove admin access?',
-                  description: method === 'DELETE'
-                    ? `Remove administrator privileges from ${fields.to_user}? Their student account will remain.`
-                    : `Set admin level ${fields.level} for ${fields.to_user}${fields.locked == null ? '' : fields.locked ? ' and mark the admin locked' : ' and mark the admin unlocked'}?`,
-                  label: method === 'POST' ? 'Grant access' : method === 'PATCH' ? 'Update access' : 'Remove access',
-                  danger: method === 'DELETE',
-                  run: () => admin.assign(method, fields),
-                })}
+                onSubmit={(method, fields) =>
+                  setConfirmation({
+                    title:
+                      method === 'POST'
+                        ? 'Grant admin access?'
+                        : method === 'PATCH'
+                          ? 'Update admin access?'
+                          : 'Remove admin access?',
+                    description:
+                      method === 'DELETE'
+                        ? `Remove administrator privileges from ${fields.to_user}? Their student account will remain.`
+                        : `Set admin level ${fields.level} for ${fields.to_user}${fields.locked == null ? '' : fields.locked ? ' and mark the admin locked' : ' and mark the admin unlocked'}?`,
+                    label:
+                      method === 'POST'
+                        ? 'Grant access'
+                        : method === 'PATCH'
+                          ? 'Update access'
+                          : 'Remove access',
+                    danger: method === 'DELETE',
+                    run: () => admin.assign(method, fields),
+                  })
+                }
               />
             )}
             {section === 'schools' && permissions.schools && (
@@ -961,13 +1037,15 @@ function Console({
                   setError('')
                   setNotice(result)
                 }}
-                onDelete={(school) => setConfirmation({
-                  title: 'Delete this school?',
-                  description: `Remove ${school.name} (${school.short_name}) from the school list?`,
-                  label: 'Delete school',
-                  danger: true,
-                  run: () => admin.deleteSchool(school),
-                })}
+                onDelete={(school) =>
+                  setConfirmation({
+                    title: 'Delete this school?',
+                    description: `Remove ${school.name} (${school.short_name}) from the school list?`,
+                    label: 'Delete school',
+                    danger: true,
+                    run: () => admin.deleteSchool(school),
+                  })
+                }
               />
             )}
             {section === 'sessions' && permissions.endSessions && (
@@ -1272,6 +1350,7 @@ function ProfileEditor({
   const changes: ProfileUpdate = Object.fromEntries(
     Object.entries(fields).filter(
       ([key, value]) =>
+        typeof value === 'string' &&
         value.trim() &&
         (key === 'password' || value.trim() !== profile[key as keyof Profile]),
     ),
@@ -1359,6 +1438,22 @@ function ProfileEditor({
               }
             />
           </label>
+          {(['user', 'location'] as const).map((key) => (
+            <label key={key}>
+              {key === 'user' ? 'Username' : 'Pickup location'}
+              <input
+                value={fields[key] || ''}
+                maxLength={200}
+                pattern={key === 'user' ? '[A-Za-z0-9_-]+' : undefined}
+                onChange={(event) =>
+                  setFields((current) => ({
+                    ...current,
+                    [key]: event.target.value,
+                  }))
+                }
+              />
+            </label>
+          ))}
           <SchoolSelect
             idPrefix="admin-"
             value={fields.school}

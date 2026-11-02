@@ -1,5 +1,7 @@
 import { request } from './accounts'
 export interface Listing {
+  user?: string
+  images_url?: string[]
   id: number
   title: string
   description: string
@@ -26,9 +28,13 @@ export interface ListingDraft {
   category: string
   condition: string
   isbn?: string
-  imageBase64?: string
+  imageBase64?: string | string[]
 }
 export const marketplace = {
+  detail: (id: number, signal?: AbortSignal) =>
+    request<{ listing: Listing }>(`listing?id=${id}`, 'GET', undefined, signal),
+  deleteCategory: (category: string) =>
+    request<{ message: string }>('admin/categories', 'DELETE', { category }),
   catalog: (signal?: AbortSignal) =>
     request<Catalog>('catalog', 'GET', undefined, signal),
   listings: (filters: Record<string, string> = {}, signal?: AbortSignal) =>

@@ -377,13 +377,11 @@ function ListingForm({
   onExpired: () => void
 }) {
   const [category, setCategory] = useState(catalog.categories[0] || '')
-  const [image, setImage] = useState('')
+  const [image, setImage] = useState<string[]>([])
   const [error, setError] = useState('')
   const [imageError, setImageError] = useState('')
   const [reading, setReading] = useState(false)
   const [busy, setBusy] = useState(false)
-  const reader = useRef<FileReader | null>(null)
-  useEffect(() => () => reader.current?.abort(), [])
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (busy || reading || imageError) return
@@ -400,7 +398,7 @@ function ListingForm({
         ...(category === 'Textbooks' && data.get('isbn')
           ? { isbn: String(data.get('isbn')) }
           : {}),
-        ...(image ? { imageBase64: image } : {}),
+        ...(image.length ? { imageBase64: image } : {}),
       })
       onCreated(result.message)
     } catch (e) {
@@ -492,49 +490,67 @@ function ListingForm({
             Photo (optional)
             <input
               type="file"
+              multiple
               aria-label="Photo (optional)"
               accept="image/png,image/jpeg,image/webp"
               disabled={reading}
-              onChange={(e) => {
-                reader.current?.abort()
-                setImage('')
+              onChange={async (e) => {
+                setImage([])
                 setImageError('')
-                const file = e.target.files?.[0]
-                if (!file) return
+                const files = Array.from(e.target.files || [])
+                if (files.length > 8) {
+                  setImageError('Choose no more than 8 photos.')
+                  return
+                }
                 if (
-                  file.size > 2 * 1024 * 1024 ||
-                  !['image/png', 'image/jpeg', 'image/webp'].includes(file.type)
+                  files.some(
+                    (file) =>
+                      file.size > 2 * 1024 * 1024 ||
+                      !['image/png', 'image/jpeg', 'image/webp'].includes(
+                        file.type,
+                      ),
+                  )
                 ) {
                   setImageError(
                     'Choose a PNG, JPEG, or WebP no larger than 2 MB.',
                   )
                   return
                 }
-                const fileReader = new FileReader()
-                reader.current = fileReader
                 setReading(true)
-                fileReader.onload = () => {
-                  setImage(String(fileReader.result))
+                try {
+                  const values = await Promise.all(
+                    files.map(
+                      (file) =>
+                        new Promise<string>((resolve, reject) => {
+                          const r = new FileReader()
+                          r.onload = () => resolve(String(r.result))
+                          r.onerror = () =>
+                            reject(new Error('Unable to read photo.'))
+                          r.readAsDataURL(file)
+                        }),
+                    ),
+                  )
+                  setImage(values)
+                } catch {
+                  setImageError('Unable to read the images. Choose them again.')
+                } finally {
                   setReading(false)
                 }
-                fileReader.onerror = () => {
-                  setImageError('Unable to read the image. Choose it again.')
-                  setReading(false)
-                }
-                fileReader.readAsDataURL(file)
               }}
             />
-            <small>PNG, JPEG, or WebP · up to 2 MB</small>
+            <small>Up to 8 photos · PNG, JPEG, or WebP · 2 MB each</small>
           </label>
-          {image && (
+          {image.length > 0 && (
             <div className="listing-preview">
-              <img src={image} alt="Listing photo preview" />
+              {image.map((src, i) => (
+                <img key={i} src={src} alt={`Listing photo preview ${i + 1}`} />
+              ))}
               <button
                 type="button"
                 className="admin-button"
-                onClick={() => setImage('')}
+                onClick={() => setImage([])}
               >
-                Remove photo
+                Remove photos
               </button>
             </div>
           )}
