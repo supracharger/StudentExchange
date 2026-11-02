@@ -289,22 +289,23 @@ namespace StudentExchangeBck{
                     _userLock.Remove(s.Key);
             }
 
-            var result = Sql.Read("SELECT id,first_name,last_name FROM User WHERE user_name IS NULL;");
-            if (result.Count != 0)
-            {
-                var keys = result.Keys.ToList();
-                var data = Utilz.Transpose(keys.Select(k => result[k])).ToList();
-                var ii = Enumerable.Range(0, keys.Count).ToArray();
-                foreach(var row in data)
-                {
-                    var d = ii.ToDictionary(i => keys[i], i => row[i]);
-                    Sql.Write("UPDATE User SET user_name=@user WHERE id=@id", new Dictionary<string, object>
-                    {
-                        { "@id", d["id"] },
-                        { "@user", FindUniqueUser((string)d["first_name"], (string)d["last_name"]) }
-                    }, 1);
-                }
-            }
+            // Not needed anymore.
+            //var result = Sql.Read("SELECT id,first_name,last_name FROM User WHERE user_name IS NULL;");
+            //if (result.Count != 0)
+            //{
+            //    var keys = result.Keys.ToList();
+            //    var data = Utilz.Transpose(keys.Select(k => result[k])).ToList();
+            //    var ii = Enumerable.Range(0, keys.Count).ToArray();
+            //    foreach(var row in data)
+            //    {
+            //        var d = ii.ToDictionary(i => keys[i], i => row[i]);
+            //        Sql.Write("UPDATE User SET user_name=@user WHERE id=@id", new Dictionary<string, object>
+            //        {
+            //            { "@id", d["id"] },
+            //            { "@user", FindUniqueUser((string)d["first_name"], (string)d["last_name"]) }
+            //        }, 1);
+            //    }
+            //}
         }
 
         public struct Data{
