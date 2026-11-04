@@ -194,9 +194,11 @@ namespace StudentExchangeBck{
 
             public void Commit()
             {
-                if (_trans == null) return;
+                if (_trans == null && _con == null) return;
                 try
                 {
+                    if (_trans == null) return;
+
                     // Open connection if closed
                     if (_con!.State == ConnectionState.Closed) _con.Open();
 
@@ -213,9 +215,11 @@ namespace StudentExchangeBck{
 
             public void Rollback()
             {
-                if (_trans == null) return;
+                if (_trans == null && _con == null) return;
                 try
                 {
+                    if (_trans == null) return;
+
                     // Open connection if closed
                     if (_con!.State == ConnectionState.Closed) _con.Open();
 
