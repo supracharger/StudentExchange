@@ -66,6 +66,9 @@ Accept: application/json
 # Add Listing
 POST {{StudentExchangeBck_HostAddress}}/Listing/
 Accept: application/json
+# Update One Listing
+PATCH {{StudentExchangeBck_HostAddress}}/Listing/id
+Accept: application/json
 # Delete Listing
 DELETE {{StudentExchangeBck_HostAddress}}/Listing/
 Accept: application/json

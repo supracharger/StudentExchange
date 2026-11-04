@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using static StudentExchangeBck.Listing;
 
 namespace StudentExchangeBck
 {
@@ -272,6 +273,229 @@ namespace StudentExchangeBck
             }
         }
 
+        [HttpPatch("{id}")]
+        public IActionResult UpdateListing(long id, Update model)
+        {
+            var msg = AppAuthJson.ValidateWithToken(this, model, HttpContext, out var user, out var ip);
+            if (msg != null) return msg;
+
+            if (user.forwarded && user.adminLvl < 10)
+                return Unauthorized("Not Authorized.");
+
+            var updatekeys = new HashSet<string> { "title", "description", "price", "category", "condition", "status" };
+            var nullkeys = new HashSet<string>();
+            if (string.IsNullOrWhiteSpace(model.Title))
+            { model.Title = null; nullkeys.Add("title"); }
+            if (string.IsNullOrWhiteSpace(model.Description))
+            { model.Description = null; nullkeys.Add("description"); }
+            if (model.Price == null)
+            { model.Price = null; nullkeys.Add("price"); }
+            if (string.IsNullOrWhiteSpace(model.Category))
+            { model.Category = null; nullkeys.Add("category"); }
+            if (string.IsNullOrWhiteSpace(model.Condition))
+            { model.Condition = null; nullkeys.Add("condition"); }
+            if (string.IsNullOrEmpty(model.status))
+            { model.status = null; nullkeys.Add("status"); }
+            if (model.Imgs != null && model.Imgs.Length == 0)
+                model.Imgs = null;
+            if (string.IsNullOrWhiteSpace(model.Isbn))
+                model.Isbn = null;
+
+            if (nullkeys.Count == updatekeys.Count && model.Imgs == null && model.Isbn == null)
+                return BadRequest("There is nothing to update");
+            if (nullkeys.Any(k => !updatekeys.Contains(k)))
+                throw new Exception("nullkeys.Any(k => !updatekeys.Contains(k))");
+            //foreach (var k in nullkeys)
+            //    updatekeys.Remove(k);
+
+            nullkeys = nullkeys.Select(k => "L." + k).ToHashSet();
+            if (nullkeys.Contains("L.category"))
+            {
+                nullkeys.Remove("L.category");
+                nullkeys.Add("C.name category");
+            }
+            if (nullkeys.Contains("L.condition"))
+            {
+                nullkeys.Remove("L.condition");
+                nullkeys.Add("D.name condition");
+            }
+            nullkeys.Remove("L.status");
+            nullkeys.Add("S.name status");
+            var col = nullkeys;
+            var result = Sql.Read($"SELECT {string.Join(", ", col)} " + 
+                                    @"FROM Listings L, Listings_Category C, Condition D, Status S
+                                    WHERE L.id=@id AND L.user_id=@userid AND
+                                    L.category=C.id AND L.condition=D.id AND L.status=S.id;",
+                            new Dictionary<string, object>
+                            {
+                                { "@id", id },
+                                { "@userid", user.id }
+                            });
+
+            if (result.Count == 0)
+                return BadRequest("Listing not found.");
+
+            var m0 = new ListingCreateModel()
+            {
+                Title = model.Title != null ? model.Title : (string)result["title"][0],
+                Description = model.Description != null ? model.Description : (string)result["description"][0],
+                Price = model.Price != null ? model.Price.Value : Convert.ToDecimal(result["price"][0]),
+                Category = model.Category != null ? model.Category : (string)result["category"][0],
+                Condition = model.Condition != null ? model.Condition : (string)result["condition"][0],
+                Isbn = model.Isbn
+            };
+
+            var status = (string)result["status"][0];
+            var r2 = Sql.Read("SELECT id,name,lvl FROM Status");
+            if (r2.Count == 0) throw new Exception("There are no statuses");
+            var sid = r2["id"].Cast<long>().ToArray();
+            var stname = r2["name"].Cast<string>().ToArray();
+            var slvl0 = r2["lvl"].Cast<long>().ToArray();
+            var statusD = Enumerable.Range(0, sid.Length).ToDictionary(i => stname[i], i => sid[i]);
+            var slvl = Enumerable.Range(0, sid.Length).ToDictionary(i => stname[i], i => slvl0[i]);
+
+            if (model.status != null && model.status == status)
+                model.status = null;
+            if (!statusD.ContainsKey(status))
+                throw new Exception("status could not be found.");
+            if (slvl[status] > 1 && user.adminLvl < 10)
+                return Unauthorized();
+            if (model.status != null && (!statusD.ContainsKey(model.status) || (slvl[model.status] > 0 && user.adminLvl < 10)))
+                return Unauthorized();
+            string? expiry = null;
+            if (model.status == "Active")
+                expiry = (Utilz.ToMtn() + Env._list_expiry).ToString("s");
+
+            // Validate everything before touching the disk or database
+            var error = ValidateListing(m0, out var condition, out var category, out var isbn, out var imgs);
+            if (error != null) return BadRequest(new { Message = error });
+
+            if (!string.IsNullOrWhiteSpace(model.Title))
+                model.Title = Utilz.FirstUpper(model.Title, ignoreStopWords: true);
+
+            Sql.Trans? trans = null;
+            try
+            {
+                trans = new Sql.Trans();
+
+                var values = new Dictionary<string, object>();
+                if (model.Title != null)
+                    values.Add("title", model.Title);
+                if (model.Description != null)
+                    values.Add("description", model.Description);
+                if (model.Price != null)
+                    values.Add("price", model.Price);
+                if (model.Category != null)
+                    values.Add("category", category);
+                if (model.Condition != null)
+                    values.Add("condition", condition);
+                if (model.status != null)
+                    values.Add("status", statusD[model.status]);
+                if (expiry != null)
+                    values.Add("expiry", expiry);
+
+                if (values.Count != 0)
+                {
+                    var set = values.Keys.ToList();
+                    values.Add("id", id);
+
+                    Sql.Write($"Update Listings SET {string.Join(", ", set.Select(k => $"[{k}]=@{k}"))} " +
+                                "WHERE [id]=@id;", trans, values.ToDictionary(s => "@" + s.Key, s => s.Value), 1);
+                }
+
+                if (model.Isbn != null)
+                    Sql.Write(@"Update Books SET [isbn]=@isbn WHERE [list_id]=@id;", trans, new Dictionary<string, object>
+                {
+                    { "@isbn", isbn! },
+                    { "@id", id }
+                }, 1);
+
+                var filesToDelete = new List<string>();
+                if (model.Imgs != null)
+                {
+                    var delete = model.Imgs.Where(s => s.action == "delete").Select(s => s.location).ToList();
+                    var insert = model.Imgs.Where(s => s.action == "insert").ToList();
+                    result = Sql.Read("SELECT id,name FROM Img WHERE list_id=@id ORDER BY id", new Dictionary<string, object>
+                    {
+                        { @"id", id }
+                    }, trans._trans != null ? trans : null);
+                    List<long> ids = new List<long>();
+                    List<string> names = new List<string>();
+                    if (result.Count != 0)
+                    {
+                        ids = result["id"].Cast<long>().ToList();
+                        names = result["name"].Cast<string>().ToList();
+                    }
+                    var unq = new HashSet<int>();
+                    for (int i = 0; i < delete.Count; i++)
+                    {
+                        var loc = delete[i];
+                        if (loc < 0 || loc >= ids.Count || unq.Contains(loc))
+                            return BadRequest($"Invalid delete at location: {i + 1}");
+                        unq.Add(loc);
+                    }
+                    for (int i = 0; i < insert.Count; i++)
+                    {
+                        var loc = insert[i].location;
+                        if (loc >= 0)
+                        {
+                            if (loc >= ids.Count || unq.Contains(loc))
+                                return BadRequest($"Invalid insert at location: {i + 1}");
+                            unq.Add(loc);
+                        }
+                    }
+
+                    var nimgs = ids.Count - delete.Count + insert.Where(s => s.location < 0).ToArray().Length;
+                    if (nimgs > 8)
+                        return BadRequest("Only 8 images are allowed.");
+
+                    if (delete.Count != 0)
+                    {
+                        Sql.Write($"DELETE FROM Img WHERE id IN ({string.Join(", ", delete.Select(i => ids[i]))});", trans, null, delete.Count);
+                        filesToDelete.AddRange(delete.Select(i => names[i]));
+                    }
+
+                    if (insert.Count != 0)
+                    {
+                        var imageName = new string[insert.Count];
+                        for (int i = 0; i < insert.Count; i++)
+                        {
+                            imageName[i] = SaveImage(insert[i].ImageBase64, out error)!;
+                            if (imageName[i] == null) return BadRequest(new { Message = $"Insert Image: {i + 1} " + error });
+                        }
+                        var ii = Enumerable.Range(0, insert.Count).ToArray();
+                        foreach (var i in ii.Where(i => insert[i].location >= 0))
+                        {
+                            var s = insert[i];
+                            Sql.Write("UPDATE Img SET name=@name WHERE id=@id", trans, new Dictionary<string, object>
+                            {
+                                { "@name", imageName[i] },
+                                { "@id", ids[s.location] }
+                            }, 1);
+                            filesToDelete.Add(names[s.location]);
+                        }
+                        foreach (var i in ii.Where(i => insert[i].location < 0))
+                            Sql.Write("INSERT INTO Img (list_id, name) VALUES (@listid, @name)", trans, new Dictionary<string, object>
+                            {
+                                { "@name", imageName[i] },
+                                { "@listid", id }
+                            }, 1);
+                    }
+                }
+
+                trans.Commit();
+                trans = null;
+
+                filesToDelete.ForEach(DeleteImageFile);
+
+                return Ok("Listing Updated Successfully!");
+            }
+            finally 
+            { 
+                try { trans?.Rollback(); } catch { }
+            }
+        }
+
         // DELETE: api/listing/{id}
         [HttpDelete]
         public IActionResult DeleteListing(Delete data)
@@ -300,10 +524,10 @@ namespace StudentExchangeBck
                 result = Sql.Read("SELECT [name] FROM Img WHERE [list_id]=@id", idd);
                 if (result.Count != 0)
                 {
-                    foreach (var img in result["name"].Cast<string>())
-                        if (Val(img) is string) DeleteImageFile(img);
-
                     Sql.Write("DELETE FROM Img WHERE [list_id]=@id", idd, result.Values.First().Count);
+
+                    foreach (var img in result["name"].Cast<string>())
+                        DeleteImageFile(img);
                 }
 
                 Sql.Write("DELETE FROM Listings WHERE [id]=@id", idd, 1);
@@ -484,7 +708,16 @@ namespace StudentExchangeBck
             Directory.CreateDirectory(UploadsPath);
 
             // Random name: never use a name supplied by the user
-            var name = Guid.NewGuid().ToString("N") + ext;
+            string? name = null;
+            for (int i = 0; i < 3; i++)
+            {
+                name = Guid.NewGuid().ToString("N") + ext;
+                if (!System.IO.File.Exists(Path.Combine(UploadsPath, name)))
+                    break;
+                else
+                    name = null;
+            }
+            if (name == null) throw new Exception("name == null"); 
             System.IO.File.WriteAllBytes(Path.Combine(UploadsPath, name), bytes);   // System.IO.File: ControllerBase has its own File()
             return name;
         }
@@ -503,6 +736,25 @@ namespace StudentExchangeBck
         public class Delete : AppAuthJson
         {
             public long? id { get; set; }
+        }
+
+        public class Update : AppAuthJson
+        {
+            public string? Title { get; set; }
+            public string? Description { get; set; }
+            public decimal? Price { get; set; }
+            public string? Category { get; set; }
+            public string? Condition { get; set; }
+            public string? Isbn { get; set; }   // optional, textbooks only
+            public string? status { get; set; }
+            public Img[]? Imgs { get; set; }    // optional
+        }
+
+        public class Img
+        {
+            public string ImageBase64 { get; set; } = string.Empty;
+            public int location { get; set; }
+            public string action { get; set; } = string.Empty; // insert, delete
         }
     }
 
