@@ -230,6 +230,9 @@ namespace StudentExchangeBck{
             first = Format(first);
             last = Format(last);
 
+            if (first.Length > 25)
+                first = first.Substring(0, 25);
+
             var matches = UniqueUsers(first);
             if (matches == null) return first;
 

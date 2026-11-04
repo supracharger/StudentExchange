@@ -371,7 +371,7 @@ namespace StudentExchangeBck{
         static readonly Regex _hasSymbol = new Regex(@"[!@#$%^&*_\-+=]"); 
         // Valid Regex Password
         static readonly Regex _valPass = new Regex(@"^[a-zA-Z0-9!@#$%^&*_\-+=]+$");
-        static readonly Regex _valUser = new Regex(@"^[a-z0-9_\-]{2,}$");
+        static readonly Regex _valUser = new Regex(@"^[a-z0-9_\-]+$");
 
         static string? ValidateFormatInfo(ref Info info, out object schoolID, out string emailCrypt, out string passCrypt,
                                         bool finduser = false){//helper that both Post and Patch use. takes the Info object by ref, its the rulebook
@@ -438,6 +438,8 @@ namespace StudentExchangeBck{
                 info.user = user;
                 if (match != info.user)
                     return $"There is already a username linked to the account. Try: '{match}'";
+                if (info.user.Length > 50)
+                    return "User needs less than 51 characters.";
                 if (!_valUser.IsMatch(info.user))
                     return "User allows characters alphanumeric and '-_'.";
             }
