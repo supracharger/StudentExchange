@@ -432,7 +432,7 @@ namespace StudentExchangeBck
                     result = Sql.Read("SELECT id,name FROM Img WHERE list_id=@id ORDER BY id", new Dictionary<string, object>
                     {
                         { @"id", id }
-                    }, trans._trans != null ? trans : null);
+                    }, trans);
                     List<long> ids = new List<long>();
                     List<string> names = new List<string>();
                     if (result.Count != 0)

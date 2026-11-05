@@ -26,19 +26,26 @@ namespace StudentExchangeBck{
             // Validate correct statement
             if (!_validRead.IsMatch(sql.Trim()))
                 throw new ArgumentException($"Only SELECT SQL statements are allowed in Sql.Read(): {sql}.");
+
+            if (trans != null)
+            {
+                if ((trans._trans == null) != (trans._con == null))
+                    throw new Exception("(trans._trans == null) != (trans._con == null)");
+                if (trans._trans == null)
+                    trans = null;
+            }
+
             SqliteConnection? con = null;
             try
             {
                 // Async lock
                 if (trans == null)
-                    _lock.EnterReadLock();
-                // Connect Sql
-                if (trans != null)
                 {
-                    if (trans._con == null) throw new Exception("trans._con == null");
-                    if (trans._trans == null) throw new Exception("trans._trans == null");
-                    con = trans._con;
-                } else con = SqLiteConnect();
+                    _lock.EnterReadLock();
+                    con = SqLiteConnect();  // Connect Sql
+                }
+                else
+                    con = trans._con!;
 
                 // Open connection if need be
                 if (con.State == ConnectionState.Closed) con.Open();
