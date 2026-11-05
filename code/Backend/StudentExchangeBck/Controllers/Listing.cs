@@ -13,6 +13,7 @@ namespace StudentExchangeBck
         const string TextbookCategory = "Textbooks";
         const string _noisbn = "[blank]";
         const int MaxImageBytes = 2 * 1024 * 1024;   // 2 MB
+        const int MaxImgCnt = 8;
 
         /// <summary>
         /// Folder where listing images are saved: an 'uploads' folder next to the
@@ -262,14 +263,19 @@ namespace StudentExchangeBck
                 }
 
                 trans.Commit();
+                trans = null;
                 return StatusCode(201, new { message = "Listing created successfully!" });
             }
             catch (Exception e)
             {
-                try { trans?.Rollback(); } catch { }
-                // The database insert failed, so don't leave an orphan image file behind
-                if (imageName != null) Array.ForEach(imageName, DeleteImageFile);
                 return StatusCode(500, new { Message = $"An internal server error occurred: {e}" });
+            }
+            finally 
+            { 
+                try { trans?.Rollback(); } catch { }
+                // IF The database insert failed: don't leave an orphan image file behind
+                if (trans != null && imageName != null)
+                    Array.ForEach(imageName, DeleteImageFile);
             }
         }
 
@@ -353,6 +359,7 @@ namespace StudentExchangeBck
             var slvl0 = r2["lvl"].Cast<long>().ToArray();
             var statusD = Enumerable.Range(0, sid.Length).ToDictionary(i => stname[i], i => sid[i]);
             var slvl = Enumerable.Range(0, sid.Length).ToDictionary(i => stname[i], i => slvl0[i]);
+            slvl.Add("Renew", 0);
 
             if (model.status != null && model.status == status)
                 model.status = null;
@@ -360,11 +367,16 @@ namespace StudentExchangeBck
                 throw new Exception("status could not be found.");
             if (slvl[status] > 1 && user.adminLvl < 10)
                 return Unauthorized();
-            if (model.status != null && (!statusD.ContainsKey(model.status) || (slvl[model.status] > 0 && user.adminLvl < 10)))
+            if (model.status != null && (!slvl.ContainsKey(model.status) || (slvl[model.status] > 0 && user.adminLvl < 10)))
                 return Unauthorized();
             string? expiry = null;
-            if (model.status == "Active")
+            if (model.status == "Renew")
+            {
+                model.status = "Active";
+                if (model.status == status)
+                    model.status = null;
                 expiry = (Utilz.ToMtn() + Env._list_expiry).ToString("s");
+            }
 
             // Validate everything before touching the disk or database
             var error = ValidateListing(m0, out var condition, out var category, out var isbn, out var imgs);
@@ -374,6 +386,7 @@ namespace StudentExchangeBck
                 model.Title = Utilz.FirstUpper(model.Title, ignoreStopWords: true);
 
             Sql.Trans? trans = null;
+            List<string>? imgReplace = null, imgInsert = null;
             try
             {
                 trans = new Sql.Trans();
@@ -413,6 +426,7 @@ namespace StudentExchangeBck
                 var filesToDelete = new List<string>();
                 if (model.Imgs != null)
                 {
+                    var replace = model.Imgs.Where(s => s.action == "replace").ToList();
                     var delete = model.Imgs.Where(s => s.action == "delete").Select(s => s.location).ToList();
                     var insert = model.Imgs.Where(s => s.action == "insert").ToList();
                     result = Sql.Read("SELECT id,name FROM Img WHERE list_id=@id ORDER BY id", new Dictionary<string, object>
@@ -434,53 +448,95 @@ namespace StudentExchangeBck
                             return BadRequest($"Invalid delete at location: {i + 1}");
                         unq.Add(loc);
                     }
-                    for (int i = 0; i < insert.Count; i++)
+                    for (int i = 0; i < replace.Count; i++)
                     {
-                        var loc = insert[i].location;
-                        if (loc >= 0)
+                        var loc = replace[i].location;
+                        if (loc < 0 || loc >= ids.Count || unq.Contains(loc))
+                            return BadRequest($"Invalid replace at location: {i + 1}");
+                        unq.Add(loc);
+                    }
+                    var nimgs = ids.Count - delete.Count + insert.Count;
+                    if (nimgs > MaxImgCnt)
+                        return BadRequest($"Only {MaxImgCnt} images are allowed.");
+
+                    var imgn = names.ToList();
+
+                    if (replace.Count != 0 || insert.Count != 0)
+                    {
+                        var im = new List<string>(replace.Count + insert.Count);
+                        var ii = 0;
+                        foreach(var s in replace.Concat(insert))
                         {
-                            if (loc >= ids.Count || unq.Contains(loc))
-                                return BadRequest($"Invalid insert at location: {i + 1}");
-                            unq.Add(loc);
+                            var name = SaveImage(s.ImageBase64, out error)!;
+                            if (name == null) return BadRequest(new { Message = $"New Image: {ii + 1} " + error });
+                            im.Add(name);
+                            ii++;
                         }
+                        imgReplace = im.Take(replace.Count).ToList();
+                        imgInsert = im.Skip(replace.Count).ToList();
                     }
 
-                    var nimgs = ids.Count - delete.Count + insert.Where(s => s.location < 0).ToArray().Length;
-                    if (nimgs > 8)
-                        return BadRequest("Only 8 images are allowed.");
+                    if (replace.Count != 0)
+                    {
+                        filesToDelete.AddRange(replace.Select(r => imgn[r.location]));
+                        for (int i = 0; i < replace.Count; i++)
+                            imgn[replace[i].location] = imgReplace![i];
+                    }
 
                     if (delete.Count != 0)
                     {
-                        Sql.Write($"DELETE FROM Img WHERE id IN ({string.Join(", ", delete.Select(i => ids[i]))});", trans, null, delete.Count);
-                        filesToDelete.AddRange(delete.Select(i => names[i]));
+                        filesToDelete.AddRange(delete.Select(i => imgn[i]));
+                        foreach (var i in delete.OrderByDescending(i => i))
+                            imgn[i] = null!;
                     }
 
                     if (insert.Count != 0)
                     {
-                        var imageName = new string[insert.Count];
-                        for (int i = 0; i < insert.Count; i++)
+                        var img2 = new List<string>();
+                        var offset = 0;
+                        var max = Math.Max(insert.Max(s => s.location), insert.Count);
+                        foreach (var i in Enumerable.Range(0, insert.Count)
+                                                    .OrderBy(i => insert[i].location < 0 ? max + i : insert[i].location))
                         {
-                            imageName[i] = SaveImage(insert[i].ImageBase64, out error)!;
-                            if (imageName[i] == null) return BadRequest(new { Message = $"Insert Image: {i + 1} " + error });
-                        }
-                        var ii = Enumerable.Range(0, insert.Count).ToArray();
-                        foreach (var i in ii.Where(i => insert[i].location >= 0))
-                        {
-                            var s = insert[i];
-                            Sql.Write("UPDATE Img SET name=@name WHERE id=@id", trans, new Dictionary<string, object>
+                            var loc = insert[i].location;
+
+                            if (loc >= 0 && loc < ids.Count)
                             {
-                                { "@name", imageName[i] },
-                                { "@id", ids[s.location] }
-                            }, 1);
-                            filesToDelete.Add(names[s.location]);
+                                imgn.Insert(loc + offset, imgInsert![i]);
+                                offset++;
+                            }
+                            else
+                                img2.Add(imgInsert![i]);
                         }
-                        foreach (var i in ii.Where(i => insert[i].location < 0))
-                            Sql.Write("INSERT INTO Img (list_id, name) VALUES (@listid, @name)", trans, new Dictionary<string, object>
+                        if (img2.Count != 0)
+                            imgn = imgn.Concat(img2).ToList();
+                    }
+
+                    imgn.RemoveAll(s => s == null);
+
+                    var ln = Math.Min(ids.Count, imgn.Count);
+                    for (int i = 0; i < ln; i++)
+                    {
+                        Sql.Write("UPDATE Img SET name=@name WHERE id=@id", trans, new Dictionary<string, object>
                             {
-                                { "@name", imageName[i] },
-                                { "@listid", id }
+                                { "@name", imgn[i] },
+                                { "@id", ids[i] }
                             }, 1);
                     }
+
+                    var add = imgn.Skip(Math.Min(ids.Count, imgn.Count)).ToArray();
+                    if (add.Length != 0)
+                    {
+                        var args = Enumerable.Range(0, add.Length).ToDictionary(i => "@name" + i, i => (object)add[i]);
+                        args.Add("@listid", id);
+                        Sql.Write("INSERT INTO Img (list_id, name) VALUES " +
+                                    string.Join(", ", Enumerable.Range(0, add.Length).Select(i => $"(@listid, @name{i})")),
+                                    trans, args, add.Length);
+                    }
+
+                    var del = ids.Skip(Math.Min(imgn.Count, ids.Count)).ToArray();
+                    if (del.Length != 0)
+                        Sql.Write($"DELETE FROM Img WHERE id IN ({string.Join(", ", del)});", trans, null, del.Length);
                 }
 
                 trans.Commit();
@@ -493,6 +549,9 @@ namespace StudentExchangeBck
             finally 
             { 
                 try { trans?.Rollback(); } catch { }
+                if (trans != null && imgReplace != null)
+                    foreach (var im in imgReplace.Concat(imgInsert!))
+                        DeleteImageFile(im);
             }
         }
 
@@ -634,8 +693,8 @@ namespace StudentExchangeBck
 
             if (m.ImageBase64 != null)
             {
-                if (m.ImageBase64.Length > 8)
-                    return "There can be no more than 8 images";
+                if (m.ImageBase64.Length > MaxImgCnt)
+                    return $"There can be no more than {MaxImgCnt} images.";
                 imgs = m.ImageBase64.Where(m => !string.IsNullOrWhiteSpace(m)).ToArray();
                 if (imgs.Length == 0)
                     imgs = null;
@@ -754,7 +813,7 @@ namespace StudentExchangeBck
         {
             public string ImageBase64 { get; set; } = string.Empty;
             public int location { get; set; }
-            public string action { get; set; } = string.Empty; // insert, delete
+            public string action { get; set; } = string.Empty; // insert, delete, or replace
         }
     }
 
