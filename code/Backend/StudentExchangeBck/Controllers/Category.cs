@@ -13,7 +13,7 @@ namespace StudentExchangeBck
             // Exit if invalid
             if (msg != null) return msg;
 
-            var names = Sql.Read("SELECT name FROM Listings_Category")["name"];
+            var names = Sql.Read("SELECT name FROM Listings_Category WHERE visable=1")["name"];
 
             return Ok(names);
         }
@@ -35,10 +35,19 @@ namespace StudentExchangeBck
 
             try
             {
-                Sql.Write("INSERT INTO Listings_Category (name) VALUES (@name);", new Dictionary<string, object>
+                var name = new Dictionary<string, object>
                 {
                     { "@name", data.category }
-                }, 1);
+                };
+                var cnt = 0;
+                try
+                {
+                    cnt = Sql.Write("UPDATE Listings_Category SET visable=1 WHERE name=@name", name, 1);
+                }
+                catch { }
+
+                if (cnt == 0)
+                    Sql.Write("INSERT INTO Listings_Category (name) VALUES (@name);", name, 1);
 
                 return StatusCode(201, new
                 {
@@ -72,15 +81,21 @@ namespace StudentExchangeBck
 
             try
             {
-                var cnt = Sql.Write("DELETE From Listings_Category WHERE name=@name", new Dictionary<string, object>
+                var name = new Dictionary<string, object>
                 {
                     { "@name", data.category }
-                }, -2);
-
-                if (cnt == 0)
+                };
+                try
+                {
+                    Sql.Write("UPDATE Listings_Category SET visable=0 WHERE name=@name", name, 1);
+                }
+                catch
+                {
                     return BadRequest("Category not found.");
-                else if (cnt != 1)
-                    throw new Exception($"cnt({cnt}) != 1");
+                }
+
+                Sql.Write("DELETE From Listings_Category WHERE name=@name",name, 1);
+
 
                 return Ok(new
                 {

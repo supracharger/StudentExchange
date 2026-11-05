@@ -15,6 +15,9 @@ namespace StudentExchangeBck
         const int MaxImageBytes = 2 * 1024 * 1024;   // 2 MB
         const int MaxImgCnt = 8;
 
+        static readonly Dictionary<long, (object lck, DateTime dt)> _lsLock
+            = new Dictionary<long, (object, DateTime)>();
+
         /// <summary>
         /// Folder where listing images are saved: an 'uploads' folder next to the
         /// project's other data files (Env._bin). Program.cs serves it at /uploads.
@@ -58,21 +61,29 @@ namespace StudentExchangeBck
                            WHERE i.list_id = l.id 
                            ORDER BY i.id LIMIT 1 
                           ) image, 
-                          l.datetime, s.name status, u.user_name user
-                          FROM Listings l, User u, Listings_Category c, Condition cd, status s 
+                          l.datetime, s.name status, u.user_name user, COALESCE(h.count, 0) hit " +
+                          (asuser ?
+                            ", FLOOR(JULIANDAY(MIN(l.expiry, COALESCE(a.expiry, l.expiry))) - JULIANDAY(@now)) days "
+                            : "") +
+                          @"FROM Listings l, User u, Listings_Category c, Condition cd, status s
                           LEFT JOIN Books b ON b.list_id=l.id
-                          WHERE " +
-                          (asuser ? "u.id=@userid AND " : "l.status=1 AND ") +
+                          LEFT JOIN Hit_Count h ON l.id=h.list_id " +
+                          (asuser ? "LEFT JOIN Check_Active a ON l.id=a.list_id " : "") +
+                          "WHERE " +
+                          (asuser ? "u.id=@userid AND " : "s.name IN ('Active', 'Sold') AND ") +
                           (useCategory ? "c.name=@category AND " : "") +
                           (data.isbn != null ? "b.isbn=@isbn AND " : "") +
                           @"l.user_id=u.id AND l.category=c.id AND l.condition=cd.id AND l.status=s.id
-                          ORDER BY l.expiry; ";
+                          ORDER BY hit DESC, l.expiry; ";
                 var args = new Dictionary<string, object>();
 
                 if (useCategory)
                     args.Add("@category", data.category!);
                 if (asuser)
+                {
                     args.Add("@userid", user.id);
+                    args.Add("@now", Utilz.ToMtn().ToString("s"));
+                }
                 if (data.isbn != null)
                     args.Add("@isbn", data.isbn);
 
@@ -123,6 +134,7 @@ namespace StudentExchangeBck
                 if (result.Count > 0)
                 {
                     var keys = result.Keys.ToList();
+                    keys.Remove("hit");
                     if (!asuser) keys.Remove("status");
 
                     foreach (var k in new[] { "location", "isbn" })
@@ -181,6 +193,12 @@ namespace StudentExchangeBck
             if (result.Count != 0)
                 imgs = result["name"].Select(n => "/uploads/" + ((string)n)).ToList();
             data.Add("images_url", imgs);
+
+            lock (GetListLock(id))
+            {
+                IncHitCount(id);
+                MakeSureActive(id);
+            }
 
             return Ok(data);
         }
@@ -494,9 +512,9 @@ namespace StudentExchangeBck
                     {
                         var img2 = new List<string>();
                         var offset = 0;
-                        var max = Math.Max(insert.Max(s => s.location), insert.Count);
+                        var maxplus = Math.Max(insert.Max(s => s.location), insert.Count) + 1;
                         foreach (var i in Enumerable.Range(0, insert.Count)
-                                                    .OrderBy(i => insert[i].location < 0 ? max + i : insert[i].location))
+                                                    .OrderBy(i => insert[i].location < 0 ? maxplus + i : insert[i].location))
                         {
                             var loc = insert[i].location;
 
@@ -600,6 +618,31 @@ namespace StudentExchangeBck
             }
         }
 
+        public static object GetListLock(long listid)
+        {
+            if (listid < 0) throw new Exception("Invalid List ID.");
+            object ulock;
+            // Mutex lock on entire _lsLock collection
+            lock (_lsLock)
+            {
+                // Expiry for clean up
+                var expiry = DateTime.Now.AddHours(1);
+                if (!_lsLock.TryGetValue(listid, out var s))
+                {// If does Not have lock for userid
+                    ulock = new object();                       // Create Lock object
+                    _lsLock.Add(listid, (ulock, expiry));       // Add to Map
+                }
+                else
+                {// If found
+                    ulock = s.lck;                              // Get the lock object
+                    _lsLock[listid] = (ulock, expiry);          // Update expiry
+                }
+            }
+
+            // Return lock object
+            return ulock;
+        }
+
         /// <summary>
         /// Occasionally should be used to clean up resources.
         /// Deletes image files that no listing points to anymore (for example, when a
@@ -607,9 +650,21 @@ namespace StudentExchangeBck
         /// </summary>
         public static void CleanUp()
         {
+            var now = new Dictionary<string, object> { { "@now", Utilz.ToMtn().ToString("s") } };
+
+            var r = Sql.Read("SELECT list_id FROM Check_Active WHERE expiry<@now;", now);
+            if (r.Count != 0)
+            {
+                var listid = r["list_id"].Cast<long>().ToArray();
+                Sql.Write($"UPDATE Listings SET status=2 WHERE id IN ({string.Join(", ", listid)});", 
+                    updatedRows: listid.Length);
+                Sql.Write($"DELETE FROM Check_Active WHERE list_id IN ({string.Join(", ", listid)});",
+                    updatedRows: listid.Length);
+            }
+
             // DeActivate expired listings
             Sql.Write("UPDATE Listings SET [status]=3 WHERE status=1 AND expiry<@now;",
-                    new Dictionary<string, object> { { "@now", Utilz.ToMtn().ToString("s") } }, -2);
+                    now, -2);
 
             var dir = UploadsPath;
             if (!Directory.Exists(dir))
@@ -631,6 +686,13 @@ namespace StudentExchangeBck
                     try { System.IO.File.Delete(file); }
                     catch { /* best effort: try again tomorrow */ }
                 }
+            }
+
+            lock (_lsLock)
+            {
+                var now2 = DateTime.Now;
+                foreach (var s in _lsLock.Where(s => now2 > s.Value.dt))
+                    _lsLock.Remove(s.Key);
             }
         }
 
@@ -667,7 +729,7 @@ namespace StudentExchangeBck
             condition = cid[conds.IndexOf(match)];
 
             // Category must be allowed
-            result = Sql.Read("SELECT [id],[name] FROM Listings_Category");
+            result = Sql.Read("SELECT IIF([visable]=1, [id], -1) id,[name] FROM Listings_Category");
             var cats = result["name"].Cast<string>().ToList();
             cid = result["id"].Cast<long>().ToList();
             match = cats.FirstOrDefault(c =>
@@ -675,6 +737,8 @@ namespace StudentExchangeBck
             if (match == null)
                 return $"Category must be one of: {string.Join(", ", conds)}.";
             category = cid[cats.IndexOf(match)];
+            if (category < 0)
+                return $"Category is no longer used: {match}.";
 
             var isbook = string.Equals(m.Category.Trim(), TextbookCategory, StringComparison.OrdinalIgnoreCase);
             // ISBN: optional, textbooks only
@@ -701,6 +765,32 @@ namespace StudentExchangeBck
             }
 
             return null;
+        }
+
+        static void IncHitCount(long listid)
+        {
+            var d = new Dictionary<string, object> { { "@id", listid } };
+            var result = Sql.Read("SELECT count FROM Hit_Count WHERE list_id=@id;", d);
+
+            if (result.Count == 0)
+            {
+                Sql.Write("INSERT INTO Hit_Count (list_id) VALUES (@id);", d, 1);
+                return;
+            }
+
+            d.Add("@count", (long)result["count"][0] + 1);
+            Sql.Write("UPDATE HIT_COUNT SET count=@count WHERE list_id=@id;", d, 1);
+        }
+
+        static void MakeSureActive(long listid)
+        {
+            var d = new Dictionary<string, object> { { "@id", listid } };
+            var result = Sql.Read("SELECT list_id FROM Check_Active WHERE list_id=@id;", d);
+
+            if (result.Count != 0) return;
+             
+            d.Add("@expriy", (Utilz.ToMtn() + Env._inActiveExpiry).ToString("s"));
+            Sql.Write("INSERT INTO Check_Active (list_id, expiry) VALUES (@id, @expiry);", d, 1);
         }
 
         static bool IsAsciiDigit(char c) => c >= '0' && c <= '9';
