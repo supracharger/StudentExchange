@@ -194,11 +194,10 @@ namespace StudentExchangeBck
                 imgs = result["name"].Select(n => "/uploads/" + ((string)n)).ToList();
             data.Add("images_url", imgs);
 
+            IncHitCount(id, ip.id, 1);
+
             lock (GetListLock(id))
-            {
-                IncHitCount(id, ip.id, 1);
                 MakeSureActive(id);
-            }
 
             return Ok(data);
         }
