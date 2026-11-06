@@ -725,9 +725,9 @@ namespace StudentExchangeBck
 
             Sql.Write(@"INSERT INTO Hit_Count (list_id, count)
                         SELECT list_id, SUM(size)
-                        FROM Hit_Count_Tally
-                        WHERE true
-                        GROUP BY list_id
+                            FROM Hit_Count_Tally
+                            WHERE true
+                            GROUP BY list_id
                         ON CONFLICT(list_id)
                         DO UPDATE SET count = excluded.count;", null, -2);
 
@@ -824,7 +824,9 @@ namespace StudentExchangeBck
 
             Sql.Write(@"INSERT INTO Hit_Count_Tally (list_id, ip, size)
                         VALUES (@list_id, @ip, @size)
-                        ON CONFLICT(list_id, ip, size) DO NOTHING;", d, -2);
+                        ON CONFLICT(list_id, ip) 
+                        DO UPDATE SET size = excluded.size
+                        WHERE excluded.size > Hit_Count_Tally.size;", d, -2);
         }
 
         static void MakeSureActive(long listid)
