@@ -196,7 +196,7 @@ namespace StudentExchangeBck
 
             lock (GetListLock(id))
             {
-                IncHitCount(id);
+                IncHitCount(id, ip.id, 1);
                 MakeSureActive(id);
             }
 
@@ -345,6 +345,7 @@ namespace StudentExchangeBck
             }
             nullkeys.Remove("L.status");
             nullkeys.Add("S.name status");
+            nullkeys.Add("L.expiry");
             var col = nullkeys;
             var result = Sql.Read($"SELECT {string.Join(", ", col)} " + 
                                     @"FROM Listings L, Listings_Category C, Condition D, Status S
@@ -368,6 +369,7 @@ namespace StudentExchangeBck
                 Condition = model.Condition != null ? model.Condition : (string)result["condition"][0],
                 Isbn = model.Isbn
             };
+            var exp = (string)result["expiry"][0];
 
             var status = (string)result["status"][0];
             var r2 = Sql.Read("SELECT id,name,lvl FROM Status");
@@ -387,14 +389,6 @@ namespace StudentExchangeBck
                 return Unauthorized();
             if (model.status != null && (!slvl.ContainsKey(model.status) || (slvl[model.status] > 0 && user.adminLvl < 10)))
                 return Unauthorized();
-            string? expiry = null;
-            if (model.status == "Renew")
-            {
-                model.status = "Active";
-                if (model.status == status)
-                    model.status = null;
-                expiry = (Utilz.ToMtn() + Env._list_expiry).ToString("s");
-            }
 
             // Validate everything before touching the disk or database
             var error = ValidateListing(m0, out var condition, out var category, out var isbn, out var imgs);
@@ -408,6 +402,41 @@ namespace StudentExchangeBck
             try
             {
                 trans = new Sql.Trans();
+
+                string? expiry = null;
+                if (model.status == "Renew")
+                {
+                    var r = Sql.Read("SELECT expiry FROM Check_Active WHERE list_id=@id;", new Dictionary<string, object>
+                            {
+                                { "@id", id }
+                            }, trans);
+                    string? exp2 = null;
+                    if (r.Count != 0)
+                        exp2 = (string)r["expiry"][0];
+
+                    var found = false;
+                    var now = Utilz.ToMtn();
+                    if ((int)((DateTime.Parse(exp) - now).TotalDays) <= Env._renewDays)
+                    {
+                        expiry = (now + Env._list_expiry).ToString("s");
+                        found = true;
+                    }
+                    if (exp2 != null && (int)((DateTime.Parse(exp2) - now).TotalDays) <= Env._renewDays)
+                    {
+                        Sql.Write("DELETE FROM Check_Active WHERE list_id=@id;", trans, new Dictionary<string, object>
+                        {
+                            { "@id", id }
+                        }, 1);
+                        found = true;
+                    }
+
+                    if (!found)
+                        return BadRequest($"It is too early to renew you need to wait till {Env._renewDays} days before the listing expires.");
+
+                    model.status = "Active";
+                    if (model.status == status)
+                        model.status = null;
+                }
 
                 var values = new Dictionary<string, object>();
                 if (model.Title != null)
@@ -652,6 +681,12 @@ namespace StudentExchangeBck
         {
             var now = new Dictionary<string, object> { { "@now", Utilz.ToMtn().ToString("s") } };
 
+            Sql.Write(@"DELETE FROM Check_Active WHERE list_id IN (
+                            SELECT L.id 
+                            FROM Listings L, Status S
+                            WHERE S.name!='Active' AND L.status=S.id
+                        )", null, -2);
+
             var r = Sql.Read("SELECT list_id FROM Check_Active WHERE expiry<@now;", now);
             if (r.Count != 0)
             {
@@ -687,6 +722,14 @@ namespace StudentExchangeBck
                     catch { /* best effort: try again tomorrow */ }
                 }
             }
+
+            Sql.Write(@"INSERT INTO Hit_Count (list_id, count)
+                        SELECT list_id, SUM(size)
+                        FROM Hit_Count_Tally
+                        WHERE true
+                        GROUP BY list_id
+                        ON CONFLICT(list_id)
+                        DO UPDATE SET count = excluded.count;", null, -2);
 
             lock (_lsLock)
             {
@@ -767,19 +810,21 @@ namespace StudentExchangeBck
             return null;
         }
 
-        static void IncHitCount(long listid)
+        public static void IncHitCount(long listid, long ip, int size)
         {
-            var d = new Dictionary<string, object> { { "@id", listid } };
-            var result = Sql.Read("SELECT count FROM Hit_Count WHERE list_id=@id;", d);
+            if (listid < 0) throw new ArgumentOutOfRangeException("listid < 0");
+            if (ip < 0) throw new ArgumentOutOfRangeException("ip < 0");
+            if (size <= 0) throw new ArgumentOutOfRangeException("size <= 0");
+            var d = new Dictionary<string, object> 
+            { 
+                { "@list_id", listid },
+                { "@ip", ip },
+                { "@size", size }
+            };
 
-            if (result.Count == 0)
-            {
-                Sql.Write("INSERT INTO Hit_Count (list_id) VALUES (@id);", d, 1);
-                return;
-            }
-
-            d.Add("@count", (long)result["count"][0] + 1);
-            Sql.Write("UPDATE HIT_COUNT SET count=@count WHERE list_id=@id;", d, 1);
+            Sql.Write(@"INSERT INTO Hit_Count_Tally (list_id, ip, size)
+                        VALUES (@list_id, @ip, @size)
+                        ON CONFLICT(list_id, ip, size) DO NOTHING;", d, -2);
         }
 
         static void MakeSureActive(long listid)
@@ -789,7 +834,7 @@ namespace StudentExchangeBck
 
             if (result.Count != 0) return;
              
-            d.Add("@expriy", (Utilz.ToMtn() + Env._inActiveExpiry).ToString("s"));
+            d.Add("@expiry", (Utilz.ToMtn() + Env._inActiveExpiry).ToString("s"));
             Sql.Write("INSERT INTO Check_Active (list_id, expiry) VALUES (@id, @expiry);", d, 1);
         }
 

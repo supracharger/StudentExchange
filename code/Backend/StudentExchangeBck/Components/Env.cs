@@ -26,6 +26,7 @@ namespace StudentExchangeBck{
         public static readonly TimeSpan _blockedAccessTimeOutIP = new TimeSpan(0, minutes: 5, 0);
         public static readonly TimeSpan _list_expiry = new TimeSpan(days: 90, 0, 0, 0);
         public static readonly TimeSpan _inActiveExpiry = new TimeSpan(days: 90, 0, 0, 0);
+        public static readonly int _renewDays = 14;
         // Number of unsuccessfull attemps before blocked timeout.
         public static readonly int _accessAttemps = 10;
         // Number of unsuccessfull IP attemps before blocked timeout.
@@ -68,6 +69,8 @@ namespace StudentExchangeBck{
                 throw new Exception("Login needs expiry larger than 1 day.");
             if (_accessAttemps <= 1)
                 throw new Exception("Login needs access attemps >1.");
+            if (_inActiveExpiry > _list_expiry)
+                throw new ArgumentException("_inActiveExpiry > _list_expiry");
         }
 
         public static Dictionary<string, string> ParseEnv(string path)
