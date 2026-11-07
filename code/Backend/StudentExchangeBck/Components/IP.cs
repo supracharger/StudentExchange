@@ -124,54 +124,49 @@ namespace StudentExchangeBck{
             lock (GetIPLock((long)ipid))
             {
                 //try to find row for an lately invalid access attemps that have not expired.
-                var result = Sql.Read("SELECT [id],[count],[expiry] FROM Blocked_IPs " +
-                                        "WHERE [ip_id]=@ipid AND [expiry]>@date",
-                                        new Dictionary<string, object>
-                                        {
-                                            { "@ipid", ipid },
-                                            { "@date", Utilz.ToMtn().ToString("s") }
-                                        });
-
-                if (result.Count == 0){//if no invalid access attemps lately
-                    // Insert row of first invalid access attempt.
-                    Sql.Write("INSERT INTO Blocked_IPs ([ip_id],[count],[expiry]) VALUES " +
-                                "(@ipid,@count,@expiry)", new Dictionary<string, object>
-                                {
-                                {"@ipid", ipid },
-                                {"@count", increment ? 1 : -1 },
-                                {"@expiry", Utilz.ToMtn().Add(Env._blockedAccessTimeOutIP).ToString("s")}
-                                }, 1);
-
-                    // EXIT
-                    return null;
+                var args = new Dictionary<string, object>
+                {
+                    { "@ipid", ipid }
+                };
+                // Try to find row for an lately invalid access attemps that have not expired.
+                var result = Sql.Read(@"SELECT [id],[count],[expiry] FROM Blocked_IPs
+                                        WHERE [ip_id]=@ipid", args);
+                var found = result.Count != 0;
+                var count = found ? (long)result["count"][0] : (increment ? 0 : -1);
+                var expiry = found ? (string)result["expiry"][0] : null;
+                var expired = expiry != null && DateTime.Parse(expiry) <= Utilz.ToMtn();
+                if (expired)
+                {
+                    expiry = null;
+                    count = !increment ? -1 : 0;
                 }
 
-                // Has invalid access attemps lately
-                // Get id, count, & expiry
-                var id = result["id"][0];
-                var count = (long)result["count"][0];
-                var expiry = DateTime.Parse((string)result["expiry"][0]);
-                if (count < 0) count = 0;
-
-                if (increment || count >= Env._accessAttempsIP){// If you want to increment invalid access attemps
-                    count++;            // increment invalid access attempts
-                    // columns to update
-                    var update = new Dictionary<string, object> { { "count", count } };
-
-                    if (count % Env._accessAttempsIP == 0 && count > Env._accessAttempsIP){// If gone to next section: increase timeout more.
+                if (!found || increment || expired)
+                {
+                    if (increment) count = Math.Max(count, 0) + 1;
+                    if (expiry == null)
+                        expiry = (Utilz.ToMtn() + Env._blockedAccessTimeOutIP).ToString("s");
+                    var inc = (!increment && (result.Count == 0 || expired)) ? -1 : 1;
+                    if (!expired && count % Env._accessAttempsIP == 0 && count > Env._accessAttempsIP)
+                    {// If gone to next section: increase timeout more.
                         // Exponential increase: if continueing to access
                         var wait = Env._blockedAccessTimeOutIP * Math.Max(count / Env._accessAttempsIP - 2, 1);
                         // Increase timeout
-                        expiry = new[] { expiry, Utilz.ToMtn() }.Max() + wait;
-                        // Be sure to update it in sql
-                        update.Add("expiry", expiry.ToString("s"));
+                        var expVal = DateTime.Parse(expiry!);
+                        var now = Utilz.ToMtn();
+                        expiry = ((expVal > now ? expVal : now) + wait).ToString("s");
                     }
-
-                    // Update the invalid Access IP table
-                    var ku = update.Keys.ToList();
-                    update.Add("id", id);
-                    Sql.Write($"UPDATE Blocked_IPs SET {string.Join(", ", ku.Select(k => $"[{k}]=@{k}"))} " +
-                                "WHERE [id]=@id", update.ToDictionary(s => "@" + s.Key, s => s.Value), 1);
+                    Sql.Write(@"INSERT INTO Blocked_IPs ([ip_id],[count],[expiry]) VALUES
+                                (@ipid,@inc,@expiry)
+                                ON CONFLICT (ip_id)
+                                DO UPDATE SET count = IIF(@inc >= 0 AND @expired==0, MAX(count, 0) + @inc, @inc),
+                                expiry=@expiry;", new Dictionary<string, object>
+                                {
+                                    { "@ipid", ipid },
+                                    { "@inc", inc },
+                                    { "@expiry", expiry },
+                                    { "@expired", expired ? 1 : 0 }
+                                }, 1);
                 }
 
                 // User is blocked: too many invalid access attempts
