@@ -135,7 +135,7 @@ namespace StudentExchangeBck
                 {
                     var keys = result.Keys.ToList();
                     keys.Remove("hit");
-                    if (!asuser) keys.Remove("status");
+                    //if (!asuser) keys.Remove("status");
 
                     foreach (var k in new[] { "location", "isbn" })
                         result[k] = result[k].Select(Val).ToList()!;
