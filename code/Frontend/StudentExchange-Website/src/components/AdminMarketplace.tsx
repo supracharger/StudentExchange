@@ -1,3 +1,4 @@
+import ListingEditor from './ListingEditor'
 import { useEffect, useState } from 'react'
 import { marketplace, money, errorMessage } from '../api/marketplace'
 import type { Listing } from '../api/marketplace'
@@ -19,7 +20,8 @@ export default function AdminMarketplace({
   const [removeCategory, setRemoveCategory] = useState('')
   const [pendingCategory, setPendingCategory] = useState('')
   const [revision, setRevision] = useState(0)
-  const [deleting, setDeleting] = useState<Listing | null>(null)
+  const [editing, setEditing] = useState<Listing | null>(null)
+  const [deactivating, setDeactivating] = useState<Listing | null>(null)
   useEffect(() => {
     if (!owner) return
     const controller = new AbortController()
@@ -51,7 +53,7 @@ export default function AdminMarketplace({
       <h2>Listings and categories</h2>
       <p>
         Look up a seller’s complete inventory, including inactive listings.
-        Listing deletion follows the backend’s account hierarchy rules.
+        Listing updates follow the backend’s account hierarchy rules.
       </p>
       {error && (
         <p className="admin-alert error" role="alert">
@@ -110,10 +112,16 @@ export default function AdminMarketplace({
                       <td>{money(row.price)}</td>
                       <td>
                         <button
-                          className="admin-button destructive"
-                          onClick={() => setDeleting(row)}
+                          className="admin-button"
+                          onClick={() => setEditing(row)}
                         >
-                          Delete {row.title}
+                          Edit {row.title}
+                        </button>
+                        <button
+                          className="admin-button destructive"
+                          onClick={() => setDeactivating(row)}
+                        >
+                          Set Inactive: {row.title}
                         </button>
                       </td>
                     </tr>
@@ -229,21 +237,35 @@ export default function AdminMarketplace({
           </div>
         </PortalDialog>
       )}
-      {deleting && (
+      {editing && (
+        <ListingEditor
+          listing={editing}
+          email={owner}
+          onClose={() => setEditing(null)}
+          onError={onError}
+          onSaved={(message) => {
+            setEditing(null)
+            setNotice(message)
+            setRevision((x) => x + 1)
+          }}
+        />
+      )}
+      {deactivating && (
         <PortalDialog
-          title="Delete seller listing?"
+          title="Set seller listing to Inactive?"
           busy={busy}
-          onClose={() => setDeleting(null)}
+          onClose={() => setDeactivating(null)}
         >
           <p>
-            Permanently remove “{deleting.title}” from {owner}?
+            Hide “{deactivating.title}” from browse for {owner}? The listing and
+            photos will be preserved.
           </p>
           {error && <p role="alert">{error}</p>}
           <div className="admin-dialog-actions">
             <button
               className="admin-button"
               disabled={busy}
-              onClick={() => setDeleting(null)}
+              onClick={() => setDeactivating(null)}
             >
               Cancel
             </button>
@@ -254,12 +276,12 @@ export default function AdminMarketplace({
                 setBusy(true)
                 setError('')
                 try {
-                  const result = await marketplace.adminRemove(
-                    deleting.id,
+                  const result = await marketplace.adminDeactivate(
+                    deactivating.id,
                     owner,
                   )
                   setNotice(result.message)
-                  setDeleting(null)
+                  setDeactivating(null)
                   setRevision((x) => x + 1)
                 } catch (e) {
                   setError(errorMessage(e))
@@ -269,7 +291,7 @@ export default function AdminMarketplace({
                 }
               }}
             >
-              Delete listing
+              Set Inactive
             </button>
           </div>
         </PortalDialog>

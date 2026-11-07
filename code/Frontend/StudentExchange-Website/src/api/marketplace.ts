@@ -1,5 +1,7 @@
 import { request } from './accounts'
 export interface Listing {
+  hit?: number
+  days?: number
   user?: string
   images_url?: string[]
   id: number
@@ -30,7 +32,30 @@ export interface ListingDraft {
   isbn?: string
   imageBase64?: string | string[]
 }
+export interface ListingUpdate {
+  id: number
+  title?: string
+  description?: string
+  price?: number
+  category?: string
+  condition?: string
+  isbn?: string
+  status?: string
+  imgs?: {
+    action: 'insert' | 'delete' | 'replace'
+    location: number
+    imageBase64?: string
+  }[]
+}
 export const marketplace = {
+  update: (fields: ListingUpdate, email?: string) =>
+    request<{ message: string }>(
+      email
+        ? `admin/listings?${new URLSearchParams({ email })}`
+        : 'seller/listings',
+      'PATCH',
+      fields,
+    ),
   detail: (id: number, signal?: AbortSignal) =>
     request<{ listing: Listing }>(`listing?id=${id}`, 'GET', undefined, signal),
   deleteCategory: (category: string) =>
@@ -53,8 +78,11 @@ export const marketplace = {
     ),
   create: (draft: ListingDraft) =>
     request<{ message: string }>('seller/listings', 'POST', draft),
-  remove: (id: number) =>
-    request<{ message: string }>('seller/listings', 'DELETE', { id }),
+  deactivate: (id: number) =>
+    request<{ message: string }>('seller/listings', 'PATCH', {
+      id,
+      status: 'Inactive',
+    }),
   adminInventory: (email: string, signal?: AbortSignal) =>
     request<{ listings: Listing[] }>(
       `admin/listings?${new URLSearchParams({ email })}`,
@@ -62,11 +90,11 @@ export const marketplace = {
       undefined,
       signal,
     ),
-  adminRemove: (id: number, email: string) =>
+  adminDeactivate: (id: number, email: string) =>
     request<{ message: string }>(
       `admin/listings?${new URLSearchParams({ email })}`,
-      'DELETE',
-      { id },
+      'PATCH',
+      { id, status: 'Inactive' },
     ),
   addCategory: (category: string) =>
     request<{ message: string }>('admin/categories', 'POST', { category }),

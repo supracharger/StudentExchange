@@ -1,6 +1,6 @@
 # Student Exchange
 
-This revision targets the upcoming backend `85e551c`. Deploy that backend before this website release; see [deployment notes and backend source blocker](docs/marketplace.md#upcoming-backend-contract--85e551c).
+This revision targets deployed backend `85172d7`. Listings now support editing, renewal, and status changes; removing a listing sets it to Inactive and preserves its data. See [the integration guide](docs/marketplace.md).
 
 The website now uses the live listing API and includes a seller portal at `/seller` and marketplace administration at `/admin`.
 

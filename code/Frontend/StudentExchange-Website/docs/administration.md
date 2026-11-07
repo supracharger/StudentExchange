@@ -67,4 +67,4 @@ Run `npm test` and `npm run build`. Integration tests use real HTTP fixtures to 
 The existing Render Node service remains the deployment target; use its normal deployment process. This change does not create a separate hosted site or change its audience.
 
 
-Marketplace listing review, deletion, and category creation are also available at level 10+. See [marketplace integration](marketplace.md) for the current contracts and backend limitations.
+Marketplace listing review, editing, status changes, and category creation are also available at level 10+. See [marketplace integration](marketplace.md) for the current contracts and backend limitations.

@@ -54,8 +54,8 @@ beforeEach(() => {
   vi.spyOn(marketplace, 'create').mockResolvedValue({
     message: 'Listing created.',
   })
-  vi.spyOn(marketplace, 'remove').mockResolvedValue({
-    message: 'Listing deleted.',
+  vi.spyOn(marketplace, 'deactivate').mockResolvedValue({
+    message: 'Listing set to Inactive.',
   })
 })
 it('publishes a listing using backend categories and allows a zero price', async () => {
@@ -80,18 +80,20 @@ it('publishes a listing using backend categories and allows a zero price', async
   )
   expect(await screen.findByText('Listing created.')).toBeVisible()
 })
-it('requires confirmation before deleting and refreshes inventory after success', async () => {
+it('requires confirmation before deactivating and refreshes inventory after success', async () => {
   const user = userEvent.setup()
   render(<SellerPortal account={account} onLogin={vi.fn()} />)
   await user.click(
-    await screen.findByRole('button', { name: 'Delete Calculus' }),
+    await screen.findByRole('button', { name: 'Set Inactive: Calculus' }),
   )
-  expect(marketplace.remove).not.toHaveBeenCalled()
+  expect(marketplace.deactivate).not.toHaveBeenCalled()
   await user.click(screen.getByRole('button', { name: 'Cancel' }))
-  expect(marketplace.remove).not.toHaveBeenCalled()
-  await user.click(screen.getByRole('button', { name: 'Delete Calculus' }))
-  await user.click(screen.getByRole('button', { name: 'Delete listing' }))
-  await waitFor(() => expect(marketplace.remove).toHaveBeenCalledWith(5))
+  expect(marketplace.deactivate).not.toHaveBeenCalled()
+  await user.click(
+    screen.getByRole('button', { name: 'Set Inactive: Calculus' }),
+  )
+  await user.click(screen.getByRole('button', { name: 'Set Inactive' }))
+  await waitFor(() => expect(marketplace.deactivate).toHaveBeenCalledWith(5))
   expect(marketplace.inventory).toHaveBeenCalledTimes(2)
 })
 it('rejects oversize images before publishing', async () => {
@@ -189,4 +191,42 @@ it('retains selected photos when an added batch would exceed eight', async () =>
   expect(
     screen.queryByAltText('Listing photo preview 2'),
   ).not.toBeInTheDocument()
+})
+
+it('marks a listing Sold directly from inventory without opening the editor', async () => {
+  const update = vi
+    .spyOn(marketplace, 'update')
+    .mockResolvedValue({ message: 'Listing updated.' })
+  const user = userEvent.setup()
+  render(<SellerPortal account={account} onLogin={vi.fn()} />)
+  await user.click(
+    await screen.findByRole('button', { name: 'Mark Calculus as Sold' }),
+  )
+  await waitFor(() =>
+    expect(update).toHaveBeenCalledWith({ id: 5, status: 'Sold' }),
+  )
+  expect(await screen.findByText('“Calculus” is now Sold.')).toBeVisible()
+  expect(
+    screen.getByRole('button', { name: 'Mark Calculus as Sold' }),
+  ).toBeDisabled()
+  expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+})
+it('keeps the listing unchanged and lets sellers retry when marking Sold fails', async () => {
+  vi.spyOn(marketplace, 'update').mockRejectedValue(
+    new Error('Service unavailable.'),
+  )
+  const user = userEvent.setup()
+  render(<SellerPortal account={account} onLogin={vi.fn()} />)
+  await user.click(
+    await screen.findByRole('button', { name: 'Mark Calculus as Sold' }),
+  )
+  expect(await screen.findByRole('alert')).toHaveTextContent(
+    'Service unavailable.',
+  )
+  expect(
+    screen.getByRole('button', { name: 'Mark Calculus as Sold' }),
+  ).toBeEnabled()
+  expect(
+    screen.getByText('Active', { exact: true, selector: 'span' }),
+  ).toBeVisible()
 })

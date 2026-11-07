@@ -73,8 +73,9 @@ async function readBody(request) {
     size += chunk.length
     if (
       size >
-      (request.url?.split('?')[0] === '/api/seller/listings' &&
-      request.method === 'POST'
+      (['/api/seller/listings', '/api/admin/listings'].includes(
+        request.url?.split('?')[0],
+      ) && ['POST', 'PATCH'].includes(request.method)
         ? 23 * 1024 * 1024
         : MAX_BODY)
     )

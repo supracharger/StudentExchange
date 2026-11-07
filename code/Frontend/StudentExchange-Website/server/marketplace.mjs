@@ -2,8 +2,8 @@ export const marketplaceRoutes = {
   '/api/listings': ['GET'],
   '/api/listing': ['GET'],
   '/api/catalog': ['GET'],
-  '/api/seller/listings': ['GET', 'POST', 'DELETE'],
-  '/api/admin/listings': ['GET', 'DELETE'],
+  '/api/seller/listings': ['GET', 'POST', 'PATCH'],
+  '/api/admin/listings': ['GET', 'PATCH'],
   '/api/admin/categories': ['POST', 'DELETE'],
 }
 
@@ -71,6 +71,24 @@ export async function handleMarketplace({
       fail(400, 'Complete the fields within their length limits.')
     return value.trim()
   }
+  function validateImage(image) {
+    text(image, 2800000, true)
+    const raw = image.replace(/^data:image\/(png|jpeg|webp);base64,/, '')
+    if (!/^[A-Za-z0-9+/]+={0,2}$/.test(raw) || raw.length % 4)
+      fail(400, 'Choose a valid PNG, JPEG, or WebP image.')
+    const bytes = Buffer.from(raw, 'base64')
+    if (bytes.length < 12 || bytes.length > 2 * 1024 * 1024)
+      fail(400, 'Images must be no larger than 2 MB.')
+    if (
+      !(
+        bytes.subarray(0, 4).equals(Buffer.from([137, 80, 78, 71])) ||
+        bytes.subarray(0, 3).equals(Buffer.from([255, 216, 255])) ||
+        (bytes.toString('ascii', 0, 4) === 'RIFF' &&
+          bytes.toString('ascii', 8, 12) === 'WEBP')
+      )
+    )
+      fail(400, 'Choose a PNG, JPEG, or WebP image.')
+  }
   const list = (data) => {
     if (!Array.isArray(data))
       fail(502, 'The listing service returned an unexpected response.')
@@ -98,6 +116,14 @@ export async function handleMarketplace({
         'status',
       ])
         result[key] = typeof row[key] === 'string' ? row[key] : ''
+      for (const key of ['hit', 'days']) {
+        if (
+          row[key] != null &&
+          (typeof row[key] !== 'number' || !Number.isFinite(row[key]))
+        )
+          fail(502, 'Invalid listing metrics.')
+        if (row[key] != null) result[key] = row[key]
+      }
       // Keep images on our origin. Never accept arbitrary URLs from upstream data.
       result.image_url = /^\/uploads\/[a-f0-9]{32}\.(png|jpg|webp)$/.test(
         row.image_url,
@@ -187,16 +213,97 @@ export async function handleMarketplace({
     return
   }
   const body = await readBody(request)
-  if (method === 'DELETE') {
-    exact(body, ['id'])
+  if (method === 'PATCH') {
+    exact(body, [
+      'id',
+      'title',
+      'description',
+      'price',
+      'category',
+      'condition',
+      'isbn',
+      'status',
+      'imgs',
+    ])
     if (!Number.isSafeInteger(body.id) || body.id <= 0)
       fail(400, 'Choose a valid listing.')
-    await call('Listing', 'DELETE', {
-      id: body.id,
+    const update = {}
+    for (const [key, max] of [
+      ['title', 200],
+      ['description', 2000],
+      ['category', 200],
+      ['condition', 100],
+      ['isbn', 100],
+    ])
+      if (Object.hasOwn(body, key)) update[key] = text(body[key], max, true)
+    if (update.isbn && !validIsbn(update.isbn))
+      fail(400, 'Enter a valid ISBN-10 or ISBN-13.')
+    if (Object.hasOwn(body, 'price')) {
+      if (
+        typeof body.price !== 'number' ||
+        !Number.isFinite(body.price) ||
+        body.price < 0 ||
+        body.price > 99999999.99 ||
+        Math.abs(body.price * 100 - Math.round(body.price * 100)) > 0.000001
+      )
+        fail(400, 'Enter a valid price with up to two decimal places.')
+      update.price = body.price
+    }
+    if (Object.hasOwn(body, 'status')) {
+      const allowed = admin
+        ? ['Active', 'Inactive', 'Expired', 'Sold', 'Blocked', 'Renew']
+        : ['Active', 'Inactive', 'Sold', 'Renew']
+      if (!allowed.includes(body.status))
+        fail(403, 'This status requires administrator access.')
+      update.status = body.status
+    }
+    if (body.imgs != null) {
+      if (!Array.isArray(body.imgs) || body.imgs.length > 16)
+        fail(400, 'Invalid photo changes.')
+      const locations = new Set()
+      update.imgs = body.imgs.map((img) => {
+        if (!img || typeof img !== 'object' || Array.isArray(img))
+          fail(400, 'Invalid photo change.')
+        exact(img, ['action', 'location', 'imageBase64'])
+        if (
+          !['insert', 'replace', 'delete'].includes(img.action) ||
+          !Number.isInteger(img.location) ||
+          img.location < -1 ||
+          img.location > 7 ||
+          (img.action !== 'insert' && img.location < 0)
+        )
+          fail(400, 'Invalid photo action or location.')
+        if (img.action !== 'insert') {
+          if (locations.has(img.location))
+            fail(400, 'Each photo can only be changed once.')
+          locations.add(img.location)
+        }
+        if (img.action !== 'delete') validateImage(img.imageBase64)
+        return {
+          action: img.action,
+          location: img.location,
+          ...(img.action !== 'delete' ? { imageBase64: img.imageBase64 } : {}),
+        }
+      })
+    }
+    if (
+      !Object.keys(update).length ||
+      (Object.keys(update).length === 1 && update.imgs?.length === 0)
+    )
+      fail(400, 'Choose a change to save.')
+    await call(`Listing/${body.id}`, 'PATCH', {
+      ...update,
       ...credentials,
       ...(admin ? { to_user: fields.to_user } : {}),
     })
-    send(response, 200, { message: 'Listing deleted.' })
+    send(response, 200, {
+      message:
+        update.status === 'Inactive'
+          ? 'Listing set to Inactive.'
+          : update.status === 'Renew'
+            ? 'Listing renewed.'
+            : 'Listing updated.',
+    })
     return
   }
   exact(body, [
@@ -232,23 +339,9 @@ export async function handleMarketplace({
   if (!Array.isArray(imageBase64) || imageBase64.length > 8)
     fail(400, 'Choose no more than 8 photos.')
   for (const image of imageBase64) {
-    text(image, 2800000, true)
-    const raw = image.replace(/^data:image\/(png|jpeg|webp);base64,/, '')
-    if (!/^[A-Za-z0-9+/]+={0,2}$/.test(raw) || raw.length % 4)
-      fail(400, 'Choose a valid PNG, JPEG, or WebP image.')
-    const bytes = Buffer.from(raw, 'base64')
-    if (bytes.length < 12 || bytes.length > 2 * 1024 * 1024)
-      fail(400, 'Images must be no larger than 2 MB.')
-    if (
-      !(
-        bytes.subarray(0, 4).equals(Buffer.from([137, 80, 78, 71])) ||
-        bytes.subarray(0, 3).equals(Buffer.from([255, 216, 255])) ||
-        (bytes.toString('ascii', 0, 4) === 'RIFF' &&
-          bytes.toString('ascii', 8, 12) === 'WEBP')
-      )
-    )
-      fail(400, 'Choose a PNG, JPEG, or WebP image.')
+    validateImage(image)
   }
+
   await call('Listing', 'POST', {
     title,
     description,

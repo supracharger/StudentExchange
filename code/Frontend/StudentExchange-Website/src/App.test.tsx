@@ -163,3 +163,21 @@ it('navigates all listing photos using thumbnails, buttons, and arrow keys', asy
     images[2],
   )
 })
+it('labels Sold listings and disables seller contact for unavailable items', async () => {
+  const user = userEvent.setup()
+  vi.mocked(marketplace.detail).mockResolvedValue({
+    listing: { ...calculus, status: 'Sold' },
+  })
+  render(<App />)
+  await user.click(
+    await screen.findByRole('button', { name: /Calculus textbook/ }),
+  )
+  expect(
+    await screen.findByText(
+      'This listing is sold and is not available for purchase.',
+    ),
+  ).toBeVisible()
+  expect(
+    screen.queryByRole('link', { name: 'Email seller ↗' }),
+  ).not.toBeInTheDocument()
+})

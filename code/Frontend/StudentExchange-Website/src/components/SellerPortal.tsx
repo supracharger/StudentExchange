@@ -1,3 +1,4 @@
+import ListingEditor from './ListingEditor'
 import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import type { AccountState } from '../hooks/useAccount'
@@ -47,8 +48,10 @@ function Inventory({ account }: { account: AccountState }) {
   const [notice, setNotice] = useState('')
   const [revision, setRevision] = useState(0)
   const [create, setCreate] = useState(false)
-  const [deleting, setDeleting] = useState<Listing | null>(null)
+  const [editing, setEditing] = useState<Listing | null>(null)
+  const [deactivating, setDeactivating] = useState<Listing | null>(null)
   const [busy, setBusy] = useState(false)
+  const [sellingId, setSellingId] = useState<number | null>(null)
   const [status, setStatus] = useState('')
   const [query, setQuery] = useState('')
   const [page, setPage] = useState(1)
@@ -78,6 +81,27 @@ function Inventory({ account }: { account: AccountState }) {
       })
     return () => controller.abort()
   }, [revision])
+  async function markSold(row: Listing) {
+    if (busy) return
+    setBusy(true)
+    setSellingId(row.id)
+    setError('')
+    setNotice('')
+    try {
+      await marketplace.update({ id: row.id, status: 'Sold' })
+      setRows((current) =>
+        current.map((item) =>
+          item.id === row.id ? { ...item, status: 'Sold' } : item,
+        ),
+      )
+      setNotice(`“${row.title}” is now Sold.`)
+    } catch (reason) {
+      handleError(reason)
+    } finally {
+      setBusy(false)
+      setSellingId(null)
+    }
+  }
   const visible = rows.filter(
     (row) =>
       (!status || row.status === status) &&
@@ -179,7 +203,7 @@ function Inventory({ account }: { account: AccountState }) {
       {loading ? (
         <p role="status">Loading your inventory…</p>
       ) : (
-        !error &&
+        (!error || rows.length > 0) &&
         (visible.length ? (
           <>
             <ul className="seller-inventory" aria-label="Your listings">
@@ -195,17 +219,64 @@ function Inventory({ account }: { account: AccountState }) {
                       {row.category} · {row.condition}
                     </p>
                     <strong>{money(row.price)}</strong>
+                    {row.hit != null && <p>{row.hit} views</p>}
+                    {row.days != null && (
+                      <p>
+                        {row.days < 0
+                          ? 'Renewal overdue'
+                          : `${row.days} days remaining`}
+                      </p>
+                    )}
+                    {row.status === 'Blocked' && (
+                      <p>
+                        Blocked by an administrator. Contact support to make
+                        changes.
+                      </p>
+                    )}
                     {row.isbn && <p>ISBN {row.isbn}</p>}
                   </div>
-                  <button
-                    className="admin-button destructive"
-                    onClick={() => {
-                      setError('')
-                      setDeleting(row)
-                    }}
-                  >
-                    Delete {row.title}
-                  </button>
+                  <div className="inventory-actions">
+                    <button
+                      type="button"
+                      className="admin-button primary"
+                      aria-label={`Mark ${row.title} as Sold`}
+                      disabled={
+                        busy ||
+                        row.status === 'Sold' ||
+                        row.status === 'Blocked'
+                      }
+                      onClick={() => void markSold(row)}
+                    >
+                      {sellingId === row.id
+                        ? 'Marking Sold…'
+                        : row.status === 'Sold'
+                          ? 'Sold'
+                          : 'Mark as Sold'}
+                    </button>
+                    <button
+                      className="admin-button"
+                      disabled={busy || row.status === 'Blocked'}
+                      aria-label={`Edit ${row.title}`}
+                      onClick={() => setEditing(row)}
+                    >
+                      Edit listing
+                    </button>
+                    <button
+                      aria-label={`Set Inactive: ${row.title}`}
+                      className="admin-button"
+                      disabled={
+                        busy ||
+                        row.status === 'Inactive' ||
+                        row.status === 'Blocked'
+                      }
+                      onClick={() => {
+                        setError('')
+                        setDeactivating(row)
+                      }}
+                    >
+                      Set Inactive
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>
@@ -273,25 +344,37 @@ function Inventory({ account }: { account: AccountState }) {
           onExpired={account.expire}
         />
       )}
-      {deleting && (
+      {editing && (
+        <ListingEditor
+          listing={editing}
+          onClose={() => setEditing(null)}
+          onError={handleError}
+          onSaved={(message) => {
+            setEditing(null)
+            setNotice(message)
+            setRevision((x) => x + 1)
+          }}
+        />
+      )}
+      {deactivating && (
         <PortalDialog
-          title="Delete this listing?"
+          title="Set listing to Inactive?"
           busy={busy}
           onClose={() => {
-            setDeleting(null)
+            setDeactivating(null)
             setError('')
           }}
         >
           <p>
-            Remove “{deleting.title}” permanently? You can create a new listing
-            later.
+            Hide “{deactivating.title}” from browse? Your listing and photos
+            will stay in your inventory.
           </p>
           {error && <p role="alert">{error}</p>}
           <div className="admin-dialog-actions">
             <button
               className="admin-button"
               disabled={busy}
-              onClick={() => setDeleting(null)}
+              onClick={() => setDeactivating(null)}
             >
               Cancel
             </button>
@@ -302,8 +385,8 @@ function Inventory({ account }: { account: AccountState }) {
                 setBusy(true)
                 setError('')
                 try {
-                  const result = await marketplace.remove(deleting.id)
-                  setDeleting(null)
+                  const result = await marketplace.deactivate(deactivating.id)
+                  setDeactivating(null)
                   setNotice(result.message)
                   setRevision((x) => x + 1)
                 } catch (e) {
@@ -313,7 +396,7 @@ function Inventory({ account }: { account: AccountState }) {
                 }
               }}
             >
-              {busy ? 'Deleting…' : 'Delete listing'}
+              {busy ? 'Updating…' : 'Set Inactive'}
             </button>
           </div>
         </PortalDialog>

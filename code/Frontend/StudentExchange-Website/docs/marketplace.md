@@ -1,59 +1,53 @@
-# Live marketplace and seller portal
+# Marketplace integration
 
-The implementation follows backend commit `88cc232` in `supracharger/SoftwareEngineerTemp`, specifically `Controllers/Listing.cs`, `Category.cs`, `Condition.cs`, and `Components/Users.cs`. The backend README is not the API contract.
+The website targets deployed backend source `85172d7` in `supracharger/SoftwareEngineerTemp`. Controller code and the supplied status table define the contract; the backend README is outdated.
 
-## Website behavior
+## Listing lifecycle
 
-- Browse real active listings, view description, condition, price (including free items), ISBN, location, photo, and seller identity. Contact sellers by email. No simulated message or offer is presented as a sent message.
-- Submit title search, category, and optional ISBN together. The backend ranks title similarity rather than removing nonmatching titles. Condition/location filtering and price/date sorting operate on the returned results; results are paginated locally.
-- `/seller` restores the existing account session. Sellers can publish a listing, attach an optional PNG/JPEG/WebP up to 2 MiB, inspect all returned statuses, search their inventory, and delete after confirmation.
-- `/admin` includes Marketplace for administrators at level 10 or above: inspect a seller's inventory by exact account email, delete a listing using backend user forwarding, and add categories. Normal target hierarchy and locked-account restrictions still apply.
-- User admin levels become visible at level 27; changing locked status still requires level 30.
+The website never permanently deletes a listing. Both seller and admin removal actions require confirmation and send `PATCH Listing/{id}` with `{ "status": "Inactive" }`. The record and photos remain in inventory. The website adapter rejects DELETE on its listing routes with HTTP 405.
 
-## Same-origin API
+| Status | ID | Table level | Website behavior |
+| --- | --- | --- | --- |
+| Active | 1 | 0 | Available in public browse and seller contact |
+| Inactive | 2 | 0 | Hidden from browse; retained for later editing/reactivation |
+| Expired | 3 | 1 | System/admin status; sellers can request Renew |
+| Sold | 4 | 0 | Visible in public browse, labeled unavailable; no purchase contact action |
+| Blocked | 5 | 2 | Admin-only status; sellers cannot edit blocked listings |
 
-| Website endpoint | Backend operation |
+The backend requires admin level 10 for setting Expired/Blocked, or changing an already Blocked listing. Sellers can select Active, Inactive, Sold, or the special Renew operation. Renew returns an eligible listing to Active and extends its expiry or clears its pending activity check; the backend enforces the renewal window. The frontend does not guess the configured renewal period.
+
+The editor supports title, description, price, category, condition, textbook ISBN, status, and existing photos. Blank description/ISBN updates preserve the saved backend values. Listings expose `hit` counts and signed `days` remaining in inventory when available; negative days indicate an overdue renewal. Recommended browse order preserves the backend's popularity/search ranking.
+
+## Endpoint mapping
+
+| Website route | Backend request |
 | --- | --- |
 | `GET /api/catalog` | `GET Category`, `GET Condition` |
-| `GET /api/listings?search=&category=&isbn=` | `GET Listing` with JSON body |
+| `GET /api/listings?search=&category=&isbn=` | `GET Listing` with search/filter fields in JSON body |
+| `GET /api/listing?id=` | `GET Listing/{id}`, full description/contact and `images_url` |
 | `GET /api/seller/listings` | `GET Listing` with visitor token and `for_user` marker |
-| `POST /api/seller/listings` | `POST Listing` with validated listing fields and visitor token |
-| `DELETE /api/seller/listings` | `DELETE Listing` with `{id}` and visitor token |
-| `GET /api/admin/listings?email=` | Membership check, then `GET Listing` with `for_user` and `to_user` |
-| `DELETE /api/admin/listings?email=` | Membership check, then `DELETE Listing` with target and ID |
-| `POST /api/admin/categories` | Membership check, then `POST Category` |
-| `GET /api/listing-image?name=` | Bounded binary read from the configured backend's `/uploads/` |
+| `POST /api/seller/listings` | `POST Listing`, including `imageBase64` array |
+| `PATCH /api/seller/listings` | `PATCH Listing/{id}` with provided updates |
+| `GET /api/admin/listings?email=` | Membership check, then seller inventory using exact `to_user` |
+| `PATCH /api/admin/listings?email=` | Membership check, then `PATCH Listing/{id}` using exact target |
+| `POST /api/admin/categories` | `POST Category`; adds/restores visibility |
+| `DELETE /api/admin/categories` | `DELETE Category`; backend controls visibility/deletion behavior |
+| `GET /api/listing-image?name=` | Bounded read of a validated backend upload filename |
 
-The adapter owns `app_access`, forwarded IP, and service `admin_token`; it never accepts those from browser forms. Visitor access tokens remain in the server's existing session store. Public listing queries cannot select an owner. Mutations require the same-origin browser Origin header. Image names accept only the backend's random 32-character hex filenames with supported extensions; no arbitrary destination or redirect is followed. Listing creation permits a 3 MiB JSON body for the base64 photo; account requests retain their 16 KiB limit.
+Only the adapter supplies application credentials, visitor access token, forwarding token, and visitor IP. Browser inputs cannot override them. Admin membership is checked on every action, and backend hierarchy/ownership rules remain authoritative. Mutations require a matching browser Origin header. Listing DELETE is not exposed.
 
-## Backend limitations and follow-up
+## Photos
 
-- The current listing API has no PATCH, renewal, sold-status mutation, messaging, or offers endpoint. Those actions are not exposed.
-- `GetListings` inner-joins `Books` for every category, while `CreateListing` inserts a Books row only for textbooks. Once other categories are added, non-textbook listings can be created successfully but omitted from public and seller reads. Fix this in the backend by left-joining Books and retaining textbook ISBN filtering. The website does not fabricate inventory to conceal the mismatch.
-- `for_user` is a mode marker; the backend uses the authenticated/forwarded user ID, not that string's value, to choose inventory.
-- Listings expose `location`, not school. The website displays the returned location and does not label it as the seller's school.
-- Session storage remains in process memory. Keep the existing single-instance deployment or introduce a shared session store before scaling.
+Creation supports up to eight PNG/JPEG/WebP photos, each at most 2 MiB. Successive selections append, individual photos can be removed, and the first photo is the cover. Photo edits use `imgs` operations with zero-based original `location` and `action` values `insert`, `replace`, or `delete`; removing a photo does not delete the listing. The editor retains existing photo order, removes by original index, and appends added photos with location -1. Uploads use the backend array contract and a 23 MiB JSON request limit; account requests retain 16 KiB.
+
+Detail galleries include thumbnails, previous/next buttons, counters, and arrow-key navigation. Images stay on the website origin through its restricted image proxy; arbitrary remote destinations and redirects are not accepted.
+
+## Accounts, categories, deployment
+
+Profiles include `user` and optional `location`; signup omits these because usernames are generated by the backend. Username edits have the backend's 50-character limit. Admin directories include `user_name`; admin-level visibility begins at 27 and locked-admin editing at 30. Visible categories come from `GET Category`, which now filters backend visibility. The backend also handles updated login-attempt tracking without a browser wire-format change.
+
+The duplicate Users.cs issue has been resolved in backend `190d273`. The earlier non-textbook Books join issue was resolved by the backend's LEFT JOIN. This release expects the deployed PATCH/detail/multiple-photo endpoints. Process-memory sessions still require a single website instance unless a shared session store is introduced.
 
 ## Validation
 
-Read-only checks against the configured live backend returned Schools, the Textbooks category, five conditions (Poor, Fair, Good, Like New, New), and an empty public listing array. Live seller data was not mutated for testing.
-
-HTTP fixtures cover creation, photo body size and type validation, ISBN checksums, free prices, search request composition and response projection, seller authentication, origin checks, admin demotions/targets, image proxy restrictions, and preserving caller sessions on target denial. UI tests cover catalog search, details/contact, retry, seller login, publishing, confirmation, and photo validation. Browser checks use controlled API fixtures rather than modifying live inventory.
-
-## Upcoming backend contract — 85e551c
-
-This website now targets backend commit `85e551c` (not yet deployed when implemented). Deploy that backend before releasing this website version: the older backend does not support `GET Listing/{id}` or array-valued `imageBase64`.
-
-Listing search remains a `GET Listing` JSON body with `search`, category, and optional ISBN. Preserve its new word-based fuzzy ranking. Summaries now expose `user` and omit description/contact; opening a listing fetches the full detail endpoint and projects its `images_url` through the same-origin image proxy. Sellers may upload up to eight images, each at most 2 MiB; the JSON upload limit is now 23 MiB. The backend's Books LEFT JOIN fixes non-textbook visibility, superseding the limitation above.
-
-Profile reads/edits include `user` and `location`. Registration intentionally omits both: the backend generates the initial username and rejects those fields at signup. Empty profile edits remain omitted because the backend does not support clearing location through a blank PATCH. Admin user directories also expose `user_name`. Category deletion uses `DELETE Category` with the category name and requires confirmation in the console.
-
-Validation uses local HTTP fixtures, not the older live deployment. No live sample accounts or listings were changed during this update.
-
-Backend source review also found `StudentExchangeBck/Components/Users.cs` and `Controllers/Users.cs` both declaring `StudentExchangeBck.Users`. The SDK project includes both without an exclusion, which creates duplicate class/member definitions. The backend owner needs to consolidate them before building/deploying this commit. This website change does not modify the backend repository.
-
-## Photo selection and gallery controls
-
-Sellers can add photos in successive selections, up to eight total. New selections append instead of replacing existing photos. Invalid or oversized batches leave previous selections intact. Each preview has Remove and Make cover controls; the first photo becomes the listing cover and the same order is sent in `imageBase64`.
-
-Listing details expose thumbnails, Previous/Next controls, a photo counter, and left/right arrow-key navigation. Validation covers successive uploads, cover ordering, individual removal, overflow handling, gallery switching, and the submitted multi-photo array.
+Local HTTP fixtures cover status levels, deactivation as PATCH, rejection of permanent listing DELETE, admin target forwarding, renewal, partial edits, valid photo operations, invalid or duplicate image locations, upload bounds, and metrics projection. UI tests cover edit/status choices and incremental photo changes, plus existing account/search/gallery flows. Browser checks use controlled fixtures so validation does not modify existing live listings. Read-only deployed-service checks confirm live catalog and listing response shapes; optional metrics are tolerated when absent.

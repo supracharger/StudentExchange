@@ -250,3 +250,56 @@ describe('account UI', () => {
     expect(trigger).toHaveFocus()
   })
 })
+
+it('renders a newly logged-in profile with a null pickup location without crashing', async () => {
+  vi.spyOn(accounts, 'login').mockResolvedValue({
+    profile: { ...profile, user: 'jane', location: null },
+  })
+  const update = vi
+    .spyOn(accounts, 'update')
+    .mockResolvedValue({
+      profile: { ...profile, user: 'jane', location: 'Library' },
+      message: 'Profile updated.',
+    })
+  const user = userEvent.setup()
+  render(<App />)
+  await user.click(screen.getByRole('button', { name: 'Log in / Join' }))
+  await user.type(screen.getByLabelText('Email'), profile.email)
+  await user.type(
+    screen.getByLabelText('Password', { exact: true }),
+    'Fixture!123',
+  )
+  await user.click(
+    screen.getByRole('button', { name: 'Log in to your account' }),
+  )
+  expect(
+    await screen.findByRole('heading', { name: 'Your account' }),
+  ).toBeVisible()
+  expect(screen.getByLabelText('Pickup location')).toHaveValue('')
+  expect(screen.getByRole('button', { name: 'Save changes' })).toBeDisabled()
+  await user.type(screen.getByLabelText('Pickup location'), 'Library')
+  await user.click(screen.getByRole('button', { name: 'Save changes' }))
+  await waitFor(() =>
+    expect(update).toHaveBeenCalledWith({ location: 'Library' }),
+  )
+})
+
+it('opens, reloads, and reopens My account from a restored session with null location', async () => {
+  vi.mocked(accounts.profile).mockResolvedValue({
+    profile: { ...profile, user: 'jane', location: null },
+  })
+  const user = userEvent.setup()
+  render(<App />)
+  await user.click(await screen.findByRole('button', { name: 'My account' }))
+  expect(
+    await screen.findByRole('heading', { name: 'Your account' }),
+  ).toBeVisible()
+  expect(screen.getByLabelText('Pickup location')).toHaveValue('')
+  await user.click(screen.getByRole('button', { name: 'Reload profile' }))
+  await waitFor(() => expect(accounts.profile).toHaveBeenCalledTimes(2))
+  expect(screen.getByRole('heading', { name: 'Your account' })).toBeVisible()
+  await user.click(screen.getByRole('button', { name: 'Close account panel' }))
+  await user.click(screen.getByRole('button', { name: 'My account' }))
+  expect(screen.getByRole('heading', { name: 'Your account' })).toBeVisible()
+  expect(screen.getByRole('button', { name: 'Save changes' })).toBeDisabled()
+})

@@ -164,6 +164,7 @@ export function ListingDetail({
             <p className="eyebrow">THE CAMPUS COLLECTION</p>
             <h1>{listing.title}</h1>
             <h2>{money(listing.price)}</h2>
+            <span className="admin-pill">{listing.status || 'Active'}</span>
             <div className="product-information">
               <p>
                 <strong>Category:</strong> {listing.category}
@@ -196,6 +197,11 @@ export function ListingDetail({
             {/^sample\.seller\.[1-5]@example\.com$/.test(listing.email) ? (
               <p className="sample-listing-note">
                 Sample listing · This item and seller are examples, not
+                available for purchase.
+              </p>
+            ) : listing.status && listing.status !== 'Active' ? (
+              <p>
+                This listing is {listing.status.toLowerCase()} and is not
                 available for purchase.
               </p>
             ) : listing.email ? (
@@ -405,7 +411,7 @@ export default function Marketplace({
               setPage(1)
             }}
           >
-            <option value="relevance">Best match</option>
+            <option value="relevance">Recommended / best match</option>
             <option value="new">Newest</option>
             <option value="low">Price: low to high</option>
             <option value="high">Price: high to low</option>
@@ -445,6 +451,16 @@ export default function Marketplace({
                           <span>{row.condition}</span>
                         </div>
                         <h3>{row.title}</h3>
+                        {row.status && (
+                          <span className="listing-status-badge">
+                            {row.status}
+                          </span>
+                        )}
+                        {row.hit != null && (
+                          <small className="listing-view-count">
+                            {row.hit} views
+                          </small>
+                        )}
                         {(/\(sample\)$/i.test(row.title) ||
                           /^sample\.seller\.[1-5]@example\.com$/.test(
                             row.email,

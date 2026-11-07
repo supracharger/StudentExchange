@@ -360,3 +360,41 @@ textarea:focus-visible {
     padding: 10px;
   }
 }
+.inventory-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.listing-status-badge {
+  display: inline-block;
+  font-size: 12px;
+  border-radius: 20px;
+  background: #edf3e6;
+  padding: 4px 10px;
+  margin-bottom: 12px;
+}
+.listing-view-count {
+  display: inline-block;
+  margin-left: 10px;
+  color: #5c7062;
+}
+@media (max-width: 700px) {
+  .seller-inventory > li > .inventory-actions {
+    grid-column: 2;
+  }
+}
+.seller-inventory > li {
+  grid-template-columns: 120px minmax(0, 1fr) minmax(0, auto);
+}
+.seller-inventory > li > div {
+  min-width: 0;
+}
+.inventory-actions .admin-button {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  .seller-inventory > li {
+    grid-template-columns: 80px minmax(0, 1fr);
+  }
+}

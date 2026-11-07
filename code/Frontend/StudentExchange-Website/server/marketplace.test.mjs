@@ -75,6 +75,13 @@ beforeEach(async () => {
       )
     if (req.url === '/Condition')
       return res.end(JSON.stringify(['Good', 'Like New']))
+    if (req.url === '/Listing/5' && req.method === 'PATCH') {
+      if (failTarget && body.to_user) {
+        res.statusCode = 401
+        return res.end(JSON.stringify({ message: 'Not authorized.' }))
+      }
+      return res.end(JSON.stringify('Listing Updated Successfully!'))
+    }
     if (req.url === '/Listing/5')
       return res.end(
         JSON.stringify({
@@ -234,18 +241,22 @@ it('checks CSRF origin and deletion IDs', async () => {
     (
       await write(
         'seller/listings',
-        'DELETE',
-        { id: 5 },
+        'PATCH',
+        { id: 5, status: 'Inactive' },
         'https://evil.example',
       )
     ).status,
   ).toBe(403)
-  expect((await write('seller/listings', 'DELETE', { id: -1 })).status).toBe(
-    400,
-  )
-  expect((await write('seller/listings', 'DELETE', { id: 5 })).status).toBe(200)
-  expect(calls.findLast((x) => x.route === '/Listing').body).toMatchObject({
-    id: 5,
+  expect(
+    (await write('seller/listings', 'PATCH', { id: -1, status: 'Inactive' }))
+      .status,
+  ).toBe(400)
+  expect(
+    (await write('seller/listings', 'PATCH', { id: 5, status: 'Inactive' }))
+      .status,
+  ).toBe(200)
+  expect(calls.findLast((x) => x.route === '/Listing/5').body).toMatchObject({
+    status: 'Inactive',
     access_token: 'visitor-token',
   })
 })
@@ -261,7 +272,12 @@ it('authorizes admin operations afresh and forwards exact target email', async (
   })
   level = 9
   expect(
-    (await write(`admin/listings?email=${email}`, 'DELETE', { id: 5 })).status,
+    (
+      await write(`admin/listings?email=${email}`, 'PATCH', {
+        id: 5,
+        status: 'Inactive',
+      })
+    ).status,
   ).toBe(403)
   expect(
     (await write('admin/categories', 'POST', { category: 'Furniture' })).status,
@@ -271,7 +287,12 @@ it('authorizes admin operations afresh and forwards exact target email', async (
     (await write('admin/categories', 'POST', { category: 'Furniture' })).status,
   ).toBe(201)
   expect(
-    (await write(`admin/listings?email=${email}`, 'DELETE', { id: 5 })).status,
+    (
+      await write(`admin/listings?email=${email}`, 'PATCH', {
+        id: 5,
+        status: 'Inactive',
+      })
+    ).status,
   ).toBe(200)
 })
 it('preserves admin sessions when a target is forbidden', async () => {
@@ -381,4 +402,61 @@ it('preserves username/location profile fields and forwards profile edits', asyn
       })
     ).status,
   ).toBe(400)
+})
+it('deactivates through PATCH Listing/id and refuses permanent deletion', async () => {
+  expect(
+    (await write('seller/listings', 'PATCH', { id: 5, status: 'Inactive' }))
+      .status,
+  ).toBe(200)
+  expect(calls.findLast((x) => x.route === '/Listing/5')).toMatchObject({
+    method: 'PATCH',
+    body: { status: 'Inactive', access_token: 'visitor-token' },
+  })
+  expect((await write('seller/listings', 'DELETE', { id: 5 })).status).toBe(405)
+  expect(
+    calls.some((x) => x.route === '/Listing' && x.method === 'DELETE'),
+  ).toBe(false)
+})
+it('enforces status levels and validates photo changes before forwarding edits', async () => {
+  for (const status of ['Expired', 'Blocked', 'unknown'])
+    expect(
+      (await write('seller/listings', 'PATCH', { id: 5, status })).status,
+    ).toBe(403)
+  expect(
+    (await write('seller/listings', 'PATCH', { id: 5, status: 'Renew' }))
+      .status,
+  ).toBe(200)
+  expect(
+    (
+      await write('admin/listings?email=seller@example.com', 'PATCH', {
+        id: 5,
+        status: 'Blocked',
+      })
+    ).status,
+  ).toBe(200)
+  expect(calls.findLast((x) => x.route === '/Listing/5').body).toMatchObject({
+    status: 'Blocked',
+    to_user: 'seller@example.com',
+  })
+  for (const extra of [
+    { price: -1 },
+    { imgs: [{ action: 'delete', location: -1 }] },
+    {
+      imgs: [
+        { action: 'delete', location: 0 },
+        { action: 'replace', location: 0, imageBase64: 'bad' },
+      ],
+    },
+    { imgs: [{ action: 'insert', location: -1, imageBase64: 'bad' }] },
+    { to_user: 'injected@example.com' },
+  ])
+    expect(
+      (await write('seller/listings', 'PATCH', { id: 5, ...extra })).status,
+    ).toBe(400)
+})
+it('projects status, hit counts and signed days remaining', async () => {
+  rows = [{ ...listing, status: 'Expired', hit: 42, days: -2 }]
+  expect(
+    (await (await get('seller/listings')).json()).listings[0],
+  ).toMatchObject({ status: 'Expired', hit: 42, days: -2 })
 })

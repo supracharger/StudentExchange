@@ -1,0 +1,9 @@
+>> The backend was updated, and deployed (The readme.md is not current). 
+
+The picture is of the status table.
+
+Update the website to all the changes. Instead of deleting a listing, just set the listing to Inactive.
+
+Do your best work!
+
+>> Fix the reason hit hangs after login. After login, the page goes white so I have to refresh the page. Also, it should be easier to set the listing to Sold.

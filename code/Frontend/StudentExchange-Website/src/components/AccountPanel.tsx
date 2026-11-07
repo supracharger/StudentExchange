@@ -428,6 +428,7 @@ function ProfileForm({
   const changes: ProfileUpdate = Object.fromEntries(
     Object.entries(fields).filter(
       ([key, value]) =>
+        typeof value === 'string' &&
         value.trim() &&
         (key === 'password' || value.trim() !== profile[key as keyof Profile]),
     ),
@@ -490,7 +491,7 @@ function ProfileForm({
               {key === 'user' ? 'Username' : 'Pickup location'}
               <input
                 value={fields[key] || ''}
-                maxLength={200}
+                maxLength={key === 'user' ? 50 : 200}
                 pattern={key === 'user' ? '[A-Za-z0-9_-]+' : undefined}
                 onChange={(event) =>
                   setFields((current) => ({
