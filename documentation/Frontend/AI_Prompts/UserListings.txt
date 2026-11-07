@@ -1,0 +1,4 @@
+>> The backend was updated, and deployed (The readme.md is not current). 
+
+I added a user_page variable. This should be specified when a person goes to {website url}/sellers/{user name}. It is a page of items from that particular seller. Also, on the details of a specific listing, add a link which is that url to see all listings from that specific seller.
+Do your best work!

@@ -37,9 +37,11 @@ export function ListingArt({ listing }: { listing: Listing }) {
 export function ListingDetail({
   listing: initialListing,
   onBack,
+  onSeller,
 }: {
   listing: Listing
   onBack: () => void
+  onSeller?: (username: string) => void
 }) {
   const [listing, setListing] = useState(initialListing)
   const [loading, setLoading] = useState(true)
@@ -194,6 +196,20 @@ export function ListingDetail({
                   'Student seller'}
               </strong>
             </p>
+            {listing.user && (
+              <a
+                className="seller-listings-link"
+                href={`/sellers/${encodeURIComponent(listing.user)}`}
+                onClick={(event) => {
+                  if (onSeller) {
+                    event.preventDefault()
+                    onSeller(listing.user!)
+                  }
+                }}
+              >
+                View all listings from @{listing.user} →
+              </a>
+            )}
             {/^sample\.seller\.[1-5]@example\.com$/.test(listing.email) ? (
               <p className="sample-listing-note">
                 Sample listing · This item and seller are examples, not
@@ -227,8 +243,10 @@ export function ListingDetail({
 
 export default function Marketplace({
   onSelect,
+  sellerUsername,
 }: {
   onSelect: (listing: Listing) => void
+  sellerUsername?: string
 }) {
   const [catalog, setCatalog] = useState<Catalog>({
     categories: [],
@@ -265,7 +283,13 @@ export default function Marketplace({
     setRows([])
     setPage(1)
     marketplace
-      .listings(filters, controller.signal)
+      .listings(
+        {
+          ...filters,
+          ...(sellerUsername ? { user_page: sellerUsername } : {}),
+        },
+        controller.signal,
+      )
       .then((result) => {
         if (!controller.signal.aborted) setRows(result.listings)
       })
@@ -276,7 +300,7 @@ export default function Marketplace({
         if (!controller.signal.aborted) setLoading(false)
       })
     return () => controller.abort()
-  }, [filters, retry])
+  }, [filters, retry, sellerUsername])
   let visible = rows.filter(
     (row) =>
       (!condition || row.condition === condition) &&
@@ -306,9 +330,17 @@ export default function Marketplace({
       <div className="section-heading">
         <div>
           <p className="eyebrow">THE CAMPUS COLLECTION</p>
-          <h2 id="browse-title">Find your next good thing.</h2>
+          {sellerUsername ? (
+            <h1 id="browse-title">Listings from @{sellerUsername}</h1>
+          ) : (
+            <h2 id="browse-title">Find your next good thing.</h2>
+          )}
         </div>
-        <span className="sample-label">From your student community</span>
+        <span className="sample-label">
+          {sellerUsername
+            ? 'This seller’s public collection'
+            : 'From your student community'}
+        </span>
       </div>
       <form
         className="market-search"
@@ -505,7 +537,11 @@ export default function Marketplace({
           ) : (
             <div className="empty-state">
               <h3>No matching listings</h3>
-              <p>Try another category or ISBN, or check back for new finds.</p>
+              <p>
+                {sellerUsername
+                  ? 'This seller has no public listings matching your filters. Clear filters or check back later.'
+                  : 'Try another category or ISBN, or check back for new finds.'}
+              </p>
               <button onClick={clear}>Clear filters</button>
             </div>
           )}

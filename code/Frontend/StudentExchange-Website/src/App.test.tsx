@@ -181,3 +181,78 @@ it('labels Sold listings and disables seller contact for unavailable items', asy
     screen.queryByRole('link', { name: 'Email seller ↗' }),
   ).not.toBeInTheDocument()
 })
+it('opens a public seller URL directly and keeps search/clear scoped to that seller', async () => {
+  window.history.replaceState(null, '', '/sellers/alex_lee')
+  const user = userEvent.setup()
+  render(<App />)
+  expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+    'Listings from @alex_lee',
+  )
+  await waitFor(() =>
+    expect(marketplace.listings).toHaveBeenCalledWith(
+      { user_page: 'alex_lee' },
+      expect.any(AbortSignal),
+    ),
+  )
+  await user.type(screen.getByRole('searchbox'), 'calculus')
+  await user.click(screen.getByRole('button', { name: 'Search' }))
+  await waitFor(() =>
+    expect(marketplace.listings).toHaveBeenLastCalledWith(
+      { user_page: 'alex_lee', search: 'calculus' },
+      expect.any(AbortSignal),
+    ),
+  )
+  await user.click(screen.getByRole('button', { name: 'Clear filters' }))
+  await waitFor(() =>
+    expect(marketplace.listings).toHaveBeenLastCalledWith(
+      { user_page: 'alex_lee' },
+      expect.any(AbortSignal),
+    ),
+  )
+})
+it('links listing details to the seller public page and supports navigation back to all items', async () => {
+  vi.mocked(marketplace.detail).mockResolvedValue({
+    listing: { ...calculus, user: 'alex_lee' },
+  })
+  const user = userEvent.setup()
+  render(<App />)
+  await user.click(
+    await screen.findByRole('button', { name: /Calculus textbook/ }),
+  )
+  const link = await screen.findByRole('link', {
+    name: 'View all listings from @alex_lee →',
+  })
+  expect(link).toHaveAttribute('href', '/sellers/alex_lee')
+  await user.click(link)
+  expect(window.location.pathname).toBe('/sellers/alex_lee')
+  expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+    '@alex_lee',
+  )
+  await user.click(screen.getByRole('link', { name: '← Browse all listings' }))
+  expect(window.location.pathname).toBe('/')
+})
+it('handles malformed seller URLs without sending an unscoped request', () => {
+  window.history.replaceState(null, '', '/sellers/%ZZ')
+  render(<App />)
+  expect(
+    screen.getByRole('heading', { name: 'Invalid seller address' }),
+  ).toBeVisible()
+  expect(marketplace.listings).not.toHaveBeenCalled()
+})
+it('shows a seller-specific empty state without falling back to other sellers', async () => {
+  window.history.replaceState(null, '', '/sellers/no_public_items')
+  vi.mocked(marketplace.listings).mockResolvedValue({ listings: [] })
+  render(<App />)
+  expect(
+    await screen.findByText(
+      'This seller has no public listings matching your filters. Clear filters or check back later.',
+    ),
+  ).toBeVisible()
+  expect(
+    screen.queryByRole('heading', { name: 'Calculus textbook' }),
+  ).not.toBeInTheDocument()
+  expect(marketplace.listings).toHaveBeenCalledWith(
+    { user_page: 'no_public_items' },
+    expect.any(AbortSignal),
+  )
+})

@@ -26,6 +26,28 @@ export default function App() {
     window.addEventListener('popstate', update)
     return () => window.removeEventListener('popstate', update)
   }, [])
+  const sellerPage = path.startsWith('/sellers/')
+  let sellerUsername = ''
+  if (sellerPage) {
+    try {
+      const value = decodeURIComponent(
+        path.slice('/sellers/'.length),
+      ).toLowerCase()
+      if (/^[a-z0-9_-]{1,50}$/.test(value)) sellerUsername = value
+    } catch {
+      /* Invalid encoded paths render a helpful page instead of crashing. */
+    }
+  }
+  useEffect(() => {
+    const previous = document.title
+    if (sellerPage)
+      document.title = sellerUsername
+        ? `@${sellerUsername} listings | Student Exchange`
+        : 'Seller not found | Student Exchange'
+    return () => {
+      document.title = previous
+    }
+  }, [sellerPage, sellerUsername])
   function navigate(next: string) {
     window.history.pushState(null, '', next)
     setPath(next)
@@ -37,7 +59,8 @@ export default function App() {
     event.preventDefault()
     navigate(`/#${id}`)
     setTimeout(
-      () => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }),
+      () =>
+        document.getElementById(id)?.scrollIntoView?.({ behavior: 'smooth' }),
       0,
     )
   }
@@ -136,14 +159,43 @@ export default function App() {
         ) : selected ? (
           <ListingDetail
             listing={selected}
+            onSeller={(username) =>
+              navigate(`/sellers/${encodeURIComponent(username)}`)
+            }
             onBack={() => {
               setSelected(null)
               setTimeout(
-                () => document.getElementById('browse')?.scrollIntoView(),
+                () => document.getElementById('browse')?.scrollIntoView?.(),
                 0,
               )
             }}
           />
+        ) : sellerPage ? (
+          <>
+            <div className="seller-page-back">
+              <a href="/#browse" onClick={(event) => section(event, 'browse')}>
+                ← Browse all listings
+              </a>
+            </div>
+            {sellerUsername ? (
+              <Marketplace
+                key={sellerUsername}
+                sellerUsername={sellerUsername}
+                onSelect={(row) => {
+                  setSelected(row)
+                  window.scrollTo?.(0, 0)
+                }}
+              />
+            ) : (
+              <section className="seller-portal">
+                <h1>Invalid seller address</h1>
+                <p>
+                  Use a seller username containing letters, numbers, hyphens, or
+                  underscores.
+                </p>
+              </section>
+            )}
+          </>
         ) : (
           <>
             <section className="hero" aria-labelledby="hero-title">

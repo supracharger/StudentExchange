@@ -194,12 +194,20 @@ export async function handleMarketplace({
     selectors,
     admin
       ? ['email', 'category', 'search', 'isbn']
-      : ['category', 'search', 'isbn'],
+      : path === '/api/listings'
+        ? ['category', 'search', 'isbn', 'user_page']
+        : ['category', 'search', 'isbn'],
   )
   const fields = {}
   for (const key of ['category', 'search', 'isbn']) {
     if (selectors[key])
       fields[key] = text(selectors[key], key === 'search' ? 200 : 100)
+  }
+  if (Object.hasOwn(selectors, 'user_page')) {
+    const username = text(selectors.user_page, 50, true)
+    if (!/^[a-z0-9_-]+$/.test(username))
+      fail(400, 'Enter a valid seller username.')
+    fields.user_page = username
   }
   if (fields.isbn && !validIsbn(fields.isbn))
     fail(400, 'Enter a valid ISBN-10 or ISBN-13.')

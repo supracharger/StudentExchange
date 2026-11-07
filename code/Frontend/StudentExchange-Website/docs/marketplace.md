@@ -51,3 +51,13 @@ The duplicate Users.cs issue has been resolved in backend `190d273`. The earlier
 ## Validation
 
 Local HTTP fixtures cover status levels, deactivation as PATCH, rejection of permanent listing DELETE, admin target forwarding, renewal, partial edits, valid photo operations, invalid or duplicate image locations, upload bounds, and metrics projection. UI tests cover edit/status choices and incremental photo changes, plus existing account/search/gallery flows. Browser checks use controlled fixtures so validation does not modify existing live listings. Read-only deployed-service checks confirm live catalog and listing response shapes; optional metrics are tolerated when absent.
+
+## Public seller pages — backend 449bd73
+
+`/sellers/{username}` opens a public seller collection with no login required. Listing details link to the URL using the returned `user` field. Search, category, ISBN, condition, location, sorting, and pagination remain available, and clearing filters keeps the seller scope.
+
+The browser calls `GET /api/listings?user_page={username}`; the adapter sends `user_page` in the JSON body of backend `GET Listing`, alongside optional search/category/ISBN. It does not send `for_user`, visitor access tokens, or `to_user` for public seller pages. The backend rejects `user_page` combined with `for_user` and filters public results to Active/Sold. Private inventory and admin routes reject public seller selectors.
+
+Usernames accept 1–50 letters, digits, hyphens, or underscores, and page URLs normalize usernames to lowercase. Malformed encoded URLs show an invalid-address page rather than loading all items. A seller with no public results gets an empty collection; the backend does not distinguish a nonexistent username from one without public listings.
+
+Validation includes wire-level selector isolation, direct URLs, scoped search/clear, listing detail links, browser history, refresh, empty results, and mobile layout. A read-only check against the deployed backend confirmed `user_page` returned only the requested seller's records.

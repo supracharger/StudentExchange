@@ -1,6 +1,6 @@
 # Student Exchange
 
-This revision targets deployed backend `85172d7`. Listings now support editing, renewal, and status changes; removing a listing sets it to Inactive and preserves its data. See [the integration guide](docs/marketplace.md).
+This revision targets deployed backend `449bd73`. Public seller pages are available at `/sellers/{username}` and linked from listing details. Listings support editing, renewal, and status changes; removing a listing sets it to Inactive and preserves its data. See [the integration guide](docs/marketplace.md).
 
 The website now uses the live listing API and includes a seller portal at `/seller` and marketplace administration at `/admin`.
 

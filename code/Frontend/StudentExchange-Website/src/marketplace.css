@@ -398,3 +398,28 @@ textarea:focus-visible {
     grid-template-columns: 80px minmax(0, 1fr);
   }
 }
+.seller-listings-link {
+  display: block;
+  width: fit-content;
+  margin: 16px 0;
+  color: #087747;
+  font-weight: 600;
+  text-underline-offset: 4px;
+}
+.seller-page-back {
+  max-width: 1240px;
+  margin: 24px auto 0;
+  padding: 0 40px;
+  font-size: 14px;
+}
+.marketplace h1 {
+  font-size: clamp(26px, 4vw, 42px);
+  letter-spacing: -1px;
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  .seller-page-back {
+    padding: 0 20px;
+  }
+}

@@ -460,3 +460,25 @@ it('projects status, hit counts and signed days remaining', async () => {
     (await (await get('seller/listings')).json()).listings[0],
   ).toMatchObject({ status: 'Expired', hit: 42, days: -2 })
 })
+it('forwards public seller pages through user_page without private inventory credentials', async () => {
+  const response = await get(
+    'listings?user_page=jane&search=calculus&category=Textbooks',
+    false,
+  )
+  expect(response.status).toBe(200)
+  const body = calls.findLast((x) => x.route === '/Listing').body
+  expect(body).toMatchObject({
+    user_page: 'jane',
+    search: 'calculus',
+    category: 'Textbooks',
+  })
+  expect(body.for_user).toBeUndefined()
+  expect(body.access_token).toBeUndefined()
+  expect(body.to_user).toBeUndefined()
+  expect((await get('seller/listings?user_page=jane')).status).toBe(400)
+  expect(
+    (await get('listings?user_page=jane&for_user=true', false)).status,
+  ).toBe(400)
+  expect((await get('listings?user_page=', false)).status).toBe(400)
+  expect((await get('listings?user_page=bad%2Fname', false)).status).toBe(400)
+})
