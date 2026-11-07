@@ -33,6 +33,9 @@ namespace StudentExchangeBck
             Users.Data user = new Users.Data();
             IActionResult? msg;
             var asuser = data.for_user != null;
+            var asuserPage = data.user_page != null;
+            if (asuser && asuserPage)
+                return BadRequest("You can either specify for_user or user_page, but not both.");
             if (asuser)
                 msg = AppAuthJson.ValidateWithToken(this, data, HttpContext, out user, out ip);
             else
@@ -71,6 +74,7 @@ namespace StudentExchangeBck
                           (asuser ? "LEFT JOIN Check_Active a ON l.id=a.list_id " : "") +
                           "WHERE " +
                           (asuser ? "u.id=@userid AND " : "s.name IN ('Active', 'Sold') AND ") +
+                          (asuserPage ? "u.user_name=@username AND " : "") +
                           (useCategory ? "c.name=@category AND " : "") +
                           (data.isbn != null ? "b.isbn=@isbn AND " : "") +
                           @"l.user_id=u.id AND l.category=c.id AND l.condition=cd.id AND l.status=s.id
@@ -84,6 +88,8 @@ namespace StudentExchangeBck
                     args.Add("@userid", user.id);
                     args.Add("@now", Utilz.ToMtn().ToString("s"));
                 }
+                if (asuserPage)
+                    args.Add("@username", data.user_page!);
                 if (data.isbn != null)
                     args.Add("@isbn", data.isbn);
 
@@ -955,10 +961,11 @@ namespace StudentExchangeBck
 
     public class GetListingsJson : AppAuthJson
     {
-        public string? search { get; set; } = null;
-        public string? category { get; set; } = null;
-        public string? for_user { get; set; } = null;
-        public string? isbn { get; set; } = null;
+        public string? search { get; set; }
+        public string? category { get; set; }
+        public string? for_user { get; set; }
+        public string? user_page { get; set; }
+        public string? isbn { get; set; }
     }
 
     public class ListingCreateModel : AppAuthJson
