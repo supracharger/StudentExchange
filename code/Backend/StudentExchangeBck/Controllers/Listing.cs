@@ -171,7 +171,16 @@ namespace StudentExchangeBck
         [HttpGet("{id}")]
         public IActionResult GetOne(long id, AppAuthJson auth)
         {
-            var msg = AppAuthJson.ValidateApp(auth, HttpContext, this, out var ip);
+            IP.Data ip;
+            Users.Data? user = null;
+            IActionResult? msg;
+            if (auth.access_token != null)
+            {
+                msg = AppAuthJson.ValidateWithToken(this, auth, HttpContext, out var u, out ip);
+                user = u;
+            }
+            else
+                msg = AppAuthJson.ValidateApp(auth, HttpContext, this, out ip);
             if (msg != null) return msg;
 
             var did = new Dictionary<string, object>
@@ -200,7 +209,10 @@ namespace StudentExchangeBck
                 imgs = result["name"].Select(n => "/uploads/" + ((string)n)).ToList();
             data.Add("images_url", imgs);
 
-            IncHitCount(id, ip.id, 1);
+            if (user != null)
+                IncHitCountUser(id, user.Value.id, 3);
+            else
+                IncHitCount(id, ip.id, 1);
 
             lock (GetListLock(id))
                 MakeSureActive(id);
@@ -729,10 +741,13 @@ namespace StudentExchangeBck
             }
 
             Sql.Write(@"INSERT INTO Hit_Count (list_id, count)
-                        SELECT list_id, SUM(size)
-                            FROM Hit_Count_Tally
-                            WHERE true
-                            GROUP BY list_id
+                        SELECT U.list_id, SUM(U.size) FROM ( 
+                            SELECT list_id, size FROM Hit_Count_Tally
+                            UNION ALL
+                            SELECT list_id, size FROM Hit_Count_Tally_User
+                        ) U, status S, Listings L
+                        WHERE S.name='Active' AND U.list_id=L.id AND L.status=S.id
+                        GROUP BY list_id
                         ON CONFLICT(list_id)
                         DO UPDATE SET count = excluded.count;", null, -2);
 
@@ -815,7 +830,7 @@ namespace StudentExchangeBck
             return null;
         }
 
-        public static void IncHitCount(long listid, long ip, int size)
+        static void IncHitCount(long listid, long ip, int size)
         {
             if (listid < 0) throw new ArgumentOutOfRangeException("listid < 0");
             if (ip < 0) throw new ArgumentOutOfRangeException("ip < 0");
@@ -832,6 +847,25 @@ namespace StudentExchangeBck
                         ON CONFLICT(list_id, ip) 
                         DO UPDATE SET size = excluded.size
                         WHERE excluded.size > Hit_Count_Tally.size;", d, -2);
+        }
+
+        public static void IncHitCountUser(long listid, long user, int size)
+        {
+            if (listid < 0) throw new ArgumentOutOfRangeException("listid < 0");
+            if (user < 0) throw new ArgumentOutOfRangeException("user < 0");
+            if (size <= 0) throw new ArgumentOutOfRangeException("size <= 0");
+            var d = new Dictionary<string, object>
+            {
+                { "@list_id", listid },
+                { "@user", user },
+                { "@size", size }
+            };
+
+            Sql.Write(@"INSERT INTO Hit_Count_Tally_User (list_id, user, size)
+                        VALUES (@list_id, @user, @size)
+                        ON CONFLICT(list_id, user) 
+                        DO UPDATE SET size = excluded.size
+                        WHERE excluded.size > Hit_Count_Tally_User.size;", d, -2);
         }
 
         static void MakeSureActive(long listid)
