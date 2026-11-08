@@ -61,3 +61,9 @@ The browser calls `GET /api/listings?user_page={username}`; the adapter sends `u
 Usernames accept 1–50 letters, digits, hyphens, or underscores, and page URLs normalize usernames to lowercase. Malformed encoded URLs show an invalid-address page rather than loading all items. A seller with no public results gets an empty collection; the backend does not distinguish a nonexistent username from one without public listings.
 
 Validation includes wire-level selector isolation, direct URLs, scoped search/clear, listing detail links, browser history, refresh, empty results, and mobile layout. A read-only check against the deployed backend confirmed `user_page` returned only the requested seller's records.
+
+## Deployed update: authenticated detail reads and seller sharing
+
+Per the deployed API instruction (ahead of GitHub source), every backend `GET Listing/{id}` now includes the current visitor's `access_token` when a valid website session exists. Anonymous reads omit it. The adapter obtains it exclusively from its server session; URLs, browser fields, and projected detail responses do not expose or accept visitor tokens. Both listing detail viewing and editor loading use this same adapter path.
+
+Seller inventory displays the current website origin plus `/sellers/{user}`, with a Copy link button. Clipboard success and failure feedback appear beside the link, and a missing username does not produce a broken URL. Changing the username updates the link and resets copy feedback. Tests cover signed-in/anonymous wire requests, rejected token injection, successful copying, clipboard failures and retry, and missing usernames.

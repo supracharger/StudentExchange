@@ -230,3 +230,57 @@ it('keeps the listing unchanged and lets sellers retry when marking Sold fails',
     screen.getByText('Active', { exact: true, selector: 'span' }),
   ).toBeVisible()
 })
+it('shows the seller website and copies its full URL', async () => {
+  const user = userEvent.setup()
+  const copy = vi.spyOn(navigator.clipboard, 'writeText').mockResolvedValue()
+  render(
+    <SellerPortal
+      account={{ ...account, profile: { ...profile, user: 'jane_seller' } }}
+      onLogin={vi.fn()}
+    />,
+  )
+  const url = `${window.location.origin}/sellers/jane_seller`
+  expect(screen.getByRole('link', { name: url })).toHaveAttribute('href', url)
+  await user.click(
+    screen.getByRole('button', { name: 'Copy seller page link' }),
+  )
+  expect(copy).toHaveBeenCalledWith(url)
+  expect(await screen.findByText('Link copied!')).toBeVisible()
+})
+it('keeps the seller link available and allows retry when clipboard access fails', async () => {
+  const user = userEvent.setup()
+  const copy = vi
+    .spyOn(navigator.clipboard, 'writeText')
+    .mockRejectedValueOnce(new Error('Denied'))
+    .mockResolvedValueOnce()
+  render(
+    <SellerPortal
+      account={{ ...account, profile: { ...profile, user: 'jane' } }}
+      onLogin={vi.fn()}
+    />,
+  )
+  await user.click(
+    screen.getByRole('button', { name: 'Copy seller page link' }),
+  )
+  expect(
+    await screen.findByText(
+      'Unable to copy automatically. Select and copy the link above.',
+    ),
+  ).toBeVisible()
+  expect(
+    screen.getByRole('link', {
+      name: `${window.location.origin}/sellers/jane`,
+    }),
+  ).toBeVisible()
+  await user.click(
+    screen.getByRole('button', { name: 'Copy seller page link' }),
+  )
+  expect(await screen.findByText('Link copied!')).toBeVisible()
+  expect(copy).toHaveBeenCalledTimes(2)
+})
+it('does not create a broken public URL when the username is missing', () => {
+  render(<SellerPortal account={account} onLogin={vi.fn()} />)
+  expect(
+    screen.queryByRole('button', { name: 'Copy seller page link' }),
+  ).not.toBeInTheDocument()
+})

@@ -149,7 +149,7 @@ export async function handleMarketplace({
     const id = Number(params.id)
     if (!Number.isSafeInteger(id) || id <= 0)
       fail(400, 'Choose a valid listing.')
-    const data = await call(`Listing/${id}`, 'GET', {})
+    const data = await call(`Listing/${id}`, 'GET', credentials)
     const detail = list([{ ...data, id }])[0]
     const images = data.images_url ?? []
     if (!Array.isArray(images) || images.some((x) => typeof x !== 'string'))

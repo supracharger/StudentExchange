@@ -482,3 +482,22 @@ it('forwards public seller pages through user_page without private inventory cre
   expect((await get('listings?user_page=', false)).status).toBe(400)
   expect((await get('listings?user_page=bad%2Fname', false)).status).toBe(400)
 })
+it('includes the visitor access token on logged-in detail reads but never accepts a token from the browser', async () => {
+  const response = await get('listing?id=5')
+  expect(response.status).toBe(200)
+  expect(calls.findLast((x) => x.route === '/Listing/5')).toMatchObject({
+    method: 'GET',
+    body: {
+      access_token: 'visitor-token',
+      admin_token: 'service-token',
+      app_access: 'fixture-app',
+    },
+  })
+  const data = await response.json()
+  expect(JSON.stringify(data)).not.toContain('visitor-token')
+  expect((await get('listing?id=5&access_token=injected')).status).toBe(400)
+  expect((await get('listing?id=5', false)).status).toBe(200)
+  expect(
+    calls.findLast((x) => x.route === '/Listing/5').body.access_token,
+  ).toBeUndefined()
+})

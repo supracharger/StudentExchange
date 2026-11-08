@@ -423,3 +423,29 @@ textarea:focus-visible {
     padding: 0 20px;
   }
 }
+.seller-share {
+  margin: 24px 0;
+  padding: 20px 24px;
+  border: 1px solid #d6e1d6;
+  border-radius: 12px;
+  background: #f1f6eb;
+}
+.seller-share > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+.seller-share a {
+  color: #087747;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.seller-share button {
+  flex-shrink: 0;
+}
+.seller-share p {
+  font-size: 13px;
+  margin-bottom: 0;
+}

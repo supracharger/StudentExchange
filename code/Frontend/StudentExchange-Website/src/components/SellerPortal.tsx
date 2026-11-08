@@ -37,6 +37,46 @@ export default function SellerPortal({
   return <Inventory key={account.profile.email} account={account} />
 }
 
+function SellerPageLink({ username }: { username: string }) {
+  const url = `${window.location.origin}/sellers/${encodeURIComponent(username)}`
+  const [copying, setCopying] = useState(false)
+  const [feedback, setFeedback] = useState('')
+  async function copy() {
+    setCopying(true)
+    setFeedback('')
+    try {
+      if (!navigator.clipboard?.writeText)
+        throw new Error('Clipboard unavailable')
+      await navigator.clipboard.writeText(url)
+      setFeedback('Link copied!')
+    } catch {
+      setFeedback(
+        'Unable to copy automatically. Select and copy the link above.',
+      )
+    } finally {
+      setCopying(false)
+    }
+  }
+  return (
+    <aside className="seller-share" aria-label="Your public seller page">
+      <strong>Your website is:</strong>
+      <div>
+        <a href={url}>{url}</a>
+        <button
+          type="button"
+          className="admin-button"
+          aria-label="Copy seller page link"
+          disabled={copying}
+          onClick={() => void copy()}
+        >
+          {copying ? 'Copying…' : 'Copy link'}
+        </button>
+      </div>
+      {feedback && <p role="status">{feedback}</p>}
+    </aside>
+  )
+}
+
 function Inventory({ account }: { account: AccountState }) {
   const [rows, setRows] = useState<Listing[]>([])
   const [catalog, setCatalog] = useState<Catalog>({
@@ -130,6 +170,17 @@ function Inventory({ account }: { account: AccountState }) {
           ＋ Create listing
         </button>
       </div>
+      {account.profile?.user ? (
+        <SellerPageLink
+          key={account.profile.user}
+          username={account.profile.user}
+        />
+      ) : (
+        <p className="market-hint">
+          Your public website link will appear here once your account has a
+          username. Check My account to update your username.
+        </p>
+      )}
       <div className="seller-stats">
         <div>
           <strong>{rows.length}</strong>
