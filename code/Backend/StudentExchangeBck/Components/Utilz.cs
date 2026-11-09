@@ -6,6 +6,10 @@
  ToMtn():
     Converts DateTime UTC to Mountain Standard Time.
     If no args: it uses current UTC time
+
+ Search():
+    Scores a listing title against the typed search (lower is better).
+    The scoring itself lives in ListingSearch.cs. ListingSearch.NoMatch means "not relevant".
  */
 
 using System.Collections.Immutable;
@@ -89,65 +93,17 @@ namespace StudentExchangeBck
             return dist[dist.Length - 1];
         }
 
-        public static int Search(string[] search, string[] tx, Dictionary<(string, string), int>? cache = null)
-        {
-            if (search.Length == 0 || tx.Length == 0)
-                return int.MaxValue;
-
-            cache ??= new Dictionary<(string, string), int>();
-
-            int score = 0;
-            int previous = -1;
-
-            for (int i = 0; i < search.Length; i++)
-            {
-                int best = int.MaxValue;
-                int bestIndex = -1;
-
-                for (int j = 0; j < tx.Length; j++)
-                {
-                    var s = search[i];
-                    var t = tx[j];
-
-                    var k = string.CompareOrdinal(s, t) <= 0 ? (s, t) : (t, s);  // This is wrong, not ordered right
-                    if (!cache.TryGetValue(k, out var d))
-                    {
-                        d = LevenshteinEditDistance(s, t);
-                        cache.Add(k, d);
-                    }
-
-                    if (d < best)
-                    {
-                        best = d;
-                        bestIndex = j;
-
-                        // Can't improve upon an exact match.
-                        if (d == 0)
-                            break;
-                    }
-                }
-
-
-                var score2 = 1;
-                if (previous >= 0)
-                {
-                    if (bestIndex < previous)
-                        score2 += previous - bestIndex;
-                    else if (bestIndex > previous + 1)
-                        score2 += bestIndex - previous - 1;
-                }
-
-                // Character-level matching cost
-                score += (best + 1) * score2;
-
-                previous = bestIndex;
-            }
-
-            // Penalize missing title words
-            score += Math.Max(0, search.Length - tx.Length) * 2;
-
-            return score;
-        }
+        /// <summary>
+        /// Scores a listing title against the typed search. LOWER IS BETTER.
+        /// Returns ListingSearch.NoMatch (int.MaxValue) when the listing is not relevant:
+        /// callers must drop those results.
+        /// </summary>
+        /// <param name="search">Words the user typed</param>
+        /// <param name="tx">Words of the listing title</param>
+        /// <param name="cache">Remembers edit distances between pairs of words (optional)</param>
+        /// <param name="relaxed">false: every typed word must match. true: at least half of them.</param>
+        public static int Search(string[] search, string[] tx, Dictionary<(string, string), int>? cache = null, bool relaxed = false)
+            => ListingSearch.Score(search, tx, cache, relaxed);
 
         public static int SearchBasic(string[] search, string[] tx)
         {
