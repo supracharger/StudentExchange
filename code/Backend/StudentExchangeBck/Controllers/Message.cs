@@ -51,10 +51,6 @@ namespace StudentExchangeBck.Controllers
             var msg = AppAuthJson.ValidateWithToken(this, auth, HttpContext, out var user, out var ip);
             if (msg != null) return msg;
  
-            // A forwarded (impersonated) user cannot read someone else's messages
-            if (user.forwarded)
-                return BadRequest(new { Message = "User cannot be forwarded." });
- 
             try
             {
                 var result = Sql.Read(
@@ -126,9 +122,6 @@ namespace StudentExchangeBck.Controllers
             var msg = AppAuthJson.ValidateWithToken(this, auth, HttpContext, out var user, out var ip);
             if (msg != null) return msg;
  
-            if (user.forwarded)
-                return BadRequest(new { Message = "User cannot be forwarded." });
- 
             try
             {
                 var result = Sql.Read(
@@ -158,9 +151,6 @@ namespace StudentExchangeBck.Controllers
         {
             var msg = AppAuthJson.ValidateWithToken(this, auth, HttpContext, out var user, out var ip);
             if (msg != null) return msg;
- 
-            if (user.forwarded)
-                return BadRequest(new { Message = "User cannot be forwarded." });
  
             try
             {
