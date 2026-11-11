@@ -129,7 +129,15 @@ Keep one application instance while sessions are stored in process memory. Resta
 | `/seller` | Authenticated seller inventory, public URL/copy control, listing creation and editing, photos, renewal, Mark as Sold, and deactivation. |
 | `/admin` | Administrator tools, subject to backend permissions and account hierarchy. |
 
-Listing details show a photo gallery, availability, seller contact when available, and a link to the seller's public collection. A signed-in detail request includes the visitor's access token server-side. Removing a listing from the website sets it to **Inactive**, preserving the listing and photos. Creation supports up to eight PNG/JPEG/WebP photos, at most 2 MiB each.
+Listing details show a photo gallery, availability, in-app messaging when available, and a link to the seller's public collection. A signed-in detail request includes the visitor's access token server-side. Removing a listing from the website sets it to **Inactive**, preserving the listing and photos. Creation supports up to eight PNG/JPEG/WebP photos, at most 2 MiB each.
+
+## Messaging
+
+After login, **Messages** appears collapsed at the bottom right with an unread badge. Open it to choose a conversation, read replies, send a message, or send an offer. On an active listing, **Message seller** opens that listing's conversation; visitors are prompted to log in first. Your own listings cannot be messaged from the buyer contact button.
+
+Messages and unread counts refresh periodically while the page is visible. Drafts survive minimizing and switching conversations during the session. A failed send keeps the draft and shows an error; it is not shown as delivered. Offers are proposals, with no payment processing or acceptance workflow. Logout clears the messenger's loaded conversations and drafts.
+
+The same server-only backend configuration supports messaging. See [messaging integration](docs/marketplace.md#messaging--backend-c827bb5) for request mappings and limits.
 
 ## Project layout and further documentation
 

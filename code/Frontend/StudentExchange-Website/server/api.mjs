@@ -1,3 +1,4 @@
+import { messageRoutes, handleMessages } from './messages.mjs'
 import { randomBytes } from 'node:crypto'
 import http from 'node:http'
 import https from 'node:https'
@@ -216,7 +217,7 @@ export function upstream(
             const message =
               typeof value === 'string'
                 ? value
-                : (value?.message ?? value?.title)
+                : (value?.message ?? value?.Message ?? value?.title)
             let safeMessage =
               typeof message === 'string' && message.trim()
                 ? message
@@ -430,6 +431,7 @@ export function createApiHandler({
     const method = request.method
     const routes = {
       ...marketplaceRoutes,
+      ...messageRoutes,
       '/api/schools': ['GET'],
       '/api/listing-image': ['GET'],
       '/api/register': ['POST'],
@@ -520,6 +522,7 @@ export function createApiHandler({
       if (
         (path === '/api/profile' ||
           path === '/api/logout' ||
+          path.startsWith('/api/messages') ||
           path.startsWith('/api/seller') ||
           path.startsWith('/api/admin')) &&
         !session
@@ -552,6 +555,20 @@ export function createApiHandler({
         service.call(route, verb, fields, ip)
       const credentials = session ? { access_token: session.token } : {}
 
+      if (messageRoutes[path]) {
+        await handleMessages({
+          path,
+          method,
+          request,
+          response,
+          call,
+          credentials,
+          readBody,
+          send,
+          ApiError,
+        })
+        return
+      }
       if (marketplaceRoutes[path]) {
         await handleMarketplace({
           path,

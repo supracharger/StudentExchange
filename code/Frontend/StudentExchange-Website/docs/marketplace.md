@@ -1,6 +1,6 @@
 # Marketplace integration
 
-The website targets deployed backend source `85172d7` in `supracharger/SoftwareEngineerTemp`. Controller code and the supplied status table define the contract; the backend README is outdated.
+The website targets deployed backend source `c827bb5` in `supracharger/SoftwareEngineerTemp`. Controller code and the supplied status table define the contract; the backend README is outdated.
 
 ## Listing lifecycle
 
@@ -67,3 +67,23 @@ Validation includes wire-level selector isolation, direct URLs, scoped search/cl
 Per the deployed API instruction (ahead of GitHub source), every backend `GET Listing/{id}` now includes the current visitor's `access_token` when a valid website session exists. Anonymous reads omit it. The adapter obtains it exclusively from its server session; URLs, browser fields, and projected detail responses do not expose or accept visitor tokens. Both listing detail viewing and editor loading use this same adapter path.
 
 Seller inventory displays the current website origin plus `/sellers/{user}`, with a Copy link button. Clipboard success and failure feedback appear beside the link, and a missing username does not produce a broken URL. Changing the username updates the link and resets copy feedback. Tests cover signed-in/anonymous wire requests, rejected token injection, successful copying, clipboard failures and retry, and missing usernames.
+
+
+## Messaging — backend c827bb5
+
+The signed-in website mounts one persistent bottom-right messenger, initially collapsed. It shows unread badges, conversation previews and full history, supports messages and offers, and remains available across website routes. It is removed on logout or session expiry and recreated per account so conversations/drafts do not leak between users. Listing contact uses Message seller instead of mailto/email; a visitor is prompted to log in before the pending listing conversation opens. The UI prevents messaging one's own listing.
+
+| Website endpoint | Backend endpoint |
+| --- | --- |
+| `GET /api/messages` | `GET api/Message` |
+| `GET /api/messages/unread` | `GET api/Message/unread` |
+| `GET /api/messages/thread?conversation_id=&after=` | `GET api/Message/{id}?after=` |
+| `POST /api/messages` | `POST api/Message` |
+
+All routes require the website session. The adapter supplies the viewer token, application key, service forwarding token, and trusted IP in the JSON envelope, including on GET requests. It never accepts user forwarding (`to_user`) or credentials from the browser. Conversation ownership is checked by the backend; missing and unauthorized conversations preserve its 404 behavior. The adapter projects only the conversation/message fields needed by the UI and restricts image URLs to the existing image proxy.
+
+Start a buyer conversation with `listing_id`; continue it with `conversation_id`. The adapter accepts exactly one selector. Messages have 1–1000 characters. Offers use `kind: offer`, a positive amount up to $1,000,000 with two decimal places, and optional text. There are no fake local sends, acceptance buttons, or payment actions. Backend rate limits (20 sends/minute) and useful validation errors are shown without automatic write retries. Failed sends preserve drafts and warn users to check the conversation before retrying if delivery confirmation was lost.
+
+Unread/conversation polling runs every 15 seconds while visible; an open thread polls incrementally every 10 seconds. Reading a thread marks the other participant's messages read in the backend. History uses `after` cursors and 200-message pages, draining at most 10 pages per batch and exposing Load more messages if needed. Drafts are kept per listing for buyers and per conversation for sellers, including when an existing buyer conversation is resolved after typing begins. Times are displayed as the backend's Mountain-local timestamps.
+
+Validation covers authenticated wire envelopes, the `/api/Message` route prefix, credential injection/selector rejection, private-field projection, rate limits without duplicate writes, inbox/history, real message/offer requests, retained drafts, and logout. Read-only deployed checks confirmed the messaging unread/list endpoints; all message sends used local fixtures rather than real recipients.

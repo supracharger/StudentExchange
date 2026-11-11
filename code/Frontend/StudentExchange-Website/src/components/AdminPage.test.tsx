@@ -1,3 +1,4 @@
+import { messaging } from '../api/messages'
 import { marketplace } from '../api/marketplace'
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -74,6 +75,8 @@ function renderPage(level = 20, membership = true) {
   return { ...result, state, refresh }
 }
 beforeEach(() => {
+  vi.spyOn(messaging,'unread').mockResolvedValue({unread:0})
+  vi.spyOn(messaging,'conversations').mockResolvedValue({conversations:[]})
   vi.spyOn(marketplace, 'catalog').mockResolvedValue({ categories: [], conditions: [] })
   vi.spyOn(marketplace, 'listings').mockResolvedValue({ listings: [] })
   // jsdom has no native modal implementation; this shim makes role/query and interaction tests possible.

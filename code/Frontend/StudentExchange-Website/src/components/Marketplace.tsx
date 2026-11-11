@@ -1,3 +1,4 @@
+import type { Profile } from '../api/accounts'
 import { useEffect, useState } from 'react'
 import { marketplace, money, errorMessage } from '../api/marketplace'
 import type { Listing, Catalog } from '../api/marketplace'
@@ -38,9 +39,13 @@ export function ListingDetail({
   listing: initialListing,
   onBack,
   onSeller,
+  onMessage,
+  viewer,
 }: {
   listing: Listing
   onBack: () => void
+  onMessage?: (listing: Listing) => void
+  viewer?: Profile | null
   onSeller?: (username: string) => void
 }) {
   const [listing, setListing] = useState(initialListing)
@@ -220,15 +225,23 @@ export function ListingDetail({
                 This listing is {listing.status.toLowerCase()} and is not
                 available for purchase.
               </p>
-            ) : listing.email ? (
-              <a
-                className="button-primary"
-                href={`mailto:${encodeURIComponent(listing.email)}?subject=${encodeURIComponent(`Student Exchange: ${listing.title}`)}`}
-              >
-                Email seller ↗
-              </a>
             ) : (
-              <p>Seller contact is unavailable.</p>
+              <button
+                type="button"
+                className="button-primary"
+                disabled={Boolean(
+                  viewer &&
+                    ((viewer.user && viewer.user === listing.user) ||
+                      viewer.email === listing.email),
+                )}
+                onClick={() => onMessage?.(listing)}
+              >
+                {viewer &&
+                ((viewer.user && viewer.user === listing.user) ||
+                  viewer.email === listing.email)
+                  ? 'This is your listing'
+                  : 'Message seller'}
+              </button>
             )}
             <p className="market-hint">
               Ask questions and agree on pickup and payment directly with the
