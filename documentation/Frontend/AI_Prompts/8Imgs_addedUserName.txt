@@ -1,0 +1,5 @@
+>> The backend was updated, but not yet deployed (The readme.md is not current). Update the website to the changes. Do your best work!
+
+>> I removed the duplicate Users.cs in the backend. Does anything need to be fixed.
+
+>> It doesn't look like the website can utilize multiple photos for a listing. Fix it. Do your best work!

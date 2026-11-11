@@ -2,6 +2,7 @@ import { randomBytes } from 'node:crypto'
 import http from 'node:http'
 import https from 'node:https'
 import { clientIp } from './client-ip.mjs'
+import { marketplaceRoutes, handleMarketplace } from './marketplace.mjs'
 import {
   adminStatus,
   adminUsers,
@@ -15,12 +16,15 @@ import {
   adminAssignmentResult,
 } from './admin.mjs'
 
+// Azure cold starts can take two minutes; leave headroom at every upstream entry point.
+const UPSTREAM_TIMEOUT_MS = 180000
 const SESSION_COOKIE = 'se_session'
 const SESSION_LIFETIME = 12 * 60 * 60 * 1000
 const MAX_BODY = 16 * 1024
 const MAX_RESPONSE = 1024 * 1024
 const PROFILE_FIELDS = ['email', 'first_name', 'last_name', 'school']
-const EDITABLE_FIELDS = [...PROFILE_FIELDS, 'password']
+const REGISTRATION_FIELDS = [...PROFILE_FIELDS, 'password']
+const EDITABLE_FIELDS = [...REGISTRATION_FIELDS, 'user', 'location']
 
 // Respect managed HTTPS proxies without routing local development fixtures through them.
 // Node 24 supports proxyEnv on its native agents, including requests with GET bodies.
@@ -67,7 +71,15 @@ async function readBody(request) {
   let size = 0
   for await (const chunk of request) {
     size += chunk.length
-    if (size > MAX_BODY) throw new ApiError(413, 'The request is too large.')
+    if (
+      size >
+      (['/api/seller/listings', '/api/admin/listings'].includes(
+        request.url?.split('?')[0],
+      ) && ['POST', 'PATCH'].includes(request.method)
+        ? 23 * 1024 * 1024
+        : MAX_BODY)
+    )
+      throw new ApiError(413, 'The request is too large.')
     chunks.push(chunk)
   }
   try {
@@ -112,13 +124,24 @@ function publicProfile(value) {
     )
   }
   // Explicit projection prevents future backend properties (including passwords) reaching the UI.
-  return Object.fromEntries(
-    PROFILE_FIELDS.map((field) => [field, value[field]]),
-  )
+  return Object.fromEntries([
+    ...PROFILE_FIELDS.map((field) => [field, value[field]]),
+    ...['user', 'location']
+      .filter(
+        (field) => typeof value[field] === 'string' || value[field] === null,
+      )
+      .map((field) => [field, value[field]]),
+  ])
 }
 
 /** Node's HTTP client supports the API's GET body; browser fetch and Node fetch do not. */
-export function upstream(base, route, method, body, timeoutMs = 15000) {
+export function upstream(
+  base,
+  route,
+  method,
+  body,
+  timeoutMs = UPSTREAM_TIMEOUT_MS,
+) {
   const destination = new URL(route, base)
   const data = body ? JSON.stringify(body) : undefined
   const signal = AbortSignal.timeout(timeoutMs)
@@ -263,13 +286,19 @@ export function createForwardingClient({
   appAccess,
   user,
   userPass,
-  timeoutMs = 15000,
+  timeoutMs = UPSTREAM_TIMEOUT_MS,
 }) {
   const base = backendUrl(backend)
-  const configured = Boolean(base && appAccess?.trim() && user?.trim() && userPass?.trim())
+  const configured = Boolean(
+    base && appAccess?.trim() && user?.trim() && userPass?.trim(),
+  )
   let token
   let loginPending
-  const unavailable = () => new ApiError(503, 'Accounts are temporarily unavailable. Please try again later.')
+  const unavailable = () =>
+    new ApiError(
+      503,
+      'Accounts are temporarily unavailable. Please try again later.',
+    )
 
   function login(rejectedToken) {
     // Another request may already have replaced the rejected token.
@@ -279,16 +308,21 @@ export function createForwardingClient({
       try {
         // Bootstrap uses the connection IP: forwarding requires a token we don't have yet.
         const result = await upstream(
-          base, 'LogIn', 'POST',
+          base,
+          'LogIn',
+          'POST',
           { app_access: appAccess, email: user, password: userPass },
           timeoutMs,
         )
         if (
           typeof result?.access_token !== 'string' ||
           !result.access_token.trim()
-        ) throw unavailable()
+        )
+          throw unavailable()
         const membership = await upstream(
-          base, 'Admin', 'GET',
+          base,
+          'Admin',
+          'GET',
           { app_access: appAccess, access_token: result.access_token },
           timeoutMs,
         )
@@ -312,17 +346,22 @@ export function createForwardingClient({
       if (!configured) {
         if (route !== 'Schools') throw unavailable()
         return upstream(
-          base, route, method,
+          base,
+          route,
+          method,
           { ...fields, ...(appAccess ? { app_access: appAccess } : {}), ip },
           timeoutMs,
         )
       }
       const current = await login()
-      const send = (adminToken) => upstream(
-        base, route, method,
-        { ...fields, app_access: appAccess, ip, admin_token: adminToken },
-        timeoutMs,
-      )
+      const send = (adminToken) =>
+        upstream(
+          base,
+          route,
+          method,
+          { ...fields, app_access: appAccess, ip, admin_token: adminToken },
+          timeoutMs,
+        )
       try {
         return await send(current)
       } catch (error) {
@@ -355,12 +394,16 @@ export function createApiHandler({
   userPass,
   renderProxy = false,
   production = false,
-  timeoutMs = 15000,
+  timeoutMs = UPSTREAM_TIMEOUT_MS,
 } = {}) {
   const sessions = new Map()
   const base = backendUrl(backend)
   const service = createForwardingClient({
-    backend, appAccess, user, userPass, timeoutMs,
+    backend,
+    appAccess,
+    user,
+    userPass,
+    timeoutMs,
   })
 
   function setCookie(response, id = '', lifetime = 0) {
@@ -386,7 +429,9 @@ export function createApiHandler({
     const path = new URL(request.url, 'http://website.local').pathname
     const method = request.method
     const routes = {
+      ...marketplaceRoutes,
       '/api/schools': ['GET'],
+      '/api/listing-image': ['GET'],
       '/api/register': ['POST'],
       '/api/login': ['POST'],
       '/api/profile': ['GET', 'PATCH'],
@@ -409,6 +454,55 @@ export function createApiHandler({
     }
     const session = sessionFor(request)
     try {
+      if (path === '/api/listing-image') {
+        const name = new URL(
+          request.url,
+          'http://website.local',
+        ).searchParams.get('name')
+        if (!/^[a-f0-9]{32}\.(png|jpg|webp)$/.test(name || ''))
+          throw new ApiError(400, 'Invalid image name.')
+        if (!base)
+          throw new ApiError(503, 'Images are temporarily unavailable.')
+        const destination = new URL(`/uploads/${name}`, base)
+        const bytes = await new Promise((resolve, reject) => {
+          const transport = destination.protocol === 'https:' ? https : http
+          const outgoing = transport.get(
+            destination,
+            {
+              agent: destination.protocol === 'https:' ? httpsAgent : httpAgent,
+              signal: AbortSignal.timeout(timeoutMs),
+            },
+            (incoming) => {
+              const chunks = []
+              let size = 0
+              incoming.on('data', (chunk) => {
+                size += chunk.length
+                if (size > 2 * 1024 * 1024)
+                  outgoing.destroy(new Error('Image too large'))
+                else chunks.push(chunk)
+              })
+              incoming.on('error', reject)
+              incoming.on('end', () =>
+                incoming.statusCode === 200
+                  ? resolve(Buffer.concat(chunks))
+                  : reject(new ApiError(404, 'Image unavailable.')),
+              )
+            },
+          )
+          outgoing.on('error', reject)
+        })
+        response.writeHead(200, {
+          'Content-Type': name.endsWith('.png')
+            ? 'image/png'
+            : name.endsWith('.webp')
+              ? 'image/webp'
+              : 'image/jpeg',
+          'Cache-Control': 'public, max-age=3600',
+          'X-Content-Type-Options': 'nosniff',
+        })
+        response.end(bytes)
+        return
+      }
       if (method !== 'GET') {
         // Origin is supplied by browser fetch. Host cannot be chosen by a cross-site script.
         const expectedOrigin = `${production ? 'https' : 'http'}://${request.headers.host}`
@@ -426,6 +520,7 @@ export function createApiHandler({
       if (
         (path === '/api/profile' ||
           path === '/api/logout' ||
+          path.startsWith('/api/seller') ||
           path.startsWith('/api/admin')) &&
         !session
       ) {
@@ -434,7 +529,8 @@ export function createApiHandler({
       }
       if (
         !base ||
-        (path !== '/api/schools' && (!appAccess?.trim() || !user?.trim() || !userPass?.trim()))
+        (path !== '/api/schools' &&
+          (!appAccess?.trim() || !user?.trim() || !userPass?.trim()))
       ) {
         throw new ApiError(
           503,
@@ -447,10 +543,30 @@ export function createApiHandler({
       try {
         ip = clientIp(request, { renderProxy })
       } catch {
-        throw new ApiError(400, 'Unable to verify your network address. Please try again.')
+        throw new ApiError(
+          400,
+          'Unable to verify your network address. Please try again.',
+        )
       }
-      const call = (route, verb, fields) => service.call(route, verb, fields, ip)
+      const call = (route, verb, fields) =>
+        service.call(route, verb, fields, ip)
       const credentials = session ? { access_token: session.token } : {}
+
+      if (marketplaceRoutes[path]) {
+        await handleMarketplace({
+          path,
+          method,
+          request,
+          response,
+          call,
+          credentials,
+          readBody,
+          send,
+          ApiError,
+          adminStatus,
+        })
+        return
+      }
 
       if (path.startsWith('/api/admin')) {
         // Read membership afresh for every operation so a demotion takes effect immediately.
@@ -463,16 +579,16 @@ export function createApiHandler({
           path === '/api/admin'
             ? 'manageAdmins'
             : path === '/api/admin/schools'
-            ? 'schools'
-            : path === '/api/admin/blocked'
-              ? 'blocked'
-              : path === '/api/admin/sessions'
-                ? 'endSessions'
-                : path === '/api/admin/profile'
-                  ? 'profiles'
-                  : method === 'DELETE'
-                    ? 'deleteUsers'
-                    : 'users'
+              ? 'schools'
+              : path === '/api/admin/blocked'
+                ? 'blocked'
+                : path === '/api/admin/sessions'
+                  ? 'endSessions'
+                  : path === '/api/admin/profile'
+                    ? 'profiles'
+                    : method === 'DELETE'
+                      ? 'deleteUsers'
+                      : 'users'
         if (!status.permissions[permission])
           throw new ApiError(
             403,
@@ -498,12 +614,22 @@ export function createApiHandler({
           }
         }
         if (path === '/api/admin') {
-          const fields = adminAssignment(await readBody(request), method, status)
+          const fields = adminAssignment(
+            await readBody(request),
+            method,
+            status,
+          )
           const result = await adminCall('Admin', method, fields)
-          send(response, method === 'POST' ? 201 : 200, adminAssignmentResult(result, method))
+          send(
+            response,
+            method === 'POST' ? 201 : 200,
+            adminAssignmentResult(result, method),
+          )
         } else if (path === '/api/admin/schools') {
           if (method === 'GET') {
-            send(response, 200, { schools: schoolDirectory(await adminCall('Schools', 'GET', {})) })
+            send(response, 200, {
+              schools: schoolDirectory(await adminCall('Schools', 'GET', {})),
+            })
           } else {
             const adding = method === 'POST'
             const fields = schoolFields(await readBody(request), adding)
@@ -512,7 +638,10 @@ export function createApiHandler({
           }
         } else if (path === '/api/admin/users' && method === 'GET') {
           send(response, 200, {
-            users: adminUsers(await adminCall('Users', 'GET', {}), status.permissions.viewAdminLevels),
+            users: adminUsers(
+              await adminCall('Users', 'GET', {}),
+              status.permissions.viewAdminLevels,
+            ),
           })
         } else if (path === '/api/admin/users') {
           const fields = adminFields(
@@ -620,7 +749,7 @@ export function createApiHandler({
         }
         send(response, 200, { schools: [...new Set(schools)] })
       } else if (path === '/api/register') {
-        const fields = formFields(await readBody(request), EDITABLE_FIELDS)
+        const fields = formFields(await readBody(request), REGISTRATION_FIELDS)
         const data = await call('Register', 'POST', fields)
         if (typeof data?.email !== 'string')
           throw new ApiError(

@@ -1,4 +1,6 @@
 export interface Profile {
+  user?: string
+  location?: string | null
   email: string
   first_name: string
   last_name: string
@@ -23,7 +25,8 @@ export async function request<T>(
   method = 'GET',
   body?: unknown,
   signal?: AbortSignal,
-  timeoutMs = 20000,
+  // Includes a cold start plus service login, membership checks, and profile reads.
+  timeoutMs = 300000,
 ): Promise<T> {
   let response: Response
   try {

@@ -1,0 +1,364 @@
+export const marketplaceRoutes = {
+  '/api/listings': ['GET'],
+  '/api/listing': ['GET'],
+  '/api/catalog': ['GET'],
+  '/api/seller/listings': ['GET', 'POST', 'PATCH'],
+  '/api/admin/listings': ['GET', 'PATCH'],
+  '/api/admin/categories': ['POST', 'DELETE'],
+}
+
+export function validIsbn(value) {
+  const s = value.replace(/[-\s]/g, '').toUpperCase()
+  if (/^\d{13}$/.test(s))
+    return (
+      [...s].reduce((sum, n, i) => sum + Number(n) * (i % 2 ? 3 : 1), 0) %
+        10 ===
+      0
+    )
+  return (
+    /^\d{9}[\dX]$/.test(s) &&
+    [...s].reduce(
+      (sum, n, i) => sum + (n === 'X' ? 10 : Number(n)) * (10 - i),
+      0,
+    ) %
+      11 ===
+      0
+  )
+}
+
+export async function handleMarketplace({
+  path,
+  method,
+  request,
+  response,
+  call: upstreamCall,
+  credentials,
+  readBody,
+  send,
+  ApiError,
+  adminStatus,
+}) {
+  const call = async (...args) => {
+    try {
+      return await upstreamCall(...args)
+    } catch (error) {
+      if (
+        path.startsWith('/api/admin') &&
+        error.status === 401 &&
+        !error.sessionExpired
+      )
+        throw new ApiError(
+          403,
+          'Your administrator access does not permit this action for this user.',
+        )
+      throw error
+    }
+  }
+  const fail = (status, text) => {
+    throw new ApiError(status, text)
+  }
+  const exact = (data, keys) => {
+    if (Object.keys(data).some((key) => !keys.includes(key)))
+      fail(400, 'The request contains an unsupported field.')
+  }
+  const text = (value, max, required = false) => {
+    if (value == null && !required) return ''
+    if (
+      typeof value !== 'string' ||
+      value.length > max ||
+      (required && !value.trim())
+    )
+      fail(400, 'Complete the fields within their length limits.')
+    return value.trim()
+  }
+  function validateImage(image) {
+    text(image, 2800000, true)
+    const raw = image.replace(/^data:image\/(png|jpeg|webp);base64,/, '')
+    if (!/^[A-Za-z0-9+/]+={0,2}$/.test(raw) || raw.length % 4)
+      fail(400, 'Choose a valid PNG, JPEG, or WebP image.')
+    const bytes = Buffer.from(raw, 'base64')
+    if (bytes.length < 12 || bytes.length > 2 * 1024 * 1024)
+      fail(400, 'Images must be no larger than 2 MB.')
+    if (
+      !(
+        bytes.subarray(0, 4).equals(Buffer.from([137, 80, 78, 71])) ||
+        bytes.subarray(0, 3).equals(Buffer.from([255, 216, 255])) ||
+        (bytes.toString('ascii', 0, 4) === 'RIFF' &&
+          bytes.toString('ascii', 8, 12) === 'WEBP')
+      )
+    )
+      fail(400, 'Choose a PNG, JPEG, or WebP image.')
+  }
+  const list = (data) => {
+    if (!Array.isArray(data))
+      fail(502, 'The listing service returned an unexpected response.')
+    return data.map((row) => {
+      if (
+        !Number.isSafeInteger(row.id) ||
+        typeof row.title !== 'string' ||
+        typeof row.price !== 'number' ||
+        !Number.isFinite(row.price) ||
+        row.price < 0
+      )
+        fail(502, 'The listing service returned an unexpected listing.')
+      const result = { id: row.id, title: row.title, price: row.price }
+      for (const key of [
+        'description',
+        'category',
+        'condition',
+        'location',
+        'isbn',
+        'datetime',
+        'email',
+        'first_name',
+        'last_name',
+        'user',
+        'status',
+      ])
+        result[key] = typeof row[key] === 'string' ? row[key] : ''
+      for (const key of ['hit', 'days']) {
+        if (
+          row[key] != null &&
+          (typeof row[key] !== 'number' || !Number.isFinite(row[key]))
+        )
+          fail(502, 'Invalid listing metrics.')
+        if (row[key] != null) result[key] = row[key]
+      }
+      // Keep images on our origin. Never accept arbitrary URLs from upstream data.
+      result.image_url = /^\/uploads\/[a-f0-9]{32}\.(png|jpg|webp)$/.test(
+        row.image_url,
+      )
+        ? `/api/listing-image?name=${row.image_url.split('/').pop()}`
+        : null
+      return result
+    })
+  }
+  const directory = (data) => {
+    if (
+      !Array.isArray(data) ||
+      data.some((x) => typeof x !== 'string' || !x.trim())
+    )
+      fail(502, 'The catalog could not be loaded.')
+    return [...new Set(data)]
+  }
+  if (path === '/api/listing') {
+    const params = Object.fromEntries(
+      new URL(request.url, 'http://website.local').searchParams,
+    )
+    exact(params, ['id'])
+    const id = Number(params.id)
+    if (!Number.isSafeInteger(id) || id <= 0)
+      fail(400, 'Choose a valid listing.')
+    const data = await call(`Listing/${id}`, 'GET', credentials)
+    const detail = list([{ ...data, id }])[0]
+    const images = data.images_url ?? []
+    if (!Array.isArray(images) || images.some((x) => typeof x !== 'string'))
+      fail(502, 'Invalid listing images.')
+    detail.images_url = images
+      .map((image_url) => list([{ ...data, id, image_url }])[0].image_url)
+      .filter(Boolean)
+    detail.image_url = detail.images_url[0] || null
+    send(response, 200, { listing: detail })
+    return
+  }
+  const url = new URL(request.url, 'http://website.local')
+  const admin = path.startsWith('/api/admin')
+  if (admin) {
+    const access = adminStatus(await call('Admin', 'GET', credentials))
+    if (!access.is_admin || access.level < 10)
+      fail(403, 'Administrator level 10 is required.')
+  }
+  if (path === '/api/catalog') {
+    const [categories, conditions] = await Promise.all([
+      call('Category', 'GET', {}),
+      call('Condition', 'GET', {}),
+    ])
+    send(response, 200, {
+      categories: directory(categories),
+      conditions: directory(conditions),
+    })
+    return
+  }
+  if (path === '/api/admin/categories') {
+    const body = await readBody(request)
+    exact(body, ['category'])
+    const category = text(body.category, 200, true)
+    await call('Category', method, { category, ...credentials })
+    send(response, method === 'POST' ? 201 : 200, {
+      message: method === 'POST' ? 'Category created.' : 'Category deleted.',
+    })
+    return
+  }
+  const selectors = Object.fromEntries(url.searchParams)
+  exact(
+    selectors,
+    admin
+      ? ['email', 'category', 'search', 'isbn']
+      : path === '/api/listings'
+        ? ['category', 'search', 'isbn', 'user_page']
+        : ['category', 'search', 'isbn'],
+  )
+  const fields = {}
+  for (const key of ['category', 'search', 'isbn']) {
+    if (selectors[key])
+      fields[key] = text(selectors[key], key === 'search' ? 200 : 100)
+  }
+  if (Object.hasOwn(selectors, 'user_page')) {
+    const username = text(selectors.user_page, 50, true)
+    if (!/^[a-z0-9_-]+$/.test(username))
+      fail(400, 'Enter a valid seller username.')
+    fields.user_page = username
+  }
+  if (fields.isbn && !validIsbn(fields.isbn))
+    fail(400, 'Enter a valid ISBN-10 or ISBN-13.')
+  if (admin) fields.to_user = text(selectors.email, 254, true)
+  if (method === 'GET') {
+    if (path !== '/api/listings')
+      Object.assign(fields, credentials, { for_user: 'true' })
+    send(response, 200, {
+      listings: list(await call('Listing', 'GET', fields)),
+    })
+    return
+  }
+  const body = await readBody(request)
+  if (method === 'PATCH') {
+    exact(body, [
+      'id',
+      'title',
+      'description',
+      'price',
+      'category',
+      'condition',
+      'isbn',
+      'status',
+      'imgs',
+    ])
+    if (!Number.isSafeInteger(body.id) || body.id <= 0)
+      fail(400, 'Choose a valid listing.')
+    const update = {}
+    for (const [key, max] of [
+      ['title', 200],
+      ['description', 2000],
+      ['category', 200],
+      ['condition', 100],
+      ['isbn', 100],
+    ])
+      if (Object.hasOwn(body, key)) update[key] = text(body[key], max, true)
+    if (update.isbn && !validIsbn(update.isbn))
+      fail(400, 'Enter a valid ISBN-10 or ISBN-13.')
+    if (Object.hasOwn(body, 'price')) {
+      if (
+        typeof body.price !== 'number' ||
+        !Number.isFinite(body.price) ||
+        body.price < 0 ||
+        body.price > 99999999.99 ||
+        Math.abs(body.price * 100 - Math.round(body.price * 100)) > 0.000001
+      )
+        fail(400, 'Enter a valid price with up to two decimal places.')
+      update.price = body.price
+    }
+    if (Object.hasOwn(body, 'status')) {
+      const allowed = admin
+        ? ['Active', 'Inactive', 'Expired', 'Sold', 'Blocked', 'Renew']
+        : ['Active', 'Inactive', 'Sold', 'Renew']
+      if (!allowed.includes(body.status))
+        fail(403, 'This status requires administrator access.')
+      update.status = body.status
+    }
+    if (body.imgs != null) {
+      if (!Array.isArray(body.imgs) || body.imgs.length > 16)
+        fail(400, 'Invalid photo changes.')
+      const locations = new Set()
+      update.imgs = body.imgs.map((img) => {
+        if (!img || typeof img !== 'object' || Array.isArray(img))
+          fail(400, 'Invalid photo change.')
+        exact(img, ['action', 'location', 'imageBase64'])
+        if (
+          !['insert', 'replace', 'delete'].includes(img.action) ||
+          !Number.isInteger(img.location) ||
+          img.location < -1 ||
+          img.location > 7 ||
+          (img.action !== 'insert' && img.location < 0)
+        )
+          fail(400, 'Invalid photo action or location.')
+        if (img.action !== 'insert') {
+          if (locations.has(img.location))
+            fail(400, 'Each photo can only be changed once.')
+          locations.add(img.location)
+        }
+        if (img.action !== 'delete') validateImage(img.imageBase64)
+        return {
+          action: img.action,
+          location: img.location,
+          ...(img.action !== 'delete' ? { imageBase64: img.imageBase64 } : {}),
+        }
+      })
+    }
+    if (
+      !Object.keys(update).length ||
+      (Object.keys(update).length === 1 && update.imgs?.length === 0)
+    )
+      fail(400, 'Choose a change to save.')
+    await call(`Listing/${body.id}`, 'PATCH', {
+      ...update,
+      ...credentials,
+      ...(admin ? { to_user: fields.to_user } : {}),
+    })
+    send(response, 200, {
+      message:
+        update.status === 'Inactive'
+          ? 'Listing set to Inactive.'
+          : update.status === 'Renew'
+            ? 'Listing renewed.'
+            : 'Listing updated.',
+    })
+    return
+  }
+  exact(body, [
+    'title',
+    'description',
+    'price',
+    'category',
+    'condition',
+    'isbn',
+    'imageBase64',
+  ])
+  const title = text(body.title, 200, true)
+  const description = text(body.description, 2000)
+  const category = text(body.category, 200, true)
+  const condition = text(body.condition, 100, true)
+  const isbn = text(body.isbn, 100)
+  if (
+    typeof body.price !== 'number' ||
+    !Number.isFinite(body.price) ||
+    body.price < 0 ||
+    body.price > 99999999.99 ||
+    Math.abs(body.price * 100 - Math.round(body.price * 100)) > 0.000001
+  )
+    fail(400, 'Enter a nonnegative price with at most two decimal places.')
+  if (isbn && (category !== 'Textbooks' || !validIsbn(isbn)))
+    fail(400, 'A valid ISBN can only be added to textbooks.')
+  const imageBase64 =
+    body.imageBase64 == null
+      ? []
+      : typeof body.imageBase64 === 'string'
+        ? [body.imageBase64]
+        : body.imageBase64
+  if (!Array.isArray(imageBase64) || imageBase64.length > 8)
+    fail(400, 'Choose no more than 8 photos.')
+  for (const image of imageBase64) {
+    validateImage(image)
+  }
+
+  await call('Listing', 'POST', {
+    title,
+    description,
+    price: body.price,
+    category,
+    condition,
+    ...(isbn ? { isbn } : {}),
+    ...(imageBase64.length ? { imageBase64 } : {}),
+    ...credentials,
+  })
+  send(response, 201, { message: 'Listing created.' })
+}

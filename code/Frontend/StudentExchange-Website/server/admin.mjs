@@ -26,7 +26,7 @@ export function adminStatus(data) {
     permissions: {
       manageAdmins: data.is_admin && level > 0,
       lockAdmins: data.is_admin && level >= 30,
-      viewAdminLevels: data.is_admin && level >= 30,
+      viewAdminLevels: data.is_admin && level >= 27,
       users: data.is_admin && level >= 10,
       schools: data.is_admin && level >= 10,
       profiles: data.is_admin && level >= 10,
@@ -52,16 +52,34 @@ export function adminUsers(data, revealLevels = false) {
     )
   )
     unexpected()
-  const flag = value => value === true || value === 1 ? true : value === false || value === 0 ? false : unexpected()
+  const flag = (value) =>
+    value === true || value === 1
+      ? true
+      : value === false || value === 0
+        ? false
+        : unexpected()
   for (const key of ['isAdmin', 'locked', ...(revealLevels ? ['level'] : [])])
-    if (!Array.isArray(body[key]) || body[key].length !== body.email.length) unexpected()
+    if (!Array.isArray(body[key]) || body[key].length !== body.email.length)
+      unexpected()
   return body.email.map((_, index) => {
     const isAdmin = flag(body.isAdmin[index])
     const locked = flag(body.locked[index])
-    const result = { ...Object.fromEntries(keys.map(key => [key, body[key][index]])), isAdmin, locked }
+    const result = {
+      ...Object.fromEntries(keys.map((key) => [key, body[key][index]])),
+      isAdmin,
+      locked,
+      ...(typeof body.user_name?.[index] === 'string'
+        ? { user_name: body.user_name[index] }
+        : {}),
+    }
     if (revealLevels) {
       const level = body.level[index]
-      if (isAdmin ? !Number.isInteger(level) || level < 0 : level !== -1 && level != null) unexpected()
+      if (
+        isAdmin
+          ? !Number.isInteger(level) || level < 0
+          : level !== -1 && level != null
+      )
+        unexpected()
       result.level = isAdmin ? level : null
     }
     return result
@@ -70,21 +88,34 @@ export function adminUsers(data, revealLevels = false) {
 
 export function attemptRecords(data) {
   const identity = (user) => {
-    if (!user || typeof user.name !== 'string' || typeof user.email !== 'string')
+    if (
+      !user ||
+      typeof user.name !== 'string' ||
+      typeof user.email !== 'string'
+    )
       unexpected()
     return { name: user.name, email: user.email }
   }
   const attempts = (row) => {
-    if (!row || typeof row.expiry !== 'string' ||
-      !Number.isInteger(row.count) || row.count < -1) unexpected()
+    if (
+      !row ||
+      typeof row.expiry !== 'string' ||
+      !Number.isInteger(row.count) ||
+      row.count < -1
+    )
+      unexpected()
     return { expiry: row.expiry, count: row.count }
   }
   if (!Array.isArray(data?.blockedUsers) || !Array.isArray(data?.blockedIPs))
     unexpected()
   return {
-    blockedUsers: data.blockedUsers.map(row => ({ ...identity(row), ...attempts(row) })),
-    blockedIPs: data.blockedIPs.map(row => {
-      if (!row || typeof row.ip !== 'string' || !Array.isArray(row.users)) unexpected()
+    blockedUsers: data.blockedUsers.map((row) => ({
+      ...identity(row),
+      ...attempts(row),
+    })),
+    blockedIPs: data.blockedIPs.map((row) => {
+      if (!row || typeof row.ip !== 'string' || !Array.isArray(row.users))
+        unexpected()
       return { ip: row.ip, ...attempts(row), users: row.users.map(identity) }
     }),
   }
@@ -119,54 +150,96 @@ export function actionResult(data, message) {
   return { message, deletedRows: data.deleted_Rows }
 }
 
-
 export function schoolFields(body, adding) {
   const allowed = ['name', 'short_name']
-  if (Object.keys(body).some(key => !allowed.includes(key)))
-    throw new AdminContractError(400, 'The request contains an unsupported field.')
+  if (Object.keys(body).some((key) => !allowed.includes(key)))
+    throw new AdminContractError(
+      400,
+      'The request contains an unsupported field.',
+    )
   const fields = {}
   for (const key of allowed) {
     if (body[key] != null) {
       if (typeof body[key] !== 'string' || !body[key].trim())
-        throw new AdminContractError(400, 'Enter a valid school name or short name.')
+        throw new AdminContractError(
+          400,
+          'Enter a valid school name or short name.',
+        )
       fields[key] = body[key]
     }
   }
-  if ((adding && allowed.some(key => !(key in fields))) || !Object.keys(fields).length)
-    throw new AdminContractError(400, adding ? 'Enter the school name and short name.' : 'Choose a school name or short name.')
+  if (
+    (adding && allowed.some((key) => !(key in fields))) ||
+    !Object.keys(fields).length
+  )
+    throw new AdminContractError(
+      400,
+      adding
+        ? 'Enter the school name and short name.'
+        : 'Choose a school name or short name.',
+    )
   return fields
 }
 
 export function schoolDirectory(data) {
   if (
-    !Array.isArray(data?.schools) || !Array.isArray(data?.short_names) ||
+    !Array.isArray(data?.schools) ||
+    !Array.isArray(data?.short_names) ||
     data.schools.length !== data.short_names.length ||
-    [...data.schools, ...data.short_names].some(value => typeof value !== 'string' || !value.trim())
-  ) unexpected()
-  return data.schools.map((name, index) => ({ name, short_name: data.short_names[index] }))
+    [...data.schools, ...data.short_names].some(
+      (value) => typeof value !== 'string' || !value.trim(),
+    )
+  )
+    unexpected()
+  return data.schools.map((name, index) => ({
+    name,
+    short_name: data.short_names[index],
+  }))
 }
 
 export function schoolAction(data, adding) {
-  if (!data || (adding && (typeof data.name !== 'string' || typeof data.short_name !== 'string')) ||
-    (!adding && (!Number.isInteger(data.row_count) || data.row_count < 1))) unexpected()
+  if (
+    !data ||
+    (adding &&
+      (typeof data.name !== 'string' || typeof data.short_name !== 'string')) ||
+    (!adding && (!Number.isInteger(data.row_count) || data.row_count < 1))
+  )
+    unexpected()
   return adding
     ? { message: 'School added.', name: data.name, short_name: data.short_name }
     : { message: 'School deleted.', deletedRows: data.row_count }
 }
 
-
 export function adminAssignment(body, method, status) {
-  const allowed = method === 'DELETE' ? ['to_user'] : ['to_user', 'level', 'locked']
-  if (Object.keys(body).some(key => !allowed.includes(key)))
-    throw new AdminContractError(400, 'The request contains an unsupported field.')
-  const fields = adminFields({ to_user: body.to_user }, ['to_user'], ['to_user'])
+  const allowed =
+    method === 'DELETE' ? ['to_user'] : ['to_user', 'level', 'locked']
+  if (Object.keys(body).some((key) => !allowed.includes(key)))
+    throw new AdminContractError(
+      400,
+      'The request contains an unsupported field.',
+    )
+  const fields = adminFields(
+    { to_user: body.to_user },
+    ['to_user'],
+    ['to_user'],
+  )
   if (method !== 'DELETE') {
-    if (!Number.isInteger(body.level) || body.level < 0 || body.level >= status.level)
-      throw new AdminContractError(400, 'Assign a nonnegative integer level below your own.')
+    if (
+      !Number.isInteger(body.level) ||
+      body.level < 0 ||
+      body.level >= status.level
+    )
+      throw new AdminContractError(
+        400,
+        'Assign a nonnegative integer level below your own.',
+      )
     fields.level = body.level
     if (Object.hasOwn(body, 'locked')) {
       if (!status.permissions.lockAdmins)
-        throw new AdminContractError(403, 'Changing locked status requires admin level 30.')
+        throw new AdminContractError(
+          403,
+          'Changing locked status requires admin level 30.',
+        )
       if (![0, 1].includes(body.locked))
         throw new AdminContractError(400, 'Locked must be 0 or 1.')
       fields.locked = body.locked
@@ -177,5 +250,13 @@ export function adminAssignment(body, method, status) {
 
 export function adminAssignmentResult(data, method) {
   if (typeof data?.email !== 'string' || !data.email.trim()) unexpected()
-  return { email: data.email, message: method === 'POST' ? 'Admin access granted.' : method === 'PATCH' ? 'Admin access updated.' : 'Admin access removed.' }
+  return {
+    email: data.email,
+    message:
+      method === 'POST'
+        ? 'Admin access granted.'
+        : method === 'PATCH'
+          ? 'Admin access updated.'
+          : 'Admin access removed.',
+  }
 }

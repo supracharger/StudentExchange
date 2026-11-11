@@ -60,8 +60,14 @@ Accept: application/json
 # Get Listings
 GET {{StudentExchangeBck_HostAddress}}/Listing/
 Accept: application/json
+# Get One Listing
+GET {{StudentExchangeBck_HostAddress}}/Listing/id
+Accept: application/json
 # Add Listing
 POST {{StudentExchangeBck_HostAddress}}/Listing/
+Accept: application/json
+# Update One Listing
+PATCH {{StudentExchangeBck_HostAddress}}/Listing/id
 Accept: application/json
 # Delete Listing
 DELETE {{StudentExchangeBck_HostAddress}}/Listing/
@@ -76,5 +82,8 @@ GET {{StudentExchangeBck_HostAddress}}/Category/
 Accept: application/json
 # Post Listings Category
 POST {{StudentExchangeBck_HostAddress}}/Category/
+Accept: application/json
+# Delete Listings Category
+DELETE {{StudentExchangeBck_HostAddress}}/Category/
 Accept: application/json
 ###

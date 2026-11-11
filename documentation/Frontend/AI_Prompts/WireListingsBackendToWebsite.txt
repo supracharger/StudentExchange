@@ -1,0 +1,3 @@
+>> The backend was updated (The readme.md is not current). Add the changes to the website, listings, listings search, admin, etc. Also, there needs to be a seller portal. Do your best work!
+
+>> Add 20 sample listings all with images. Create example users that create those listings. Make the website look great with those sample listings!

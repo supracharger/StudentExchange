@@ -1,3 +1,4 @@
+import { marketplace } from '../api/marketplace'
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -73,6 +74,8 @@ function renderPage(level = 20, membership = true) {
   return { ...result, state, refresh }
 }
 beforeEach(() => {
+  vi.spyOn(marketplace, 'catalog').mockResolvedValue({ categories: [], conditions: [] })
+  vi.spyOn(marketplace, 'listings').mockResolvedValue({ listings: [] })
   // jsdom has no native modal implementation; this shim makes role/query and interaction tests possible.
   Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {
     configurable: true,

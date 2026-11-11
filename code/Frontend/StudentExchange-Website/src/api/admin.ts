@@ -1,22 +1,5 @@
-import { request as accountRequest } from './accounts'
+import { request } from './accounts'
 import type { Profile, ProfileUpdate } from './accounts'
-
-// Admin calls include a fresh membership check; updates also read the saved profile.
-// Allow those bounded upstream deadlines to finish before the browser gives up.
-function request<T>(
-  path: string,
-  method = 'GET',
-  body?: unknown,
-  signal?: AbortSignal,
-) {
-  return accountRequest<T>(
-    path,
-    method,
-    body,
-    signal,
-    method === 'PATCH' || path === 'admin/sessions' ? 50000 : 35000,
-  )
-}
 
 export interface AdminAccess {
   is_admin: boolean
@@ -38,6 +21,7 @@ export interface AdminSchool {
   short_name: string
 }
 export interface AdminUser {
+  user_name?: string
   isAdmin: boolean
   locked: boolean
   level?: number | null
@@ -63,10 +47,17 @@ export interface Attempts {
   blockedIPs: IPAttemptRecord[]
 }
 export const admin = {
-  assign: (method: 'POST' | 'PATCH' | 'DELETE', fields: { to_user: string; level?: number; locked?: number }) =>
-    request<{ message: string }>('admin', method, fields),
+  assign: (
+    method: 'POST' | 'PATCH' | 'DELETE',
+    fields: { to_user: string; level?: number; locked?: number },
+  ) => request<{ message: string }>('admin', method, fields),
   schools: (signal?: AbortSignal) =>
-    request<{ schools: AdminSchool[] }>('admin/schools', 'GET', undefined, signal),
+    request<{ schools: AdminSchool[] }>(
+      'admin/schools',
+      'GET',
+      undefined,
+      signal,
+    ),
   addSchool: (school: AdminSchool) =>
     request<{ message: string }>('admin/schools', 'POST', school),
   deleteSchool: (selector: { name?: string; short_name?: string }) =>

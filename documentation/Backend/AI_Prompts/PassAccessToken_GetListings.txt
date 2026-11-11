@@ -1,0 +1,3 @@
+>> Whenever the path (GET {{StudentExchangeBck_HostAddress}}/Listing/id) is used and the user is logged in, I want it to also give the access_token variable. This would give the path extra info that it needs. The new backend is deployed, but the github repo is not up to date.
+
+Also, in the sellers portal, I want it to say something like your website is: {website url}/sellers/{user name}, and then have a button next to the link to copy to clipboard.

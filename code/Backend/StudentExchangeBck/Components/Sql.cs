@@ -26,18 +26,26 @@ namespace StudentExchangeBck{
             // Validate correct statement
             if (!_validRead.IsMatch(sql.Trim()))
                 throw new ArgumentException($"Only SELECT SQL statements are allowed in Sql.Read(): {sql}.");
+
+            if (trans != null)
+            {
+                if ((trans._trans == null) != (trans._con == null))
+                    throw new Exception("(trans._trans == null) != (trans._con == null)");
+                if (trans._trans == null)
+                    trans = null;
+            }
+
             SqliteConnection? con = null;
             try
             {
                 // Async lock
                 if (trans == null)
-                    _lock.EnterReadLock();
-                // Connect Sql
-                if (trans != null)
                 {
-                    if (trans._con == null) throw new Exception("trans._con == null");
-                    con = trans._con;
-                } else con = SqLiteConnect();
+                    _lock.EnterReadLock();
+                    con = SqLiteConnect();  // Connect Sql
+                }
+                else
+                    con = trans._con!;
 
                 // Open connection if need be
                 if (con.State == ConnectionState.Closed) con.Open();
@@ -45,7 +53,7 @@ namespace StudentExchangeBck{
                 // Sql Command
                 var com = con.CreateCommand();
                 com.CommandText = sql;
-                if (trans != null && trans._trans != null)
+                if (trans != null)
                     com.Transaction = trans._trans;
 
                 // Add Sql Args
@@ -88,7 +96,6 @@ namespace StudentExchangeBck{
             // validate Write Sql statement
             if (!_validWrite.IsMatch(sql.Trim().ToLower()))
                 throw new ArgumentException($"Invalid SQL statement for Sql.Write(): {sql}.");
-            SqliteTransaction? trans = null;        // Sql transaction
             int cnt = 0;                            // Rows affected
             try
             {
@@ -97,43 +104,47 @@ namespace StudentExchangeBck{
                 // Connect to SqLite
                 using (var con = SqLiteConnect())
                 {
-                    // Open connection if closed
-                    if (con.State == ConnectionState.Closed) con.Open();
+                    SqliteTransaction? trans = null;        // Sql transaction
+                    try
+                    {
+                        // Open connection if closed
+                        if (con.State == ConnectionState.Closed) con.Open();
 
-                    // Sql Command
-                    trans = con.BeginTransaction();
-                    var com = con.CreateCommand();
-                    com.CommandText = sql;
-                    com.Transaction = trans;
+                        // Sql Command
+                        trans = con.BeginTransaction();
+                        var com = con.CreateCommand();
+                        com.CommandText = sql;
+                        com.Transaction = trans;
 
-                    // Add Sql args
-                    if (args != null)
-                        foreach (var s in args)
-                            com.Parameters.AddWithValue(s.Key, s.Value);
+                        // Add Sql args
+                        if (args != null)
+                            foreach (var s in args)
+                                com.Parameters.AddWithValue(s.Key, s.Value);
 
-                    // Excute non Query
-                    cnt = com.ExecuteNonQuery();
-                    // Validate affected rows
-                    if (cnt != updatedRows && !new[] { -1, -2 }.Contains(updatedRows))
-                        throw new Exception($"cnt({cnt}) != updatedRows({updatedRows})");
-                    else if (cnt < 1 && updatedRows == -1)
-                        throw new Exception($"cnt({cnt}) < 1");
+                        // Excute non Query
+                        cnt = com.ExecuteNonQuery();
+                        // Validate affected rows
+                        if (cnt != updatedRows && !new[] { -1, -2 }.Contains(updatedRows))
+                            throw new Exception($"cnt({cnt}) != updatedRows({updatedRows})");
+                        else if (cnt < 1 && updatedRows == -1)
+                            throw new Exception($"cnt({cnt}) < 1");
 
-                    // Transaction Commit: if 1+ rows affectted
-                    if (cnt != 0)
-                        trans.Commit();
-                    else
-                        trans.Rollback();
+                        // Transaction Commit: if 1+ rows affectted
+                        if (cnt != 0)
+                            trans.Commit();
+                        else
+                            trans.Rollback();
 
-                    return cnt;
+                        return cnt;
+                    }
+                    catch
+                    {
+                        // There was an error: Disregard changes if rows affected
+                        if (cnt != 0)
+                            trans?.Rollback();
+                        throw;
+                    }
                 }
-            }
-            catch
-            {
-                // There was an error: Disregard changes if rows affected
-                if (cnt != 0)
-                    trans?.Rollback();
-                throw;
             }
             finally { _lock.ExitWriteLock(); }
         }
@@ -144,12 +155,11 @@ namespace StudentExchangeBck{
             if (!_validWrite.IsMatch(sql.Trim().ToLower()))
                 throw new ArgumentException($"Invalid SQL statement for Sql.Write(): {sql}.");
             int cnt = 0;                            // Rows affected
+            if ((trans._con == null) != (trans._trans == null))
+                throw new Exception("con & trans should have the same null value.");
             // Connect to SqLite
             if (trans._con == null)
-            {
-                if (trans._trans != null) throw new Exception("trans._trans != null");
                 trans._con = SqLiteConnect();
-            }
             var con = trans._con;
             // Open connection if closed
             if (con.State == ConnectionState.Closed) con.Open();
@@ -191,9 +201,11 @@ namespace StudentExchangeBck{
 
             public void Commit()
             {
-                if (_trans == null) return;
+                if (_trans == null && _con == null) return;
                 try
                 {
+                    if (_trans == null) return;
+
                     // Open connection if closed
                     if (_con!.State == ConnectionState.Closed) _con.Open();
 
@@ -210,9 +222,11 @@ namespace StudentExchangeBck{
 
             public void Rollback()
             {
-                if (_trans == null) return;
+                if (_trans == null && _con == null) return;
                 try
                 {
+                    if (_trans == null) return;
+
                     // Open connection if closed
                     if (_con!.State == ConnectionState.Closed) _con.Open();
 

@@ -58,18 +58,18 @@ namespace StudentExchangeBck{
             {
                 var ishigh = user.adminLvl >= 27;
                 // Get users info from DB
-                var users = Sql.Read("SELECT U.[email], (U.[last_name] || ', ' || U.[first_name]) name, " +
-                                        "COALESCE(S.[short_name], S.[name]) school, " +
-                                        "U.[datetime], " +
-                                        "(A.[user_id] IS NOT NULL) isAdmin, " +
-                                        "(A.[locked] IS NOT NULL AND A.[locked] != 0) locked " +
+                var users = Sql.Read(@"SELECT U.[email], (U.[last_name] || ', ' || U.[first_name]) name,
+                                        COALESCE(S.[short_name], S.[name]) school,
+                                        U.[datetime], U.user_name,
+                                        (A.[user_id] IS NOT NULL) isAdmin,
+                                        (A.[locked] IS NOT NULL AND A.[locked] != 0) locked " +
                                         (ishigh ? ", COALESCE(A.[level], -1) level " : "") +
-                                        "FROM User U, Schools S " +
-                                        "LEFT JOIN Admins A ON U.[id]=A.[user_id] " +
-                                        "WHERE S.[id]=U.[school_id] " +
-                                        "ORDER BY " +
+                                        @"FROM User U, Schools S
+                                        LEFT JOIN Admins A ON U.[id]=A.[user_id]
+                                        WHERE S.[id]=U.[school_id]
+                                        ORDER BY " +
                                         (ishigh ? "level DESC, " : "") +
-                                        "isAdmin DESC, U.[datetime] DESC;");
+                                        @"isAdmin DESC, U.[datetime] DESC;");
 
                 // Decrypt Email
                 if (users.TryGetValue("email", out var emails))
@@ -124,70 +124,61 @@ namespace StudentExchangeBck{
             return IncInvalidForUser(increment, this_, result["user_id"][0]);
         }
 
-        public static IActionResult? IncInvalidForUser(bool increment, ControllerBase this_, object userid_){//the blocking logic
+        public static IActionResult? IncInvalidForUser(bool increment, ControllerBase this_, object userid_)
+        {//the blocking logic
             var userid = (long)userid_;
 
             // Mutex lock on user
-            var ulock = GetUserLock(userid);
-            lock (ulock)
+            lock (GetUserLock(userid))
             {
-                // Try to find row for an lately invalid access attemps that have not expired.
-                var result = Sql.Read("SELECT [id],[count],[expiry] FROM Blocked_Users " +
-                                        "WHERE [user_id]=@userid AND [expiry]>@date",
-                                        new Dictionary<string, object>
-                                        {
-                                            { "@userid", userid },
-                                            { "@date", Utilz.ToMtn().ToString("s") }
-                                        });
-
-                // If no invalid access attemps lately
-                if (result.Count == 0)
+                var args = new Dictionary<string, object>
                 {
-                   
-                    // Insert row of first invalid access attempt.
-                    Sql.Write("INSERT INTO Blocked_Users ([user_id],[count],[expiry]) VALUES " +
-                                "(@userid,@count,@expiry)", new Dictionary<string, object>
-                                {
-                                {"@userid", userid },
-                                {"@count", increment ? 1 : -1 },
-                                {"@expiry", Utilz.ToMtn().Add(Env._blockedAccessTimeOut).ToString("s")}
-                                }, 1);
-
-                    // EXIT
-                    return null;
+                    { "@userid", userid },
+                };
+                // Try to find row for an lately invalid access attemps that have not expired.
+                var result = Sql.Read(@"SELECT [id],[count],[expiry] FROM Blocked_Users
+                                        WHERE [user_id]=@userid", args);
+                var found = result.Count != 0;
+                var count = found ? (long)result["count"][0] : (increment ? 0 : -1);
+                var expiry = found ? (string)result["expiry"][0] : null;
+                var expired = expiry != null && DateTime.Parse(expiry) <= Utilz.ToMtn();
+                if (expired)
+                {
+                    expiry = null;
+                    count = !increment ? -1 : 0;
                 }
 
-                // Has invalid access attemps lately
-                // Get id, count, & expiry
-                var id = result["id"][0];
-                var count = (long)result["count"][0];
-                var expiry = DateTime.Parse((string)result["expiry"][0]);
-                if (count < 0) count = 0;
-
-                if (increment || count >= Env._accessAttemps){// If you want to increment invalid access attemps
-                    count++;            // increment invalid access attempts
-                    // columns to update
-                    var update = new Dictionary<string, object> { { "count", count } };
-
-                    if (count % Env._accessAttemps == 0 && count > Env._accessAttemps){// If gone to next section: increase timeout more.
+                if (!found || increment || expired)
+                {
+                    if (increment) count = Math.Max(count, 0) + 1;
+                    if (expiry == null)
+                        expiry = (Utilz.ToMtn() + Env._blockedAccessTimeOut).ToString("s");
+                    var inc = (!increment && (result.Count == 0 || expired)) ? -1 : 1;
+                    if (!expired && count % Env._accessAttemps == 0 && count > Env._accessAttemps)
+                    {// If gone to next section: increase timeout more.
                         // Exponential increase: if continueing to access
                         var wait = Env._blockedAccessTimeOut * Math.Max(count / Env._accessAttemps - 2, 1);
                         // Increase timeout
-                        expiry = new[] { expiry, Utilz.ToMtn() }.Max() + wait;
-                        // Be sure to update it in sql
-                        update.Add("expiry", expiry.ToString("s"));
+                        var expVal = DateTime.Parse(expiry!);
+                        var now = Utilz.ToMtn();
+                        expiry = ((expVal > now ? expVal : now) + wait).ToString("s");
                     }
-
-                    // Update the invalid Access users table
-                    var ku = update.Keys.ToList();
-                    update.Add("id", id);
-                    Sql.Write($"UPDATE Blocked_Users SET {string.Join(", ", ku.Select(k => $"[{k}]=@{k}"))} " +
-                                "WHERE [id]=@id", update.ToDictionary(s => "@" + s.Key, s => s.Value), 1);
+                    Sql.Write(@"INSERT INTO Blocked_Users ([user_id],[count],[expiry]) VALUES
+                                (@userid,@inc,@expiry)
+                                ON CONFLICT (user_id)
+                                DO UPDATE SET count = IIF(@inc >= 0 AND @expired==0, MAX(count, 0) + @inc, @inc),
+                                expiry=@expiry;", new Dictionary<string, object>
+                                {
+                                    {"@userid", userid },
+                                    {"@inc", inc },
+                                    {"@expiry", expiry },
+                                    { "@expired", expired ? 1 : 0 }
+                                }, 1);
 
                     // If user just got a timeout: Delete all access_tokens for that user
-                    if (count == Env._accessAttemps)
-                        Sql.Write("DELETE FROM Access_Token WHERE [user_id]=@userid",
-                                    new Dictionary<string, object> { { "@userid", userid } }, -2);
+                    if (count >= Env._accessAttemps)
+                        Sql.Write("DELETE FROM Access_Token WHERE [user_id]=@userid;",
+                                    args, -2);
                 }
 
                 // User is blocked: too many invalid access attempts
@@ -224,6 +215,59 @@ namespace StudentExchangeBck{
             return ulock;
         }
 
+        public static string FindUniqueUser(string first, string last)
+        {
+            Func<string, string> Format = s => string.Join(' ', s.Trim().ToLowerInvariant().Split(' ', StringSplitOptions.RemoveEmptyEntries)).Replace(" ", "_");
+            first = Format(first);
+            last = Format(last);
+
+            if (first.Length > 25)
+                first = first.Substring(0, 25);
+
+            var matches = UniqueUsers(first);
+            if (matches == null) return first;
+
+            var user = first + last.Substring(0, 1);
+            if (!matches.Contains(user))
+                return user;
+
+            for (int i = 1; i < 10000; i++)
+            {
+                var u = user + i;
+                if (!matches.Contains(u))
+                    return u;
+            }
+
+            throw new Exception("All possible with no matches.");
+        }
+
+        public static string FindUniqueUser(ref string user)
+        {
+            user = string.Join(' ', user.Trim().ToLowerInvariant().Split(' ', StringSplitOptions.RemoveEmptyEntries)).Replace(" ", "_");
+
+            var matches = UniqueUsers(user);
+            if (matches == null) return user;
+
+            for (int i = 1; i < 10000; i++)
+            {
+                var u = user + i;
+                if (!matches.Contains(u))
+                    return u;
+            }
+
+            throw new Exception("All possible with no matches.");
+        }
+
+        public static HashSet<string>? UniqueUsers(string user)
+        {
+            user = user.Trim().ToLowerInvariant();
+            var result = Sql.Read("SELECT user_name FROM User WHERE user_name LIKE @user || '%';",
+                                    new Dictionary<string, object> { { "@user", user } });
+            if (result.Count == 0) return null;
+
+            return result["user_name"].Cast<string>().ToHashSet();
+        }
+
         public static void CleanUp(){//deletes expired rows from Blocked_Users and drops unused locks from memory, user-side twin of IP.CleanUp
             // Clean up invalid accesses that have expired
             Sql.Write("DELETE FROM Blocked_Users WHERE [expiry]<@date", new Dictionary<string, object>
@@ -238,6 +282,24 @@ namespace StudentExchangeBck{
                 foreach (var s in _userLock.Where(s => now > s.Value.dt))
                     _userLock.Remove(s.Key);
             }
+
+            // Not needed anymore.
+            //var result = Sql.Read("SELECT id,first_name,last_name FROM User WHERE user_name IS NULL;");
+            //if (result.Count != 0)
+            //{
+            //    var keys = result.Keys.ToList();
+            //    var data = Utilz.Transpose(keys.Select(k => result[k])).ToList();
+            //    var ii = Enumerable.Range(0, keys.Count).ToArray();
+            //    foreach(var row in data)
+            //    {
+            //        var d = ii.ToDictionary(i => keys[i], i => row[i]);
+            //        Sql.Write("UPDATE User SET user_name=@user WHERE id=@id", new Dictionary<string, object>
+            //        {
+            //            { "@id", d["id"] },
+            //            { "@user", FindUniqueUser((string)d["first_name"], (string)d["last_name"]) }
+            //        }, 1);
+            //    }
+            //}
         }
 
         public struct Data{
