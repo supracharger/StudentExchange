@@ -30,11 +30,11 @@ using Microsoft.Data.Sqlite;
         Occasionally should be used to clean up resources
  */
  
-namespace StudentExchangeBck.Controllers
+namespace StudentExchangeBck
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MessageController : ControllerBase
+    public class Message : ControllerBase
     {
         const int MaxTextLength = 1000;        // characters in one message
         const int MaxPerMinute = 20;           // messages one user may send per minute
@@ -243,6 +243,8 @@ namespace StudentExchangeBck.Controllers
             if (model.conversation_id == null && model.listing_id == null)
                 return BadRequest(new { Message = "Specify listing_id or conversation_id." });
  
+            bool isBuyer;
+            long listId;
             try
             {
                 // Flood limit: stops a script from filling the database
@@ -259,11 +261,14 @@ namespace StudentExchangeBck.Controllers
                 if (model.conversation_id != null)
                 {
                     // Continue an existing conversation: only its two people may write in it
-                    var conv = Sql.Read("SELECT buyer_id, seller_id FROM Conversations WHERE [id]=@id",
+                    var conv = Sql.Read("SELECT buyer_id, seller_id, listing_id FROM Conversations WHERE [id]=@id",
                         new Dictionary<string, object> { { "@id", model.conversation_id.Value } });
                     if (conv.Count == 0 || !IsParticipant(conv, user.id))
                         return NotFound(new { Message = "Conversation not found." });
                     conversationId = model.conversation_id.Value;
+
+                    isBuyer = (long)conv["buyer_id"][0] == user.id;
+                    listId = (long)conv["listing_id"][0];
                 }
                 else
                 {
@@ -278,6 +283,8 @@ namespace StudentExchangeBck.Controllers
                         return BadRequest(new { Message = "You cannot message yourself about your own listing." });
  
                     conversationId = FindOrCreateConversation(model.listing_id.Value, user.id, sellerId);
+                    isBuyer = sellerId != user.id;
+                    listId = model.listing_id!.Value;
                 }
  
                 Sql.Write(@"INSERT INTO Messages (conversation_id, sender_id, kind, body, amount, datetime) 
@@ -292,6 +299,10 @@ namespace StudentExchangeBck.Controllers
                         { "@a", (object?)amount ?? DBNull.Value },
                         { "@d", Utilz.ToMtn().ToString("s") }
                     }, 1);
+
+                // Prioritize this in a search
+                if (isBuyer)
+                    Listing.IncHitCountUser(listId, user.id, 9);
  
                 return StatusCode(201, new
                 {
@@ -303,23 +314,6 @@ namespace StudentExchangeBck.Controllers
             {
                 return StatusCode(500, new { Message = $"An internal server error occurred: {e}" });
             }
-        }
- 
-        /// <summary>
-        /// Occasionally should be used to clean up resources.
-        /// The database does not enforce foreign keys, so when a listing or user is deleted their
-        /// conversations and messages stay behind. This removes them.
-        /// </summary>
-        public static void CleanUp()
-        {
-            // !!! This is not needed foreign keys are already setup for CASCADE for Update & Delete. !!!
-
-            //Sql.Write("DELETE FROM Conversations WHERE [listing_id] NOT IN (SELECT [id] FROM Listings) " +
-            //          "OR [buyer_id] NOT IN (SELECT [id] FROM User) " +
-            //          "OR [seller_id] NOT IN (SELECT [id] FROM User)", null, -2);
- 
-            //Sql.Write("DELETE FROM Messages WHERE [conversation_id] NOT IN (SELECT [id] FROM Conversations)",
-            //    null, -2);
         }
  
         // ---------------- Helpers ----------------
