@@ -105,28 +105,28 @@ namespace StudentExchangeBck
 
                     var ii = Enumerable.Range(0, titles.Length).ToArray();
 
-                    const int cutoff = 2000;
-                    if (titles.Length > cutoff)
+                    // Score every listing and keep only the relevant ones (lower score = better match).
+                    var hits = new List<(int index, int score)>();
+                    foreach (var candidate in ii)
                     {
-                        // Rank all listings cheaply first.
-                        ii = ii.OrderBy(i => Utilz.SearchBasic(search, titles[i]))
-                               .ThenBy(i => i)
-                               .ToArray();
-
-                        // Apply fuzzy scoring to the strongest 2,000 candidates.
-                        var top = ii.Take(cutoff)
-                            .OrderBy(i => Utilz.Search(search, titles[i], cache))
-                            .ThenBy(i => i)
-                            .ToArray();
-
-                        ii = top.Concat(ii.Skip(cutoff)).ToArray();
+                        var score = Utilz.Search(search, titles[candidate], cache);
+                        if (score != ListingSearch.NoMatch)
+                            hits.Add((candidate, score));
                     }
-                    else
+
+                    // Nothing matched every word: fall back to listings that match at least half of them.
+                    if (hits.Count == 0 && search.Length > 1)
                     {
-                        ii = ii.OrderBy(i => Utilz.Search(search, titles[i], cache))
-                               .ThenBy(i => i)
-                               .ToArray();
+                        foreach (var candidate in ii)
+                        {
+                            var score = Utilz.Search(search, titles[candidate], cache, relaxed: true);
+                            if (score != ListingSearch.NoMatch)
+                                hits.Add((candidate, score));
+                        }
                     }
+
+                    // Best match first. Equal scores keep the original order (most viewed first).
+                    ii = hits.OrderBy(h => h.score).ThenBy(h => h.index).Select(h => h.index).ToArray();
 
                     foreach (var k in result.Keys.ToArray())
                     {
