@@ -1,3 +1,4 @@
+import { messaging } from '../api/messages'
 import { marketplace } from '../api/marketplace'
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -13,6 +14,8 @@ const profile = {
 }
 
 beforeEach(() => {
+  vi.spyOn(messaging,'unread').mockResolvedValue({unread:0})
+  vi.spyOn(messaging,'conversations').mockResolvedValue({conversations:[]})
   vi.spyOn(marketplace, 'catalog').mockResolvedValue({
     categories: [],
     conditions: [],

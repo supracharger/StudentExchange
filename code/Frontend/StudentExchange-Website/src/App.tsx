@@ -1,3 +1,5 @@
+import Messenger from './components/Messenger'
+import type { MessageTarget } from './components/Messenger'
 import { useEffect, useRef, useState } from 'react'
 import logo from '../img/logo.png'
 import AccountPanel from './components/AccountPanel'
@@ -15,6 +17,31 @@ export default function App() {
   const accountButton = useRef<HTMLButtonElement>(null)
   const account = useAccount()
   const administration = useAdmin(account.profile, account.expire)
+  const [messageTarget, setMessageTarget] = useState<MessageTarget | null>(null)
+  const [pendingMessage, setPendingMessage] = useState<Listing | null>(null)
+  function contactSeller(listing: Listing) {
+    if (!account.profile) {
+      setPendingMessage(listing)
+      setAccountOpen(true)
+      return
+    }
+    setMessageTarget((current) => ({
+      listing,
+      sequence: (current?.sequence || 0) + 1,
+    }))
+  }
+  useEffect(() => {
+    if (account.profile && pendingMessage) {
+      setMessageTarget((current) => ({
+        listing: pendingMessage,
+        sequence: (current?.sequence || 0) + 1,
+      }))
+      setPendingMessage(null)
+      setAccountOpen(false)
+    }
+    if (!account.profile) setMessageTarget(null)
+  }, [account.profile, pendingMessage])
+
   const [path, setPath] = useState(window.location.pathname)
   const [selected, setSelected] = useState<Listing | null>(null)
   useEffect(() => {
@@ -51,6 +78,7 @@ export default function App() {
   function navigate(next: string) {
     window.history.pushState(null, '', next)
     setPath(next)
+    setPendingMessage(null)
     setSelected(null)
     setAccountOpen(false)
     window.scrollTo?.(0, 0)
@@ -140,6 +168,7 @@ export default function App() {
             account={account}
             onClose={() => {
               setAccountOpen(false)
+              setPendingMessage(null)
               accountButton.current?.focus()
             }}
           />
@@ -159,6 +188,8 @@ export default function App() {
         ) : selected ? (
           <ListingDetail
             listing={selected}
+            viewer={account.profile}
+            onMessage={contactSeller}
             onSeller={(username) =>
               navigate(`/sellers/${encodeURIComponent(username)}`)
             }
@@ -315,10 +346,10 @@ export default function App() {
                 <li>
                   <span>02</span>
                   <div>
-                    <h3>Connect by email</h3>
+                    <h3>Message the seller</h3>
                     <p>
-                      Contact the seller to ask questions and arrange a public
-                      meetup.
+                      Use Messages to ask questions, send an offer, and arrange
+                      a public meetup.
                     </p>
                   </div>
                 </li>
@@ -338,6 +369,13 @@ export default function App() {
           </>
         )}
       </main>
+      {account.profile && (
+        <Messenger
+          key={account.profile.email}
+          target={messageTarget}
+          onExpired={account.expire}
+        />
+      )}
       <footer className="site-footer">
         <img
           src={logo}

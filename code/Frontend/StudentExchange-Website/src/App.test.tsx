@@ -1,3 +1,4 @@
+import { messaging } from './api/messages'
 import { render, screen, within, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, expect, it, vi } from 'vitest'
@@ -32,6 +33,8 @@ const lamp = {
   isbn: '',
 }
 beforeEach(() => {
+  vi.spyOn(messaging, 'unread').mockResolvedValue({ unread: 0 })
+  vi.spyOn(messaging, 'conversations').mockResolvedValue({ conversations: [] })
   window.history.replaceState(null, '', '/')
   vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
   vi.spyOn(accounts, 'profile').mockRejectedValue(
@@ -46,7 +49,7 @@ beforeEach(() => {
     listings: [calculus, lamp],
   })
 })
-it('shows live listings, actual prices, full details, and a seller email link', async () => {
+it('shows live listings, actual prices, full details, and a seller messaging action', async () => {
   const user = userEvent.setup()
   render(<App />)
   expect(
@@ -60,10 +63,8 @@ it('shows live listings, actual prices, full details, and a seller email link', 
   await user.click(screen.getByRole('button', { name: /Calculus textbook/ }))
   expect(await screen.findByText('A useful book.')).toBeVisible()
   expect(screen.getByText('Alex Lee')).toBeVisible()
-  expect(screen.getByRole('link', { name: 'Email seller ↗' })).toHaveAttribute(
-    'href',
-    expect.stringContaining('seller%40example.com'),
-  )
+  expect(screen.getByRole('button', { name: 'Message seller' })).toBeVisible()
+  expect(document.querySelector('a[href^="mailto:"]')).toBeNull()
   expect(screen.queryByRole('button', { name: 'Send' })).not.toBeInTheDocument()
 })
 it('sends category, title, and ISBN together to server search', async () => {
@@ -255,4 +256,39 @@ it('shows a seller-specific empty state without falling back to other sellers', 
     { user_page: 'no_public_items' },
     expect.any(AbortSignal),
   )
+})
+it('prompts a guest to log in before opening the listing messenger', async () => {
+  const user = userEvent.setup()
+  vi.spyOn(accounts, 'login').mockResolvedValue({
+    profile: {
+      email: 'buyer@example.com',
+      first_name: 'Jane',
+      last_name: 'Doe',
+      school: 'Campus',
+      user: 'jane',
+      location: null,
+    },
+  })
+  render(<App />)
+  await user.click(
+    await screen.findByRole('button', { name: /Calculus textbook/ }),
+  )
+  await user.click(
+    await screen.findByRole('button', { name: 'Message seller' }),
+  )
+  expect(screen.getByRole('heading', { name: 'Welcome back' })).toBeVisible()
+  await user.type(screen.getByLabelText('Email'), 'buyer@example.com')
+  await user.type(
+    screen.getByLabelText('Password', { exact: true }),
+    'Buyer!123',
+  )
+  await user.click(
+    screen.getByRole('button', { name: 'Log in to your account' }),
+  )
+  expect(
+    await screen.findByRole('textbox', { name: 'Message text' }),
+  ).toBeVisible()
+  expect(
+    screen.queryByRole('heading', { name: 'Your account' }),
+  ).not.toBeInTheDocument()
 })

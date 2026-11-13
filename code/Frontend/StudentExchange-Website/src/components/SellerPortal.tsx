@@ -380,7 +380,7 @@ function Inventory({ account }: { account: AccountState }) {
         ))
       )}
       <p className="market-hint">
-        Buyers contact you by your account email. Agree on pickup and payment
+        Buyers contact you through Messages. Agree on pickup and payment
         directly. Asking prices are not sales or earnings.
       </p>
       {create && (

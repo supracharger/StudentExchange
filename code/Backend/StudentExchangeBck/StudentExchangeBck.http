@@ -86,4 +86,17 @@ Accept: application/json
 # Delete Listings Category
 DELETE {{StudentExchangeBck_HostAddress}}/Category/
 Accept: application/json
+
+# Get Message Conversations
+GET {{StudentExchangeBck_HostAddress}}/Message/
+Accept: application/json
+# Get Unread Messages
+GET {{StudentExchangeBck_HostAddress}}/Message/unread
+Accept: application/json
+# Get Messages
+GET {{StudentExchangeBck_HostAddress}}/Message/conversationId
+Accept: application/json
+# Send Message
+POST {{StudentExchangeBck_HostAddress}}/Message/
+Accept: application/json
 ###

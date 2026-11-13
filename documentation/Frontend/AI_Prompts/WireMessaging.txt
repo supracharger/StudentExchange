@@ -1,0 +1,3 @@
+>> The backend was updated, and deployed (The readme.md is not current).
+
+Integrate the messaging UI which I think is in App.tsx with the backend messaging. When the user logs in the collapsed window should be at the bottom right. When opened they can see there messages. In listing details instead of using the email to contact, change it to message. So, were using the messaging interface rather than the buyer emailing the seller directly. Go ahead and update the Messaging UI frontend if you think something is missing.
