@@ -1,0 +1,9 @@
+>> I want you to create thorough documentation for the frontend (Website) and backend in .pdf format.
+
+>> Provide report for testing and quality assurance in .pdf 
+
+>> If you look at the evidence/ folder you will see more tests for the backend.
+
+>> Create a Final Report Power Point. 
+
+The files I gave you are previous powerpoint presentations. The website is: https://studentexchange.onrender.com/
