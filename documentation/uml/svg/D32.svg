@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D32 | Identity and access persistence</title>
+<desc>These table classes describe stored records, not an ORM entity layer. The in-memory website session Map is separate from backend Access_Token rows.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / CLASS / D32</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Identity and access persistence</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">These table classes describe stored records, not an ORM entity layer.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">The in-memory website session Map is separate from backend Access_Token rows.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | code/Backend/Data.db (schema only); Backend/Components/AppAuthJson.cs; Backend/Controllers/Users.cs</text>
+<rect x="50.0" y="167" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="239.33333333333334" y="186.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="239.33333333333334" y="208.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Access_Token</text>
+<polyline points="50.0,220 428.6666666666667,220" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="62.0" y="241.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">id / user_id / token / expiry</text>
+<text x="62.0" y="260.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">User 1 → 0..* tokens</text>
+<text x="62.0" y="279.49" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Backend revocation affects all clients</text>
+<rect x="450.6666666666667" y="167" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="186.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="640.0" y="208.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Admins</text>
+<polyline points="450.6666666666667,220 829.3333333333334,220" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="462.6666666666667" y="241.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">user_id / level / locked</text>
+<text x="462.6666666666667" y="260.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">User 1 → 0..1 membership</text>
+<text x="462.6666666666667" y="279.49" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Target rank rules use membership</text>
+<rect x="851.3333333333334" y="167" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1040.6666666666667" y="186.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="1040.6666666666667" y="208.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">IP</text>
+<polyline points="851.3333333333334,220 1230.0,220" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="863.3333333333334" y="241.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">id / encrypted ip / datetime</text>
+<text x="863.3333333333334" y="260.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">IP 1 → 0..* user associations</text>
+<rect x="50.0" y="382" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="239.33333333333334" y="401.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="239.33333333333334" y="423.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">User_Has_IPs</text>
+<polyline points="50.0,435 428.6666666666667,435" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="62.0" y="456.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">user_id / ip_id</text>
+<text x="62.0" y="475.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Many-to-many association</text>
+<text x="62.0" y="494.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">User + IP identities remain distinct</text>
+<rect x="450.6666666666667" y="382" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="401.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="640.0" y="423.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Blocked_Users</text>
+<polyline points="450.6666666666667,435 829.3333333333334,435" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="462.6666666666667" y="456.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">id / user_id / count / expiry</text>
+<text x="462.6666666666667" y="475.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">User 1 → 0..1 current window</text>
+<text x="462.6666666666667" y="494.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Threshold may revoke tokens</text>
+<rect x="851.3333333333334" y="382" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1040.6666666666667" y="401.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="1040.6666666666667" y="423.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Blocked_IPs</text>
+<polyline points="851.3333333333334,435 1230.0,435" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="863.3333333333334" y="456.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">id / ip_id / count / expiry</text>
+<text x="863.3333333333334" y="475.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">IP 1 → 0..1 current window</text>
+<text x="863.3333333333334" y="494.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Successful count may equal -1</text>
+</svg>

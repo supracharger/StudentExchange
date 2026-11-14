@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D31 | Messaging and engagement persistence</title>
+<desc>Runtime schema metadata complements the incomplete DB_Schema.txt snapshot. Message sender and conversation participants reference User; hit tallies are ranking inputs.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / CLASS / D31</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Messaging and engagement persistence</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Runtime schema metadata complements the incomplete DB_Schema.txt snapshot.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Message sender and conversation participants reference User; hit tallies are ranking inputs.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | code/Backend/Data.db (schema only); Backend/Controllers/Message.cs; Backend/Controllers/Listing.cs</text>
+<rect x="50.0" y="167" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="239.33333333333334" y="186.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="239.33333333333334" y="208.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Conversations</text>
+<polyline points="50.0,220 428.6666666666667,220" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="62.0" y="241.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">id / listing_id / buyer_id / seller_id</text>
+<text x="62.0" y="260.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">User 1 → 0..* as buyer or seller</text>
+<text x="62.0" y="279.49" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Listing 1 → 0..* conversations</text>
+<rect x="450.6666666666667" y="167" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="186.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="640.0" y="208.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Messages</text>
+<polyline points="450.6666666666667,220 829.3333333333334,220" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="462.6666666666667" y="241.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">id / conversation_id / sender_id</text>
+<text x="462.6666666666667" y="260.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">kind / body / amount / datetime</text>
+<text x="462.6666666666667" y="279.49" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">read_datetime nullable</text>
+<rect x="851.3333333333334" y="167" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1040.6666666666667" y="186.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="1040.6666666666667" y="208.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Check_Active</text>
+<polyline points="851.3333333333334,220 1230.0,220" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="863.3333333333334" y="241.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">list_id / expiry</text>
+<text x="863.3333333333334" y="260.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Listing 1 → 0..1 pending check</text>
+<text x="863.3333333333334" y="279.49" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Renew may clear check</text>
+<rect x="50.0" y="382" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="239.33333333333334" y="401.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="239.33333333333334" y="423.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Hit_Count</text>
+<polyline points="50.0,435 428.6666666666667,435" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="62.0" y="456.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">list_id / count</text>
+<text x="62.0" y="475.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Listing 1 → 0..1 aggregate</text>
+<text x="62.0" y="494.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Computed in cleanup</text>
+<rect x="450.6666666666667" y="382" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="401.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="640.0" y="423.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Hit_Count_Tally</text>
+<polyline points="450.6666666666667,435 829.3333333333334,435" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="462.6666666666667" y="456.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">list_id / ip / size</text>
+<text x="462.6666666666667" y="475.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Listing + IP association</text>
+<text x="462.6666666666667" y="494.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Anonymous detail engagement</text>
+<rect x="851.3333333333334" y="382" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1040.6666666666667" y="401.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="1040.6666666666667" y="423.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Hit_Count_Tally_User</text>
+<polyline points="851.3333333333334,435 1230.0,435" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="863.3333333333334" y="456.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">list_id / user / size</text>
+<text x="863.3333333333334" y="475.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Listing + User association</text>
+<text x="863.3333333333334" y="494.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Signed-in views + buyer messages</text>
+<polyline points="429,250 451,250" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="60" y="617.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Conversations 1 → 0..* Messages; User 1 → 0..* Messages as sender.</text>
+</svg>

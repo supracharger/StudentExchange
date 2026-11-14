@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D01 | System context and trust boundaries</title>
+<desc>Browser requests the website; only the Node adapter talks to the backend. Visitor tokens stay in the server session; photos are also proxied on the website origin.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / COMPONENT / D01</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">System context and trust boundaries</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Browser requests the website; only the Node adapter talks to the backend.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Visitor tokens stay in the server session; photos are also proxied on the website origin.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Website/src/App.tsx; Website/server/app.mjs; Backend/Program.cs</text>
+<rect x="55" y="195" width="330" height="150" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="220.0" y="214.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="220.0" y="236.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">React website</text>
+<polyline points="55,248 385,248" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="67" y="269.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Visitor / student / administrator</text>
+<text x="67" y="288.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Same-origin fetch /api/*</text>
+<rect x="475" y="195" width="330" height="150" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="214.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="640.0" y="236.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Node website server</text>
+<polyline points="475,248 805,248" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="487" y="269.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Static SPA + request adapter</text>
+<text x="487" y="288.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Opaque-cookie session Map</text>
+<rect x="895" y="195" width="330" height="150" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1060.0" y="214.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="1060.0" y="236.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">ASP.NET Core API</text>
+<polyline points="895,248 1225,248" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="907" y="269.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Account, listing and message controllers</text>
+<text x="907" y="288.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">AppAuthJson + Sql</text>
+<polyline points="385,270 475,270" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="475,270 466.8959760788259,273.9146898070011 466.8959760788259,266.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="430" y="257.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">HTTPS + cookie</text>
+<polyline points="805,270 895,270" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="895,270 886.8959760788259,273.9146898070011 886.8959760788259,266.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="850" y="257.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">JSON + tokens</text>
+<rect x="685" y="440" width="250" height="125" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="810.0" y="459.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«database»</text>
+<text x="810.0" y="481.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">SQLite database</text>
+<polyline points="685,493 935,493" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="697" y="514.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Sql.Read / Write / Trans</text>
+<rect x="980" y="440" width="245" height="125" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1102.5" y="459.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«artifact»</text>
+<text x="1102.5" y="481.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Uploads directory</text>
+<polyline points="980,493 1225,493" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="992" y="514.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">PNG / JPEG / WebP files</text>
+<polyline points="1045,345 1045,390 810,390 810,440" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="810,440 806.0853101929989,431.8959760788259 813.9146898070011,431.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<polyline points="1120,345 1120,440" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="1120,440 1116.085310192999,431.8959760788259 1123.914689807001,431.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+</svg>

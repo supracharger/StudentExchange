@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D24 | Edit or deactivate a seller listing</title>
+<desc>The website sends PATCH, including when the user chooses Set Inactive. No website removal action calls backend DELETE Listing; inventory and photos are retained.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / SEQUENCE / D24</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Edit or deactivate a seller listing</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">The website sends PATCH, including when the user chooses Set Inactive.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">No website removal action calls backend DELETE Listing; inventory and photos are retained.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Website/src/components/ListingEditor.tsx; Website/server/marketplace.mjs; Backend/Controllers/Listing.cs</text>
+<rect x="39.0" y="162" width="182" height="52" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="130.0" y="185.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">SellerPortal / editor</text>
+<polyline points="130.0,214 130.0,615" fill="none" stroke="#8BA2B5" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="379.0" y="162" width="182" height="52" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="470.0" y="185.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Node marketplace</text>
+<polyline points="470.0,214 470.0,615" fill="none" stroke="#8BA2B5" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="719.0" y="162" width="182" height="52" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="810.0" y="185.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Listing controller</text>
+<polyline points="810.0,214 810.0,615" fill="none" stroke="#8BA2B5" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="1059.0" y="162" width="182" height="52" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1150.0" y="185.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Sql.Trans / uploads</text>
+<polyline points="1150.0,214 1150.0,615" fill="none" stroke="#8BA2B5" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="130.0,243 470.0,243" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="470.0,243 461.8959760788259,246.91468980700108 461.8959760788259,239.08531019299892" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="300.0" y="228.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">1. GET detail and catalog for editing</text>
+<polyline points="470.0,288 810.0,288" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="810.0,288 801.8959760788259,291.9146898070011 801.8959760788259,284.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="640.0" y="273.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">2. GET Listing/{id} with visitor token</text>
+<polyline points="810.0,333 470.0,333" fill="none" stroke="#18334B" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polygon points="470.0,333 478.1040239211741,329.0853101929989 478.1040239211741,336.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="640.0" y="318.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">3. Full details + ordered photos</text>
+<polyline points="130.0,378 470.0,378" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="470.0,378 461.8959760788259,381.9146898070011 461.8959760788259,374.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="300.0" y="363.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">4. PATCH: id + changed fields / status / imgs</text>
+<polyline points="470.0,423 810.0,423" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="810.0,423 801.8959760788259,426.9146898070011 801.8959760788259,419.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="640.0" y="408.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">5. PATCH Listing/{id} + visitor identity</text>
+<polyline points="810.0,468 1150.0,468" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="1150.0,468 1141.895976078826,471.9146898070011 1141.895976078826,464.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="980.0" y="453.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">6. Check ownership/status; validate; transact</text>
+<text x="980.0" y="471.35999999999996" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">edits</text>
+<polyline points="1150.0,513 810.0,513" fill="none" stroke="#18334B" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polygon points="810.0,513 818.1040239211741,509.0853101929989 818.1040239211741,516.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="980.0" y="498.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">7. Commit; remove superseded photo files</text>
+<polyline points="810.0,558 470.0,558" fill="none" stroke="#18334B" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polygon points="470.0,558 478.1040239211741,554.0853101929989 478.1040239211741,561.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="640.0" y="543.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">8. Update success / safe failure</text>
+<polyline points="470.0,603 130.0,603" fill="none" stroke="#18334B" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polygon points="130.0,603 138.1040239211741,599.0853101929989 138.1040239211741,606.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="300.0" y="588.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">9. Keep inventory; refresh saved status</text>
+</svg>

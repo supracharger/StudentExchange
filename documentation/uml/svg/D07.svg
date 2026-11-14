@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D07 | Request DTO inheritance</title>
+<desc>AppAuthJson carries application, visitor and forwarding identities. Website allowlists prevent callers from supplying the shared security envelope.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / CLASS / D07</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Request DTO inheritance</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">AppAuthJson carries application, visitor and forwarding identities.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Website allowlists prevent callers from supplying the shared security envelope.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Backend/Components/AppAuthJson.cs; Backend/Controllers/Listing.cs; Backend/Controllers/Message.cs</text>
+<rect x="440" y="155" width="400" height="155" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="174.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«class»</text>
+<text x="640.0" y="196.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">AppAuthJson</text>
+<polyline points="440,208 840,208" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="452" y="229.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ app_access: string?</text>
+<text x="452" y="248.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ access_token: string?</text>
+<text x="452" y="267.49" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">+ ip / admin_token / to_user: string?</text>
+<rect x="45" y="405" width="370" height="175" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="230.0" y="424.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«class»</text>
+<text x="230.0" y="446.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Info / auth requests</text>
+<polyline points="45,458 415,458" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="57" y="479.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Register.Info: user/location/profile</text>
+<text x="57" y="498.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Schools.Info: name / short_name</text>
+<text x="57" y="517.49" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Admin.Info: level / locked</text>
+<polyline points="230,405 230,350 640,350 640,310" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="640,310 633,322 647,322" fill="#FFFFFF" stroke="#18334B" stroke-width="1"/>
+<rect x="455" y="405" width="370" height="175" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="424.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«class»</text>
+<text x="640.0" y="446.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Listing DTOs</text>
+<polyline points="455,458 825,458" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="467" y="479.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">GetListingsJson: search, user_page</text>
+<text x="467" y="498.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">ListingCreateModel: ImageBase64[]</text>
+<text x="467" y="517.49" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Update: status, Imgs[]</text>
+<polyline points="640,405 640,350 640,350 640,310" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="640,310 633,322 647,322" fill="#FFFFFF" stroke="#18334B" stroke-width="1"/>
+<rect x="865" y="405" width="370" height="175" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1050.0" y="424.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«class»</text>
+<text x="1050.0" y="446.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">MessageSendModel</text>
+<polyline points="865,458 1235,458" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="877" y="479.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">listing_id OR conversation_id</text>
+<text x="877" y="498.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">kind / text / amount</text>
+<text x="877" y="517.49" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Sender derived from token</text>
+<polyline points="1050,405 1050,350 640,350 640,310" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="640,310 633,322 647,322" fill="#FFFFFF" stroke="#18334B" stroke-width="1"/>
+<text x="640" y="374.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">generalization to the common request base</text>
+</svg>

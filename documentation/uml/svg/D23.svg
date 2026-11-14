@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D23 | Startup and maintenance collaboration</title>
+<desc>The initial Task.Run and scheduled worker can overlap host startup. Maintenance behavior comes from Program.cs, not an assumed migration or message-cleanup job.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / SEQUENCE / D23</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Startup and maintenance collaboration</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">The initial Task.Run and scheduled worker can overlap host startup.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Maintenance behavior comes from Program.cs, not an assumed migration or message-cleanup job.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Backend/Program.cs; Backend/Components/Maitenance.cs; Backend/Controllers/Listing.cs</text>
+<rect x="39.0" y="162" width="182" height="52" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="130.0" y="185.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Program</text>
+<polyline points="130.0,214 130.0,615" fill="none" stroke="#8BA2B5" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="379.0" y="162" width="182" height="52" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="470.0" y="185.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Env / filesystem</text>
+<polyline points="470.0,214 470.0,615" fill="none" stroke="#8BA2B5" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="719.0" y="162" width="182" height="52" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="810.0" y="185.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Maitenance</text>
+<polyline points="810.0,214 810.0,615" fill="none" stroke="#8BA2B5" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="1059.0" y="162" width="182" height="52" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1150.0" y="185.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Cleanup / Sql</text>
+<polyline points="1150.0,214 1150.0,615" fill="none" stroke="#8BA2B5" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="130.0,243 470.0,243" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="470.0,243 461.8959760788259,246.91468980700108 461.8959760788259,239.08531019299892" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="300.0" y="228.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">1. Load backend environment; ensure uploads</text>
+<text x="300.0" y="246.36" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">folder</text>
+<polyline points="130.0,288 1150.0,288" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="1150.0,288 1141.895976078826,291.9146898070011 1141.895976078826,284.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="640.0" y="273.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">2. Task.Run(Schedule): asynchronous initial cleanup</text>
+<polyline points="130.0,333 810.0,333" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="810.0,333 801.8959760788259,336.9146898070011 801.8959760788259,329.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="470.0" y="318.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">3. Construct daily worker at 03:24</text>
+<polyline points="130.0,378 158.0,378 158.0,397 130.0,397" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="130.0,397 138.1040239211741,393.0853101929989 138.1040239211741,400.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="170.0" y="375.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">4. Build app / map controllers / run host</text>
+<polyline points="810.0,423 1150.0,423" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="1150.0,423 1141.895976078826,426.9146898070011 1141.895976078826,419.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="980.0" y="408.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">5. Schedule: LogIn, Users, IP, Listing cleanup</text>
+<polyline points="1150.0,468 1122.0,468 1122.0,487 1150.0,487" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="1150.0,487 1141.895976078826,490.9146898070011 1141.895976078826,483.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="1110.0" y="465.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="end">6. Expire tokens and attempts; update listing</text>
+<text x="1110.0" y="481.08" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="end">states</text>
+<polyline points="1150.0,513 1122.0,513 1122.0,532 1150.0,532" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="1150.0,532 1141.895976078826,535.9146898070011 1141.895976078826,528.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="1110.0" y="510.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="end">7. Aggregate IP/user hit tallies; inspect orphan</text>
+<text x="1110.0" y="526.08" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="end">images</text>
+</svg>

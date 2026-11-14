@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>GAPS | Evidence limits and integration findings</title>
+<desc>Document the implementation faithfully without inventing missing features. Historical sample-only claims are removed; remaining findings are tied to this source snapshot.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / REVIEW / GAPS</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Evidence limits and integration findings</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Document the implementation faithfully without inventing missing features.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Historical sample-only claims are removed; remaining findings are tied to this source snapshot.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | code/Frontend; code/Backend/Data.db schema; Backend/Controllers/Listing.cs</text>
+<rect x="50.0" y="167" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="239.33333333333334" y="186.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="239.33333333333334" y="208.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Schema snapshot is stale</text>
+<polyline points="50.0,220 428.6666666666667,220" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="62.0" y="241.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">DB_Schema.txt omits messaging and</text>
+<text x="62.0" y="260.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">engagement tables and newer columns.</text>
+<text x="62.0" y="279.49" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Data.db schema + SQL are evidence.</text>
+<rect x="450.6666666666667" y="167" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="186.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="640.0" y="208.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Summary hit output</text>
+<polyline points="450.6666666666667,220 829.3333333333334,220" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="462.6666666666667" y="241.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Listing.GetListings ranks by hits</text>
+<text x="462.6666666666667" y="260.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">but removes hit before output.</text>
+<text x="462.6666666666667" y="279.49" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">UI metrics remain optional.</text>
+<rect x="851.3333333333334" y="167" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1040.6666666666667" y="186.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="1040.6666666666667" y="208.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Source versus deployment</text>
+<polyline points="851.3333333333334,220 1230.0,220" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="863.3333333333334" y="241.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Render config / backend code show</text>
+<text x="863.3333333333334" y="260.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">intended boundaries, not verified</text>
+<text x="863.3333333333334" y="279.49" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">production instances or credentials.</text>
+<rect x="50.0" y="382" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="239.33333333333334" y="401.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="239.33333333333334" y="423.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Supported offer scope</text>
+<polyline points="50.0,435 428.6666666666667,435" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="62.0" y="456.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Offers are persisted proposals.</text>
+<text x="62.0" y="475.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">No acceptance / payment / purchase</text>
+<text x="62.0" y="494.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">transaction endpoint is modeled.</text>
+<rect x="450.6666666666667" y="382" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="401.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="640.0" y="423.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Website removal policy</text>
+<polyline points="450.6666666666667,435 829.3333333333334,435" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="462.6666666666667" y="456.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Backend DELETE Listing still exists.</text>
+<text x="462.6666666666667" y="475.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Website rejects listing DELETE and</text>
+<text x="462.6666666666667" y="494.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">PATCHes status Inactive instead.</text>
+<rect x="851.3333333333334" y="382" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1040.6666666666667" y="401.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="1040.6666666666667" y="423.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Maintenance caveat</text>
+<polyline points="851.3333333333334,435 1230.0,435" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="863.3333333333334" y="456.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Listing.CleanUp checks !Directory.Exists</text>
+<text x="863.3333333333334" y="475.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">before enumerating upload files.</text>
+<text x="863.3333333333334" y="494.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Orphan cleanup is not guaranteed.</text>
+</svg>

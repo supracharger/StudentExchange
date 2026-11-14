@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D09 | Listing summaries versus full details</title>
+<desc>The website integrates both contracts and forwards the viewer token on detail reads. Search preserves backend order; full details are fetched separately, with all image URLs.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / CLASS / D09</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Listing summaries versus full details</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">The website integrates both contracts and forwards the viewer token on detail reads.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Search preserves backend order; full details are fetched separately, with all image URLs.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Website/server/marketplace.mjs; Backend/Controllers/Listing.cs</text>
+<rect x="45" y="190" width="370" height="350" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="230.0" y="209.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«DTO»</text>
+<text x="230.0" y="231.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Listing summary</text>
+<polyline points="45,243 415,243" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="57" y="264.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">id / title / price</text>
+<text x="57" y="283.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">category / condition / user</text>
+<text x="57" y="302.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">status / location / isbn</text>
+<text x="57" y="321.3400000000001" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">image_url / datetime</text>
+<text x="57" y="340.1900000000001" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">days (private inventory)</text>
+<rect x="455" y="190" width="370" height="350" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="209.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«DTO»</text>
+<text x="640.0" y="231.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">GET Listing/{id}</text>
+<polyline points="455,243 825,243" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="467" y="264.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">description / seller identity</text>
+<text x="467" y="283.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">email (not a mailto action)</text>
+<text x="467" y="302.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">images_url: ordered array</text>
+<text x="467" y="321.3400000000001" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">status / user / price</text>
+<text x="467" y="340.1900000000001" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Viewer token when signed in</text>
+<rect x="865" y="190" width="370" height="350" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1050.0" y="209.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«DTO»</text>
+<text x="1050.0" y="231.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">ListingUpdate</text>
+<polyline points="865,243 1235,243" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="877" y="264.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">id in website request</text>
+<text x="877" y="283.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">PATCH Listing/{id}</text>
+<text x="877" y="302.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Only changed nonblank fields</text>
+<text x="877" y="321.3400000000001" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">status / imgs operations</text>
+<text x="877" y="340.1900000000001" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">No website listing DELETE</text>
+<text x="70" y="587.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Backend computes hit-based ranking, then removes hit from summary output in this snapshot.</text>
+</svg>

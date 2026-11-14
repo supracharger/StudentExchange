@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>F08 | Session, forwarding and logout data</title>
+<desc>Level 2 of process 1.0: the Node adapter owns the browser/backend identity boundary. Raw backend tokens and service credentials stay server-side; no browser localStorage credential store.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / DATA FLOW / F08</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Session, forwarding and logout data</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Level 2 of process 1.0: the Node adapter owns the browser/backend identity boundary.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Raw backend tokens and service credentials stay server-side; no browser localStorage credential store.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Website/server/api.mjs; Website/server/client-ip.mjs; Backend/Components/AppAuthJson.cs</text>
+<rect x="50" y="245" width="260" height="160" rx="0" fill="#FFFFFF" stroke="#8BA2B5" stroke-width="1"/>
+<text x="180.0" y="272.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Browser</text>
+<text x="180.0" y="300.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Same-origin cookie</text>
+<text x="180.0" y="319.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Route + API input</text>
+<rect x="485" y="230" width="330" height="180" rx="22" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="650.0" y="256.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">1.1 | Resolve / forward</text>
+<text x="650.0" y="285.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Origin + session validation</text>
+<text x="650.0" y="304.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Visitor IP + app credential</text>
+<text x="650.0" y="323.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Safe response projection</text>
+<rect x="975" y="245" width="260" height="160" rx="0" fill="#FFFFFF" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1105.0" y="272.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">ASP.NET backend</text>
+<text x="1105.0" y="300.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">From process 1.0 boundary</text>
+<text x="1105.0" y="319.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Process 2.0 in F01</text>
+<polyline points="895,535 485,535 485,607 895,607" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="525,535 525,607" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="505" y="562.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">D1</text>
+<text x="540" y="559.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Website sessions</text>
+<text x="540" y="582.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Opaque ID → token / profile / expiry</text>
+<polyline points="310,275 485,275" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="485,275 476.8959760788259,278.9146898070011 476.8959760788259,271.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="397" y="198.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Cookie / API input</text>
+<polyline points="485,372 310,372" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="310,372 318.1040239211741,368.0853101929989 318.1040239211741,375.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="397" y="452.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Projected data / Set-Cookie</text>
+<polyline points="815,275 975,275" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="975,275 966.8959760788259,278.9146898070011 966.8959760788259,271.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="895" y="198.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">app_access / token / trusted IP</text>
+<polyline points="975,372 815,372" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="815,372 823.1040239211741,368.0853101929989 823.1040239211741,375.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="895" y="452.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Backend result / renewal result</text>
+<polyline points="585,410 585,535" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="585,535 581.0853101929989,526.8959760788259 588.9146898070011,526.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="430" y="499.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Session changes / logout deletion</text>
+<polyline points="740,535 740,410" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="740,410 743.9146898070011,418.1040239211741 736.0853101929989,418.1040239211741" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="900" y="499.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Token / profile / expiry</text>
+</svg>

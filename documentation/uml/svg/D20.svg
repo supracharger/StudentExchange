@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D20 | Website routes and public navigation</title>
+<desc>State view: transitions have events/guards; labels describe observable state. Listing details do not have a dedicated URL in this source; seller pages do.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / STATE MACHINE / D20</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Website routes and public navigation</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">State view: transitions have events/guards; labels describe observable state.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Listing details do not have a dedicated URL in this source; seller pages do.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Website/src/App.tsx; Website/src/components</text>
+<rect x="55" y="185" width="300" height="140" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="205.0" y="204.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«state»</text>
+<text x="205.0" y="226.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Browse /</text>
+<polyline points="55,238 355,238" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="67" y="259.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Live cards + filters</text>
+<text x="67" y="278.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Selected listing is React state</text>
+<rect x="490" y="185" width="300" height="140" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="204.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«state»</text>
+<text x="640.0" y="226.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Listing details</text>
+<polyline points="490,238 790,238" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="502" y="259.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">GET Listing/{id}</text>
+<text x="502" y="278.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Gallery + Message seller</text>
+<rect x="925" y="185" width="300" height="140" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1075.0" y="204.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«state»</text>
+<text x="1075.0" y="226.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Public seller page</text>
+<polyline points="925,238 1225,238" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="937" y="259.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">/sellers/{username}</text>
+<text x="937" y="278.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">GET Listing user_page</text>
+<rect x="55" y="445" width="300" height="140" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="205.0" y="464.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«state»</text>
+<text x="205.0" y="486.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Account panel</text>
+<polyline points="55,498 355,498" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="67" y="519.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Inline login/profile UI</text>
+<text x="67" y="538.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Nullable fields safe</text>
+<rect x="490" y="445" width="300" height="140" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="464.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«state»</text>
+<text x="640.0" y="486.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Seller portal</text>
+<polyline points="490,498 790,498" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="502" y="519.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">/seller; login gate</text>
+<text x="502" y="538.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Create/edit/status/photos</text>
+<rect x="925" y="445" width="300" height="140" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1075.0" y="464.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«state»</text>
+<text x="1075.0" y="486.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Admin console</text>
+<polyline points="925,498 1225,498" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="937" y="519.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">/admin; membership gate</text>
+<text x="937" y="538.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Scoped privileged actions</text>
+<polyline points="355,255 490,255" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="490,255 481.8959760788259,258.9146898070011 481.8959760788259,251.08531019299892" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="422.5" y="238.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">select card</text>
+<polyline points="790,255 925,255" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="925,255 916.8959760788259,258.9146898070011 916.8959760788259,251.08531019299892" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="857.5" y="238.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">seller collection</text>
+<polyline points="205,325 205,445" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="205,445 201.08531019299892,436.8959760788259 208.91468980700108,436.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="205" y="379.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">account button</text>
+<polyline points="640,325 640,445" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="640,445 636.0853101929989,436.8959760788259 643.9146898070011,436.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="640" y="379.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">seller portal nav</text>
+<polyline points="1075,325 1075,445" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="1075,445 1071.085310192999,436.8959760788259 1078.914689807001,436.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="1075" y="379.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">admin nav + permission</text>
+</svg>

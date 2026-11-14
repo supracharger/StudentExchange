@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>ACCESS | Authorization matrix and token lifetimes</title>
+<desc>Permissions come from adapter checks plus controller-specific backend rules. IP forwarding is not user impersonation; messaging always uses the participant visitor token.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / REFERENCE / ACCESS</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Authorization matrix and token lifetimes</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Permissions come from adapter checks plus controller-specific backend rules.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">IP forwarding is not user impersonation; messaging always uses the participant visitor token.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Website/server/admin.mjs; Backend/Components/AppAuthJson.cs; Backend/Components/Env.cs</text>
+<text x="65" y="178.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Role / level</text>
+<text x="380" y="178.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Permitted goals and limitations</text>
+<rect x="55" y="201" width="1170" height="41" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="65" y="219.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Visitor</text>
+<text x="380" y="219.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Public browse / details / seller pages; register / log in.</text>
+<rect x="55" y="247" width="1170" height="41" rx="6" fill="#FFFFFF" stroke="#8BA2B5" stroke-width="1"/>
+<text x="65" y="265.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Student</text>
+<text x="380" y="265.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Own profile / inventory; messages and offers as participant.</text>
+<rect x="55" y="293" width="1170" height="41" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="65" y="311.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Admin 0</text>
+<text x="380" y="311.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Admin membership and eligible session sign-out.</text>
+<rect x="55" y="339" width="1170" height="41" rx="6" fill="#FFFFFF" stroke="#8BA2B5" stroke-width="1"/>
+<text x="65" y="357.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Admin &gt; 0</text>
+<text x="380" y="357.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Grant / change / remove lower-ranked admin membership.</text>
+<rect x="55" y="385" width="1170" height="41" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="65" y="403.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Admin 10+</text>
+<text x="380" y="403.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Users, profiles, schools, listing moderation and categories.</text>
+<rect x="55" y="431" width="1170" height="41" rx="6" fill="#FFFFFF" stroke="#8BA2B5" stroke-width="1"/>
+<text x="65" y="449.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Admin 20+ / 27+</text>
+<text x="380" y="449.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Attempt records (20); directory admin levels (27).</text>
+<rect x="55" y="477" width="1170" height="41" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="65" y="495.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Admin 30+</text>
+<text x="380" y="495.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Locked-admin controls and additional target eligibility.</text>
+<rect x="55" y="523" width="1170" height="41" rx="6" fill="#FFFFFF" stroke="#8BA2B5" stroke-width="1"/>
+<text x="65" y="541.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Session clocks</text>
+<text x="380" y="541.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Website 12h; ordinary backend 21d; admin backend 3d.</text>
+</svg>

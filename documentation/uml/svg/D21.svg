@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D21 | Deployment and runtime artifacts</title>
+<desc>Checked-in deployment configuration is modeled, not a verified production topology. The website needs its Node API adapter; static dist hosting alone is insufficient.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / DEPLOYMENT / D21</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Deployment and runtime artifacts</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Checked-in deployment configuration is modeled, not a verified production topology.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">The website needs its Node API adapter; static dist hosting alone is insufficient.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Website/render.yaml; Website/server/index.mjs; Backend/Program.cs</text>
+<rect x="45" y="180" width="350" height="350" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="220.0" y="199.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«device»</text>
+<text x="220.0" y="221.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Browser execution</text>
+<polyline points="45,233 395,233" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="57" y="254.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">«artifact» React / CSS assets</text>
+<text x="57" y="273.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Same-origin /api fetch</text>
+<text x="57" y="292.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Cookie: se_session</text>
+<text x="57" y="311.3400000000001" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">No app keys / visitor tokens</text>
+<text x="57" y="330.1900000000001" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Clipboard: public seller URL</text>
+<rect x="465" y="180" width="350" height="350" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="199.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«executionEnvironment»</text>
+<text x="640.0" y="221.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Render Node service</text>
+<polyline points="465,233 815,233" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="477" y="254.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Node 24.19.0 / one instance</text>
+<text x="477" y="273.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">«artifact» dist/ + server/*.mjs</text>
+<text x="477" y="292.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Environment: backend + credentials</text>
+<text x="477" y="311.3400000000001" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Process-memory session Map</text>
+<text x="477" y="330.1900000000001" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">HTTPS + trusted edge-IP setting</text>
+<rect x="885" y="180" width="350" height="350" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1060.0" y="199.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«executionEnvironment»</text>
+<text x="1060.0" y="221.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">ASP.NET host</text>
+<polyline points="885,233 1235,233" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="897" y="254.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">net9.0 controller application</text>
+<text x="897" y="273.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">«artifact» SQLite database file</text>
+<text x="897" y="292.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">«artifact» public/uploads</text>
+<text x="897" y="311.3400000000001" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Forwarded headers / HTTPS</text>
+<text x="897" y="330.1900000000001" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Daily maintenance worker</text>
+<polyline points="395,370 465,370" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="465,370 456.8959760788259,373.9146898070011 456.8959760788259,366.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="430" y="354.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">HTTPS</text>
+<polyline points="815,370 885,370" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="885,370 876.8959760788259,373.9146898070011 876.8959760788259,366.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="850" y="354.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">HTTPS</text>
+<text x="75" y="577.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">No deployment action or production mutation was performed to create these diagrams.</text>
+</svg>

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D05 | Node adapter responsibilities</title>
+<desc>Validated browser fields are separated from the server-owned auth envelope. Browser routes do not accept credentials, sender IDs or arbitrary forwarded targets.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / COMPONENT / D05</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Node adapter responsibilities</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Validated browser fields are separated from the server-owned auth envelope.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Browser routes do not accept credentials, sender IDs or arbitrary forwarded targets.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Website/server/api.mjs; Website/server/marketplace.mjs; Website/server/messages.mjs</text>
+<rect x="50.0" y="167" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="239.33333333333334" y="186.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="239.33333333333334" y="208.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">createWebsiteServer</text>
+<polyline points="50.0,220 428.6666666666667,220" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="62.0" y="241.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Serve dist + SPA fallback</text>
+<text x="62.0" y="260.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">CSP / nosniff / no-cache API</text>
+<text x="62.0" y="279.49" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Process-only /healthz</text>
+<rect x="450.6666666666667" y="167" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="186.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="640.0" y="208.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">createApiHandler</text>
+<polyline points="450.6666666666667,220 829.3333333333334,220" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="462.6666666666667" y="241.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Route + method allowlists</text>
+<text x="462.6666666666667" y="260.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Origin checks on mutations</text>
+<text x="462.6666666666667" y="279.49" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Session Map / safe errors</text>
+<rect x="851.3333333333334" y="167" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1040.6666666666667" y="186.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="1040.6666666666667" y="208.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">createForwardingClient</text>
+<polyline points="851.3333333333334,220 1230.0,220" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="863.3333333333334" y="241.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Bootstrap service login</text>
+<text x="863.3333333333334" y="260.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Verify admin membership</text>
+<text x="863.3333333333334" y="279.49" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Share token refresh promise</text>
+<rect x="50.0" y="382" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="239.33333333333334" y="401.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="239.33333333333334" y="423.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">handleMarketplace</text>
+<polyline points="50.0,435 428.6666666666667,435" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="62.0" y="456.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Public + private listing DTOs</text>
+<text x="62.0" y="475.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">PATCH statuses / image edits</text>
+<text x="62.0" y="494.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Same-origin image proxy</text>
+<rect x="450.6666666666667" y="382" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="401.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="640.0" y="423.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">handleMessages</text>
+<polyline points="450.6666666666667,435 829.3333333333334,435" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="462.6666666666667" y="456.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">api/Message GET / POST</text>
+<text x="462.6666666666667" y="475.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Participant token + safe projection</text>
+<text x="462.6666666666667" y="494.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Message / offer validation</text>
+<rect x="851.3333333333334" y="382" width="378.6666666666667" height="190" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1040.6666666666667" y="401.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="1040.6666666666667" y="423.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">admin + clientIp</text>
+<polyline points="851.3333333333334,435 1230.0,435" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="863.3333333333334" y="456.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Permission matrix / projections</text>
+<text x="863.3333333333334" y="475.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Exact target email selectors</text>
+<text x="863.3333333333334" y="494.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Trusted Render IP or socket</text>
+<polyline points="429,250 451,250" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="451,250 442.8959760788259,253.91468980700108 442.8959760788259,246.08531019299892" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<polyline points="829,250 851,250" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="851,250 842.8959760788259,253.91468980700108 842.8959760788259,246.08531019299892" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<polyline points="640,357 640,369 239,369" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="640,369 1041,369" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="239,369 239,382" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="239,382 235.08531019299892,373.8959760788259 242.91468980700108,373.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<polyline points="640,369 640,382" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="640,382 636.0853101929989,373.8959760788259 643.9146898070011,373.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<polyline points="1041,369 1041,382" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="1041,382 1037.085310192999,373.8959760788259 1044.914689807001,373.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+</svg>

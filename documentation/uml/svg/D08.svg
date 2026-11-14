@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D08 | Core marketplace persistence classes</title>
+<desc>Schema metadata from checked-in Data.db; no user rows are read. Listings own associations to an owner, category, condition, status, optional book and photos.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / CLASS / D08</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Core marketplace persistence classes</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Schema metadata from checked-in Data.db; no user rows are read.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Listings own associations to an owner, category, condition, status, optional book and photos.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | code/Backend/Data.db (schema only); Backend/Controllers/Listing.cs</text>
+<rect x="55" y="170" width="290" height="140" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="200.0" y="189.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="200.0" y="211.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">User</text>
+<polyline points="55,223 345,223" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="67" y="244.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">id / user_name / email</text>
+<text x="67" y="263.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">school_id / location</text>
+<rect x="55" y="465" width="290" height="120" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="200.0" y="484.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="200.0" y="506.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Schools</text>
+<polyline points="55,518 345,518" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="67" y="539.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">id / name / short_name</text>
+<rect x="505" y="310" width="280" height="155" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="645.0" y="329.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="645.0" y="351.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Listings</text>
+<polyline points="505,363 785,363" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="517" y="384.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">id / user_id / title / price</text>
+<text x="517" y="403.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">category / condition / status</text>
+<text x="517" y="422.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">datetime / expiry</text>
+<rect x="495" y="160" width="300" height="115" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="645.0" y="179.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="645.0" y="201.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Listings_Category</text>
+<polyline points="495,213 795,213" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="507" y="234.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">id / name / visable</text>
+<rect x="935" y="170" width="290" height="140" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1080.0" y="189.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="1080.0" y="211.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Img</text>
+<polyline points="935,223 1225,223" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="947" y="244.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">id / list_id / name</text>
+<text x="947" y="263.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">API limit: 8 photos</text>
+<rect x="935" y="465" width="290" height="120" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1080.0" y="484.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="1080.0" y="506.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Books</text>
+<polyline points="935,518 1225,518" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="947" y="539.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">list_id / isbn</text>
+<rect x="425" y="505" width="260" height="100" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="555.0" y="524.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="555.0" y="546.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Condition</text>
+<polyline points="425,558 685,558" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="437" y="579.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">id / name</text>
+<rect x="710" y="505" width="190" height="100" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="805.0" y="524.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«table»</text>
+<text x="805.0" y="546.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Status</text>
+<polyline points="710,558 900,558" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="722" y="579.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">id / name / lvl</text>
+<polyline points="345,240 405,240 405,355 505,355" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="385" y="295.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">owner 1; listings 0..*</text>
+<polyline points="200,310 200,465" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="220" y="387.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">school 1; users 0..*</text>
+<polyline points="645,275 645,310" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="665" y="295.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">category 1</text>
+<polyline points="785,355 860,355 860,240 935,240" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="793" y="325.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">images 0..*</text>
+<polyline points="785,420 860,420 860,525 935,525" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="795" y="452.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">book 0..1</text>
+<polyline points="590,465 590,488 555,488 555,505" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="425" y="486.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">condition 1</text>
+<polyline points="740,465 740,488 805,488 805,505" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="765" y="486.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">status 1</text>
+</svg>

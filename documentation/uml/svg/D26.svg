@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D26 | End-to-end messages and offers</title>
+<desc>One conversation per listing and buyer; Node mediates every browser/API exchange. No local fake send or email contact: messages and offers are persisted through api/Message.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / SEQUENCE / D26</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">End-to-end messages and offers</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">One conversation per listing and buyer; Node mediates every browser/API exchange.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">No local fake send or email contact: messages and offers are persisted through api/Message.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Website/src/components/Messenger.tsx; Website/server/messages.mjs; Backend/Controllers/Message.cs</text>
+<rect x="39.0" y="162" width="182" height="52" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="130.0" y="185.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Messenger</text>
+<polyline points="130.0,214 130.0,615" fill="none" stroke="#8BA2B5" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="379.0" y="162" width="182" height="52" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="470.0" y="185.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Node messages</text>
+<polyline points="470.0,214 470.0,615" fill="none" stroke="#8BA2B5" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="719.0" y="162" width="182" height="52" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="810.0" y="185.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Message controller</text>
+<polyline points="810.0,214 810.0,615" fill="none" stroke="#8BA2B5" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="1059.0" y="162" width="182" height="52" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1150.0" y="185.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Sql</text>
+<polyline points="1150.0,214 1150.0,615" fill="none" stroke="#8BA2B5" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="130.0,243.0 470.0,243.0" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="470.0,243.0 461.8959760788259,246.91468980700108 461.8959760788259,239.08531019299892" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="300.0" y="228.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">1. POST listing_id OR conversation_id + text/offer</text>
+<polyline points="470.0,284.6666666666667 810.0,284.6666666666667" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="810.0,284.6666666666667 801.8959760788259,288.58135647366777 801.8959760788259,280.7519768596656" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="640.0" y="270.62666666666667" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">2. POST api/Message + participant visitor token</text>
+<polyline points="810.0,326.3333333333333 1150.0,326.3333333333333" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="1150.0,326.3333333333333 1141.895976078826,330.2480231403344 1141.895976078826,322.41864352633223" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="980.0" y="312.2933333333333" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">3. Validate participant/rate; find/create; insert</text>
+<polyline points="1150.0,368.0 810.0,368.0" fill="none" stroke="#18334B" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polygon points="810.0,368.0 818.1040239211741,364.0853101929989 818.1040239211741,371.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="980.0" y="353.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">4. Commit message</text>
+<polyline points="810.0,409.66666666666663 470.0,409.66666666666663" fill="none" stroke="#18334B" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polygon points="470.0,409.66666666666663 478.1040239211741,405.75197685966555 478.1040239211741,413.5813564736677" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="640.0" y="395.6266666666666" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">5. 201 conversation_id</text>
+<polyline points="470.0,451.3333333333333 130.0,451.3333333333333" fill="none" stroke="#18334B" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polygon points="130.0,451.3333333333333 138.1040239211741,447.41864352633223 138.1040239211741,455.2480231403344" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="300.0" y="437.2933333333333" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">6. Confirmed send</text>
+<polyline points="130.0,493.0 470.0,493.0" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="470.0,493.0 461.8959760788259,496.9146898070011 461.8959760788259,489.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="300.0" y="478.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">7. GET thread?conversation_id=&amp;after=</text>
+<polyline points="470.0,534.6666666666666 810.0,534.6666666666666" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="810.0,534.6666666666666 801.8959760788259,538.5813564736677 801.8959760788259,530.7519768596655" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="640.0" y="520.6266666666667" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">8. GET api/Message/{id}?after=</text>
+<polyline points="810.0,576.3333333333333 470.0,576.3333333333333" fill="none" stroke="#18334B" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polygon points="470.0,576.3333333333333 478.1040239211741,572.4186435263322 478.1040239211741,580.2480231403343" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="640.0" y="562.2933333333333" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">9. Read history; mark incoming messages read</text>
+<polyline points="470.0,618.0 130.0,618.0" fill="none" stroke="#18334B" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polygon points="130.0,618.0 138.1040239211741,614.0853101929989 138.1040239211741,621.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="300.0" y="603.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">10. Projected message history</text>
+</svg>

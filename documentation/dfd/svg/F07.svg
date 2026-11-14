@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>F07 | Scheduled maintenance data flow</title>
+<desc>Level 2 of process 2.0: startup/background housekeeping is internal to the backend. Schedule starts asynchronously and runs daily at 03:24 Mountain time; no Message.CleanUp implementation is modeled.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / DATA FLOW / F07</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Scheduled maintenance data flow</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Level 2 of process 2.0: startup/background housekeeping is internal to the backend.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Schedule starts asynchronously and runs daily at 03:24 Mountain time; no Message.CleanUp implementation is modeled.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Backend/Program.cs; Backend/Controllers/LogIn.cs; Backend/Controllers/Users.cs; Backend/Controllers/Listing.cs; Backend/Components/IP.cs</text>
+<rect x="485" y="240" width="320" height="180" rx="22" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="645.0" y="266.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">2.6 | Maintain records</text>
+<text x="645.0" y="295.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Schedule → cleanup routines</text>
+<text x="645.0" y="314.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Tokens / accounts / IP / listings</text>
+<text x="645.0" y="333.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Expiry and hit-count aggregation</text>
+<polyline points="330,225 45,225 45,365 330,365" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="85,225 85,365" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="65" y="252.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">D2</text>
+<text x="100" y="249.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Identity / access</text>
+<text x="100" y="272.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Token expiry / IP activity</text>
+<text x="100" y="290.35999999999996" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Account retention records</text>
+<polyline points="1235,225 950,225 950,365 1235,365" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="990,225 990,365" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="970" y="252.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">D3</text>
+<text x="1005" y="249.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Marketplace</text>
+<text x="1005" y="272.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Listing expiry / checks</text>
+<text x="1005" y="290.35999999999996" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Hit tally / aggregate rows</text>
+<polyline points="885,535 485,535 485,605 885,605" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="525,535 525,605" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="505" y="562.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">D5</text>
+<text x="540" y="559.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Photo files</text>
+<text x="540" y="582.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Upload filesystem</text>
+<polyline points="330,263 485,263" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="485,263 476.8959760788259,266.9146898070011 476.8959760788259,259.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="407" y="188.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Expiry / eligibility rows</text>
+<polyline points="485,345 330,345" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="330,345 338.1040239211741,341.0853101929989 338.1040239211741,348.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="407" y="433.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Cleanup changes</text>
+<polyline points="950,263 805,263" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="805,263 813.1040239211741,259.0853101929989 813.1040239211741,266.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="878" y="188.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Expiry / hit tally rows</text>
+<polyline points="805,345 950,345" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="950,345 941.8959760788259,348.9146898070011 941.8959760788259,341.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="878" y="433.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Statuses / aggregate changes</text>
+<polyline points="590,420 590,535" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="590,535 586.0853101929989,526.8959760788259 593.9146898070011,526.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="475" y="491.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Attempted orphan removals</text>
+<polyline points="745,535 745,420" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="745,420 748.9146898070011,428.1040239211741 741.0853101929989,428.1040239211741" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="860" y="495.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Directory entries</text>
+<text x="52" y="550.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Source caveat: Listing.CleanUp tests</text>
+<text x="52" y="569.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">!Directory.Exists before file enumeration.</text>
+<text x="52" y="588.49" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Successful orphan cleanup is not assumed.</text>
+</svg>

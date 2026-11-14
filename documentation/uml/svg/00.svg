@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>00 | Student Exchange | whole-system UML atlas</title>
+<desc>React website + Node adapter + ASP.NET Core + SQLite 32 diagrams model both applications and their end-to-end collaboration.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / DESIGN ATLAS / 00</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Student Exchange | whole-system UML atlas</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">React website + Node adapter + ASP.NET Core + SQLite</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">32 diagrams model both applications and their end-to-end collaboration.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | code/Frontend + code/Backend</text>
+<text x="65" y="204.9" font-family="DejaVu Sans, sans-serif" font-size="30" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">From browser interaction to persisted state</text>
+<text x="65" y="266.6" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Current code, not historical preview behavior. Each view identifies its evidence.</text>
+<rect x="65" y="330" width="365" height="218" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="247.5" y="349.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="247.5" y="371.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Frontend</text>
+<polyline points="65,383 430,383" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="77" y="404.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Routes, account/seller/admin components, API</text>
+<text x="77" y="423.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">clients and persistent messenger.</text>
+<rect x="455" y="330" width="365" height="218" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="637.5" y="349.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="637.5" y="371.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Integration</text>
+<polyline points="455,383 820,383" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="467" y="404.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Opaque cookie sessions; JSON GET forwarding;</text>
+<text x="467" y="423.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">validated messages and listing edits.</text>
+<rect x="845" y="330" width="365" height="218" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1027.5" y="349.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«component»</text>
+<text x="1027.5" y="371.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Backend</text>
+<polyline points="845,383 1210,383" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="857" y="404.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Controllers, shared authorization, transaction</text>
+<text x="857" y="423.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">helpers, schema and maintenance.</text>
+</svg>

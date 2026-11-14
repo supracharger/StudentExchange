@@ -1,0 +1,5 @@
+>> Inside this repo update the UML diagrams from the total repository. Make sure it includes the frontend (website) and backend.
+
+>> The diagrams are outdated so you will need to update them.
+
+>> I want you also to do the DFD diagrams as well with the same format.

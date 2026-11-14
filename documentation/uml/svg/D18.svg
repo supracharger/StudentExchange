@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D18 | Attempt windows and temporary blocking</title>
+<desc>Activity view: main workflow with implementation guards noted. The counter model includes successful observations, failed attempts and expired windows.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / ACTIVITY / D18</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Attempt windows and temporary blocking</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Activity view: main workflow with implementation guards noted.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">The counter model includes successful observations, failed attempts and expired windows.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Backend/Controllers/Users.cs; Backend/Components/IP.cs; Backend/Components/Env.cs</text>
+<ellipse cx="640.0" cy="160.0" rx="6.0" ry="6.0" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<rect x="330" y="182" width="620" height="53" rx="18" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640" y="209.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Read user/IP attempt record under its lock</text>
+<polyline points="640,166 640,182" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="640,182 636.0853101929989,173.8959760788259 643.9146898070011,173.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="970" y="201.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">User and IP counters remain separate.</text>
+<rect x="330" y="262" width="620" height="53" rx="18" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640" y="289.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Expired record? Reset window and count</text>
+<polyline points="640,235 640,262" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="640,262 636.0853101929989,253.8959760788259 643.9146898070011,253.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="970" y="281.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">A successful new window records</text>
+<text x="970" y="299.35999999999996" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">count -1.</text>
+<rect x="330" y="342" width="620" height="53" rx="18" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640" y="369.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">On failure: upsert count and expiry</text>
+<polyline points="640,315 640,342" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="640,342 636.0853101929989,333.8959760788259 643.9146898070011,333.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="970" y="361.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Escalation uses configured</text>
+<text x="970" y="379.35999999999996" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">attempt/window rules.</text>
+<rect x="330" y="422" width="620" height="53" rx="18" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640" y="449.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">At threshold: reject access; user tokens revoked</text>
+<polyline points="640,395 640,422" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="640,422 636.0853101929989,413.8959760788259 643.9146898070011,413.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="970" y="441.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Snapshot defaults: 10 attempts / 5</text>
+<text x="970" y="459.35999999999996" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">minutes.</text>
+<rect x="330" y="502" width="620" height="53" rx="18" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640" y="529.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Scheduled cleanup removes expired records</text>
+<polyline points="640,475 640,502" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="640,502 636.0853101929989,493.8959760788259 643.9146898070011,493.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="970" y="521.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">A successful record is not itself a</text>
+<text x="970" y="539.36" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">block.</text>
+<polyline points="640,555 640,573" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="640,573 636.0853101929989,564.8959760788259 643.9146898070011,564.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<ellipse cx="640.0" cy="583.0" rx="10.0" ry="10.0" fill="#FFFFFF" stroke="#18334B" stroke-width="1"/>
+<ellipse cx="640.0" cy="583.0" rx="5.0" ry="5.0" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+</svg>

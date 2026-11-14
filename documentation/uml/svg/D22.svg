@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D22 | Package and module dependencies</title>
+<desc>Dashed arrows represent compile-time/module dependencies; API calls cross runtime boundaries. Browser API modules depend on same-origin requests, not the ASP.NET implementation.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / PACKAGE / D22</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Package and module dependencies</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Dashed arrows represent compile-time/module dependencies; API calls cross runtime boundaries.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Browser API modules depend on same-origin requests, not the ASP.NET implementation.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Website/src/api; Website/server; Backend/Controllers; Backend/Components</text>
+<rect x="60" y="180" width="300" height="145" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="210.0" y="199.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«package»</text>
+<text x="210.0" y="221.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">React components</text>
+<polyline points="60,233 360,233" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="72" y="254.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">App / AccountPanel / Marketplace</text>
+<text x="72" y="273.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">SellerPortal / ListingEditor</text>
+<text x="72" y="292.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">AdminPage / Messenger</text>
+<rect x="490" y="180" width="300" height="145" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="199.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«package»</text>
+<text x="640.0" y="221.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Browser API clients</text>
+<polyline points="490,233 790,233" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="502" y="254.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">accounts.ts / admin.ts</text>
+<text x="502" y="273.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">marketplace.ts / messages.ts</text>
+<text x="502" y="292.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">request&lt;T&gt;()</text>
+<rect x="920" y="180" width="300" height="145" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1070.0" y="199.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«package»</text>
+<text x="1070.0" y="221.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Node adapter modules</text>
+<polyline points="920,233 1220,233" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="932" y="254.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">api.mjs / admin.mjs</text>
+<text x="932" y="273.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">marketplace.mjs / messages.mjs</text>
+<text x="932" y="292.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">client-ip.mjs</text>
+<rect x="60" y="445" width="300" height="145" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="210.0" y="464.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«package»</text>
+<text x="210.0" y="486.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Backend controllers</text>
+<polyline points="60,498 360,498" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="72" y="519.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Register / LogIn / Admin / Users</text>
+<text x="72" y="538.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Listing / Message</text>
+<text x="72" y="557.49" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Schools / Category / Condition</text>
+<rect x="490" y="445" width="300" height="145" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="464.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«package»</text>
+<text x="640.0" y="486.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Shared backend helpers</text>
+<polyline points="490,498 790,498" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="502" y="519.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">AppAuthJson / IP / Users</text>
+<text x="502" y="538.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Env / AccessToken / Utilz</text>
+<text x="502" y="557.49" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">DeterministicEncryption</text>
+<rect x="920" y="445" width="300" height="145" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1070.0" y="464.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«package»</text>
+<text x="1070.0" y="486.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Sql + Sql.Trans</text>
+<polyline points="920,498 1220,498" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="932" y="519.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Microsoft.Data.Sqlite</text>
+<text x="932" y="538.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Reader/writer locking</text>
+<text x="932" y="557.49" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Parameterized persistence</text>
+<polyline points="360,250 490,250" fill="none" stroke="#18334B" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polygon points="490,250 481.8959760788259,253.91468980700108 481.8959760788259,246.08531019299892" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="425" y="236.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">imports</text>
+<polyline points="790,250 920,250" fill="none" stroke="#18334B" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polygon points="920,250 911.8959760788259,253.91468980700108 911.8959760788259,246.08531019299892" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="855" y="236.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">HTTP /api</text>
+<polyline points="360,515 490,515" fill="none" stroke="#18334B" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polygon points="490,515 481.8959760788259,518.9146898070011 481.8959760788259,511.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="425" y="502.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">calls</text>
+<polyline points="790,515 920,515" fill="none" stroke="#18334B" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polygon points="920,515 911.8959760788259,518.9146898070011 911.8959760788259,511.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="855" y="502.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">calls</text>
+</svg>

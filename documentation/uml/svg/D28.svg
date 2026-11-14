@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D28 | Listing status lifecycle</title>
+<desc>Common paths shown; the backend enforces permissions for every edit. Inactive is retained, not deleted. Sold remains public; Blocked requires administrator intervention.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / STATE MACHINE / D28</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Listing status lifecycle</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Common paths shown; the backend enforces permissions for every edit.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Inactive is retained, not deleted. Sold remains public; Blocked requires administrator intervention.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Backend/Controllers/Listing.cs; Backend/Components/Env.cs; Website/src/components/SellerPortal.tsx</text>
+<rect x="50" y="215" width="300" height="130" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="200.0" y="234.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«state»</text>
+<text x="200.0" y="256.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Active</text>
+<polyline points="50,268 350,268" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="62" y="289.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Public listing</text>
+<text x="62" y="308.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Default created status</text>
+<rect x="490" y="215" width="300" height="130" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="234.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«state»</text>
+<text x="640.0" y="256.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Inactive</text>
+<polyline points="490,268 790,268" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="502" y="289.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Hidden from browse</text>
+<text x="502" y="308.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Record + photos retained</text>
+<rect x="930" y="215" width="300" height="130" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1080.0" y="234.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«state»</text>
+<text x="1080.0" y="256.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Sold</text>
+<polyline points="930,268 1230,268" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="942" y="289.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Visible; unavailable</text>
+<text x="942" y="308.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Existing chats remain</text>
+<rect x="50" y="460" width="300" height="130" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="200.0" y="479.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«state»</text>
+<text x="200.0" y="501.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Expired</text>
+<polyline points="50,513 350,513" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="62" y="534.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Expiry elapsed</text>
+<text x="62" y="553.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Renew when eligible</text>
+<rect x="930" y="460" width="300" height="130" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1080.0" y="479.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«state»</text>
+<text x="1080.0" y="501.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Blocked</text>
+<polyline points="930,513 1230,513" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="942" y="534.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Admin-only target status</text>
+<text x="942" y="553.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">No seller edits</text>
+<polyline points="350,280 490,280" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="490,280 481.8959760788259,283.9146898070011 481.8959760788259,276.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="420" y="264.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Set Inactive</text>
+<polyline points="200,215 200,174 1080,174 1080,215" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="1080,215 1076.085310192999,206.8959760788259 1083.914689807001,206.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="640" y="163.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Mark as Sold</text>
+<polyline points="200,345 200,460" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="200,460 196.08531019299892,451.8959760788259 203.91468980700108,451.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="270" y="400.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">expiry elapsed</text>
+<polyline points="100,460 100,345" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="100,345 103.91468980700107,353.1040239211741 96.08531019299893,353.1040239211741" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="92" y="400.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Renew</text>
+<polyline points="490,320 420,320 420,372 200,372 200,345" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="200,345 203.91468980700108,353.1040239211741 196.08531019299892,353.1040239211741" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="420" y="359.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">reactivate</text>
+<polyline points="350,310 375,310 375,420 1225,420 1225,460" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="1225,460 1221.085310192999,451.8959760788259 1228.914689807001,451.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="900" y="406.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">admin moderation</text>
+<text x="435" y="485.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Renew: within 14 days of expiry/check deadline.</text>
+<text x="435" y="505.92" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Student targets: Active / Inactive / Sold / Renew.</text>
+<text x="435" y="526.22" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Setting Expired / Blocked, or editing Blocked: admin ≥ 10.</text>
+<text x="435" y="546.52" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Admin may transition between all stored statuses.</text>
+</svg>

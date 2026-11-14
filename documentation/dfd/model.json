@@ -1,0 +1,6270 @@
+{
+  "version": 1,
+  "width": 1280,
+  "height": 720,
+  "source_commit": "f893267d148fc0c3c6fad8bee5caadf6c086a143",
+  "source_repository": "https://github.com/supracharger/StudentExchange",
+  "artifact_stem": "StudentExchange-DFD",
+  "title": "Student Exchange — Data Flow Atlas",
+  "slides": [
+    {
+      "id": "00",
+      "title": "Student Exchange | data flow atlas",
+      "subtitle": "Website + Node adapter + backend + persisted data",
+      "takeaway": "Nine DFDs complement the UML atlas; arrows carry data, not control or timing.",
+      "source": "code/Frontend; code/Backend",
+      "sources": [
+        "code/Frontend",
+        "code/Backend"
+      ],
+      "kind": "Cover",
+      "shapes": [
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 720,
+          "fill": "#F8FAFC",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 101,
+          "fill": "#12365B",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 17,
+          "text": "STUDENT EXCHANGE / DATA FLOW / 00",
+          "size": 11,
+          "color": "#9FD6EA",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 44,
+          "text": "Student Exchange | data flow atlas",
+          "size": 26,
+          "color": "#FFFFFF",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 116,
+          "text": "Website + Node adapter + backend + persisted data",
+          "size": 14,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 42,
+          "y": 635,
+          "w": 1196,
+          "h": 39,
+          "fill": "#FFF4CD",
+          "stroke": "#8BA2B5",
+          "r": 6
+        },
+        {
+          "type": "text",
+          "x": 56,
+          "y": 647,
+          "text": "Nine DFDs complement the UML atlas; arrows carry data, not control or timing.",
+          "size": 12,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 689,
+          "text": "StudentExchange @ f893267 | code/Frontend; code/Backend",
+          "size": 9,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 180,
+          "text": "Follow data across the whole marketplace",
+          "size": 30,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 250,
+          "text": "Context → Level 1 → focused Level 2 decompositions",
+          "size": 22,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 65,
+          "y": 345,
+          "w": 370,
+          "h": 170,
+          "fill": "#E8F1FC",
+          "stroke": "#8BA2B5",
+          "r": 22
+        },
+        {
+          "type": "text",
+          "x": 250.0,
+          "y": 358,
+          "text": "Scope",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 250.0,
+          "y": 390,
+          "text": "People, application processes, sessions, SQL",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 250.0,
+          "y": 408.85,
+          "text": "records and image files.",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "rect",
+          "x": 465,
+          "y": 345,
+          "w": 370,
+          "h": 170,
+          "fill": "#E8F1FC",
+          "stroke": "#8BA2B5",
+          "r": 22
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 358,
+          "text": "Evidence",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 390,
+          "text": "Same combined-repository snapshot and visual",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 408.85,
+          "text": "system as the UML atlas.",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "rect",
+          "x": 865,
+          "y": 345,
+          "w": 370,
+          "h": 170,
+          "fill": "#E8F1FC",
+          "stroke": "#8BA2B5",
+          "r": 22
+        },
+        {
+          "type": "text",
+          "x": 1050.0,
+          "y": 358,
+          "text": "Deliverables",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 1050.0,
+          "y": 390,
+          "text": "Vector PDF, editable PowerPoint, individual SVGs",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 1050.0,
+          "y": 408.85,
+          "text": "and JSON source.",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        }
+      ]
+    },
+    {
+      "id": "GUIDE",
+      "title": "Data flow diagram index",
+      "subtitle": "Read F00/F01 first; use the focused views to follow one class of data.",
+      "takeaway": "Nine diagrams + three reference pages; immutable source links are in TRACEABILITY.md.",
+      "source": "See README.md + TRACEABILITY.md",
+      "sources": [
+        "See README.md + TRACEABILITY.md"
+      ],
+      "kind": "Index",
+      "shapes": [
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 720,
+          "fill": "#F8FAFC",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 101,
+          "fill": "#12365B",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 17,
+          "text": "STUDENT EXCHANGE / DATA FLOW / GUIDE",
+          "size": 11,
+          "color": "#9FD6EA",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 44,
+          "text": "Data flow diagram index",
+          "size": 26,
+          "color": "#FFFFFF",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 116,
+          "text": "Read F00/F01 first; use the focused views to follow one class of data.",
+          "size": 14,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 42,
+          "y": 635,
+          "w": 1196,
+          "h": 39,
+          "fill": "#FFF4CD",
+          "stroke": "#8BA2B5",
+          "r": 6
+        },
+        {
+          "type": "text",
+          "x": 56,
+          "y": 647,
+          "text": "Nine diagrams + three reference pages; immutable source links are in TRACEABILITY.md.",
+          "size": 12,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 689,
+          "text": "StudentExchange @ f893267 | See README.md + TRACEABILITY.md",
+          "size": 9,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 177,
+          "text": "F00 Context DFD: marketplace boundary",
+          "size": 18,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 220,
+          "text": "F01 Level 1: processes and data stores",
+          "size": 18,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 263,
+          "text": "F02 Authentication and account data",
+          "size": 18,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 306,
+          "text": "F03 Listing discovery, details and seller pages",
+          "size": 18,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 349,
+          "text": "F04 Seller listing changes and photos",
+          "size": 18,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 392,
+          "text": "F05 Messaging, offers and read receipts",
+          "size": 18,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 435,
+          "text": "F06 Administrator data and moderation",
+          "size": 18,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 478,
+          "text": "F07 Scheduled maintenance data flow",
+          "size": 18,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 521,
+          "text": "F08 Session, forwarding and logout data",
+          "size": 18,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        }
+      ]
+    },
+    {
+      "id": "F00",
+      "title": "Context DFD: marketplace boundary",
+      "subtitle": "Level 0: the complete website and backend are one process.",
+      "takeaway": "Backend infrastructure is inside process 0; no external email or payment service is implied.",
+      "source": "Website/src/App.tsx; Website/server/api.mjs; Backend/Controllers/*.cs",
+      "sources": [
+        "Website/src/App.tsx",
+        "Website/server/api.mjs",
+        "Backend/Controllers/*.cs"
+      ],
+      "kind": "Data flow",
+      "shapes": [
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 720,
+          "fill": "#F8FAFC",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 101,
+          "fill": "#12365B",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 17,
+          "text": "STUDENT EXCHANGE / DATA FLOW / F00",
+          "size": 11,
+          "color": "#9FD6EA",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 44,
+          "text": "Context DFD: marketplace boundary",
+          "size": 26,
+          "color": "#FFFFFF",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 116,
+          "text": "Level 0: the complete website and backend are one process.",
+          "size": 14,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 42,
+          "y": 635,
+          "w": 1196,
+          "h": 39,
+          "fill": "#FFF4CD",
+          "stroke": "#8BA2B5",
+          "r": 6
+        },
+        {
+          "type": "text",
+          "x": 56,
+          "y": 647,
+          "text": "Backend infrastructure is inside process 0; no external email or payment service is implied.",
+          "size": 12,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 689,
+          "text": "StudentExchange @ f893267 | Website/src/App.tsx; Website/server/api.mjs; Backend/Controllers/*.cs",
+          "size": 9,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 55,
+          "y": 235,
+          "w": 260,
+          "h": 200,
+          "fill": "#FFFFFF",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 185.0,
+          "y": 249,
+          "text": "Visitor / student",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 185.0,
+          "y": 280,
+          "text": "Search, account, inventory",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 185.0,
+          "y": 298.85,
+          "text": "Messages and offers",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "rect",
+          "x": 475,
+          "y": 245,
+          "w": 330,
+          "h": 210,
+          "fill": "#E8F1FC",
+          "stroke": "#8BA2B5",
+          "r": 22
+        },
+        {
+          "type": "text",
+          "x": 640.0,
+          "y": 258,
+          "text": "0 | Student Exchange",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 640.0,
+          "y": 290,
+          "text": "Website + Node adapter",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 640.0,
+          "y": 308.85,
+          "text": "ASP.NET Core backend",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 640.0,
+          "y": 327.70000000000005,
+          "text": "Database + image storage",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "rect",
+          "x": 965,
+          "y": 235,
+          "w": 260,
+          "h": 200,
+          "fill": "#FFFFFF",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 1095.0,
+          "y": 249,
+          "text": "Administrator",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 1095.0,
+          "y": 280,
+          "text": "Directory, moderation",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 1095.0,
+          "y": 298.85,
+          "text": "Access and attempt records",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              315,
+              280
+            ],
+            [
+              475,
+              280
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              475,
+              280
+            ],
+            [
+              466.8959760788259,
+              283.9146898070011
+            ],
+            [
+              466.8959760788259,
+              276.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 395,
+          "y": 218,
+          "text": "Queries / edits / credentials",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              475,
+              400
+            ],
+            [
+              315,
+              400
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              315,
+              400
+            ],
+            [
+              323.1040239211741,
+              396.0853101929989
+            ],
+            [
+              323.1040239211741,
+              403.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 395,
+          "y": 456,
+          "text": "Listings / profile / messages",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              965,
+              280
+            ],
+            [
+              805,
+              280
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              805,
+              280
+            ],
+            [
+              813.1040239211741,
+              276.0853101929989
+            ],
+            [
+              813.1040239211741,
+              283.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 885,
+          "y": 218,
+          "text": "Admin queries / changes",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              805,
+              400
+            ],
+            [
+              965,
+              400
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              965,
+              400
+            ],
+            [
+              956.8959760788259,
+              403.9146898070011
+            ],
+            [
+              956.8959760788259,
+              396.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 885,
+          "y": 456,
+          "text": "Records / operation results",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        }
+      ]
+    },
+    {
+      "id": "F01",
+      "title": "Level 1: processes and data stores",
+      "subtitle": "Decomposition of process 0; the website runtime mediates browser-to-backend exchanges.",
+      "takeaway": "D1 is Node memory; D2/D3/D4 are SQLite groups; D5 is the backend upload filesystem.",
+      "source": "Website/server/api.mjs; Website/server/marketplace.mjs; Website/server/messages.mjs; Website/server/admin.mjs; Backend/Controllers/*.cs",
+      "sources": [
+        "Website/server/api.mjs",
+        "Website/server/marketplace.mjs",
+        "Website/server/messages.mjs",
+        "Website/server/admin.mjs",
+        "Backend/Controllers/*.cs"
+      ],
+      "kind": "Data flow",
+      "shapes": [
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 720,
+          "fill": "#F8FAFC",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 101,
+          "fill": "#12365B",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 17,
+          "text": "STUDENT EXCHANGE / DATA FLOW / F01",
+          "size": 11,
+          "color": "#9FD6EA",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 44,
+          "text": "Level 1: processes and data stores",
+          "size": 26,
+          "color": "#FFFFFF",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 116,
+          "text": "Decomposition of process 0; the website runtime mediates browser-to-backend exchanges.",
+          "size": 14,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 42,
+          "y": 635,
+          "w": 1196,
+          "h": 39,
+          "fill": "#FFF4CD",
+          "stroke": "#8BA2B5",
+          "r": 6
+        },
+        {
+          "type": "text",
+          "x": 56,
+          "y": 647,
+          "text": "D1 is Node memory; D2/D3/D4 are SQLite groups; D5 is the backend upload filesystem.",
+          "size": 12,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 689,
+          "text": "StudentExchange @ f893267 | Website/server/api.mjs; Website/server/marketplace.mjs; Website/server/messages.mjs; Website/server/admin.mjs; Backend/Controllers/*.cs",
+          "size": 9,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 50,
+          "y": 170,
+          "w": 250,
+          "h": 95,
+          "fill": "#FFFFFF",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 175.0,
+          "y": 184,
+          "text": "Visitor / student",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "rect",
+          "x": 50,
+          "y": 365,
+          "w": 250,
+          "h": 95,
+          "fill": "#FFFFFF",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 175.0,
+          "y": 379,
+          "text": "Administrator",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "rect",
+          "x": 445,
+          "y": 170,
+          "w": 330,
+          "h": 110,
+          "fill": "#E8F1FC",
+          "stroke": "#8BA2B5",
+          "r": 22
+        },
+        {
+          "type": "text",
+          "x": 610.0,
+          "y": 183,
+          "text": "1.0 | Website runtime",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 610.0,
+          "y": 215,
+          "text": "React UI + Node API adapter",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "rect",
+          "x": 445,
+          "y": 340,
+          "w": 330,
+          "h": 125,
+          "fill": "#E8F1FC",
+          "stroke": "#8BA2B5",
+          "r": 22
+        },
+        {
+          "type": "text",
+          "x": 610.0,
+          "y": 353,
+          "text": "2.0 | Backend services",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 610.0,
+          "y": 385,
+          "text": "Auth / listings / messaging",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 610.0,
+          "y": 403.85,
+          "text": "Admin / maintenance",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              1230,
+              165
+            ],
+            [
+              930,
+              165
+            ],
+            [
+              930,
+              245
+            ],
+            [
+              1230,
+              245
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              970,
+              165
+            ],
+            [
+              970,
+              245
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "text",
+          "x": 950,
+          "y": 182,
+          "text": "D1",
+          "size": 13,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 985,
+          "y": 178,
+          "text": "Website sessions",
+          "size": 14,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 985,
+          "y": 203,
+          "text": "Opaque ID → token / profile",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              1230,
+              280
+            ],
+            [
+              930,
+              280
+            ],
+            [
+              930,
+              365
+            ],
+            [
+              1230,
+              365
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              970,
+              280
+            ],
+            [
+              970,
+              365
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "text",
+          "x": 950,
+          "y": 297,
+          "text": "D2",
+          "size": 13,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 985,
+          "y": 293,
+          "text": "Identity / access",
+          "size": 14,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 985,
+          "y": 318,
+          "text": "User, token, admin, IP, blocks",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              1230,
+              390
+            ],
+            [
+              930,
+              390
+            ],
+            [
+              930,
+              475
+            ],
+            [
+              1230,
+              475
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              970,
+              390
+            ],
+            [
+              970,
+              475
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "text",
+          "x": 950,
+          "y": 407,
+          "text": "D3",
+          "size": 13,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 985,
+          "y": 403,
+          "text": "Marketplace",
+          "size": 14,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 985,
+          "y": 428,
+          "text": "Listings, Img, Books, lookups",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 985,
+          "y": 445.4,
+          "text": "Check_Active + hit tables",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              1230,
+              500
+            ],
+            [
+              930,
+              500
+            ],
+            [
+              930,
+              585
+            ],
+            [
+              1230,
+              585
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              970,
+              500
+            ],
+            [
+              970,
+              585
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "text",
+          "x": 950,
+          "y": 517,
+          "text": "D4",
+          "size": 13,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 985,
+          "y": 513,
+          "text": "Conversations",
+          "size": 14,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 985,
+          "y": 538,
+          "text": "Conversations + Messages",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              775,
+              535
+            ],
+            [
+              445,
+              535
+            ],
+            [
+              445,
+              610
+            ],
+            [
+              775,
+              610
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              485,
+              535
+            ],
+            [
+              485,
+              610
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "text",
+          "x": 465,
+          "y": 552,
+          "text": "D5",
+          "size": 13,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 500,
+          "y": 548,
+          "text": "Photo files",
+          "size": 14,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 500,
+          "y": 573,
+          "text": "Decoded listing images",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              300,
+              195
+            ],
+            [
+              445,
+              195
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              445,
+              195
+            ],
+            [
+              436.8959760788259,
+              198.91468980700108
+            ],
+            [
+              436.8959760788259,
+              191.08531019299892
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 370,
+          "y": 172,
+          "text": "Requests",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              445,
+              246
+            ],
+            [
+              300,
+              246
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              300,
+              246
+            ],
+            [
+              308.1040239211741,
+              242.08531019299892
+            ],
+            [
+              308.1040239211741,
+              249.91468980700108
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 370,
+          "y": 220,
+          "text": "UI results",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              300,
+              390
+            ],
+            [
+              360,
+              390
+            ],
+            [
+              360,
+              268
+            ],
+            [
+              445,
+              268
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              445,
+              268
+            ],
+            [
+              436.8959760788259,
+              271.9146898070011
+            ],
+            [
+              436.8959760788259,
+              264.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 355,
+          "y": 305,
+          "text": "Admin input",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              445,
+              260
+            ],
+            [
+              405,
+              260
+            ],
+            [
+              405,
+              440
+            ],
+            [
+              300,
+              440
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              300,
+              440
+            ],
+            [
+              308.1040239211741,
+              436.0853101929989
+            ],
+            [
+              308.1040239211741,
+              443.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 345,
+          "y": 468,
+          "text": "Admin results",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              775,
+              191
+            ],
+            [
+              930,
+              191
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              930,
+              191
+            ],
+            [
+              921.8959760788259,
+              194.91468980700108
+            ],
+            [
+              921.8959760788259,
+              187.08531019299892
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 850,
+          "y": 169,
+          "text": "Session writes",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              930,
+              230
+            ],
+            [
+              775,
+              230
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              775,
+              230
+            ],
+            [
+              783.1040239211741,
+              226.08531019299892
+            ],
+            [
+              783.1040239211741,
+              233.91468980700108
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 850,
+          "y": 208,
+          "text": "Session data",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              555,
+              280
+            ],
+            [
+              555,
+              340
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              555,
+              340
+            ],
+            [
+              551.0853101929989,
+              331.8959760788259
+            ],
+            [
+              558.9146898070011,
+              331.8959760788259
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 490,
+          "y": 294,
+          "text": "Authorized JSON",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              680,
+              340
+            ],
+            [
+              680,
+              280
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              680,
+              280
+            ],
+            [
+              683.9146898070011,
+              288.1040239211741
+            ],
+            [
+              676.0853101929989,
+              288.1040239211741
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 735,
+          "y": 300,
+          "text": "Backend results",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              775,
+              361
+            ],
+            [
+              855,
+              361
+            ],
+            [
+              855,
+              307
+            ],
+            [
+              930,
+              307
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              930,
+              307
+            ],
+            [
+              921.8959760788259,
+              310.9146898070011
+            ],
+            [
+              921.8959760788259,
+              303.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 850,
+          "y": 285,
+          "text": "Identity reads/writes",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              930,
+              345
+            ],
+            [
+              885,
+              345
+            ],
+            [
+              885,
+              389
+            ],
+            [
+              775,
+              389
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              775,
+              389
+            ],
+            [
+              783.1040239211741,
+              385.0853101929989
+            ],
+            [
+              783.1040239211741,
+              392.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 850,
+          "y": 369,
+          "text": "Identity data",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              775,
+              420
+            ],
+            [
+              930,
+              420
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              930,
+              420
+            ],
+            [
+              921.8959760788259,
+              423.9146898070011
+            ],
+            [
+              921.8959760788259,
+              416.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 850,
+          "y": 398,
+          "text": "Listing edits",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              930,
+              454
+            ],
+            [
+              775,
+              454
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              775,
+              454
+            ],
+            [
+              783.1040239211741,
+              450.0853101929989
+            ],
+            [
+              783.1040239211741,
+              457.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 850,
+          "y": 433,
+          "text": "Listing records",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              775,
+              440
+            ],
+            [
+              815,
+              440
+            ],
+            [
+              815,
+              524
+            ],
+            [
+              930,
+              524
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              930,
+              524
+            ],
+            [
+              921.8959760788259,
+              527.9146898070011
+            ],
+            [
+              921.8959760788259,
+              520.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 840,
+          "y": 487,
+          "text": "Messages / read marks",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              930,
+              558
+            ],
+            [
+              795,
+              558
+            ],
+            [
+              795,
+              460
+            ],
+            [
+              775,
+              460
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              775,
+              460
+            ],
+            [
+              783.1040239211741,
+              456.0853101929989
+            ],
+            [
+              783.1040239211741,
+              463.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 850,
+          "y": 580,
+          "text": "Inbox / history",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              555,
+              465
+            ],
+            [
+              555,
+              535
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              555,
+              535
+            ],
+            [
+              551.0853101929989,
+              526.8959760788259
+            ],
+            [
+              558.9146898070011,
+              526.8959760788259
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 485,
+          "y": 490,
+          "text": "Image bytes",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              680,
+              535
+            ],
+            [
+              680,
+              465
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              680,
+              465
+            ],
+            [
+              683.9146898070011,
+              473.1040239211741
+            ],
+            [
+              676.0853101929989,
+              473.1040239211741
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 740,
+          "y": 510,
+          "text": "Stored image bytes",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        }
+      ]
+    },
+    {
+      "id": "F02",
+      "title": "Authentication and account data",
+      "subtitle": "Level 2 of process 2.0, with its website entry/exit shown for traceability.",
+      "takeaway": "Registration does not log in. Website sessions expire after 12h; backend token expiry is independent.",
+      "source": "Website/server/api.mjs; Website/server/client-ip.mjs; Backend/Controllers/LogIn.cs; Backend/Controllers/Register.cs; Backend/Controllers/Users.cs",
+      "sources": [
+        "Website/server/api.mjs",
+        "Website/server/client-ip.mjs",
+        "Backend/Controllers/LogIn.cs",
+        "Backend/Controllers/Register.cs",
+        "Backend/Controllers/Users.cs"
+      ],
+      "kind": "Data flow",
+      "shapes": [
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 720,
+          "fill": "#F8FAFC",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 101,
+          "fill": "#12365B",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 17,
+          "text": "STUDENT EXCHANGE / DATA FLOW / F02",
+          "size": 11,
+          "color": "#9FD6EA",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 44,
+          "text": "Authentication and account data",
+          "size": 26,
+          "color": "#FFFFFF",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 116,
+          "text": "Level 2 of process 2.0, with its website entry/exit shown for traceability.",
+          "size": 14,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 42,
+          "y": 635,
+          "w": 1196,
+          "h": 39,
+          "fill": "#FFF4CD",
+          "stroke": "#8BA2B5",
+          "r": 6
+        },
+        {
+          "type": "text",
+          "x": 56,
+          "y": 647,
+          "text": "Registration does not log in. Website sessions expire after 12h; backend token expiry is independent.",
+          "size": 12,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 689,
+          "text": "StudentExchange @ f893267 | Website/server/api.mjs; Website/server/client-ip.mjs; Backend/Controllers/LogIn.cs; Backend/Controllers/Register.cs; Backend/Controllers/Users.cs",
+          "size": 9,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 50,
+          "y": 235,
+          "w": 265,
+          "h": 165,
+          "fill": "#FFFFFF",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 182.5,
+          "y": 249,
+          "text": "Visitor / student",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 182.5,
+          "y": 280,
+          "text": "Via React + Node adapter",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "rect",
+          "x": 490,
+          "y": 225,
+          "w": 320,
+          "h": 190,
+          "fill": "#E8F1FC",
+          "stroke": "#8BA2B5",
+          "r": 22
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 238,
+          "text": "2.1 | Authenticate / profile",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 270,
+          "text": "LogIn / Register / Users",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 288.85,
+          "text": "Validate account eligibility",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 307.70000000000005,
+          "text": "Issue or revoke backend token",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              1245,
+              225
+            ],
+            [
+              975,
+              225
+            ],
+            [
+              975,
+              375
+            ],
+            [
+              1245,
+              375
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              1015,
+              225
+            ],
+            [
+              1015,
+              375
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "text",
+          "x": 995,
+          "y": 242,
+          "text": "D2",
+          "size": 13,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 1030,
+          "y": 238,
+          "text": "Identity / access",
+          "size": 14,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 1030,
+          "y": 263,
+          "text": "User + Access_Token",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 1030,
+          "y": 280.4,
+          "text": "IP / blocks",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              315,
+              265
+            ],
+            [
+              490,
+              265
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              490,
+              265
+            ],
+            [
+              481.8959760788259,
+              268.9146898070011
+            ],
+            [
+              481.8959760788259,
+              261.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 400,
+          "y": 183,
+          "text": "Credentials / profile changes",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              490,
+              373
+            ],
+            [
+              315,
+              373
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              315,
+              373
+            ],
+            [
+              323.1040239211741,
+              369.0853101929989
+            ],
+            [
+              323.1040239211741,
+              376.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 400,
+          "y": 438,
+          "text": "Profile / backend token / errors",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              810,
+              265
+            ],
+            [
+              975,
+              265
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              975,
+              265
+            ],
+            [
+              966.8959760788259,
+              268.9146898070011
+            ],
+            [
+              966.8959760788259,
+              261.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 891,
+          "y": 183,
+          "text": "Validated account/token writes",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              975,
+              342
+            ],
+            [
+              810,
+              342
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              810,
+              342
+            ],
+            [
+              818.1040239211741,
+              338.0853101929989
+            ],
+            [
+              818.1040239211741,
+              345.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 891,
+          "y": 438,
+          "text": "Profile / token / eligibility",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        }
+      ]
+    },
+    {
+      "id": "F03",
+      "title": "Listing discovery, details and seller pages",
+      "subtitle": "Level 2 of process 2.0, with its website entry/exit shown for traceability.",
+      "takeaway": "Public seller queries return Active/Sold; user_page never combines with for_user or a visitor token.",
+      "source": "Website/server/marketplace.mjs; Website/src/api/marketplace.ts; Backend/Controllers/Listing.cs",
+      "sources": [
+        "Website/server/marketplace.mjs",
+        "Website/src/api/marketplace.ts",
+        "Backend/Controllers/Listing.cs"
+      ],
+      "kind": "Data flow",
+      "shapes": [
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 720,
+          "fill": "#F8FAFC",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 101,
+          "fill": "#12365B",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 17,
+          "text": "STUDENT EXCHANGE / DATA FLOW / F03",
+          "size": 11,
+          "color": "#9FD6EA",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 44,
+          "text": "Listing discovery, details and seller pages",
+          "size": 26,
+          "color": "#FFFFFF",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 116,
+          "text": "Level 2 of process 2.0, with its website entry/exit shown for traceability.",
+          "size": 14,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 42,
+          "y": 635,
+          "w": 1196,
+          "h": 39,
+          "fill": "#FFF4CD",
+          "stroke": "#8BA2B5",
+          "r": 6
+        },
+        {
+          "type": "text",
+          "x": 56,
+          "y": 647,
+          "text": "Public seller queries return Active/Sold; user_page never combines with for_user or a visitor token.",
+          "size": 12,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 689,
+          "text": "StudentExchange @ f893267 | Website/server/marketplace.mjs; Website/src/api/marketplace.ts; Backend/Controllers/Listing.cs",
+          "size": 9,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 50,
+          "y": 235,
+          "w": 265,
+          "h": 165,
+          "fill": "#FFFFFF",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 182.5,
+          "y": 249,
+          "text": "Visitor / student",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 182.5,
+          "y": 280,
+          "text": "Via React + Node adapter",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "rect",
+          "x": 490,
+          "y": 225,
+          "w": 320,
+          "h": 190,
+          "fill": "#E8F1FC",
+          "stroke": "#8BA2B5",
+          "r": 22
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 238,
+          "text": "2.2 | Read marketplace",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 270,
+          "text": "Node forwards JSON GET body",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 288.85,
+          "text": "Optional visitor detail token",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 307.70000000000005,
+          "text": "Public seller scope: user_page",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              1245,
+              225
+            ],
+            [
+              975,
+              225
+            ],
+            [
+              975,
+              375
+            ],
+            [
+              1245,
+              375
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              1015,
+              225
+            ],
+            [
+              1015,
+              375
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "text",
+          "x": 995,
+          "y": 242,
+          "text": "D3",
+          "size": 13,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 1030,
+          "y": 238,
+          "text": "Marketplace",
+          "size": 14,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 1030,
+          "y": 263,
+          "text": "Listings + owner / lookups",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 1030,
+          "y": 280.4,
+          "text": "Img + Books + hit tallies",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              315,
+              265
+            ],
+            [
+              490,
+              265
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              490,
+              265
+            ],
+            [
+              481.8959760788259,
+              268.9146898070011
+            ],
+            [
+              481.8959760788259,
+              261.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 400,
+          "y": 183,
+          "text": "Search / ISBN / category / user_page / ID",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              490,
+              373
+            ],
+            [
+              315,
+              373
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              315,
+              373
+            ],
+            [
+              323.1040239211741,
+              369.0853101929989
+            ],
+            [
+              323.1040239211741,
+              376.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 400,
+          "y": 438,
+          "text": "Summaries / detail / image references",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              810,
+              265
+            ],
+            [
+              975,
+              265
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              975,
+              265
+            ],
+            [
+              966.8959760788259,
+              268.9146898070011
+            ],
+            [
+              966.8959760788259,
+              261.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 891,
+          "y": 183,
+          "text": "Detail engagement tallies",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              975,
+              342
+            ],
+            [
+              810,
+              342
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              810,
+              342
+            ],
+            [
+              818.1040239211741,
+              338.0853101929989
+            ],
+            [
+              818.1040239211741,
+              345.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 891,
+          "y": 438,
+          "text": "Filtered records / photos",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        }
+      ]
+    },
+    {
+      "id": "F04",
+      "title": "Seller listing changes and photos",
+      "subtitle": "Level 2 of process 2.0, with its website entry/exit shown for traceability.",
+      "takeaway": "Website removal PATCHes Inactive. Sold is easy to set; image edits retain original zero-based locations.",
+      "source": "Website/server/marketplace.mjs; Website/src/components/ListingEditor.tsx; Backend/Controllers/Listing.cs",
+      "sources": [
+        "Website/server/marketplace.mjs",
+        "Website/src/components/ListingEditor.tsx",
+        "Backend/Controllers/Listing.cs"
+      ],
+      "kind": "Data flow",
+      "shapes": [
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 720,
+          "fill": "#F8FAFC",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 101,
+          "fill": "#12365B",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 17,
+          "text": "STUDENT EXCHANGE / DATA FLOW / F04",
+          "size": 11,
+          "color": "#9FD6EA",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 44,
+          "text": "Seller listing changes and photos",
+          "size": 26,
+          "color": "#FFFFFF",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 116,
+          "text": "Level 2 of process 2.0, with its website entry/exit shown for traceability.",
+          "size": 14,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 42,
+          "y": 635,
+          "w": 1196,
+          "h": 39,
+          "fill": "#FFF4CD",
+          "stroke": "#8BA2B5",
+          "r": 6
+        },
+        {
+          "type": "text",
+          "x": 56,
+          "y": 647,
+          "text": "Website removal PATCHes Inactive. Sold is easy to set; image edits retain original zero-based locations.",
+          "size": 12,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 689,
+          "text": "StudentExchange @ f893267 | Website/server/marketplace.mjs; Website/src/components/ListingEditor.tsx; Backend/Controllers/Listing.cs",
+          "size": 9,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 50,
+          "y": 235,
+          "w": 265,
+          "h": 165,
+          "fill": "#FFFFFF",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 182.5,
+          "y": 249,
+          "text": "Seller / moderator",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 182.5,
+          "y": 280,
+          "text": "Via React + Node adapter",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "rect",
+          "x": 490,
+          "y": 225,
+          "w": 320,
+          "h": 190,
+          "fill": "#E8F1FC",
+          "stroke": "#8BA2B5",
+          "r": 22
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 238,
+          "text": "2.3 | Maintain listing",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 270,
+          "text": "Validate owner/admin + status",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 288.85,
+          "text": "Create or PATCH listing",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 307.70000000000005,
+          "text": "Decode / order ≤ 8 photos",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              1245,
+              225
+            ],
+            [
+              975,
+              225
+            ],
+            [
+              975,
+              375
+            ],
+            [
+              1245,
+              375
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              1015,
+              225
+            ],
+            [
+              1015,
+              375
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "text",
+          "x": 995,
+          "y": 242,
+          "text": "D3",
+          "size": 13,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 1030,
+          "y": 238,
+          "text": "Marketplace",
+          "size": 14,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 1030,
+          "y": 263,
+          "text": "Listings / Img / Books",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 1030,
+          "y": 280.4,
+          "text": "Check_Active",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              315,
+              265
+            ],
+            [
+              490,
+              265
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              490,
+              265
+            ],
+            [
+              481.8959760788259,
+              268.9146898070011
+            ],
+            [
+              481.8959760788259,
+              261.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 400,
+          "y": 183,
+          "text": "Fields / photo operations / status",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              490,
+              373
+            ],
+            [
+              315,
+              373
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              315,
+              373
+            ],
+            [
+              323.1040239211741,
+              369.0853101929989
+            ],
+            [
+              323.1040239211741,
+              376.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 400,
+          "y": 438,
+          "text": "Saved listing / validation errors",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              810,
+              265
+            ],
+            [
+              975,
+              265
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              975,
+              265
+            ],
+            [
+              966.8959760788259,
+              268.9146898070011
+            ],
+            [
+              966.8959760788259,
+              261.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 891,
+          "y": 183,
+          "text": "Transactional row edits",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              975,
+              342
+            ],
+            [
+              810,
+              342
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              810,
+              342
+            ],
+            [
+              818.1040239211741,
+              338.0853101929989
+            ],
+            [
+              818.1040239211741,
+              345.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 891,
+          "y": 438,
+          "text": "Original listing + photo order",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              910,
+              535
+            ],
+            [
+              490,
+              535
+            ],
+            [
+              490,
+              607
+            ],
+            [
+              910,
+              607
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              530,
+              535
+            ],
+            [
+              530,
+              607
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "text",
+          "x": 510,
+          "y": 552,
+          "text": "D5",
+          "size": 13,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 545,
+          "y": 548,
+          "text": "Photo files",
+          "size": 14,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 545,
+          "y": 573,
+          "text": "Listing upload directory",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              580,
+              415
+            ],
+            [
+              580,
+              535
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              580,
+              535
+            ],
+            [
+              576.0853101929989,
+              526.8959760788259
+            ],
+            [
+              583.9146898070011,
+              526.8959760788259
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 443,
+          "y": 489,
+          "text": "New files / superseded file removal",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              735,
+              535
+            ],
+            [
+              735,
+              415
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              735,
+              415
+            ],
+            [
+              738.9146898070011,
+              423.1040239211741
+            ],
+            [
+              731.0853101929989,
+              423.1040239211741
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 854,
+          "y": 491,
+          "text": "Retained image files",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        }
+      ]
+    },
+    {
+      "id": "F05",
+      "title": "Messaging, offers and read receipts",
+      "subtitle": "Level 2 of process 2.0, with its website entry/exit shown for traceability.",
+      "takeaway": "Offers are proposals: no acceptance, payment, attachments or email delivery endpoint is modeled.",
+      "source": "Website/server/messages.mjs; Website/src/components/Messenger.tsx; Backend/Controllers/Message.cs",
+      "sources": [
+        "Website/server/messages.mjs",
+        "Website/src/components/Messenger.tsx",
+        "Backend/Controllers/Message.cs"
+      ],
+      "kind": "Data flow",
+      "shapes": [
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 720,
+          "fill": "#F8FAFC",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 101,
+          "fill": "#12365B",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 17,
+          "text": "STUDENT EXCHANGE / DATA FLOW / F05",
+          "size": 11,
+          "color": "#9FD6EA",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 44,
+          "text": "Messaging, offers and read receipts",
+          "size": 26,
+          "color": "#FFFFFF",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 116,
+          "text": "Level 2 of process 2.0, with its website entry/exit shown for traceability.",
+          "size": 14,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 42,
+          "y": 635,
+          "w": 1196,
+          "h": 39,
+          "fill": "#FFF4CD",
+          "stroke": "#8BA2B5",
+          "r": 6
+        },
+        {
+          "type": "text",
+          "x": 56,
+          "y": 647,
+          "text": "Offers are proposals: no acceptance, payment, attachments or email delivery endpoint is modeled.",
+          "size": 12,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 689,
+          "text": "StudentExchange @ f893267 | Website/server/messages.mjs; Website/src/components/Messenger.tsx; Backend/Controllers/Message.cs",
+          "size": 9,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 50,
+          "y": 235,
+          "w": 265,
+          "h": 165,
+          "fill": "#FFFFFF",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 182.5,
+          "y": 249,
+          "text": "Buyer / seller",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 182.5,
+          "y": 280,
+          "text": "Via React + Node adapter",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "rect",
+          "x": 490,
+          "y": 225,
+          "w": 320,
+          "h": 190,
+          "fill": "#E8F1FC",
+          "stroke": "#8BA2B5",
+          "r": 22
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 238,
+          "text": "2.4 | Exchange messages",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 270,
+          "text": "Node → api/Message",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 288.85,
+          "text": "Participant token + rate checks",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 307.70000000000005,
+          "text": "Read marks incoming rows read",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              1245,
+              225
+            ],
+            [
+              975,
+              225
+            ],
+            [
+              975,
+              375
+            ],
+            [
+              1245,
+              375
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              1015,
+              225
+            ],
+            [
+              1015,
+              375
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "text",
+          "x": 995,
+          "y": 242,
+          "text": "D4",
+          "size": 13,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 1030,
+          "y": 238,
+          "text": "Conversations",
+          "size": 14,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 1030,
+          "y": 263,
+          "text": "Conversations + Messages",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              315,
+              265
+            ],
+            [
+              490,
+              265
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              490,
+              265
+            ],
+            [
+              481.8959760788259,
+              268.9146898070011
+            ],
+            [
+              481.8959760788259,
+              261.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 400,
+          "y": 183,
+          "text": "Text / offer / thread ID / after cursor",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              490,
+              373
+            ],
+            [
+              315,
+              373
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              315,
+              373
+            ],
+            [
+              323.1040239211741,
+              369.0853101929989
+            ],
+            [
+              323.1040239211741,
+              376.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 400,
+          "y": 438,
+          "text": "Inbox / history / unread / send result",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              810,
+              265
+            ],
+            [
+              975,
+              265
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              975,
+              265
+            ],
+            [
+              966.8959760788259,
+              268.9146898070011
+            ],
+            [
+              966.8959760788259,
+              261.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 891,
+          "y": 183,
+          "text": "Conversation / message / read time",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              975,
+              342
+            ],
+            [
+              810,
+              342
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              810,
+              342
+            ],
+            [
+              818.1040239211741,
+              338.0853101929989
+            ],
+            [
+              818.1040239211741,
+              345.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 891,
+          "y": 438,
+          "text": "Participant inbox / message history",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              910,
+              535
+            ],
+            [
+              490,
+              535
+            ],
+            [
+              490,
+              607
+            ],
+            [
+              910,
+              607
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              530,
+              535
+            ],
+            [
+              530,
+              607
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "text",
+          "x": 510,
+          "y": 552,
+          "text": "D3",
+          "size": 13,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 545,
+          "y": 548,
+          "text": "Marketplace",
+          "size": 14,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 545,
+          "y": 573,
+          "text": "Listing ownership/status; hit tallies",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              580,
+              415
+            ],
+            [
+              580,
+              535
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              580,
+              535
+            ],
+            [
+              576.0853101929989,
+              526.8959760788259
+            ],
+            [
+              583.9146898070011,
+              526.8959760788259
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 443,
+          "y": 489,
+          "text": "Message engagement tally",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              735,
+              535
+            ],
+            [
+              735,
+              415
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              735,
+              415
+            ],
+            [
+              738.9146898070011,
+              423.1040239211741
+            ],
+            [
+              731.0853101929989,
+              423.1040239211741
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 854,
+          "y": 491,
+          "text": "Listing / seller / eligibility",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        }
+      ]
+    },
+    {
+      "id": "F06",
+      "title": "Administrator data and moderation",
+      "subtitle": "Level 2 of process 2.0, with its website entry/exit shown for traceability.",
+      "takeaway": "Admin levels vary by operation. Deleting an account differs from deactivating a listing.",
+      "source": "Website/server/admin.mjs; Backend/Controllers/Admin.cs; Backend/Controllers/Blocked.cs; Backend/Controllers/Users.cs; Backend/Controllers/Schools.cs; Backend/Controllers/Category.cs",
+      "sources": [
+        "Website/server/admin.mjs",
+        "Backend/Controllers/Admin.cs",
+        "Backend/Controllers/Blocked.cs",
+        "Backend/Controllers/Users.cs",
+        "Backend/Controllers/Schools.cs",
+        "Backend/Controllers/Category.cs"
+      ],
+      "kind": "Data flow",
+      "shapes": [
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 720,
+          "fill": "#F8FAFC",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 101,
+          "fill": "#12365B",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 17,
+          "text": "STUDENT EXCHANGE / DATA FLOW / F06",
+          "size": 11,
+          "color": "#9FD6EA",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 44,
+          "text": "Administrator data and moderation",
+          "size": 26,
+          "color": "#FFFFFF",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 116,
+          "text": "Level 2 of process 2.0, with its website entry/exit shown for traceability.",
+          "size": 14,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 42,
+          "y": 635,
+          "w": 1196,
+          "h": 39,
+          "fill": "#FFF4CD",
+          "stroke": "#8BA2B5",
+          "r": 6
+        },
+        {
+          "type": "text",
+          "x": 56,
+          "y": 647,
+          "text": "Admin levels vary by operation. Deleting an account differs from deactivating a listing.",
+          "size": 12,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 689,
+          "text": "StudentExchange @ f893267 | Website/server/admin.mjs; Backend/Controllers/Admin.cs; Backend/Controllers/Blocked.cs; Backend/Controllers/Users.cs; Backend/Controllers/Schools.cs; Backend/Controllers/Category.cs",
+          "size": 9,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 50,
+          "y": 235,
+          "w": 265,
+          "h": 165,
+          "fill": "#FFFFFF",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 182.5,
+          "y": 249,
+          "text": "Administrator",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 182.5,
+          "y": 280,
+          "text": "Via React + Node adapter",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "rect",
+          "x": 490,
+          "y": 225,
+          "w": 320,
+          "h": 190,
+          "fill": "#E8F1FC",
+          "stroke": "#8BA2B5",
+          "r": 22
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 238,
+          "text": "2.5 | Administer records",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 270,
+          "text": "Node permission + target checks",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 288.85,
+          "text": "Controller rank/lock enforcement",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 307.70000000000005,
+          "text": "IP forwarding uses service token",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              1245,
+              225
+            ],
+            [
+              975,
+              225
+            ],
+            [
+              975,
+              375
+            ],
+            [
+              1245,
+              375
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              1015,
+              225
+            ],
+            [
+              1015,
+              375
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "text",
+          "x": 995,
+          "y": 242,
+          "text": "D2",
+          "size": 13,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 1030,
+          "y": 238,
+          "text": "Identity / access",
+          "size": 14,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 1030,
+          "y": 263,
+          "text": "User / Admins / tokens",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 1030,
+          "y": 280.4,
+          "text": "IP / block records",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              315,
+              265
+            ],
+            [
+              490,
+              265
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              490,
+              265
+            ],
+            [
+              481.8959760788259,
+              268.9146898070011
+            ],
+            [
+              481.8959760788259,
+              261.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 400,
+          "y": 183,
+          "text": "Target IDs / filters / proposed changes",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              490,
+              373
+            ],
+            [
+              315,
+              373
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              315,
+              373
+            ],
+            [
+              323.1040239211741,
+              369.0853101929989
+            ],
+            [
+              323.1040239211741,
+              376.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 400,
+          "y": 438,
+          "text": "Directory / attempt data / results",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              810,
+              265
+            ],
+            [
+              975,
+              265
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              975,
+              265
+            ],
+            [
+              966.8959760788259,
+              268.9146898070011
+            ],
+            [
+              966.8959760788259,
+              261.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 891,
+          "y": 183,
+          "text": "Eligible changes / token revocation",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              975,
+              342
+            ],
+            [
+              810,
+              342
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              810,
+              342
+            ],
+            [
+              818.1040239211741,
+              338.0853101929989
+            ],
+            [
+              818.1040239211741,
+              345.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 891,
+          "y": 438,
+          "text": "Directory / rank / attempt records",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              910,
+              535
+            ],
+            [
+              490,
+              535
+            ],
+            [
+              490,
+              607
+            ],
+            [
+              910,
+              607
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              530,
+              535
+            ],
+            [
+              530,
+              607
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "text",
+          "x": 510,
+          "y": 552,
+          "text": "D3",
+          "size": 13,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 545,
+          "y": 548,
+          "text": "Marketplace",
+          "size": 14,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 545,
+          "y": 573,
+          "text": "Listings / Schools / categories",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              580,
+              415
+            ],
+            [
+              580,
+              535
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              580,
+              535
+            ],
+            [
+              576.0853101929989,
+              526.8959760788259
+            ],
+            [
+              583.9146898070011,
+              526.8959760788259
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 443,
+          "y": 489,
+          "text": "Moderation / lookup edits",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              735,
+              535
+            ],
+            [
+              735,
+              415
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              735,
+              415
+            ],
+            [
+              738.9146898070011,
+              423.1040239211741
+            ],
+            [
+              731.0853101929989,
+              423.1040239211741
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 854,
+          "y": 491,
+          "text": "Listings / school / category rows",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        }
+      ]
+    },
+    {
+      "id": "F07",
+      "title": "Scheduled maintenance data flow",
+      "subtitle": "Level 2 of process 2.0: startup/background housekeeping is internal to the backend.",
+      "takeaway": "Schedule starts asynchronously and runs daily at 03:24 Mountain time; no Message.CleanUp implementation is modeled.",
+      "source": "Backend/Program.cs; Backend/Controllers/LogIn.cs; Backend/Controllers/Users.cs; Backend/Controllers/Listing.cs; Backend/Components/IP.cs",
+      "sources": [
+        "Backend/Program.cs",
+        "Backend/Controllers/LogIn.cs",
+        "Backend/Controllers/Users.cs",
+        "Backend/Controllers/Listing.cs",
+        "Backend/Components/IP.cs"
+      ],
+      "kind": "Data flow",
+      "shapes": [
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 720,
+          "fill": "#F8FAFC",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 101,
+          "fill": "#12365B",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 17,
+          "text": "STUDENT EXCHANGE / DATA FLOW / F07",
+          "size": 11,
+          "color": "#9FD6EA",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 44,
+          "text": "Scheduled maintenance data flow",
+          "size": 26,
+          "color": "#FFFFFF",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 116,
+          "text": "Level 2 of process 2.0: startup/background housekeeping is internal to the backend.",
+          "size": 14,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 42,
+          "y": 635,
+          "w": 1196,
+          "h": 39,
+          "fill": "#FFF4CD",
+          "stroke": "#8BA2B5",
+          "r": 6
+        },
+        {
+          "type": "text",
+          "x": 56,
+          "y": 647,
+          "text": "Schedule starts asynchronously and runs daily at 03:24 Mountain time; no Message.CleanUp implementation is modeled.",
+          "size": 12,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 689,
+          "text": "StudentExchange @ f893267 | Backend/Program.cs; Backend/Controllers/LogIn.cs; Backend/Controllers/Users.cs; Backend/Controllers/Listing.cs; Backend/Components/IP.cs",
+          "size": 9,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 485,
+          "y": 240,
+          "w": 320,
+          "h": 180,
+          "fill": "#E8F1FC",
+          "stroke": "#8BA2B5",
+          "r": 22
+        },
+        {
+          "type": "text",
+          "x": 645.0,
+          "y": 253,
+          "text": "2.6 | Maintain records",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 645.0,
+          "y": 285,
+          "text": "Schedule → cleanup routines",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 645.0,
+          "y": 303.85,
+          "text": "Tokens / accounts / IP / listings",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 645.0,
+          "y": 322.70000000000005,
+          "text": "Expiry and hit-count aggregation",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              330,
+              225
+            ],
+            [
+              45,
+              225
+            ],
+            [
+              45,
+              365
+            ],
+            [
+              330,
+              365
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              85,
+              225
+            ],
+            [
+              85,
+              365
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 242,
+          "text": "D2",
+          "size": 13,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 100,
+          "y": 238,
+          "text": "Identity / access",
+          "size": 14,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 100,
+          "y": 263,
+          "text": "Token expiry / IP activity",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 100,
+          "y": 280.4,
+          "text": "Account retention records",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              1235,
+              225
+            ],
+            [
+              950,
+              225
+            ],
+            [
+              950,
+              365
+            ],
+            [
+              1235,
+              365
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              990,
+              225
+            ],
+            [
+              990,
+              365
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "text",
+          "x": 970,
+          "y": 242,
+          "text": "D3",
+          "size": 13,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 1005,
+          "y": 238,
+          "text": "Marketplace",
+          "size": 14,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 1005,
+          "y": 263,
+          "text": "Listing expiry / checks",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 1005,
+          "y": 280.4,
+          "text": "Hit tally / aggregate rows",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              885,
+              535
+            ],
+            [
+              485,
+              535
+            ],
+            [
+              485,
+              605
+            ],
+            [
+              885,
+              605
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              525,
+              535
+            ],
+            [
+              525,
+              605
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "text",
+          "x": 505,
+          "y": 552,
+          "text": "D5",
+          "size": 13,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 540,
+          "y": 548,
+          "text": "Photo files",
+          "size": 14,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 540,
+          "y": 573,
+          "text": "Upload filesystem",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              330,
+              263
+            ],
+            [
+              485,
+              263
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              485,
+              263
+            ],
+            [
+              476.8959760788259,
+              266.9146898070011
+            ],
+            [
+              476.8959760788259,
+              259.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 407,
+          "y": 179,
+          "text": "Expiry / eligibility rows",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              485,
+              345
+            ],
+            [
+              330,
+              345
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              330,
+              345
+            ],
+            [
+              338.1040239211741,
+              341.0853101929989
+            ],
+            [
+              338.1040239211741,
+              348.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 407,
+          "y": 424,
+          "text": "Cleanup changes",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              950,
+              263
+            ],
+            [
+              805,
+              263
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              805,
+              263
+            ],
+            [
+              813.1040239211741,
+              259.0853101929989
+            ],
+            [
+              813.1040239211741,
+              266.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 878,
+          "y": 179,
+          "text": "Expiry / hit tally rows",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              805,
+              345
+            ],
+            [
+              950,
+              345
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              950,
+              345
+            ],
+            [
+              941.8959760788259,
+              348.9146898070011
+            ],
+            [
+              941.8959760788259,
+              341.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 878,
+          "y": 424,
+          "text": "Statuses / aggregate changes",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              590,
+              420
+            ],
+            [
+              590,
+              535
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              590,
+              535
+            ],
+            [
+              586.0853101929989,
+              526.8959760788259
+            ],
+            [
+              593.9146898070011,
+              526.8959760788259
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 475,
+          "y": 482,
+          "text": "Attempted orphan removals",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              745,
+              535
+            ],
+            [
+              745,
+              420
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              745,
+              420
+            ],
+            [
+              748.9146898070011,
+              428.1040239211741
+            ],
+            [
+              741.0853101929989,
+              428.1040239211741
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 860,
+          "y": 486,
+          "text": "Directory entries",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 52,
+          "y": 540,
+          "text": "Source caveat: Listing.CleanUp tests",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 52,
+          "y": 558.85,
+          "text": "!Directory.Exists before file enumeration.",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 52,
+          "y": 577.7,
+          "text": "Successful orphan cleanup is not assumed.",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        }
+      ]
+    },
+    {
+      "id": "F08",
+      "title": "Session, forwarding and logout data",
+      "subtitle": "Level 2 of process 1.0: the Node adapter owns the browser/backend identity boundary.",
+      "takeaway": "Raw backend tokens and service credentials stay server-side; no browser localStorage credential store.",
+      "source": "Website/server/api.mjs; Website/server/client-ip.mjs; Backend/Components/AppAuthJson.cs",
+      "sources": [
+        "Website/server/api.mjs",
+        "Website/server/client-ip.mjs",
+        "Backend/Components/AppAuthJson.cs"
+      ],
+      "kind": "Data flow",
+      "shapes": [
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 720,
+          "fill": "#F8FAFC",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 101,
+          "fill": "#12365B",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 17,
+          "text": "STUDENT EXCHANGE / DATA FLOW / F08",
+          "size": 11,
+          "color": "#9FD6EA",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 44,
+          "text": "Session, forwarding and logout data",
+          "size": 26,
+          "color": "#FFFFFF",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 116,
+          "text": "Level 2 of process 1.0: the Node adapter owns the browser/backend identity boundary.",
+          "size": 14,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 42,
+          "y": 635,
+          "w": 1196,
+          "h": 39,
+          "fill": "#FFF4CD",
+          "stroke": "#8BA2B5",
+          "r": 6
+        },
+        {
+          "type": "text",
+          "x": 56,
+          "y": 647,
+          "text": "Raw backend tokens and service credentials stay server-side; no browser localStorage credential store.",
+          "size": 12,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 689,
+          "text": "StudentExchange @ f893267 | Website/server/api.mjs; Website/server/client-ip.mjs; Backend/Components/AppAuthJson.cs",
+          "size": 9,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 50,
+          "y": 245,
+          "w": 260,
+          "h": 160,
+          "fill": "#FFFFFF",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 180.0,
+          "y": 259,
+          "text": "Browser",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 180.0,
+          "y": 290,
+          "text": "Same-origin cookie",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 180.0,
+          "y": 308.85,
+          "text": "Route + API input",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "rect",
+          "x": 485,
+          "y": 230,
+          "w": 330,
+          "h": 180,
+          "fill": "#E8F1FC",
+          "stroke": "#8BA2B5",
+          "r": 22
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 243,
+          "text": "1.1 | Resolve / forward",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 275,
+          "text": "Origin + session validation",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 293.85,
+          "text": "Visitor IP + app credential",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 650.0,
+          "y": 312.70000000000005,
+          "text": "Safe response projection",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "rect",
+          "x": 975,
+          "y": 245,
+          "w": 260,
+          "h": 160,
+          "fill": "#FFFFFF",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 1105.0,
+          "y": 259,
+          "text": "ASP.NET backend",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 1105.0,
+          "y": 290,
+          "text": "From process 1.0 boundary",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 1105.0,
+          "y": 308.85,
+          "text": "Process 2.0 in F01",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              895,
+              535
+            ],
+            [
+              485,
+              535
+            ],
+            [
+              485,
+              607
+            ],
+            [
+              895,
+              607
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              525,
+              535
+            ],
+            [
+              525,
+              607
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "text",
+          "x": 505,
+          "y": 552,
+          "text": "D1",
+          "size": 13,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 540,
+          "y": 548,
+          "text": "Website sessions",
+          "size": 14,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 540,
+          "y": 573,
+          "text": "Opaque ID → token / profile / expiry",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              310,
+              275
+            ],
+            [
+              485,
+              275
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              485,
+              275
+            ],
+            [
+              476.8959760788259,
+              278.9146898070011
+            ],
+            [
+              476.8959760788259,
+              271.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 397,
+          "y": 189,
+          "text": "Cookie / API input",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              485,
+              372
+            ],
+            [
+              310,
+              372
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              310,
+              372
+            ],
+            [
+              318.1040239211741,
+              368.0853101929989
+            ],
+            [
+              318.1040239211741,
+              375.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 397,
+          "y": 443,
+          "text": "Projected data / Set-Cookie",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              815,
+              275
+            ],
+            [
+              975,
+              275
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              975,
+              275
+            ],
+            [
+              966.8959760788259,
+              278.9146898070011
+            ],
+            [
+              966.8959760788259,
+              271.0853101929989
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 895,
+          "y": 189,
+          "text": "app_access / token / trusted IP",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              975,
+              372
+            ],
+            [
+              815,
+              372
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              815,
+              372
+            ],
+            [
+              823.1040239211741,
+              368.0853101929989
+            ],
+            [
+              823.1040239211741,
+              375.9146898070011
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 895,
+          "y": 443,
+          "text": "Backend result / renewal result",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              585,
+              410
+            ],
+            [
+              585,
+              535
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              585,
+              535
+            ],
+            [
+              581.0853101929989,
+              526.8959760788259
+            ],
+            [
+              588.9146898070011,
+              526.8959760788259
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 430,
+          "y": 490,
+          "text": "Session changes / logout deletion",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              740,
+              535
+            ],
+            [
+              740,
+              410
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "polygon",
+          "points": [
+            [
+              740,
+              410
+            ],
+            [
+              743.9146898070011,
+              418.1040239211741
+            ],
+            [
+              736.0853101929989,
+              418.1040239211741
+            ]
+          ],
+          "fill": "#18334B",
+          "stroke": "#18334B"
+        },
+        {
+          "type": "text",
+          "x": 900,
+          "y": 490,
+          "text": "Token / profile / expiry",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        }
+      ]
+    },
+    {
+      "id": "KEY",
+      "title": "DFD notation, balance and evidence",
+      "subtitle": "Gane-Sarson-inspired processes and stores; the visual palette matches the UML atlas.",
+      "takeaway": "These are data dependencies; request/response order belongs in the UML sequence diagrams.",
+      "source": "docs/dfd/build_model.py; docs/uml/TRACEABILITY.md",
+      "sources": [
+        "docs/dfd/build_model.py",
+        "docs/uml/TRACEABILITY.md"
+      ],
+      "kind": "Notation",
+      "shapes": [
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 720,
+          "fill": "#F8FAFC",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 101,
+          "fill": "#12365B",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 17,
+          "text": "STUDENT EXCHANGE / DATA FLOW / KEY",
+          "size": 11,
+          "color": "#9FD6EA",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 42,
+          "y": 44,
+          "text": "DFD notation, balance and evidence",
+          "size": 26,
+          "color": "#FFFFFF",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 116,
+          "text": "Gane-Sarson-inspired processes and stores; the visual palette matches the UML atlas.",
+          "size": 14,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 42,
+          "y": 635,
+          "w": 1196,
+          "h": 39,
+          "fill": "#FFF4CD",
+          "stroke": "#8BA2B5",
+          "r": 6
+        },
+        {
+          "type": "text",
+          "x": 56,
+          "y": 647,
+          "text": "These are data dependencies; request/response order belongs in the UML sequence diagrams.",
+          "size": 12,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 44,
+          "y": 689,
+          "text": "StudentExchange @ f893267 | docs/dfd/build_model.py; docs/uml/TRACEABILITY.md",
+          "size": 9,
+          "color": "#65788A",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "rect",
+          "x": 65,
+          "y": 175,
+          "w": 300,
+          "h": 105,
+          "fill": "#FFFFFF",
+          "stroke": "#8BA2B5",
+          "r": 0
+        },
+        {
+          "type": "text",
+          "x": 215.0,
+          "y": 189,
+          "text": "External entity",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 215.0,
+          "y": 220,
+          "text": "Person or boundary peer",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "rect",
+          "x": 475,
+          "y": 175,
+          "w": 330,
+          "h": 105,
+          "fill": "#E8F1FC",
+          "stroke": "#8BA2B5",
+          "r": 22
+        },
+        {
+          "type": "text",
+          "x": 640.0,
+          "y": 188,
+          "text": "N.n | Process",
+          "size": 16,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 640.0,
+          "y": 220,
+          "text": "Transforms or validates data",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "center"
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              1220,
+              175
+            ],
+            [
+              920,
+              175
+            ],
+            [
+              920,
+              280
+            ],
+            [
+              1220,
+              280
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "line",
+          "points": [
+            [
+              960,
+              175
+            ],
+            [
+              960,
+              280
+            ]
+          ],
+          "color": "#18334B",
+          "width": 1.5
+        },
+        {
+          "type": "text",
+          "x": 940,
+          "y": 192,
+          "text": "Dn",
+          "size": 13,
+          "color": "#18334B",
+          "bold": true,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "x": 975,
+          "y": 188,
+          "text": "Data store",
+          "size": 14,
+          "color": "#18334B",
+          "bold": true,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 975,
+          "y": 213,
+          "text": "Persistent or session data",
+          "size": 12,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 340,
+          "text": "Arrow labels name payloads or records. Each process has an input and output.",
+          "size": 18,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 366.1,
+          "text": "There are no direct entity-to-store or store-to-store flows.",
+          "size": 18,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 392.20000000000005,
+          "text": "Store IDs repeat across sheets; SQL stores group tables by responsibility.",
+          "size": 18,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 418.30000000000007,
+          "text": "F00 process 0 expands into F01 processes 1.0 and 2.0.",
+          "size": 18,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 444.4000000000001,
+          "text": "F02–F07 decompose 2.0; F08 decomposes 1.0.",
+          "size": 18,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 470.5000000000001,
+          "text": "For legibility, unchanged routing/session checks and lookup reads are abstracted.",
+          "size": 18,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 496.60000000000014,
+          "text": "The scheduler is internal; timing is not drawn as an external data entity.",
+          "size": 18,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        },
+        {
+          "type": "text",
+          "x": 65,
+          "y": 564,
+          "text": "Source: f893267d148fc0c3c6fad8bee5caadf6c086a143 (not a verification of deployed production behavior).",
+          "size": 13,
+          "color": "#18334B",
+          "bold": false,
+          "align": "left"
+        }
+      ]
+    }
+  ]
+}

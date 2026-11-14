@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D30 | Messenger UI and delivery states</title>
+<desc>State view: transitions have events/guards; labels describe observable state. Minimize preserves drafts; route navigation preserves the widget; logout aborts and unmounts private state.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / STATE MACHINE / D30</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Messenger UI and delivery states</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">State view: transitions have events/guards; labels describe observable state.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Minimize preserves drafts; route navigation preserves the widget; logout aborts and unmounts private state.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Website/src/App.tsx; Website/src/components/Messenger.tsx</text>
+<rect x="55" y="185" width="300" height="140" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="205.0" y="204.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«state»</text>
+<text x="205.0" y="226.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Signed out</text>
+<polyline points="55,238 355,238" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="67" y="259.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">No messenger rendered</text>
+<text x="67" y="278.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">No private polling</text>
+<rect x="490" y="185" width="300" height="140" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="204.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«state»</text>
+<text x="640.0" y="226.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Collapsed</text>
+<polyline points="490,238 790,238" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="502" y="259.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Mounted after login</text>
+<text x="502" y="278.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Unread badge / 15s poll</text>
+<rect x="925" y="185" width="300" height="140" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1075.0" y="204.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«state»</text>
+<text x="1075.0" y="226.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Inbox open</text>
+<polyline points="925,238 1225,238" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="937" y="259.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Conversation previews</text>
+<text x="937" y="278.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">15s refresh while visible</text>
+<rect x="55" y="445" width="300" height="140" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="205.0" y="464.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«state»</text>
+<text x="205.0" y="486.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Listing draft</text>
+<polyline points="55,498 355,498" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="67" y="519.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Message seller target</text>
+<text x="67" y="538.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Login first when needed</text>
+<rect x="490" y="445" width="300" height="140" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="464.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«state»</text>
+<text x="640.0" y="486.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Thread open</text>
+<polyline points="490,498 790,498" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="502" y="519.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">History cursor / 10s poll</text>
+<text x="502" y="538.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Read marks incoming messages</text>
+<rect x="925" y="445" width="300" height="140" rx="6" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1075.0" y="464.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="middle">«state»</text>
+<text x="1075.0" y="486.45" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Send outcome</text>
+<polyline points="925,498 1225,498" fill="none" stroke="#A3B4C3" stroke-width="1.5"/>
+<text x="937" y="519.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Success: reload confirmed rows</text>
+<text x="937" y="538.64" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Failure: keep draft + error</text>
+<polyline points="355,255 490,255" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="490,255 481.8959760788259,258.9146898070011 481.8959760788259,251.08531019299892" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="422.5" y="238.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">login</text>
+<polyline points="790,255 925,255" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="925,255 916.8959760788259,258.9146898070011 916.8959760788259,251.08531019299892" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="857.5" y="238.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">open</text>
+<polyline points="205,325 205,445" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="205,445 201.08531019299892,436.8959760788259 208.91468980700108,436.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="205" y="379.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">contact + login</text>
+<polyline points="1225,295 640,395 640,445" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="640,445 636.0853101929989,436.8959760788259 643.9146898070011,436.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="640" y="384.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">select conversation</text>
+<polyline points="355,515 490,515" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="490,515 481.8959760788259,518.9146898070011 481.8959760788259,511.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="422.5" y="498.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">existing/new conversation</text>
+<polyline points="790,515 925,515" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="925,515 916.8959760788259,518.9146898070011 916.8959760788259,511.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="857.5" y="498.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">message / offer</text>
+</svg>

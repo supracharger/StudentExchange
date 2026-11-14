@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>F01 | Level 1: processes and data stores</title>
+<desc>Decomposition of process 0; the website runtime mediates browser-to-backend exchanges. D1 is Node memory; D2/D3/D4 are SQLite groups; D5 is the backend upload filesystem.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / DATA FLOW / F01</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Level 1: processes and data stores</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Decomposition of process 0; the website runtime mediates browser-to-backend exchanges.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">D1 is Node memory; D2/D3/D4 are SQLite groups; D5 is the backend upload filesystem.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Website/server/api.mjs; Website/server/marketplace.mjs; Website/server/messages.mjs; Website/server/admin.mjs; Backend/Controllers/*.cs</text>
+<rect x="50" y="170" width="250" height="95" rx="0" fill="#FFFFFF" stroke="#8BA2B5" stroke-width="1"/>
+<text x="175.0" y="197.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Visitor / student</text>
+<rect x="50" y="365" width="250" height="95" rx="0" fill="#FFFFFF" stroke="#8BA2B5" stroke-width="1"/>
+<text x="175.0" y="392.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Administrator</text>
+<rect x="445" y="170" width="330" height="110" rx="22" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="610.0" y="196.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">1.0 | Website runtime</text>
+<text x="610.0" y="225.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">React UI + Node API adapter</text>
+<rect x="445" y="340" width="330" height="125" rx="22" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="610.0" y="366.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">2.0 | Backend services</text>
+<text x="610.0" y="395.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Auth / listings / messaging</text>
+<text x="610.0" y="414.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Admin / maintenance</text>
+<polyline points="1230,165 930,165 930,245 1230,245" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="970,165 970,245" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="950" y="192.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">D1</text>
+<text x="985" y="189.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Website sessions</text>
+<text x="985" y="212.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Opaque ID → token / profile</text>
+<polyline points="1230,280 930,280 930,365 1230,365" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="970,280 970,365" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="950" y="307.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">D2</text>
+<text x="985" y="304.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Identity / access</text>
+<text x="985" y="327.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">User, token, admin, IP, blocks</text>
+<polyline points="1230,390 930,390 930,475 1230,475" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="970,390 970,475" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="950" y="417.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">D3</text>
+<text x="985" y="414.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Marketplace</text>
+<text x="985" y="437.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Listings, Img, Books, lookups</text>
+<text x="985" y="455.35999999999996" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Check_Active + hit tables</text>
+<polyline points="1230,500 930,500 930,585 1230,585" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="970,500 970,585" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="950" y="527.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">D4</text>
+<text x="985" y="524.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Conversations</text>
+<text x="985" y="547.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Conversations + Messages</text>
+<polyline points="775,535 445,535 445,610 775,610" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="485,535 485,610" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="465" y="562.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">D5</text>
+<text x="500" y="559.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Photo files</text>
+<text x="500" y="582.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="start">Decoded listing images</text>
+<polyline points="300,195 445,195" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="445,195 436.8959760788259,198.91468980700108 436.8959760788259,191.08531019299892" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="370" y="181.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Requests</text>
+<polyline points="445,246 300,246" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="300,246 308.1040239211741,242.08531019299892 308.1040239211741,249.91468980700108" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="370" y="229.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">UI results</text>
+<polyline points="300,390 360,390 360,268 445,268" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="445,268 436.8959760788259,271.9146898070011 436.8959760788259,264.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="355" y="314.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Admin input</text>
+<polyline points="445,260 405,260 405,440 300,440" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="300,440 308.1040239211741,436.0853101929989 308.1040239211741,443.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="345" y="477.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Admin results</text>
+<polyline points="775,191 930,191" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="930,191 921.8959760788259,194.91468980700108 921.8959760788259,187.08531019299892" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="850" y="178.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Session writes</text>
+<polyline points="930,230 775,230" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="775,230 783.1040239211741,226.08531019299892 783.1040239211741,233.91468980700108" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="850" y="217.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Session data</text>
+<polyline points="555,280 555,340" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="555,340 551.0853101929989,331.8959760788259 558.9146898070011,331.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="490" y="303.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Authorized JSON</text>
+<polyline points="680,340 680,280" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="680,280 683.9146898070011,288.1040239211741 676.0853101929989,288.1040239211741" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="735" y="309.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Backend results</text>
+<polyline points="775,361 855,361 855,307 930,307" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="930,307 921.8959760788259,310.9146898070011 921.8959760788259,303.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="850" y="294.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Identity reads/writes</text>
+<polyline points="930,345 885,345 885,389 775,389" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="775,389 783.1040239211741,385.0853101929989 783.1040239211741,392.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="850" y="378.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Identity data</text>
+<polyline points="775,420 930,420" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="930,420 921.8959760788259,423.9146898070011 921.8959760788259,416.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="850" y="407.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Listing edits</text>
+<polyline points="930,454 775,454" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="775,454 783.1040239211741,450.0853101929989 783.1040239211741,457.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="850" y="442.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Listing records</text>
+<polyline points="775,440 815,440 815,524 930,524" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="930,524 921.8959760788259,527.9146898070011 921.8959760788259,520.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="840" y="496.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Messages / read marks</text>
+<polyline points="930,558 795,558 795,460 775,460" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="775,460 783.1040239211741,456.0853101929989 783.1040239211741,463.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="850" y="589.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Inbox / history</text>
+<polyline points="555,465 555,535" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="555,535 551.0853101929989,526.8959760788259 558.9146898070011,526.8959760788259" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="485" y="499.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Image bytes</text>
+<polyline points="680,535 680,465" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="680,465 683.9146898070011,473.1040239211741 676.0853101929989,473.1040239211741" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="740" y="519.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Stored image bytes</text>
+</svg>

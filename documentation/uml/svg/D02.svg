@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D02 | Visitor and student goals</title>
+<desc>Actors are roles; privileged goals remain enforced by the adapter and backend. Accounts, live listings and messages are integrated workflows, not local previews.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / USE CASE / D02</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Visitor and student goals</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Actors are roles; privileged goals remain enforced by the adapter and backend.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Accounts, live listings and messages are integrated workflows, not local previews.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Website/src/App.tsx; Website/src/components; Website/server/admin.mjs</text>
+<rect x="260" y="157" width="930" height="450" rx="6" fill="#FFFFFF" stroke="#8BA2B5" stroke-width="1" stroke-dasharray="5 4"/>
+<text x="280" y="180.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Student Exchange website + backend</text>
+<ellipse cx="132.0" cy="217.0" rx="12.0" ry="12.0" fill="#FFFFFF" stroke="#18334B" stroke-width="1"/>
+<polyline points="132,229 132,268" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="108,243 156,243" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="132,268 110,303" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="132,268 154,303" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="132" y="323.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Visitor</text>
+<ellipse cx="132.0" cy="437.0" rx="12.0" ry="12.0" fill="#FFFFFF" stroke="#18334B" stroke-width="1"/>
+<polyline points="132,449 132,488" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="108,463 156,463" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="132,488 110,523" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polyline points="132,488 154,523" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<text x="132" y="543.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Signed-in student</text>
+<ellipse cx="492.5" cy="248.0" rx="182.5" ry="38.0" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="492" y="243.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Browse / search public listings</text>
+<polyline points="156,243 310,248" fill="none" stroke="#8BA2B5" stroke-width="1.5"/>
+<ellipse cx="927.5" cy="248.0" rx="182.5" ry="38.0" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="927" y="243.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Inspect listing + seller collection</text>
+<polyline points="156,243 745,248" fill="none" stroke="#8BA2B5" stroke-width="1.5"/>
+<ellipse cx="492.5" cy="364.0" rx="182.5" ry="38.0" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="492" y="359.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Register / log in</text>
+<polyline points="156,243 310,364" fill="none" stroke="#8BA2B5" stroke-width="1.5"/>
+<ellipse cx="927.5" cy="364.0" rx="182.5" ry="38.0" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="927" y="359.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Edit own profile / copy seller URL</text>
+<polyline points="156,463 745,364" fill="none" stroke="#8BA2B5" stroke-width="1.5"/>
+<ellipse cx="492.5" cy="480.0" rx="182.5" ry="38.0" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="492" y="475.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Create / edit / deactivate listing</text>
+<polyline points="156,463 310,480" fill="none" stroke="#8BA2B5" stroke-width="1.5"/>
+<ellipse cx="927.5" cy="480.0" rx="182.5" ry="38.0" fill="#E8F4EC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="927" y="475.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Message, offer and renew listing</text>
+<polyline points="156,463 745,480" fill="none" stroke="#8BA2B5" stroke-width="1.5"/>
+</svg>

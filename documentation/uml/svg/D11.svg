@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>D11 | Registration: normalize and persist</title>
+<desc>Registration and login are intentionally separate operations. The backend generates the username; signup does not accept user/location or issue a session.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / SEQUENCE / D11</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Registration: normalize and persist</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Registration and login are intentionally separate operations.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">The backend generates the username; signup does not accept user/location or issue a session.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Website/src/components/AccountPanel.tsx; Backend/Controllers/Register.cs</text>
+<rect x="39.0" y="162" width="182" height="52" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="130.0" y="185.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">AccountPanel</text>
+<polyline points="130.0,214 130.0,615" fill="none" stroke="#8BA2B5" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="379.0" y="162" width="182" height="52" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="470.0" y="185.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Node adapter</text>
+<polyline points="470.0,214 470.0,615" fill="none" stroke="#8BA2B5" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="719.0" y="162" width="182" height="52" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="810.0" y="185.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Register controller</text>
+<polyline points="810.0,214 810.0,615" fill="none" stroke="#8BA2B5" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="1059.0" y="162" width="182" height="52" rx="6" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1150.0" y="185.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Sql / database</text>
+<polyline points="1150.0,214 1150.0,615" fill="none" stroke="#8BA2B5" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polyline points="130.0,243 470.0,243" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="470.0,243 461.8959760788259,246.91468980700108 461.8959760788259,239.08531019299892" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="300.0" y="228.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">1. POST /api/register: profile + password</text>
+<polyline points="470.0,288 810.0,288" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="810.0,288 801.8959760788259,291.9146898070011 801.8959760788259,284.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="640.0" y="273.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">2. POST Register + forwarding envelope</text>
+<polyline points="810.0,333 1150.0,333" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="1150.0,333 1141.895976078826,336.9146898070011 1141.895976078826,329.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="980.0" y="318.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">3. Validate school / duplicate email / username</text>
+<polyline points="1150.0,378 810.0,378" fill="none" stroke="#18334B" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polygon points="810.0,378 818.1040239211741,374.0853101929989 818.1040239211741,381.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="980.0" y="363.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">4. School ID / uniqueness result</text>
+<polyline points="810.0,423 1150.0,423" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="1150.0,423 1141.895976078826,426.9146898070011 1141.895976078826,419.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="980.0" y="408.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">5. Insert normalized User with encrypted fields</text>
+<polyline points="1150.0,468 810.0,468" fill="none" stroke="#18334B" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polygon points="810.0,468 818.1040239211741,464.0853101929989 818.1040239211741,471.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="980.0" y="453.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">6. Commit / constraint outcome</text>
+<polyline points="810.0,513 470.0,513" fill="none" stroke="#18334B" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polygon points="470.0,513 478.1040239211741,509.0853101929989 478.1040239211741,516.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="640.0" y="498.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">7. 201 email; 400 / 409 on invalid input</text>
+<polyline points="470.0,558 130.0,558" fill="none" stroke="#18334B" stroke-width="1.5" stroke-dasharray="5 4"/>
+<polygon points="130.0,558 138.1040239211741,554.0853101929989 138.1040239211741,561.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="300.0" y="543.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">8. Show account-created; switch to login</text>
+</svg>

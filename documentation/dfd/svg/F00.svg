@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img">
+<title>F00 | Context DFD: marketplace boundary</title>
+<desc>Level 0: the complete website and backend are one process. Backend infrastructure is inside process 0; no external email or payment service is implied.</desc>
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#F8FAFC" stroke="#8BA2B5" stroke-width="1"/>
+<rect x="0" y="0" width="1280" height="101" rx="0" fill="#12365B" stroke="#8BA2B5" stroke-width="1"/>
+<text x="42" y="26.13" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#9FD6EA" text-anchor="start">STUDENT EXCHANGE / DATA FLOW / F00</text>
+<text x="42" y="65.58" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="bold" font-style="normal" fill="#FFFFFF" text-anchor="start">Context DFD: marketplace boundary</text>
+<text x="44" y="127.62" font-family="DejaVu Sans, sans-serif" font-size="14" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">Level 0: the complete website and backend are one process.</text>
+<rect x="42" y="635" width="1196" height="39" rx="6" fill="#FFF4CD" stroke="#8BA2B5" stroke-width="1"/>
+<text x="56" y="656.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="start">Backend infrastructure is inside process 0; no external email or payment service is implied.</text>
+<text x="44" y="696.47" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="normal" font-style="normal" fill="#65788A" text-anchor="start">StudentExchange @ f893267 | Website/src/App.tsx; Website/server/api.mjs; Backend/Controllers/*.cs</text>
+<rect x="55" y="235" width="260" height="200" rx="0" fill="#FFFFFF" stroke="#8BA2B5" stroke-width="1"/>
+<text x="185.0" y="262.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Visitor / student</text>
+<text x="185.0" y="290.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Search, account, inventory</text>
+<text x="185.0" y="309.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Messages and offers</text>
+<rect x="475" y="245" width="330" height="210" rx="22" fill="#E8F1FC" stroke="#8BA2B5" stroke-width="1"/>
+<text x="640.0" y="271.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">0 | Student Exchange</text>
+<text x="640.0" y="300.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Website + Node adapter</text>
+<text x="640.0" y="319.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">ASP.NET Core backend</text>
+<text x="640.0" y="338.49000000000007" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Database + image storage</text>
+<rect x="965" y="235" width="260" height="200" rx="0" fill="#FFFFFF" stroke="#8BA2B5" stroke-width="1"/>
+<text x="1095.0" y="262.28" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#18334B" text-anchor="middle">Administrator</text>
+<text x="1095.0" y="290.79" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Directory, moderation</text>
+<text x="1095.0" y="309.64000000000004" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Access and attempt records</text>
+<polyline points="315,280 475,280" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="475,280 466.8959760788259,283.9146898070011 466.8959760788259,276.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="395" y="227.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Queries / edits / credentials</text>
+<polyline points="475,400 315,400" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="315,400 323.1040239211741,396.0853101929989 323.1040239211741,403.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="395" y="465.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Listings / profile / messages</text>
+<polyline points="965,280 805,280" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="805,280 813.1040239211741,276.0853101929989 813.1040239211741,283.9146898070011" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="885" y="227.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Admin queries / changes</text>
+<polyline points="805,400 965,400" fill="none" stroke="#18334B" stroke-width="1.5"/>
+<polygon points="965,400 956.8959760788259,403.9146898070011 956.8959760788259,396.0853101929989" fill="#18334B" stroke="#18334B" stroke-width="1"/>
+<text x="885" y="465.96" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#18334B" text-anchor="middle">Records / operation results</text>
+</svg>
