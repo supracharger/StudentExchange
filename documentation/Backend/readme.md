@@ -1,6 +1,6 @@
 # Student Exchange backend
 
-Student Exchange is a student marketplace API built with **ASP.NET Core on .NET 9** and **SQLite**. It supports account registration, login, profiles, school lookup, marketplace listings with images and ISBNs, and administration of users, schools, categories, and attempt blocks.
+Student Exchange is a student marketplace API built with **ASP.NET Core on .NET 9** and **SQLite**. It supports account registration, login, profiles, school lookup, marketplace listings with images and ISBNs, buyer/seller conversations and offers, and administration of users, schools, categories, and attempt blocks.
 
 This checkout contains the backend and design documentation. It does **not** contain the website, a mobile application, a database, or the runtime secrets. Some design documents describe a larger system or older source revisions; use the controllers in this checkout as the current API contract.
 
@@ -14,6 +14,7 @@ This checkout contains the backend and design documentation. It does **not** con
 - [API reference](#api-reference)
 - [Account walkthrough](#account-walkthrough)
 - [Marketplace walkthrough](#marketplace-walkthrough)
+- [Messaging and offers](#messaging-and-offers)
 - [Administration](#administration)
 - [Authentication and maintenance](#authentication-and-maintenance)
 - [Publish and run a release](#publish-and-run-a-release)
@@ -37,10 +38,13 @@ This checkout contains the backend and design documentation. It does **not** con
 │   ├── appsettings*.json        # Logging and standard ASP.NET configuration
 │   ├── readme-env.md            # Short runtime file-placement reminder
 │   └── bin_/                   # Conventional local data directory
-
+└── docs/
+    ├── uml/                    # UML atlas and generators
+    ├── dfd/                    # Data-flow diagrams and specifications
+    └── progress-review/        # Presentation, notes, and historical evidence
 ```
 
-Requests reach ASP.NET controllers, which explicitly validate body credentials through `AppAuthJson`. Controllers use `Sql` for parameterized SQLite operations; listing images are written to disk and exposed by static-file middleware at `/uploads`. There is no Entity Framework model or automatic migration system.
+Requests reach ASP.NET controllers, which explicitly validate body credentials through `AppAuthJson`. Controllers use `Sql` for parameterized SQLite operations, including persisted conversations and messages; listing images are written to disk and exposed by static-file middleware at `/uploads`. There is no Entity Framework model or automatic migration system.
 
 Startup performs these steps:
 
@@ -55,6 +59,13 @@ Initial cleanup runs in a background task; a listening HTTP port alone does not 
 Runtime package references are `Microsoft.AspNetCore.OpenApi` 9.0.12, `Microsoft.Data.Sqlite` 10.0.12, and `Newtonsoft.Json` 13.0.4. The project enables nullable reference types and implicit usings.
 
 ## Prerequisites
+
+For a new checkout:
+
+```sh
+git clone --branch ChatGPT https://github.com/supracharger/SoftwareEngineerTemp.git
+cd SoftwareEngineerTemp
+```
 
 - **.NET 9 SDK**, including the ASP.NET Core runtime. Confirm with `dotnet --info`; a runtime alone cannot build the project. There is no `global.json` pinning an SDK patch.
 - Access to NuGet for the initial restore.
@@ -168,15 +179,23 @@ The implementation requires at least the following tables and columns:
 | `Blocked_Users` | `id`, `user_id`, `count`, `expiry` |
 | `Blocked_IPs` | `id`, `ip_id`, `count`, `expiry` |
 | `Listings` | `id`, `title`, `description`, `price`, `category`, `condition`, `user_id`, `datetime`, `expiry`, `status` |
-| `Listings_Category` | `id`, `name` |
+| `Listings_Category` | `id`, `name`, `visable` (spelling used in SQL) |
 | `Condition` | `id`, `name` |
-| `status` | `id`, `name` |
+| `Status` / `status` | `id`, `name`, `lvl` (SQLite table names are case-insensitive) |
 | `Books` | `list_id`, `isbn` |
 | `Img` | `id`, `list_id`, `name` |
+| `Check_Active` | `list_id`, `expiry` |
+| `Hit_Count` | `list_id`, `count` |
+| `Hit_Count_Tally` | `list_id`, `ip`, `size` |
+| `Hit_Count_Tally_User` | `list_id`, `user`, `size` |
+| `Conversations` | `id`, `listing_id`, `buyer_id`, `seller_id`, `datetime` |
+| `Messages` | `id`, `conversation_id`, `sender_id`, `kind`, `body`, `amount`, `datetime`, `read_datetime` |
 
-This inventory describes query requirements, not complete types, defaults, indexes, or constraints. In particular, listing insertion omits `status` and relies on a compatible database default; browsing treats status **1** as active, and cleanup changes expired active listings to status **3**. Confirm those IDs and defaults with the supplied database. Preserve email/token uniqueness and the relationships needed by deletion.
+This inventory describes query requirements, not complete types, defaults, indexes, or constraints. In particular, listing insertion omits `status` and relies on a compatible database default; public browsing selects status names **Active** and **Sold**. Cleanup uses numeric IDs: active **1**, inactivity timeout **2**, and expired **3**. Confirm those IDs and defaults with the supplied database. Preserve email/token uniqueness and the relationships needed by deletion.
 
-Seed at least one school, category, and condition. Empty lookup tables currently cause missing-key errors in several controllers. The category name `Textbooks` has special ISBN handling. The first administrator must be provisioned in the database because admin creation through the API already requires an admin token. Use a disposable account and a level appropriate to the administrative operations below.
+Current upserts also require unique constraints/indexes on `Blocked_IPs(ip_id)`, `Hit_Count(list_id)`, `Hit_Count_Tally(list_id, ip)`, and `Hit_Count_Tally_User(list_id, user)`. `DB_Schema.txt` does not supply all of these: in particular, its `Blocked_IPs` definition lacks the unique `ip_id` required by the current `ON CONFLICT(ip_id)` statement. Conversation creation expects uniqueness on `(listing_id, buyer_id)` to prevent duplicate threads. `Messages.id` must be generated in increasing order for cursors and newest-message selection. New messages omit `read_datetime`, which should default to SQL `NULL`; `body` and `amount` must permit SQL `NULL` for offers/text messages respectively. Confirm these requirements before using an older database.
+
+Seed at least one school, visible category (`visable=1`), and condition. Empty lookup tables currently cause missing-key errors in several controllers. The category name `Textbooks` has special ISBN handling. The first administrator must be provisioned in the database because admin creation through the API already requires an admin token. Use a disposable account and a level appropriate to the administrative operations below.
 
 `client.env` is not used by this backend. `server-all.env` is not loaded by `Env.GetEnv()` either.
 
@@ -232,7 +251,7 @@ Expect `200` and a JSON body. `/Schools` returns parallel `schools` and `short_n
 
 ## API reference
 
-Routes use controller names directly, **without an `/api` prefix**. JSON bodies require `Content-Type: application/json`. Property naming includes both snake-case DTO fields and camel-case serialized C# properties; use the examples rather than assuming one naming convention.
+Most routes use controller names directly, **without an `/api` prefix**. Messaging is the exception: its controller explicitly uses **`/api/Message`**. JSON bodies require `Content-Type: application/json`. Property naming includes both snake-case DTO fields and camel-case serialized C# properties; use the examples rather than assuming one naming convention.
 
 Credential abbreviations below: **App** = body `app_access`; **User** = App plus a valid body `access_token`; **Admin N** = User with the required administrator level.
 
@@ -252,10 +271,15 @@ Credential abbreviations below: **App** = body `app_access`; **User** = App plus
 | GET | `/Category` | App; category name array. |
 | POST, DELETE | `/Category` | Admin 10; body `category`. |
 | GET | `/Condition` | App; condition name array. |
-| GET | `/Listing` | App for active catalog; User when `for_user` is present. |
-| GET | `/Listing/{id}` | App; detail including seller contact information and image URLs. |
+| GET | `/Listing` | App for Active/Sold catalog or `user_page`; User when `for_user` is present. |
+| GET | `/Listing/{id}` | App; optional User token; detail including seller contact information and image URLs; records engagement. |
 | POST | `/Listing` | User; create listing; `201` on success. |
+| PATCH | `/Listing/{id}` | User; update own listing, images, status, or renew; forwarded owner requires level 10. |
 | DELETE | `/Listing` | User; body `id`; owner or forwarded owner with level 10. |
+| GET | `/api/Message` | User; own conversations, latest activity first. |
+| GET | `/api/Message/unread` | User; total incoming unread count. |
+| GET | `/api/Message/{conversationId}` | User; participant-only messages; optional query `after`; updates read state. |
+| POST | `/api/Message` | User; send message/offer; rejects user forwarding; `201` on success. |
 | GET | `/uploads/{filename}` | Public static image file; no body credentials. |
 
 Authenticated **GET routes require JSON bodies**. Query parameters, cookies, or an `Authorization: Bearer` header do not substitute for these fields. Browser `fetch` disallows GET bodies, and some proxies/clients do not support them; browser integration needs a compatible server adapter or an intentional API change. There is no configured CORS policy in this backend.
@@ -298,7 +322,7 @@ Profile reads return `email`, `user`, `first_name`, `last_name`, `school`, and `
 | First/last name | Trimmed, initial capitals per word; only ASCII letters and spaces pass the name regex. Hyphens, apostrophes, and accented letters currently fail. |
 | Password | Trimmed; 8–50 characters; at least one ASCII uppercase letter and one symbol from `!@#$%^&*_-+=`; only ASCII letters, digits, and those symbols are allowed. |
 | School | Trimmed; exact stored full school name, rather than abbreviation. |
-| Username (`user`) | Generated at registration; updates normalize/check uniqueness and require lowercase letters, digits, `_` or `-`, at least two characters. |
+| Username (`user`) | Generated at registration; updates normalize/check uniqueness and accept 1–50 lowercase letters, digits, `_` or `-`. |
 | Location | Whitespace normalized; blank PATCH values keep the previous location. |
 
 ### Log out
@@ -325,11 +349,13 @@ curl -i --request GET http://localhost:5239/Listing \
   --data '{"app_access":"YOUR_APP_ACCESS","category":"Textbooks","search":"calculus"}'
 ```
 
-`GET /Listing` accepts optional body `category`, `search`, `isbn`, and `for_user` fields. The category filter uses the stored name. ISBN filtering removes spaces/hyphens, uppercases `X`, and checks ISBN-10/13 validity. Search ranks titles by relevance rather than filtering every nonmatching row out; for more than 2,000 results, fuzzy scoring is restricted to the strongest 2,000 candidates after a cheaper ranking step.
+`GET /Listing` accepts optional body `category`, `search`, `isbn`, `for_user`, and `user_page` fields. `user_page` selects an exact stored seller username from the public Active/Sold catalog; sending it together with `for_user` returns `400`. The category filter uses the stored name. ISBN filtering removes spaces/hyphens, uppercases `X`, and checks ISBN-10/13 validity. Search ranks titles by relevance rather than filtering every nonmatching row out; for more than 2,000 results, fuzzy scoring is restricted to the strongest 2,000 candidates after a cheaper ranking step.
 
-The catalog returns an array of objects with `id`, `title`, `price`, `category`, `condition`, `location`, `isbn`, `image_url`, `datetime`, and seller `user`; no results returns `[]`. Image URLs are relative paths such as `/uploads/<generated-name>.png`.
+The catalog returns an array of objects with `id`, `title`, `price`, `category`, `condition`, `location`, `isbn`, `image_url`, `datetime`, `status`, and seller `user`; no results returns `[]`. Image URLs are relative paths such as `/uploads/<generated-name>.png`.
 
-Any non-null `for_user` value switches to the authenticated user's listings, including statuses other than active, and adds `status` to the response. Its string value does **not** select an arbitrary username: selection comes from `access_token`, or from permitted `to_user` forwarding. For example:
+Without search, results are ordered by aggregated engagement count descending, then expiry. Search reorders those results by title similarity; it does not implement pagination.
+
+Any non-null `for_user` value switches to the authenticated user's listings, including nonpublic statuses, and adds `days` to the response. `days` is the floored number of days until the earlier listing/inactivity deadline and may be negative. The string value of `for_user` does **not** select an arbitrary username: selection comes from `access_token`, or from permitted `to_user` forwarding. For example:
 
 ```sh
 curl -i --request GET http://localhost:5239/Listing \
@@ -352,7 +378,7 @@ Creation returns `201` with `{"message":"Listing created successfully!"}`. It do
 - `title` is required, trimmed, and limited to 200 characters; capitalization is normalized.
 - `description` is optional and limited to 2,000 characters; `price` must be nonnegative.
 - Category and condition are required and matched case-insensitively against their lookup tables.
-- ISBN is optional and accepted only for the `Textbooks` category. Both ISBN-10 and ISBN-13 check digits are validated.
+- ISBN is optional and accepted only for the `Textbooks` category. Both ISBN-10 and ISBN-13 check digits are validated. Textbooks without an ISBN use the stored sentinel `[blank]`, which may appear in responses; do not submit that sentinel as an ISBN.
 - Optional `imageBase64` is an array of at most **8** Base64 strings. Plain Base64 and `data:image/...;base64,...` forms are accepted. PNG, JPEG, and WebP are identified from signature bytes; each decoded file is limited to **2 MiB**. This is a signature check, not a full image decode.
 - The server sets the owner from the validated token and the expiry to **90 days**. Files receive random names under `<path>/public/uploads/`.
 
@@ -369,7 +395,107 @@ curl -i --request DELETE http://localhost:5239/Listing \
   --data '{"app_access":"YOUR_APP_ACCESS","access_token":"YOUR_RETURNED_TOKEN","id":1}'
 ```
 
-Detail includes description, status, decrypted seller email, seller names, and `images_url` (null when no images exist). Detail lookup does not restrict results to active status. A missing detail returns `400`; a missing deletion target returns `404`. Deletion checks ownership; an admin must forward to the owner to delete another user's listing. The route is `DELETE /Listing` with body `id`, not `DELETE /Listing/{id}`. No listing update endpoint is implemented.
+Detail includes description, status, decrypted seller email, seller names, and `images_url` (null when no images exist). Detail lookup does not restrict results to active status. A missing detail returns `400`; a missing deletion target returns `404`. Deletion checks ownership; an admin must forward to the owner to delete another user's listing. The route is `DELETE /Listing` with body `id`, not `DELETE /Listing/{id}`. If `access_token` is included in a detail request, it must validate even though App-only access is supported. Detail reads record engagement (weight 1 per IP or 3 per user, retaining the highest weight per pair) and create an inactivity deadline when one is absent. They therefore have database side effects. Daily cleanup aggregates engagement for active listings; buyer messages/offers raise the user weight to 9.
+
+### Update a listing and renew it
+
+PATCH uses the ID in the URL and the owner's token. A basic update is:
+
+```sh
+curl -i --request PATCH http://localhost:5239/Listing/1 \
+  -H 'Content-Type: application/json' \
+  --data '{"app_access":"YOUR_APP_ACCESS","access_token":"YOUR_RETURNED_TOKEN","price":20.00,"description":"Price reduced; available for campus pickup."}'
+```
+
+Editable fields are `title`, `description`, `price`, `category`, `condition`, `isbn`, `status`, and `imgs`. Omitted/null/blank text fields preserve existing values; an empty update returns `400`. The resulting listing must pass creation validation. Success is `200` with the string `Listing Updated Successfully!`. A nonexistent listing or a listing owned by someone else returns `400`. An admin updating another owner's listing must use `to_user` for that owner and have level 10 or higher.
+
+Status names are exact database values, with the additional action `Renew`. Available status changes depend on `Status.lvl`: requesting a status with `lvl > 0` requires admin level 10; changing a listing whose current status has `lvl > 1` also requires level 10. There is no status-lookup endpoint; obtain valid values from the compatible database.
+
+```sh
+curl -i --request PATCH http://localhost:5239/Listing/1 \
+  -H 'Content-Type: application/json' \
+  --data '{"app_access":"YOUR_APP_ACCESS","access_token":"YOUR_RETURNED_TOKEN","status":"Renew"}'
+```
+
+Renewal is allowed when the listing expiry or its inactivity deadline is within **14 days**, using the implementation's integer-day calculation. It can extend listing expiry to 90 days from now, remove a near-expiry inactivity check, and select `Active`. Too-early renewal returns `400`. Detail reads create a 90-day inactivity deadline; maintenance moves listings with expired inactivity checks to status ID 2 and expired active listings to ID 3.
+
+For images, PATCH accepts an `imgs` array rather than creation's `imageBase64` array. Each operation uses lowercase `action` (`insert`, `replace`, or `delete`), integer `location`, and `imageBase64` for inserted/replaced images. Locations are **zero-based positions** in the existing image order (`Img.id` ascending), not database image IDs. Replacement/deletion positions must exist and cannot overlap. Inserts before an existing position preserve request order; negative/out-of-range insert positions append. The final image count cannot exceed 8, with the same file limits as creation.
+
+```json
+{
+  "app_access": "YOUR_APP_ACCESS",
+  "access_token": "YOUR_RETURNED_TOKEN",
+  "imgs": [
+    {"action": "replace", "location": 0, "imageBase64": "YOUR_BASE64_IMAGE"},
+    {"action": "insert", "location": -1, "imageBase64": "YOUR_BASE64_IMAGE"}
+  ]
+}
+```
+
+Use the image example only for a listing that already has an image at position 0. Re-read detail after editing to obtain the current ordered URLs. Filesystem writes and SQL transactions are separate, so database rollback does not guarantee cleanup of every partial upload.
+
+## Messaging and offers
+
+Messaging is persisted in SQLite and is available under **`/api/Message`**. Each conversation links a listing, its seller, and one buyer. Use two distinct disposable accounts and a listing owned by the seller when testing. Only the buyer and seller can read or send to that conversation; other users receive the same `404` as a nonexistent conversation.
+
+### Start a conversation or send an offer
+
+As the buyer, send `listing_id` to create or reuse the thread:
+
+```sh
+curl -i http://localhost:5239/api/Message \
+  -H 'Content-Type: application/json' \
+  --data '{"app_access":"YOUR_APP_ACCESS","access_token":"YOUR_BUYER_TOKEN","listing_id":1,"text":"Is this still available?"}'
+```
+
+Success is `201`, for example:
+
+```json
+{"message":"Message sent.","conversation_id":1}
+```
+
+Either participant can continue using the returned `conversation_id`. An offer is a message with an amount:
+
+```sh
+curl -i http://localhost:5239/api/Message \
+  -H 'Content-Type: application/json' \
+  --data '{"app_access":"YOUR_APP_ACCESS","access_token":"YOUR_BUYER_TOKEN","conversation_id":1,"kind":"offer","amount":20.00,"text":"Could we meet on campus?"}'
+```
+
+- `kind` defaults to `message`; supplied values are trimmed/lowercased and must be `message` or `offer`.
+- Text is trimmed and limited to **1,000 characters**. Ordinary messages require nonempty text; offers allow an empty text.
+- Offers require `amount > 0` and `amount <= 1,000,000` before rounding to two decimal places. Very small positive amounts can round to zero; clients should validate their intended minimum.
+- Supply `listing_id` to start/reuse a buyer thread, or `conversation_id` to continue one. If both are supplied, `conversation_id` takes precedence. A seller cannot start a thread with their own listing.
+- The controller checks a limit of **20 sends per sender in the preceding minute** and returns `429` when reached. This is a database count check, not an atomic cross-request rate limiter.
+- POST rejects `to_user` forwarding. GET actions use shared token validation and do not explicitly reject permitted admin forwarding.
+
+Offers record conversation data. There are no offer acceptance/rejection, checkout, payment, delivery, notification, message-edit, or message-delete endpoints. Starting a thread checks listing existence, without requiring an Active status. Sending a message and updating engagement are separate writes; if engagement recording fails after insertion, a `500` can occur even though the message was saved. Check the thread before retrying an ambiguous send.
+
+### List conversations and unread counts
+
+```sh
+curl -i --request GET http://localhost:5239/api/Message \
+  -H 'Content-Type: application/json' \
+  --data '{"app_access":"YOUR_APP_ACCESS","access_token":"YOUR_SELLER_TOKEN"}'
+
+curl -i --request GET http://localhost:5239/api/Message/unread \
+  -H 'Content-Type: application/json' \
+  --data '{"app_access":"YOUR_APP_ACCESS","access_token":"YOUR_SELLER_TOKEN"}'
+```
+
+The conversation list returns `[]` when empty. Each row contains `id`, `listing_id`, `listing_title`, `image_url`, `role` (`buyer`/`seller`), `other_name`, `last_kind`, `last_text`, `last_amount`, `last_datetime`, `last_from_me`, and `unread`. Preview text is truncated to 80 characters plus `...`. Ordering follows newest message ID descending. The unread endpoint returns an object such as `{"unread":1}`; it counts incoming messages whose `read_datetime` is SQL `NULL`.
+
+### Read and poll a thread
+
+```sh
+curl -i --request GET 'http://localhost:5239/api/Message/1?after=0' \
+  -H 'Content-Type: application/json' \
+  --data '{"app_access":"YOUR_APP_ACCESS","access_token":"YOUR_SELLER_TOKEN"}'
+```
+
+Success returns `conversation_id` and a `messages` array. Each message contains `id`, `mine`, `kind`, `text`, `amount`, `datetime`, and `read`. Results are ordered by ID ascending and limited to **200** per request. Set query parameter `after` to the largest message ID received to retrieve the next page or poll for new messages. Credentials remain in the JSON body. There is no WebSocket or server-sent-event transport.
+
+When a nonempty page is returned, the controller marks **all unread incoming messages in the conversation** as read, including messages beyond that page. The returned `read` flags were assembled before that update; a subsequent fetch reflects the write. An empty page does not mark anything as read. Clients should account for these side effects when polling and displaying unread badges.
 
 ## Administration
 
@@ -413,7 +539,7 @@ Admin POST/PATCH requires a nonnegative `level` strictly below the caller's leve
 
 `/Users` returns parallel arrays inside `body`, including decrypted email, `Last, First` name, school abbreviation/full name, registration datetime, username, admin membership, and locked state. At level 27 or higher it also includes numeric `level` and sorts by level first. Empty results return `{"body":{}}`.
 
-For school management, send `name` and `short_name`. For category management, send `category`. Use `POST` to add and `DELETE` to remove; removals are subject to the actual database constraints and references.
+For school management, send `name` and `short_name`. For category management, send `category`. GET returns only categories with `visable=1`; POST re-enables an existing category or inserts one (relying on a visible default). DELETE first sets `visable=0`, then attempts a physical deletion in a separate write. If deletion fails because of database constraints, the category can remain hidden despite a `500` response. Use `POST` to add and `DELETE` to remove; removals are subject to the actual database constraints and references.
 
 `GET /Blocked` returns `blockedUsers` and `blockedIPs` row arrays. It can include below-threshold or expired attempt records, and IP results require user/IP relationships. `DELETE /Blocked` requires exactly one of `email` or `ip_addr`, alongside App and admin user credentials. Selectors must match stored values exactly. Clearing user attempts does not clear IP attempts, and neither action restores tokens already revoked by a user block.
 
@@ -428,7 +554,7 @@ Account/listing deletion relies in part on database relationships for related-ro
 - Profile/password updates do not revoke existing tokens. Logout revokes all tokens for the selected user.
 - Known-user login failures and IP failures use five-minute windows with a threshold of **10 attempts**. User blocking deletes the user's tokens. Further repeated attempts extend blocking; successful login before the threshold does not reset the attempt count.
 - Token validation does not separately check `Blocked_Users`; IP validation still applies.
-- Timestamps are stored as Mountain local strings without an offset. Cleanup removes expired tokens/attempt rows and stale process-local locks, and changes expired active listings to status 3.
+- Timestamps are stored as Mountain local strings without an offset. Cleanup removes expired tokens/attempt rows and stale process-local locks, and processes inactivity checks, changes expired active listings to status 3, and aggregates engagement counts. There is no configured message-retention cleanup.
 
 Optional `ip` plus `admin_token` fields support body-based IP forwarding. `admin_token` must be an **unexpired access token belonging to an admin**, independent of the normal user's `access_token`; it is not a configured shared secret. Ordinary clients should omit both fields. ASP.NET forwarded-header middleware is also enabled; configure proxy trust deliberately for deployment.
 
@@ -469,6 +595,7 @@ Launch profiles are a development feature and are not used by `dotnet StudentExc
 | [Register.cs](StudentExchangeBck/Controllers/Register.cs) | Registration/profile validation, updates, and account deletion. |
 | [LogIn.cs](StudentExchangeBck/Controllers/LogIn.cs) | Login, token issuance/reuse, logout, token cleanup. |
 | [Listing.cs](StudentExchangeBck/Controllers/Listing.cs) | Catalog ranking, ISBN validation, image storage, listing creation/deletion/expiry. |
+| [Message.cs](StudentExchangeBck/Controllers/Message.cs) | Conversations, participant checks, unread/read state, message/offer validation, send limits. |
 | [Admin.cs](StudentExchangeBck/Controllers/Admin.cs) | Admin membership, levels, and locking. |
 | [Users.cs](StudentExchangeBck/Controllers/Users.cs) | Admin directory, username generation, user lockout and locks. |
 | [AppAuthJson.cs](StudentExchangeBck/Components/AppAuthJson.cs) | Shared body credentials, app/token validation, user/IP forwarding. |
@@ -485,9 +612,11 @@ There is **no automated test project** in this solution. `dotnet test` alone doe
 1. Schools, categories, conditions, and the development OpenAPI document respond successfully.
 2. Registration succeeds once and duplicate email returns `409`.
 3. Login returns a token; profile read and PATCH use that token successfully.
-4. Listing creation, catalog/detail retrieval, image URLs, ISBN validation, and owner deletion behave as expected.
+4. Listing creation, catalog/detail retrieval, seller-page filtering, image URLs, ISBN validation, PATCH, renewal, and owner deletion behave as expected.
 5. An ordinary user cannot perform admin actions; provisioned admins obey the required levels and target hierarchy.
-6. Logout invalidates the token; subsequent protected requests fail.
+6. Two accounts can exchange messages/offers; a third account gets `404` for the thread. Check unread counts before and after reading, and cursor paging with `after`.
+7. Invalid message text/amount is rejected and the send limit returns `429`; use disposable data for rate-limit checks.
+8. Logout invalidates the token; subsequent protected requests fail.
 
 The supplied [StudentExchangeBck.http](StudentExchangeBck/StudentExchangeBck.http) is a starting point; add the required body fields before using its requests. Historical logs/screenshots in `docs/progress-review/evidence/` are tied to earlier review work and are not current test results.
 
@@ -504,6 +633,10 @@ Review `git status` and `git diff --check` before committing. The existing `bin_
 | Base64/decryption/JSON error | `.env` must be encrypted with the project's implementation and expected wrapper salt. |
 | Missing key while loading configuration | Ensure all four required JSON keys exist and are nonempty. |
 | `no such table` / `no such column` | Use the complete current database; `DB_Schema.txt` alone omits marketplace tables and newer user columns. |
+| `ON CONFLICT clause does not match any PRIMARY KEY or UNIQUE constraint` | Compare current upsert targets with database indexes, especially `Blocked_IPs(ip_id)` and engagement tables. |
+| `/Message` returns `404` | Messaging uses `/api/Message`; account/listing routes have no `/api` prefix. |
+| Messaging returns `500` | Check `Conversations`/`Messages` tables, nullable fields/defaults, conversation uniqueness, and engagement tables used after buyer sends. |
+| Listing PATCH returns `400`/`401` | Check owner/forwarded owner, exact status name and `Status.lvl`, nonempty updates, image positions, and the 14-day renewal window. |
 | Empty lookup or listing creation returns `500` | Seed schools, categories, and conditions; check status IDs/defaults and required columns. |
 | HTTP root returns `404` | Expected; use `/Schools`, `/Listing` with credentials, or development `/openapi/v1.json`. |
 | Browser cannot send a profile/catalog GET | Browser `fetch` forbids GET bodies; use a compatible adapter/client or revise the API contract. Check CORS separately. |
@@ -513,7 +646,7 @@ Review `git status` and `git diff --check` before committing. The existing `bin_
 | Uploaded image URL fails | Resolve the relative URL against the API origin; check the configured upload directory and file permissions. |
 | HTTPS certificate or redirect failure | Check the selected launch profile, local certificate trust, and reverse-proxy TLS/forwarded-header configuration. |
 
-Errors may be JSON objects with `message`, string responses (including duplicate-email conflicts), or ASP.NET validation Problem Details. Typical statuses are `400` for invalid input/token/blocks, `401` for missing credentials/permissions, `409` for duplicate emails, and `500` for unexpected failures. Malformed bodies or unsupported content types may be rejected before controller code runs. Inspect status and response shape rather than matching message text.
+Errors may be JSON objects with `message`, string responses (including duplicate-email conflicts), or ASP.NET validation Problem Details. Messaging adds `404` for missing/inaccessible threads and `429` for the send limit; listing deletion also uses `404` for an unknown ID. Typical statuses are `400` for invalid input/token/blocks, `401` for missing credentials/permissions, `409` for duplicate emails, and `500` for unexpected failures. Malformed bodies or unsupported content types may be rejected before controller code runs. Inspect status and response shape rather than matching message text.
 
 ## Design documentation
 
