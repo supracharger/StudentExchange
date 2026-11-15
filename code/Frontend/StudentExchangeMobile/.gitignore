@@ -1,0 +1,16 @@
+.gradle/
+build/
+app/build/
+local.properties
+*.iml
+.idea/
+CSCI-3508-Group-9-main/
+
+.env
+.env.*
+!.env.example
+*.db
+*.sqlite
+*.sqlite3
+node_modules/
+.DS_Store
