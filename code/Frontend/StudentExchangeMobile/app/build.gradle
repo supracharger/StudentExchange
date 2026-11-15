@@ -1,0 +1,53 @@
+plugins { id 'com.android.application' }
+
+// Public adapter origin only. Application credentials are never build inputs.
+def adapterUrl = providers.environmentVariable('SE_ADAPTER_URL').getOrElse('https://studentexchangemobile.onrender.com/')
+if (adapterUrl) {
+ def endpoint
+ try { endpoint = new URI(adapterUrl) } catch (Exception ignored) { throw new GradleException('SE_ADAPTER_URL must be a valid public HTTPS adapter origin.') }
+ if (endpoint.scheme != 'https' || !endpoint.host || endpoint.rawUserInfo || endpoint.rawQuery || endpoint.rawFragment || !(endpoint.path in ['', '/']) || (endpoint.port != -1 && endpoint.port != 443) || endpoint.host == 'studentexchangebck-fpdnfpcqe4bje2eh.westus-01.azurewebsites.net') {
+  throw new GradleException('SE_ADAPTER_URL must be a separate HTTPS adapter root origin, without credentials, query or fragment.')
+ }
+ adapterUrl = "https://${endpoint.host}/"
+}
+def configuredAdapterUrl = adapterUrl ?: 'https://adapter-not-configured.invalid/'
+android {
+ namespace 'com.studentexchange.mobile'
+ compileSdk 34
+ defaultConfig {
+  applicationId 'com.studentexchange.mobile'; minSdk 26; targetSdk 34; versionCode 1; versionName '1.0'
+  buildConfigField 'String', 'ADAPTER_BASE_URL', '"' + configuredAdapterUrl + '"'
+  buildConfigField 'boolean', 'LOCAL_MOCK', 'false'
+ }
+ buildFeatures { buildConfig true }
+ buildTypes {
+  debug {
+   buildConfigField 'String', 'ADAPTER_BASE_URL', '"http://10.0.2.2:3100/"'
+   buildConfigField 'boolean', 'LOCAL_MOCK', 'true'
+  }
+  connected {
+   initWith debug
+   applicationIdSuffix '.connected'
+   matchingFallbacks = ['debug']
+   buildConfigField 'String', 'ADAPTER_BASE_URL', '"' + configuredAdapterUrl + '"'
+   buildConfigField 'boolean', 'LOCAL_MOCK', 'false'
+  }
+ }
+ compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+}
+// Block packaging a connected/release APK without an explicitly configured public URL.
+def checkAdapter = tasks.register('validateAdapterEndpoint') {
+ inputs.property('adapterUrl', adapterUrl)
+ doLast {
+  if (!adapterUrl) throw new GradleException('Set SE_ADAPTER_URL to the deployed HTTPS adapter origin before packaging connected/release APKs.')
+ }
+}
+tasks.configureEach {
+ if (name in ['packageConnected', 'packageConnectedBundle', 'packageConnectedUniversalApk', 'packageRelease', 'packageReleaseBundle', 'packageReleaseUniversalApk']) dependsOn checkAdapter
+}
+dependencies {
+ implementation 'com.squareup.retrofit2:retrofit:2.11.0'
+ implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
+ implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+ implementation 'com.google.code.gson:gson:2.11.0'
+}

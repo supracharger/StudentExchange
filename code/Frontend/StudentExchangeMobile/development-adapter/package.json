@@ -1,0 +1,14 @@
+{
+  "name": "studentexchange-development-adapter",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.15.0 <25"
+  },
+  "scripts": {
+    "start": "node server/development.mjs",
+    "test": "node --test --test-timeout=15000 test/*.test.mjs",
+    "start:deployed": "node server/deployed.mjs",
+    "check:deployment": "node server/deployed.mjs --check-config"
+  }
+}
