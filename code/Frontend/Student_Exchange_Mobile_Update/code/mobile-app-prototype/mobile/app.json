@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "Student Exchange",
+    "slug": "student-exchange-mobile-demo",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": { "backgroundColor": "#F9F7F2" },
+    "ios": { "supportsTablet": true, "bundleIdentifier": "com.studentexchange.mobile.demo" },
+    "android": { "package": "com.studentexchange.mobile.demo" },
+    "web": { "name": "Student Exchange Demo" }
+  }
+}
