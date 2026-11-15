@@ -1,0 +1,10 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {SEED,filterItems,validatePost,validateLogin,SAMPLE_EMAIL,SAMPLE_PASSWORD} from './dist/model.mjs';
+test('search is case-insensitive and matches descriptions',()=>{assert.equal(filterItems(SEED,{query:'CALCULUS'}).length,1);assert.equal(filterItems(SEED,{query:'margin notes'})[0].id,'s2');});
+test('category, price, and conditions combine',()=>{assert.deepEqual(filterItems(SEED,{category:'Home & Garden',min:'10',max:'20',conditions:['Open box']}).map(i=>i.id),['s3']);});
+test('zero price is accepted and filtered correctly',()=>{assert.equal(filterItems([{...SEED[0],price:0}],{max:'0'}).length,1);});
+test('unknown search returns empty results',()=>assert.equal(filterItems(SEED,{query:'not-a-real-listing'}).length,0));
+const valid={title:'Desk',price:'0',category:'Home & Garden',condition:'Used',location:'Auraria'};
+test('post requires title, category, condition, area and nonnegative finite price',()=>{assert.equal(validatePost(valid),'');for(const patch of [{title:' '},{price:'-1'},{price:'NaN'},{price:'Infinity'},{price:''},{category:'bogus'},{condition:'bogus'},{location:''}])assert.ok(validatePost({...valid,...patch}));});
+test('public sample login accepts normalized email and exact password',()=>{assert.equal(validateLogin(' '+SAMPLE_EMAIL.toUpperCase()+' ',SAMPLE_PASSWORD),'');assert.ok(validateLogin(SAMPLE_EMAIL,'wrong'));assert.ok(validateLogin('real@school.edu',SAMPLE_PASSWORD));assert.ok(validateLogin('',''));});
